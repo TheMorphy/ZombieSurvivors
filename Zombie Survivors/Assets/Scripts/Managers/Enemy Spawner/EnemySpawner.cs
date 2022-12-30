@@ -1,13 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
 
 public class EnemySpawner : MonoBehaviour
 {
-	public static EnemySpawner Instance;
-
 	[SerializeField] private int NumberOfEnemeisToSpawn = 15;
 	[SerializeField] private float spawnDelay = 1.5f;
 
@@ -17,22 +13,18 @@ public class EnemySpawner : MonoBehaviour
 
 	private void Awake()
 	{
-		if (Instance == null)
-			Instance = this;
-		else
-			Destroy(gameObject);
-
 		_playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 	}
 
 	private void Start()
 	{
+		// Calculates Nav Mesh triangulation, used to get mesh vertices
 		navMeshTriangulation = NavMesh.CalculateTriangulation();
 
 		StartCoroutine(SpawnEnemies());
 	}
 
-	private IEnumerator SpawnEnemies()
+	public IEnumerator SpawnEnemies()
 	{
 		int spawnedEnemies = 0;
 
@@ -49,16 +41,16 @@ public class EnemySpawner : MonoBehaviour
 	{
 		var enemeyObj = ObjectPool.Instance.SpawnFromPool("redEnemy", transform.position, Quaternion.identity);
 
-		PlayerController.enemiesTransforms.Add(enemeyObj.transform);
+		PlayerMovement.enemiesTransforms.Add(enemeyObj.transform);
 
 		EnemyController enemy = enemeyObj.GetComponent<EnemyController>();
 
 		Vector3 spawnPos = enemeyObj.transform.position;
 
+		// Get screen bounds. I don't know how it works, but I think it does
 		var screenBounds = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
 
-		Debug.Log(screenBounds);
-
+		// Loops thorugh navMeshTriangulation, to get the vertex position, outside the camera bounds
 		while ((spawnPos - _playerTransform.position).magnitude < (screenBounds - _playerTransform.position).magnitude)
 		{
 			int vertexIndex = Random.Range(0, navMeshTriangulation.vertices.Length);
@@ -67,10 +59,15 @@ public class EnemySpawner : MonoBehaviour
 
 		NavMeshHit Hit;
 
+		// Spawn the agent at the nav mesh vertex position
 		if (NavMesh.SamplePosition(spawnPos, out Hit, 2f, 1))
 		{
 			enemy.GetAgent().Warp(Hit.position);
 		}
 	}
 
+	public void StopSpawning()
+	{
+		StopCoroutine(SpawnEnemies());
+	}
 }
