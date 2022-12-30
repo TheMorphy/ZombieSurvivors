@@ -19,4 +19,19 @@ public class EnemyController : MonoBehaviour
 		_agent.destination = _player.position;
 		transform.LookAt(_player);
 	}
+
+	private void OnDisable()
+	{
+		_agent.enabled = false;
+	}
+
+	public NavMeshAgent GetAgent()
+	{
+		return _agent;
+	}
+
+	public void EnableNavMeshAgent()
+	{
+		_agent.enabled = true;
+	}
 }

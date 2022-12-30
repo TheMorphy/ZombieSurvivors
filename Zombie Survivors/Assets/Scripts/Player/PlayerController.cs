@@ -2,21 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
-	[SerializeField] private Rigidbody _rb;
-	[SerializeField] private FixedJoystick _joystick;
+	public static List<Transform> enemiesTransforms = new List<Transform>();
 
-	[SerializeField] private float _moveSpeed;
-
-	private void FixedUpdate()
+	private void Update()
 	{
-		_rb.velocity = new Vector3(_joystick.Horizontal * _moveSpeed, _rb.velocity.y, _joystick.Vertical * _moveSpeed);
+		GetClosestEnemy(enemiesTransforms);
+	}
 
-		if(_joystick.Horizontal != 0 || _joystick.Vertical != 0)
+	Transform GetClosestEnemy(List<Transform> enemies)
+	{
+		Transform bestTarget = null;
+		float closestDistanceSqr = Mathf.Infinity;
+		Vector3 currentPosition = transform.position;
+		for (int i = 0; i < enemies.Count; i++)
 		{
-			transform.rotation = Quaternion.LookRotation(_rb.velocity);
+			Vector3 directionToTarget = enemies[i].position - currentPosition;
+			float dSqrToTarget = directionToTarget.sqrMagnitude;
+			if (dSqrToTarget < closestDistanceSqr)
+			{
+				closestDistanceSqr = dSqrToTarget;
+				bestTarget = enemies[i];
+			}
 		}
+
+		return bestTarget;
 	}
 }

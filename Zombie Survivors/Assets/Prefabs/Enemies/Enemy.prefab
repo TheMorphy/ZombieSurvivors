@@ -245,13 +245,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5408702ae04e60d4ea82b34a44320eb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agent: {fileID: 566873940370490570}
-  _groundMask:
-    serializedVersion: 2
-    m_Bits: 64
-  _playerMask:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!195 &566873940370490570
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -259,7 +252,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3373127689159597595}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
