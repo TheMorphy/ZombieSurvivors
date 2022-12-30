@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UIElements;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -12,12 +13,16 @@ public class EnemySpawner : MonoBehaviour
 
 	NavMeshTriangulation navMeshTriangulation;
 
+	private Transform _playerTransform;
+
 	private void Awake()
 	{
 		if (Instance == null)
 			Instance = this;
 		else
 			Destroy(gameObject);
+
+		_playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 	}
 
 	private void Start()
@@ -29,12 +34,12 @@ public class EnemySpawner : MonoBehaviour
 
 	private IEnumerator SpawnEnemies()
 	{
-		int spawnedEnemeis = 0;
+		int spawnedEnemies = 0;
 
-		while (spawnedEnemeis < NumberOfEnemeisToSpawn)
+		while (spawnedEnemies < NumberOfEnemeisToSpawn)
 		{
 			Spawn();
-			spawnedEnemeis++;
+			spawnedEnemies++;
 
 			yield return new WaitForSeconds(spawnDelay);
 		}
@@ -44,16 +49,27 @@ public class EnemySpawner : MonoBehaviour
 	{
 		var enemeyObj = ObjectPool.Instance.SpawnFromPool("redEnemy", transform.position, Quaternion.identity);
 
+		PlayerController.enemiesTransforms.Add(enemeyObj.transform);
+
 		EnemyController enemy = enemeyObj.GetComponent<EnemyController>();
 
-		int vertexIndex = Random.Range(0, navMeshTriangulation.vertices.Length);
+		Vector3 spawnPos = enemeyObj.transform.position;
+
+		var screenBounds = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
+
+		Debug.Log(screenBounds);
+
+		while ((spawnPos - _playerTransform.position).magnitude < (screenBounds - _playerTransform.position).magnitude)
+		{
+			int vertexIndex = Random.Range(0, navMeshTriangulation.vertices.Length);
+			spawnPos = navMeshTriangulation.vertices[vertexIndex];
+		}
 
 		NavMeshHit Hit;
 
-		if (NavMesh.SamplePosition(navMeshTriangulation.vertices[vertexIndex], out Hit, 2f, 1))
+		if (NavMesh.SamplePosition(spawnPos, out Hit, 2f, 1))
 		{
 			enemy.GetAgent().Warp(Hit.position);
-			enemy.EnableNavMeshAgent();
 		}
 	}
 
