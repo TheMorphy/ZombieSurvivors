@@ -1,15 +1,21 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+[DisallowMultipleComponent]
 public class EnemySpawner : MonoBehaviour
 {
+	public List<EnemyDetailsSO> enemyDetails = new List<EnemyDetailsSO>();
+
 	[SerializeField] private int NumberOfEnemeisToSpawn = 15;
 	[SerializeField] private float spawnDelay = 1.5f;
 
 	NavMeshTriangulation navMeshTriangulation;
 
 	private Transform _playerTransform;
+
+	public static List<Transform> activeEnemies = new List<Transform>();
 
 	private void Awake()
 	{
@@ -39,11 +45,9 @@ public class EnemySpawner : MonoBehaviour
 
 	private void Spawn()
 	{
-		var enemeyObj = ObjectPool.Instance.SpawnFromPool("redEnemy", transform.position, Quaternion.identity);
+		GameObject enemeyObj = PoolManager.Instance.SpawnFromPool("redEnemy", transform.position, Quaternion.identity);
 
-		PlayerMovement.enemiesTransforms.Add(enemeyObj.transform);
-
-		EnemyController enemy = enemeyObj.GetComponent<EnemyController>();
+		Enemy enemy = CreateEnemy(enemeyObj);
 
 		Vector3 spawnPos = enemeyObj.transform.position;
 
@@ -62,12 +66,16 @@ public class EnemySpawner : MonoBehaviour
 		// Spawn the agent at the nav mesh vertex position
 		if (NavMesh.SamplePosition(spawnPos, out Hit, 2f, 1))
 		{
-			enemy.GetAgent().Warp(Hit.position);
+			enemy.enemyController.GetAgent().Warp(Hit.position);
 		}
 	}
 
-	public void StopSpawning()
+	private Enemy CreateEnemy(GameObject enemyGameObject)
 	{
-		StopCoroutine(SpawnEnemies());
+		Enemy enemy = enemyGameObject.GetComponent<Enemy>();
+
+		enemy.EnemyInitialization(enemyDetails[0]);
+
+		return enemy;
 	}
 }

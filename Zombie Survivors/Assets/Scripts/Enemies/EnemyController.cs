@@ -19,10 +19,13 @@ public class EnemyController : MonoBehaviour
 
 	private void OnDisable()
 	{
+		EnemySpawner.activeEnemies.Remove(transform);
 		_agent.enabled = false;
 	}
 	private void OnEnable()
 	{
+		EnemySpawner.activeEnemies.Add(transform);
+
 		_agent = GetComponent<NavMeshAgent>();
 		_player = GameObject.FindGameObjectWithTag("Player").transform;
 

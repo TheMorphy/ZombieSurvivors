@@ -1,67 +1,45 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AmmoDetails_", menuName = "Scriptable Objects/Weapons/Ammo Details")]
+[CreateAssetMenu(fileName = "AmmoDetail_", menuName = "Scriptable Objects/Weapons/Ammo Detail")]
 public class AmmoDetailsSO : ScriptableObject
 {
-	#region Header BASIC AMMO DETAILS
-	[Space(10)]
-	[Header("BASIC AMMO DETAILS")]
-	#endregion
-	#region Tooltip
-	[Tooltip("Name for the ammo")]
-	#endregion
-	public string ammoName;
+	[Tooltip("The damage that a single bullet will deal to the hit object")]
+	public int ammoDamage = 10;
 
-	#region Header AMMO SPRITE, PREFAB & MATERIALS
-	[Space(10)]
-	[Header("AMMO SPRITE, PREFAB & MATERIALS")]
-	#endregion
-	public GameObject ammoPrefab;
+	[Tooltip("Specify the burst bullet ammount")]
+	public int? busrtFireBulletCount = 5;
 
 	#region Tooltip
-	[Tooltip("The damage each ammo deals")]
-	#endregion
-	public int ammoDamage = 5;
-	#region Tooltip
-	[Tooltip("The minimum speed of the ammo - the speed will be a random value between the min and max")]
-	#endregion
-	public float ammoSpeed = 20f;
-	#region Tooltip
-	[Tooltip("The range of the ammo (or ammo pattern) in unity units")]
+	[Tooltip("The range of the ammo in unity units")]
 	#endregion
 	public float ammoRange = 20f;
 
-	#region Header AMMO SPREAD DETAILS
-	[Space(10)]
-	[Header("AMMO SPREAD DETAILS")]
-	#endregion
-	#region Tooltip
-	[Tooltip("This is the  minimum spread angle of the ammo.  A higher spread means less accuracy. A random spread is calculated between the min and max values.")]
-	#endregion
-	public float ammoSpreadMin = 0f;
-	#region Tooltip
-	[Tooltip(" This is the  maximum spread angle of the ammo.  A higher spread means less accuracy. A random spread is calculated between the min and max values. ")]
-	#endregion
-	public float ammoSpreadMax = 0f;
+	public float ammoSpeed = 100;
 
-	#region Header AMMO SPAWN DETAILS
+	#region Header AMMO TRAIL DETAILS
 	[Space(10)]
-	[Header("AMMO SPAWN DETAILS")]
+	[Header("AMMO TRAIL DETAILS")]
 	#endregion
 	#region Tooltip
-	[Tooltip("This is the minimum number of ammo that are spawned per shot. A random number of ammo are spawned between the minimum and maximum values. ")]
+	[Tooltip("Selected if an ammo trail is required, otherwise deselect.  If selected then the rest of the ammo trail values should be populated.")]
 	#endregion
-	public int ammoSpawnAmountMin = 1;
+	public bool isAmmoTrail = false;
 	#region Tooltip
-	[Tooltip("This is the maximum number of ammo that are spawned per shot. A random number of ammo are spawned between the minimum and maximum values. ")]
+	[Tooltip("Ammo trail lifetime in seconds.")]
 	#endregion
-	public int ammoSpawnAmountMax = 1;
+	public float ammoTrailTime = 3f;
 	#region Tooltip
-	[Tooltip("Minimum spawn interval time. The time interval in seconds between spawned ammo is a random value between the minimum and maximum values specified.")]
+	[Tooltip("Ammo trail material.")]
 	#endregion
-	public float ammoSpawnIntervalMin = 0f;
+	public Material ammoTrailMaterial;
 	#region Tooltip
-	[Tooltip("Maximum spawn interval time. The time interval in seconds between spawned ammo is a random value between the minimum and maximum values specified.")]
+	[Tooltip("The starting width for the ammo trail.")]
 	#endregion
-	public float ammoSpawnIntervalMax = 0f;
+	[Range(0f, 1f)] public float ammoTrailStartWidth;
+	#region Tooltip
+	[Tooltip("The ending width for the ammo trail")]
+	#endregion
+	[Range(0f, 1f)] public float ammoTrailEndWidth;
 }

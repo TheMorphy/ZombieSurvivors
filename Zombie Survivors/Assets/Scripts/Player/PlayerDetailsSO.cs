@@ -2,39 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlayerDetails_", menuName = "Scriptable Objects/Player/Player Details")]
+[CreateAssetMenu(fileName = "PlayerDetails", menuName = "Scriptable Objects/Characters/Player")]
 public class PlayerDetailsSO : ScriptableObject
 {
-	#region Header PLAYER BASE DETAILS
-	[Space(10)]
-	[Header("PLAYER BASE DETAILS")]
-	#endregion
-	#region Tooltip
-	[Tooltip("Player character name.")]
-	#endregion
-	public string playerCharacterName;
+	public PlayerClass Class = PlayerClass.Soldier;
 
-	#region Tooltip
-	[Tooltip("Prefab gameobject for the player")]
-	#endregion
-	public GameObject playerPrefab;
+	public GameObject PlayerPrefab;
 
-	#region Header HEALTH
-	[Space(10)]
-	[Header("HEALTH")]
-	#endregion
-	#region Tooltip
-	[Tooltip("Player starting health amount")]
-	#endregion
-	public int playerHealthAmount;
+	public WeaponDetailsSO startingWeaponDetails;
 
-	#region Header WEAPON
-	[Space(10)]
-	[Header("WEAPON")]
-	#endregion
-	#region Tooltip
-	[Tooltip("Player  initial starting weapon")]
-	#endregion
-	public WeaponDetailsSO startingWeapon;
+	public int Health = 100;
 
+	public float MoveSpeed = 5f;
+
+	public int Damage = 5;
+}
+
+public enum PlayerClass
+{
+	Soldier,
+	Juggernaut,
+	Fast_Soldier
 }
