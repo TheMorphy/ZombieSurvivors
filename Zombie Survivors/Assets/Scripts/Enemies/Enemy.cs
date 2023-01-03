@@ -6,12 +6,14 @@ using UnityEngine;
 [RequireComponent(typeof(HealthEvent))]
 [RequireComponent(typeof(EnemyController))]
 [RequireComponent(typeof(DestroyedEvent))]
+[RequireComponent(typeof(DealContactDamage))]
 [RequireComponent(typeof(Destroyed))]
 [DisallowMultipleComponent]
 public class Enemy : MonoBehaviour
 {
 	[HideInInspector] public EnemyDetailsSO enemyDetails;
 	[HideInInspector] public EnemyController enemyController;
+	[HideInInspector] public DealContactDamage dealContactDamage;
 	[HideInInspector] public DestroyedEvent destroyedEvent;
 
 	private HealthEvent healthEvent;
@@ -21,6 +23,7 @@ public class Enemy : MonoBehaviour
 	{
 		healthEvent = GetComponent<HealthEvent>();
 		destroyedEvent = GetComponent<DestroyedEvent>();
+		dealContactDamage = GetComponent<DealContactDamage>();
 		enemyController = GetComponent<EnemyController>();
 		health = GetComponent<Health>();
 	}
@@ -56,6 +59,8 @@ public class Enemy : MonoBehaviour
 		this.enemyDetails = enemyDetails;
 
 		SetEnemyStartingHealth();
+		SetMoveSpeed();
+		SetContactDamage();
 	}
 
 	/// <summary>
@@ -64,5 +69,14 @@ public class Enemy : MonoBehaviour
 	private void SetEnemyStartingHealth()
 	{
 		health.SetStartingHealth(enemyDetails.Health);
+	}
+
+	private void SetContactDamage()
+	{
+		dealContactDamage.SetContactDamage(enemyDetails.Damage);
+	}
+	private void SetMoveSpeed()
+	{
+		enemyController.GetAgent().speed = enemyDetails.MoveSpeed;
 	}
 }

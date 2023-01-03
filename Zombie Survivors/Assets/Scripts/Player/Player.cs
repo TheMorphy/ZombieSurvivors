@@ -4,6 +4,7 @@ using UnityEngine;
 #region REQUIRE COMPONENTS
 [RequireComponent(typeof(HealthEvent))]
 [RequireComponent(typeof(Health))]
+[RequireComponent(typeof(ReceiveContactDamage))]
 [RequireComponent(typeof(DestroyedEvent))]
 [RequireComponent(typeof(Destroyed))]
 [RequireComponent(typeof(PlayerController))]
