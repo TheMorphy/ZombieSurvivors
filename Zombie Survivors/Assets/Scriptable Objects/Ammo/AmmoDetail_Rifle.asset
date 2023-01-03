@@ -16,7 +16,7 @@ MonoBehaviour:
   ammoPerShot: 4
   ammoRange: 20
   ammoSpeed: 30
-  ammoShootAngle: 90
+  ammoShootAngle: 2
   isAmmoTrail: 1
   ammoTrailTime: 0.03
   ammoTrailMaterial: {fileID: 2100000, guid: 9366e3f8f4b04134da1b7b6a53898087, type: 2}

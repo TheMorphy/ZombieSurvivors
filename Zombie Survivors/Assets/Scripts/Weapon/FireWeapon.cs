@@ -65,6 +65,7 @@ public class FireWeapon : MonoBehaviour
 		if (!activeWeapon.GetCurrentWeapon().weaponDetails.hasInfiniteClipCapacity && activeWeapon.GetCurrentWeapon().weaponClipRemainingAmmo <= 0)
 		{
 			// trigger a reload weapon event.
+			System.Console.WriteLine("Reloading");
 			reloadWeaponEvent.CallReloadWeaponEvent(activeWeapon.GetCurrentWeapon(), 0);
 
 			return false;
@@ -110,6 +111,7 @@ public class FireWeapon : MonoBehaviour
 		weaponFiredEvent.CallWeaponFiredEvent(activeWeapon.GetCurrentWeapon());
 
 		IsFiring = false;
+
 		//// Display weapon shoot effect
 		//WeaponShootEffect(aimAngle);
 

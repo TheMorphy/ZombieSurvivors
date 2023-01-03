@@ -17,9 +17,10 @@ MonoBehaviour:
   ammoDetails: {fileID: 11400000, guid: dfe25199ac408f742888f091e130ebba, type: 2}
   hasInfiniteAmmo: 1
   hasInfiniteClipCapacity: 0
-  burstFire: 0
+  burstFire: 1
   spreadShot: 0
   weaponReloadTime: 0.5
   weaponAmmoCapacity: 50
   weaponClipAmmoCapacity: 8
-  fireRate: 2
+  fireRate: 0.4
+  burstInterval: 0.5

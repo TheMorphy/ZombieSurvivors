@@ -18,9 +18,9 @@ MonoBehaviour:
   hasInfiniteAmmo: 1
   hasInfiniteClipCapacity: 0
   burstFire: 1
-  spreadShot: 1
+  spreadShot: 0
   weaponReloadTime: 0.5
   weaponAmmoCapacity: 50
   weaponClipAmmoCapacity: 20
-  fireRate: 1.2
+  fireRate: 0.1
   burstInterval: 0.1
