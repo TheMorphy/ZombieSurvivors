@@ -35,6 +35,8 @@ public class Ammo : MonoBehaviour
 
 	private void OnTriggerEnter(Collider collision)
 	{
+		if(collision.gameObject.tag == "Wall") DisableAmmo();
+
 		// If already colliding with something return
 		if (isColliding) return;
 
@@ -104,12 +106,17 @@ public class Ammo : MonoBehaviour
 			health.TakeDamage(ammoDetails.ammoDamage);
 		}
 	}
+	private void OnDisable()
+	{
+		trailRenderer.gameObject.SetActive(false);
+	}
 	/// <summary>
 	/// Disable the ammo - thus returning it to the object pool
 	/// </summary>
 	private void DisableAmmo()
 	{
 		gameObject.SetActive(false);
+		trailRenderer.gameObject.SetActive(false);
 	}
 
 	public GameObject GetGameObject()

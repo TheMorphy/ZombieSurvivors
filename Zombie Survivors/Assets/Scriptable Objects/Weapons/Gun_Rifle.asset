@@ -16,9 +16,9 @@ MonoBehaviour:
   weaponShootPosition: {x: 0, y: 0.38, z: 0.914}
   ammoDetails: {fileID: 11400000, guid: af23a635980591941aafee66e975df33, type: 2}
   hasInfiniteAmmo: 1
-  hasInfiniteClipCapacity: 0
-  burstFire: 1
-  spreadShot: 0
+  hasInfiniteClipCapacity: 1
+  burstFire: 0
+  spreadShot: 1
   weaponReloadTime: 0.5
   weaponAmmoCapacity: 50
   weaponClipAmmoCapacity: 20

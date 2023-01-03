@@ -13,11 +13,11 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private Transform Torso;
 	[SerializeField] private float turnToEnemyDistance = 6f;
 
-	[HideInInspector] public FixedJoystick joystick;
+	[HideInInspector] public FloatingJoystick joystick;
 
 	private void Awake()
 	{
-		joystick = GameObject.FindGameObjectWithTag("Joystick").GetComponent<FixedJoystick>(); // I no like dis, but it works for now
+		joystick = GameObject.FindGameObjectWithTag("Joystick").GetComponent<FloatingJoystick>(); // I no like dis, but it works for now
 
 		rb = GetComponent<Rigidbody>();
 		player = GetComponent<Player>();
@@ -63,14 +63,11 @@ public class PlayerController : MonoBehaviour
 
 		if (target != null)
 		{
-			if ((target.position - transform.position).magnitude < turnToEnemyDistance)
-			{
-				Torso.LookAt(target);
-			}
-			else
-			{
-				Torso.localRotation = Quaternion.Euler(0, 0, 0);
-			}
+			Torso.LookAt(target);
+		}
+		else
+		{
+			Torso.localRotation = Quaternion.Euler(0, 0, 0);
 		}
 	}
 
