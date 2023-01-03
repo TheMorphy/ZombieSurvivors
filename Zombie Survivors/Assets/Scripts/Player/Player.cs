@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
 	[HideInInspector] public PlayerController playerController;
 	[HideInInspector] public IdleEvent idleEvent;
 	[HideInInspector] public FireWeaponEvent fireWeaponEvent;
+	[HideInInspector] public FireWeapon fireWeapon;
 	[HideInInspector] public SetActiveWeaponEvent setActiveWeaponEvent;
 	[HideInInspector] public ActiveWeapon activeWeapon;
 	[HideInInspector] public WeaponFiredEvent weaponFiredEvent;
@@ -45,6 +46,7 @@ public class Player : MonoBehaviour
 		playerController = GetComponent<PlayerController>();
 		idleEvent = GetComponent<IdleEvent>();
 		fireWeaponEvent = GetComponent<FireWeaponEvent>();
+		fireWeapon = GetComponent<FireWeapon>();
 		setActiveWeaponEvent = GetComponent<SetActiveWeaponEvent>();
 		activeWeapon = GetComponent<ActiveWeapon>();
 		weaponFiredEvent = GetComponent<WeaponFiredEvent>();

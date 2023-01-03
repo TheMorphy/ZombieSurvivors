@@ -33,15 +33,18 @@ public class WeaponDetailsSO : ScriptableObject
 	[Tooltip("The ammo count in clip")]
 	public int weaponClipAmmoCapacity = 50;
 
-	public Vector3 BulletSpreadVariance = new Vector3(0.1f, 0.1f, 0.1f);
-
+	[Min(0.01f)]
 	[Tooltip("The fire rate of the weapon, in shots per second")]
 	public float fireRate = 5.0f;
+
+	[Tooltip("The time between bursts")]
+	public float burstInterval = 0.5f;
 }
 
 public enum WeaponType
 {
 	Pistol,
 	Shotgun,
-	Rifle
+	Rifle,
+	SMG
 }

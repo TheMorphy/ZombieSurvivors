@@ -8,15 +8,24 @@ public class AmmoDetailsSO : ScriptableObject
 	[Tooltip("The damage that a single bullet will deal to the hit object")]
 	public int ammoDamage = 10;
 
-	[Tooltip("Specify the burst bullet ammount")]
-	public int? busrtFireBulletCount = 5;
+	[Tooltip("Ammount of ammo will be fired in one shot")]
+	public int ammoPerShot = 1;
 
+	#region Header AMMO SPREAD DETAILS
+	[Space(10)]
+	[Header("AMMO SPREAD DETAILS")]
+	#endregion
 	#region Tooltip
 	[Tooltip("The range of the ammo in unity units")]
 	#endregion
 	public float ammoRange = 20f;
-
+	#region Tooltip
+	[Tooltip("How quickly the bullets fly")]
+	#endregion
 	public float ammoSpeed = 100;
+
+	[Tooltip("Ammo direction offset on X and Z axis (in degrees). Don't go too high")]
+	public float ammoShootAngle = 0;
 
 	#region Header AMMO TRAIL DETAILS
 	[Space(10)]

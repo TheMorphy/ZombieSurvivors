@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI messageTextTMP;
 
 	[SerializeField] private int currentLevelListIndex = 0;
-	[SerializeField] private List<GameObject> levelsList;
+	//[SerializeField] private List<GameObject> levelsList;
 
 	private PlayerDetailsSO playerDetails;
 	private Player player;
@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
 		// Increase index to next level
 		currentLevelListIndex++;
 
-		PlayLevel(currentLevelListIndex);
+		//PlayLevel(currentLevelListIndex);
 	}
 
 	/// <summary>
@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
 			case GameState.gameStarted:
 
 				// Play first level
-				PlayLevel(currentLevelListIndex);
+				//PlayLevel(currentLevelListIndex);
 
 				gameState = GameState.playingLevel;
 
@@ -221,13 +221,13 @@ public class GameManager : MonoBehaviour
 		gameState = GameState.restartGame;
 	}
 
-	private void PlayLevel(int currentLevelListIndex)
-	{
-		LevelBuilder.Instance.GenerateLevel(levelsList[currentLevelListIndex]);
+	//private void PlayLevel(int currentLevelListIndex)
+	//{
+	//	LevelBuilder.Instance.GenerateLevel(levelsList[currentLevelListIndex]);
 
-		// Set player roughly mid-room
-		player.gameObject.transform.position = Vector3.zero;
-	}
+	//	// Set player roughly mid-room
+	//	player.gameObject.transform.position = Vector3.zero;
+	//}
 
 	private void PauseGameMenu()
 	{

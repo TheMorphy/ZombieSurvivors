@@ -45,6 +45,11 @@ public class ActiveWeapon : MonoBehaviour
 		return currentWeapon;
 	}
 
+	public AmmoDetailsSO GetCurrentAmmo()
+	{
+		return currentWeapon.weaponDetails.ammoDetails;
+	}
+
 	public Vector3 GetShootPosition()
 	{
 		return weaponShootPositionTransform.position;

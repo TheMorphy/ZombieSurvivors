@@ -47,4 +47,5 @@ MonoBehaviour:
   playerDetailsList:
   - {fileID: 11400000, guid: fbdc84d95c415b14abb136516812a6d8, type: 2}
   - {fileID: 11400000, guid: a28a35380f884424a9c1e2a93552097b, type: 2}
-  currentPlayer: {fileID: 11400000, guid: 72eaaf1d1458c2e4788b73c864d255b1, type: 2}
+  - {fileID: 11400000, guid: 7934ca44781819c4c9c5e67b8a1732fc, type: 2}
+  currentPlayer: {fileID: 11400000, guid: fa02e9736a2e0594e8b197f3169c2b9c, type: 2}

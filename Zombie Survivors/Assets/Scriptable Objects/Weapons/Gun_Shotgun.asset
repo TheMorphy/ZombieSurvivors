@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5c2e1b9ffb1c7604286b208c2142f5bf, type: 3}
-  m_Name: Gun_Pistol
+  m_Name: Gun_Shotgun
   m_EditorClassIdentifier: 
-  Type: 0
+  Type: 1
   weaponShootPosition: {x: 0, y: 0.38, z: 0.914}
-  ammoDetails: {fileID: 11400000, guid: dfe25199ac408f742888f091e130ebba, type: 2}
+  ammoDetails: {fileID: 11400000, guid: 0fa8170aa5a24654dae1ad8f35bc2bf3, type: 2}
   hasInfiniteAmmo: 1
-  hasInfiniteClipCapacity: 0
+  hasInfiniteClipCapacity: 1
   burstFire: 0
-  spreadShot: 0
-  weaponReloadTime: 0.5
-  weaponAmmoCapacity: 50
+  spreadShot: 1
+  weaponReloadTime: 2
+  weaponAmmoCapacity: 20
   weaponClipAmmoCapacity: 8
   fireRate: 2

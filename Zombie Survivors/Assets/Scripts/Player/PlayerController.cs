@@ -98,17 +98,10 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	private void WeaponInput()
 	{
-		// Fire weapon input
-		FireWeaponInput();
+		player.fireWeapon.FireWeapn();  // It just works, but always could be worse
 
 		// Reload weapon input
 		ReloadWeaponInput();
-	}
-
-	private void FireWeaponInput()
-	{
-		// Trigger fire weapon event
-		player.fireWeaponEvent.CallFireWeaponEvent(true);
 	}
 
 	private void ReloadWeaponInput()

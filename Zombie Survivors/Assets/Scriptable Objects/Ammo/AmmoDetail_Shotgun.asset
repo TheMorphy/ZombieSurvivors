@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: AmmoDetail_Shotgun
   m_EditorClassIdentifier: 
   ammoDamage: 10
-  ammoRange: 20
-  ammoSpeed: 70
-  isAmmoTrail: 0
-  ammoTrailTime: 3
-  ammoTrailMaterial: {fileID: 0}
-  ammoTrailStartWidth: 0
+  ammoPerShot: 4
+  ammoRange: 9
+  ammoSpeed: 20
+  ammoShootAngle: 40
+  isAmmoTrail: 1
+  ammoTrailTime: 0.04
+  ammoTrailMaterial: {fileID: 2100000, guid: 9366e3f8f4b04134da1b7b6a53898087, type: 2}
+  ammoTrailStartWidth: 0.1
   ammoTrailEndWidth: 0
