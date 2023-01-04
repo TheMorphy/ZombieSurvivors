@@ -16,5 +16,4 @@ MonoBehaviour:
   Health: 120
   MoveSpeed: 4
   Damage: 10
-  EXP_Increase: 0.2
-  CashDrop: 50
+  EXP_Increase: 60

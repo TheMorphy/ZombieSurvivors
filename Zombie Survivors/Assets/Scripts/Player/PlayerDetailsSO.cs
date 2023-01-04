@@ -14,8 +14,6 @@ public class PlayerDetailsSO : ScriptableObject
 	public int Health = 100;
 
 	public float MoveSpeed = 5f;
-
-	public int Damage = 5;
 }
 
 public enum PlayerClass

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f09fb96aec23c418c6608fda2272da, type: 3}
   m_Name: AmmoDetail_Rifle
   m_EditorClassIdentifier: 
-  ammoDamage: 5
-  ammoPerShot: 4
+  ammoDamage: 40
+  ammoPerShot: 5
   ammoRange: 20
   ammoSpeed: 30
   ammoShootAngle: 2

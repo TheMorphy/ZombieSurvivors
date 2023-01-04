@@ -63,5 +63,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Juggernaut
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8994749101487401792, guid: ea5b8fa18e0f1c443a2c448b244278fc, type: 3}
+    - {fileID: 39470828908240672, guid: ea5b8fa18e0f1c443a2c448b244278fc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ea5b8fa18e0f1c443a2c448b244278fc, type: 3}

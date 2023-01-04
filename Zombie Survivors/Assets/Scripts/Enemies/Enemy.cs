@@ -47,9 +47,13 @@ public class Enemy : MonoBehaviour
 	{
 		if (healthEventArgs.healthAmount <= 0)
 		{
+			GameObject exp = Instantiate(GameResources.Instance.expDrop, transform.position, Quaternion.identity);
+			exp.GetComponent<ExpDrop>().SetExpValue(enemyDetails.EXP_Increase);
+
 			destroyedEvent.CallDestroyedEvent(false, health.GetStartingHealth());
 		}
 	}
+
 
 	/// <summary>
 	/// Initialise the enemy

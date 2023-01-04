@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(DestroyedEvent))]
@@ -35,7 +34,7 @@ public class Destroyed : MonoBehaviour
 		}
 		else
 		{
-			Destroy(gameObject);
+			gameObject.SetActive(false);
 		}
 	}
 }

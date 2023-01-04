@@ -99,6 +99,10 @@ public class FireWeapon : MonoBehaviour
 		{
 			StartCoroutine(BurstSpreadFire(ammoPerShot, spreadAngle));
 		}
+		else
+		{
+			SingleShot(spreadAngle);
+		}
 
 		// Reduce ammo clip count if not infinite clip capacity
 		if (!activeWeapon.GetCurrentWeapon().weaponDetails.hasInfiniteClipCapacity)
@@ -117,6 +121,16 @@ public class FireWeapon : MonoBehaviour
 
 		//// Weapon fired sound effect
 		//WeaponSoundEffect();
+	}
+
+	private void SingleShot(float spreadAngle)
+	{
+		float angle = Random.Range(-spreadAngle, spreadAngle);
+		Quaternion rot = Quaternion.Euler(0, angle, 0);
+		Vector3 direction = rot * activeWeapon.GetShootFirePointTransform().forward;
+
+		Ammo ammo = PoolManager.Instance.SpawnFromPool("Ammo", activeWeapon.GetShootPosition(), Quaternion.identity).GetComponent<Ammo>();
+		ammo.InitialiseAmmo(activeWeapon.GetCurrentAmmo(), direction);
 	}
 
 	private void SpreadShot(int ammoPerShot, float spreadAngle)

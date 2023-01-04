@@ -39,4 +39,6 @@ public class GameResources : MonoBehaviour
 	[Tooltip("The current player scriptable object - this is used to reference the current player between scenes")]
 	#endregion Tooltip
 	public CurrentPlayerSO currentPlayer;
+
+	public GameObject expDrop;
 }

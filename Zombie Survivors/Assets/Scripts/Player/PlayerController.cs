@@ -129,6 +129,5 @@ public class PlayerController : MonoBehaviour
 	public void DisablePlayer()
 	{
 		isPlayerMovementDisabled = true;
-		player.idleEvent.CallIdleEvent();
 	}
 }

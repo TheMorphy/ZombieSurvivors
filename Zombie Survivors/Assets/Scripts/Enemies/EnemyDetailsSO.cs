@@ -13,10 +13,7 @@ public class EnemyDetailsSO : ScriptableObject
 
 	public int Damage = 10;
 
-	[Range(0f, 1f)]
-	public float EXP_Increase = 0.2f;
-
-	public int CashDrop = 50;
+	public int EXP_Increase = 10;
 }
 
 public enum EnemyClass

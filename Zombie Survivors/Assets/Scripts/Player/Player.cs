@@ -8,8 +8,6 @@ using UnityEngine;
 [RequireComponent(typeof(DestroyedEvent))]
 [RequireComponent(typeof(Destroyed))]
 [RequireComponent(typeof(PlayerController))]
-[RequireComponent(typeof(IdleEvent))]
-[RequireComponent(typeof(Idle))]
 [RequireComponent(typeof(FireWeaponEvent))]
 [RequireComponent(typeof(FireWeapon))]
 [RequireComponent(typeof(SetActiveWeaponEvent))]
@@ -28,7 +26,6 @@ public class Player : MonoBehaviour
 	[HideInInspector] public Health health;
 	[HideInInspector] public DestroyedEvent destroyedEvent;
 	[HideInInspector] public PlayerController playerController;
-	[HideInInspector] public IdleEvent idleEvent;
 	[HideInInspector] public FireWeaponEvent fireWeaponEvent;
 	[HideInInspector] public FireWeapon fireWeapon;
 	[HideInInspector] public SetActiveWeaponEvent setActiveWeaponEvent;
@@ -45,7 +42,6 @@ public class Player : MonoBehaviour
 		health = GetComponent<Health>();
 		destroyedEvent = GetComponent<DestroyedEvent>();
 		playerController = GetComponent<PlayerController>();
-		idleEvent = GetComponent<IdleEvent>();
 		fireWeaponEvent = GetComponent<FireWeaponEvent>();
 		fireWeapon = GetComponent<FireWeapon>();
 		setActiveWeaponEvent = GetComponent<SetActiveWeaponEvent>();
@@ -57,13 +53,13 @@ public class Player : MonoBehaviour
 
 	private void OnEnable()
 	{
-		// Subscribe to player health event
+		// Subscribe to player events
 		healthEvent.OnHealthChanged += HealthEvent_OnHealthChanged;
 	}
 
 	private void OnDisable()
 	{
-		// Unsubscribe from player health event
+		// Unsubscribe from player events
 		healthEvent.OnHealthChanged -= HealthEvent_OnHealthChanged;
 	}
 
@@ -75,7 +71,7 @@ public class Player : MonoBehaviour
 		// If player has died
 		if (healthEventArgs.healthAmount <= 0f)
 		{
-			destroyedEvent.CallDestroyedEvent(true, 0);
+			destroyedEvent.CallDestroyedEvent(true ,0);
 		}
 	}
 
