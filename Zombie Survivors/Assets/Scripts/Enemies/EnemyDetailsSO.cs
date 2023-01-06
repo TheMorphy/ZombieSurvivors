@@ -7,6 +7,8 @@ public class EnemyDetailsSO : ScriptableObject
 {
 	public EnemyClass Class = EnemyClass.Zombie;
 
+	public GameObject enemyPrefab;
+
 	public int Health = 30;
 
 	public float MoveSpeed = 3f;

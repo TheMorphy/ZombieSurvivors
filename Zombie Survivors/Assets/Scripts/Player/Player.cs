@@ -16,6 +16,9 @@ using UnityEngine;
 [RequireComponent(typeof(ReloadWeaponEvent))]
 [RequireComponent(typeof(ReloadWeapon))]
 [RequireComponent(typeof(WeaponReloadedEvent))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(AnimatePlayer))]
+[RequireComponent(typeof(SquadControl))]
 [DisallowMultipleComponent]
 #endregion REQUIRE COMPONENTS
 
@@ -33,6 +36,8 @@ public class Player : MonoBehaviour
 	[HideInInspector] public WeaponFiredEvent weaponFiredEvent;
 	[HideInInspector] public ReloadWeaponEvent reloadWeaponEvent;
 	[HideInInspector] public WeaponReloadedEvent weaponReloadedEvent;
+	[HideInInspector] public AnimatePlayer animatePlayer;
+	[HideInInspector] public Animator animator;
 
 	[HideInInspector] public Weapon playerWeapon;
 
@@ -49,6 +54,8 @@ public class Player : MonoBehaviour
 		weaponFiredEvent = GetComponent<WeaponFiredEvent>();
 		reloadWeaponEvent = GetComponent<ReloadWeaponEvent>();
 		weaponReloadedEvent = GetComponent<WeaponReloadedEvent>();
+		animatePlayer = GetComponent<AnimatePlayer>();
+		animator = GetComponent<Animator>();
 	}
 
 	private void OnEnable()
@@ -71,7 +78,8 @@ public class Player : MonoBehaviour
 		// If player has died
 		if (healthEventArgs.healthAmount <= 0f)
 		{
-			destroyedEvent.CallDestroyedEvent(true ,0);
+			animator.SetTrigger("Die");
+			//destroyedEvent.CallDestroyedEvent(true ,0);
 		}
 	}
 

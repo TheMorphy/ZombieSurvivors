@@ -4,9 +4,9 @@ using UnityEngine.Events;
 
 public class LevelSystem
 {
-    [SerializeField] private int level;
-	[SerializeField] private int experience;
-	[SerializeField] private int experienceToNextLevel;
+    private int level;
+	private int experience;
+	private int experienceToNextLevel;
 
     public event EventHandler OnExperienceChanged;
 	public event EventHandler OnLevelChanged;
@@ -37,6 +37,15 @@ public class LevelSystem
     public int GetPlayerLevel()
     {
         return level;
+    }
+    public int GetPlayerExperience()
+    {
+        return experience;
+    }
+
+    public int GetPlayerExperienceToNextLevel()
+    {
+        return experienceToNextLevel;
     }
 
     public float GetPlayerExperienceNormalized()

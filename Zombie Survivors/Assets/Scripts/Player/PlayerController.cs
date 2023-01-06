@@ -11,9 +11,9 @@ public class PlayerController : MonoBehaviour
 	private bool isPlayerMovementDisabled = false;
 
 	[SerializeField] private Transform Torso;
-	[SerializeField] private float turnToEnemyDistance = 6f;
 
 	[HideInInspector] public FloatingJoystick joystick;
+
 
 	private void Awake()
 	{

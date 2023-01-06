@@ -15,6 +15,5 @@ MonoBehaviour:
   Class: 2
   PlayerPrefab: {fileID: 3373127689159597595, guid: ea5b8fa18e0f1c443a2c448b244278fc, type: 3}
   startingWeaponDetails: {fileID: 11400000, guid: dc0a170a879472b4ba356155fd9ab732, type: 2}
-  Health: 100
+  Health: 20
   MoveSpeed: 7
-  Damage: 5

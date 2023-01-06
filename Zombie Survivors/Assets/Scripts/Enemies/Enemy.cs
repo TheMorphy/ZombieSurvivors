@@ -7,7 +7,9 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyController))]
 [RequireComponent(typeof(DestroyedEvent))]
 [RequireComponent(typeof(DealContactDamage))]
+[RequireComponent(typeof(AnimateEnemy))]
 [RequireComponent(typeof(Destroyed))]
+[RequireComponent(typeof(Animator))]
 [DisallowMultipleComponent]
 public class Enemy : MonoBehaviour
 {
@@ -15,6 +17,8 @@ public class Enemy : MonoBehaviour
 	[HideInInspector] public EnemyController enemyController;
 	[HideInInspector] public DealContactDamage dealContactDamage;
 	[HideInInspector] public DestroyedEvent destroyedEvent;
+	[HideInInspector] public AnimateEnemy animateEnemy;
+	[HideInInspector] public Animator animator;
 
 	private HealthEvent healthEvent;
 	private Health health;
@@ -25,18 +29,23 @@ public class Enemy : MonoBehaviour
 		destroyedEvent = GetComponent<DestroyedEvent>();
 		dealContactDamage = GetComponent<DealContactDamage>();
 		enemyController = GetComponent<EnemyController>();
+		animateEnemy = GetComponent<AnimateEnemy>();
 		health = GetComponent<Health>();
+		animator = GetComponent<Animator>();
 	}
 
 	private void OnEnable()
 	{
+		EnemySpawner.activeEnemies.Add(transform);
+
 		//subscribe to health event
 		healthEvent.OnHealthChanged += HealthEvent_OnHealthLost;
 	}
 
 	private void OnDisable()
 	{
-		//subscribe to health event
+		EnemySpawner.activeEnemies.Remove(transform);
+
 		healthEvent.OnHealthChanged -= HealthEvent_OnHealthLost;
 	}
 
@@ -47,10 +56,10 @@ public class Enemy : MonoBehaviour
 	{
 		if (healthEventArgs.healthAmount <= 0)
 		{
-			GameObject exp = Instantiate(GameResources.Instance.expDrop, transform.position, Quaternion.identity);
-			exp.GetComponent<ExpDrop>().SetExpValue(enemyDetails.EXP_Increase);
+			enemyController.GetAgent().isStopped = true;
 
-			destroyedEvent.CallDestroyedEvent(false, health.GetStartingHealth());
+			animator.SetTrigger("Die");
+			//destroyedEvent.CallDestroyedEvent(false, health.GetStartingHealth());
 		}
 	}
 
@@ -58,7 +67,7 @@ public class Enemy : MonoBehaviour
 	/// <summary>
 	/// Initialise the enemy
 	/// </summary>
-	public void EnemyInitialization(EnemyDetailsSO enemyDetails)
+	public void InitializeEnemy(EnemyDetailsSO enemyDetails)
 	{
 		this.enemyDetails = enemyDetails;
 

@@ -5,9 +5,42 @@ using System;
 
 public class LevelUI : MonoBehaviour
 {
+	[SerializeField] private GameObject[] upgradeCards;
+
+	private LevelUIAnimated levelUIAnimated;
+
     [SerializeField] private TextMeshProUGUI levelNumberText;
 	[SerializeField] private Image experienceBarImage;
+
 	private LevelSystem levelSystem;
+
+	private void Awake()
+	{
+		levelUIAnimated = GetComponent<LevelUIAnimated>();
+	}
+
+	private void Start()
+	{
+		gameObject.SetActive(false);
+	}
+
+	private void InitializeUpgradeCards()
+	{
+		for (int i = 0; i < upgradeCards.Length; i++)
+		{
+			int rand = UnityEngine.Random.Range(0, 2);
+
+			switch (rand)
+			{
+				case 0:
+
+					break;
+				case 1:
+
+					break;
+			}
+		}
+	}
 
 	private void SetExperienceBarSize(float experienceNormalized)
 	{

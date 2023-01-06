@@ -186,6 +186,8 @@ GameObject:
   - component: {fileID: 1567639419510932825}
   - component: {fileID: 3771126693197931614}
   - component: {fileID: 3563369586961300125}
+  - component: {fileID: 1387499938681590204}
+  - component: {fileID: 5934521259760502475}
   m_Layer: 8
   m_Name: Basic_Zombie
   m_TagString: Enemy
@@ -216,14 +218,14 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3373127689159597595}
-  m_Enabled: 0
+  m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 1
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -277,6 +279,7 @@ MonoBehaviour:
   enemyController: {fileID: 0}
   dealContactDamage: {fileID: 0}
   destroyedEvent: {fileID: 0}
+  animateEnemy: {fileID: 0}
 --- !u!114 &1075683816498316978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -354,3 +357,37 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 8
+--- !u!114 &1387499938681590204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3373127689159597595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a36d65300284c046bdd2ad1a05bbaf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathTime: 1.5
+  preDeathWait: 1
+--- !u!95 &5934521259760502475
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3373127689159597595}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1a393e6063cae7b44bbdb97147a129a8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0

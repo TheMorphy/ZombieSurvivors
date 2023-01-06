@@ -20,14 +20,8 @@ public class EnemySpawner : MonoBehaviour
 	private void Awake()
 	{
 		_playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-	}
 
-	private void Start()
-	{
-		// Calculates Nav Mesh triangulation, used to get mesh vertices
 		navMeshTriangulation = NavMesh.CalculateTriangulation();
-
-		StartCoroutine(SpawnEnemies());
 	}
 
 	public IEnumerator SpawnEnemies()
@@ -45,11 +39,12 @@ public class EnemySpawner : MonoBehaviour
 
 	private void Spawn()
 	{
-		GameObject enemeyObj = PoolManager.Instance.SpawnFromPool("redEnemy", transform.position, Quaternion.identity);
+		GameObject enemyObj = Instantiate(enemyDetails[0].enemyPrefab);
 
-		Enemy enemy = CreateEnemy(enemeyObj);
+		Enemy enemy = enemyObj.GetComponent<Enemy>();
+		enemy.InitializeEnemy(enemyDetails[0]);
 
-		Vector3 spawnPos = enemeyObj.transform.position;
+		Vector3 spawnPos = enemyObj.transform.position;
 
 		// Get screen bounds. I don't know how it works, but I think it does
 		var screenBounds = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
@@ -68,14 +63,5 @@ public class EnemySpawner : MonoBehaviour
 		{
 			enemy.enemyController.GetAgent().Warp(Hit.position);
 		}
-	}
-
-	private Enemy CreateEnemy(GameObject enemyGameObject)
-	{
-		Enemy enemy = enemyGameObject.GetComponent<Enemy>();
-
-		enemy.EnemyInitialization(enemyDetails[0]);
-
-		return enemy;
 	}
 }

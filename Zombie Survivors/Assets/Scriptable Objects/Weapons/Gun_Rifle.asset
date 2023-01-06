@@ -22,5 +22,5 @@ MonoBehaviour:
   weaponReloadTime: 0.5
   weaponAmmoCapacity: 50
   weaponClipAmmoCapacity: 20
-  fireRate: 0.06
+  fireRate: 0.03
   burstInterval: 0.1

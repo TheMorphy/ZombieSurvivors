@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: EnemyDetails_Zombie
   m_EditorClassIdentifier: 
   Class: 0
+  enemyPrefab: {fileID: 3373127689159597595, guid: 29308ef4d3392fc4699848d19b29c7a9, type: 3}
   Health: 120
   MoveSpeed: 4
   Damage: 10

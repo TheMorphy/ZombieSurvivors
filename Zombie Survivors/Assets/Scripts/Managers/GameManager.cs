@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 	public static GameManager Instance;
 
 	[SerializeField] private int SurviveTime = 10;
+	[SerializeField] private EnemySpawner enemySpawner;
 	[SerializeField] private CinemachineVirtualCamera virtualCamera;
 	[SerializeField] private GameObject pauseMenu;
 	[SerializeField] private LevelUI levelUI;
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		//levelSystem.AddExperience(0);
+		StartCoroutine(enemySpawner.SpawnEnemies());
 	}
 
 	private void OnEnable()
@@ -62,6 +63,8 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	private void Player_OnDestroyed(DestroyedEvent destroyedEvent, DestroyedEventArgs destroyedEventArgs)
 	{
+		StopAllCoroutines();
+
 		previousGameState = gameState;
 		gameState = GameState.gameLost;
 	}

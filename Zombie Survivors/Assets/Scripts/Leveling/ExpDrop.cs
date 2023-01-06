@@ -28,7 +28,6 @@ public class ExpDrop : MonoBehaviour
 	{
 		if (other.transform.CompareTag("Player"))
 		{
-			System.Console.WriteLine("Absorb EXP");
 			StartCoroutine(GoTowardsPlayer(other.transform));
 		}
 	}
