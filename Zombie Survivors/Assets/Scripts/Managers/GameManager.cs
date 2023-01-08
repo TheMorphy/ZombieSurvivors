@@ -1,8 +1,5 @@
 using Cinemachine;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,16 +11,12 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private int SurviveTime = 10;
 	[SerializeField] private EnemySpawner enemySpawner;
 	[SerializeField] private CinemachineVirtualCamera virtualCamera;
-	[SerializeField] private GameObject pauseMenu;
 	[SerializeField] private LevelUI levelUI;
 	
 	private LevelSystem levelSystem;
 
 	private PlayerDetailsSO playerDetails;
 	private Player player;
-
-	[HideInInspector] public GameState gameState;
-	[HideInInspector] public GameState previousGameState;
 
 	public static List<GameObject> createdEnemies = new List<GameObject>();
 
@@ -51,11 +44,12 @@ public class GameManager : MonoBehaviour
 	{
 		// Subscribe to player destroyed event
 		player.destroyedEvent.OnDestroyed += Player_OnDestroyed;
+
 	}
 	private void OnDisable()
 	{
 		// Unsubscribe from player destroyed event
-        player.destroyedEvent.OnDestroyed -= Player_OnDestroyed;
+		player.destroyedEvent.OnDestroyed -= Player_OnDestroyed;
 	}
 
 	/// <summary>
@@ -64,15 +58,12 @@ public class GameManager : MonoBehaviour
 	private void Player_OnDestroyed(DestroyedEvent destroyedEvent, DestroyedEventArgs destroyedEventArgs)
 	{
 		StopAllCoroutines();
-
-		previousGameState = gameState;
-		gameState = GameState.gameLost;
 	}
 
 	private void InstantiatePlayer()
 	{
 		// Set player details - saved in current player scriptable object from the main menu
-		playerDetails = GameResources.Instance.currentPlayer.playerDetails;
+		playerDetails = GameResources.Instance.CurrentPlayer.playerDetails;
 
 		// Instantiate player
 		GameObject playerGameObject = Instantiate(playerDetails.PlayerPrefab);
@@ -93,6 +84,7 @@ public class GameManager : MonoBehaviour
 	{
 		SceneManager.LoadScene("MainMenuScene");
 	}
+
 
 	/// <summary>
 	/// Get the player

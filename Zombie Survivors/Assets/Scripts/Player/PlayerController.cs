@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class PlayerController : MonoBehaviour
 
 	[SerializeField] private Transform Torso;
 
-	[HideInInspector] public FloatingJoystick joystick;
+	[HideInInspector] private FloatingJoystick joystick;
 
 
 	private void Awake()
@@ -26,10 +27,36 @@ public class PlayerController : MonoBehaviour
 	{
 		SetStartingWeapon();
 	}
+
+	private void OnEnable()
+	{
+		UpgradesManager.Instance.OnPlayerStatUpgrade += Instance_OnPlayerStatUpgrade;
+	}
+
+	private void OnDisable()
+	{
+		UpgradesManager.Instance.OnPlayerStatUpgrade -= Instance_OnPlayerStatUpgrade;
+	}
+
+	private void Instance_OnPlayerStatUpgrade(UpgradesManager arg1, PlayerStatUpgradeEventArgs playerStatUpgradeEventArgs)
+	{
+		Console.WriteLine($"{playerStatUpgradeEventArgs.playerStats} upgraded by {playerStatUpgradeEventArgs.floatValue}");
+
+		player.playerDetails.UpgradPlayerBaseStats(
+			playerStatUpgradeEventArgs.playerStats, 
+			playerStatUpgradeEventArgs.floatValue, 
+			playerStatUpgradeEventArgs.upgradeAction
+			);
+	}
+
 	private void Update()
 	{
-		WeaponInput();
-		HandleRotations();
+		if(!isPlayerMovementDisabled)
+		{
+			WeaponInput();
+			HandleRotations();
+
+		}
 	}
 
 	private void FixedUpdate()
@@ -118,16 +145,18 @@ public class PlayerController : MonoBehaviour
 	/// <summary>
 	/// Enable the player movement
 	/// </summary>
-	public void EnablePlayer()
+	public void EnablePlayerMovement()
 	{
+		joystick.enabled = true;
 		isPlayerMovementDisabled = false;
 	}
 
 	/// <summary>
 	/// Disable the player movement
 	/// </summary>
-	public void DisablePlayer()
+	public void DisablePlayerMovement()
 	{
+		joystick.enabled = false;
 		isPlayerMovementDisabled = true;
 	}
 }

@@ -16,7 +16,7 @@ public class AnimateEnemy : MonoBehaviour
 
 	public void EnemyDeath()
 	{
-		GameObject exp = Instantiate(GameResources.Instance.expDrop, transform.position, Quaternion.identity);
+		GameObject exp = Instantiate(GameResources.Instance.ExpDrop, transform.position, Quaternion.identity);
 		exp.GetComponent<ExpDrop>().SetExpValue(enemy.enemyDetails.EXP_Increase);
 
 		Destroy(gameObject);

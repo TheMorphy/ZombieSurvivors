@@ -34,11 +34,15 @@ public class GameResources : MonoBehaviour
 	#region Tooltip
 	[Tooltip("Player details list - populate the list with the playerdetails scriptable objects")]
 	#endregion Tooltip
-	public List<PlayerDetailsSO> playerDetailsList;
+	public List<PlayerDetailsSO> PlayerDetailsList;
 	#region Tooltip
 	[Tooltip("The current player scriptable object - this is used to reference the current player between scenes")]
 	#endregion Tooltip
-	public CurrentPlayerSO currentPlayer;
+	public CurrentPlayerSO CurrentPlayer;
 
-	public GameObject expDrop;
+	#region Header EXPERIENCE
+	[Space(10)]
+	[Header("EXPERIENCE")]
+	#endregion Header EXPERIENCE
+	public GameObject ExpDrop;
 }

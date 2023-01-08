@@ -65,7 +65,6 @@ public class FireWeapon : MonoBehaviour
 		if (!activeWeapon.GetCurrentWeapon().weaponDetails.hasInfiniteClipCapacity && activeWeapon.GetCurrentWeapon().weaponClipRemainingAmmo <= 0)
 		{
 			// trigger a reload weapon event.
-			System.Console.WriteLine("Reloading");
 			reloadWeaponEvent.CallReloadWeaponEvent(activeWeapon.GetCurrentWeapon(), 0);
 
 			return false;
@@ -130,7 +129,7 @@ public class FireWeapon : MonoBehaviour
 		Vector3 direction = rot * activeWeapon.GetShootFirePointTransform().forward;
 
 		Ammo ammo = PoolManager.Instance.SpawnFromPool("Ammo", activeWeapon.GetShootPosition(), Quaternion.identity).GetComponent<Ammo>();
-		ammo.InitialiseAmmo(activeWeapon.GetCurrentAmmo(), direction);
+		ammo.InitialiseAmmo(activeWeapon.GetCurrentWeapon().ammoDetails, direction);
 	}
 
 	private void SpreadShot(int ammoPerShot, float spreadAngle)
@@ -145,7 +144,7 @@ public class FireWeapon : MonoBehaviour
 			Vector3 direction = rotation * activeWeapon.GetShootFirePointTransform().forward;
 
 			Ammo ammo = PoolManager.Instance.SpawnFromPool("Ammo", activeWeapon.GetShootPosition(), Quaternion.identity).GetComponent<Ammo>();
-			ammo.InitialiseAmmo(activeWeapon.GetCurrentAmmo(), direction);
+			ammo.InitialiseAmmo(activeWeapon.GetCurrentWeapon().ammoDetails, direction);
 		}
 	}
 
@@ -167,7 +166,7 @@ public class FireWeapon : MonoBehaviour
 
 				// ... fire a bullet
 				Ammo ammo = PoolManager.Instance.SpawnFromPool("Ammo", activeWeapon.GetShootPosition(), Quaternion.identity).GetComponent<Ammo>();
-				ammo.InitialiseAmmo(activeWeapon.GetCurrentAmmo(), direction);
+				ammo.InitialiseAmmo(activeWeapon.GetCurrentWeapon().ammoDetails, direction);
 
 				// Increment the burst counter
 				burstCounter++;

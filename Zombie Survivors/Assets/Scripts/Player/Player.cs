@@ -1,4 +1,8 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 #region REQUIRE COMPONENTS
@@ -99,7 +103,7 @@ public class Player : MonoBehaviour
 
 	private void CreatePlayerStartingWeapons()
 	{
-		AddWeaponToPlayer(playerDetails.startingWeaponDetails);
+		AddWeaponToPlayer(playerDetails.StartingWeaponDetails);
 	}
 
 	/// <summary>
@@ -108,8 +112,12 @@ public class Player : MonoBehaviour
 	public void AddWeaponToPlayer(WeaponDetailsSO weaponDetails)
 	{
 		playerWeapon = new Weapon() 
-		{ 
-			weaponDetails = weaponDetails
+		{
+			weaponDetails = weaponDetails, 
+			weaponReloadTimer = 0f, 
+			weaponClipRemainingAmmo = weaponDetails.weaponClipAmmoCapacity, 
+			weaponRemainingAmmo = weaponDetails.weaponAmmoCapacity, 
+			isWeaponReloading = false 
 		};
 	}
 

@@ -13,7 +13,6 @@ public class Ammo : MonoBehaviour
 	private AmmoDetailsSO ammoDetails;
 	private float ammoRange = 0f; // the range of each ammo
 	private float ammoSpeed;
-	private float fireDirectionAngle;
 	private Vector3 fireDirectionVector;
 	private bool isColliding = false;
 
@@ -79,14 +78,14 @@ public class Ammo : MonoBehaviour
 
 		#region Trail
 
-		if (ammoDetails.isAmmoTrail)
+		if (ammoDetails.IsAmmoTrail)
 		{
 			trailRenderer.gameObject.SetActive(true);
 			trailRenderer.emitting = true;
-			trailRenderer.material = ammoDetails.ammoTrailMaterial;
-			trailRenderer.startWidth = ammoDetails.ammoTrailStartWidth;
-			trailRenderer.endWidth = ammoDetails.ammoTrailEndWidth;
-			trailRenderer.time = ammoDetails.ammoTrailTime;
+			trailRenderer.material = ammoDetails.AmmoTrailMaterial;
+			trailRenderer.startWidth = ammoDetails.AmmoTrailStartWidth;
+			trailRenderer.endWidth = ammoDetails.AmmoTrailEndWidth;
+			trailRenderer.time = ammoDetails.AmmoTrailTime;
 		}
 		else
 		{

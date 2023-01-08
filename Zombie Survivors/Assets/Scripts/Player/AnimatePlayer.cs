@@ -17,7 +17,7 @@ public class AnimatePlayer : MonoBehaviour
 
 	public void PlayerDeath()
 	{
-		player.playerController.DisablePlayer();
+		player.playerController.DisablePlayerMovement();
 
 		Destroy(gameObject);
 	}
