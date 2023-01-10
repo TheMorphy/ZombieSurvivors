@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: WeaponUpgrade_ReloadTime
   m_EditorClassIdentifier: 
   UpgradeType: 2
-  WeaponStats: 7
+  WeaponStats: 3
   FloatValue: 0.01
   IntValue: 0
   Toggle: 1
-  UpgradeAction: 0
+  UpgradeAction: 3

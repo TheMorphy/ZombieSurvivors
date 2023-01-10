@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: WeaponUpgrade_HasInfiniteammo
   m_EditorClassIdentifier: 
   UpgradeType: 2
-  WeaponStats: 5
+  WeaponStats: 2
   FloatValue: 10
   IntValue: 0
-  Toggle: 0
-  UpgradeAction: 0
+  Toggle: 1
+  UpgradeAction: 3

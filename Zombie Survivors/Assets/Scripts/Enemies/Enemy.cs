@@ -9,6 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(AnimateEnemy))]
 [RequireComponent(typeof(Animator))]
 [DisallowMultipleComponent]
+
 public class Enemy : MonoBehaviour
 {
 	[HideInInspector] public EnemyDetailsSO enemyDetails;
@@ -70,6 +71,11 @@ public class Enemy : MonoBehaviour
 		SetEnemyStartingHealth();
 		SetMoveSpeed();
 		SetContactDamage();
+	}
+
+	public void IncreaseEnemyHealth()
+	{
+
 	}
 
 	/// <summary>

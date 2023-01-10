@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 	public static GameManager Instance;
 
 	[SerializeField] private int SurviveTime = 10;
+	private float timeElapsed = 0;
+
 	[SerializeField] private EnemySpawner enemySpawner;
 	[SerializeField] private CinemachineVirtualCamera virtualCamera;
 	[SerializeField] private LevelUI levelUI;
@@ -35,11 +37,14 @@ public class GameManager : MonoBehaviour
 		InstantiatePlayer();
 	}
 
-	//------- TODO: Make StopCoroutines -------------
-
 	private void Start()
 	{
-		StartCoroutine(enemySpawner.SpawnEnemies());
+		StartCoroutine(enemySpawner.SpawnEnemies(timeElapsed));
+	}
+
+	private void Update()
+	{
+		timeElapsed += Time.deltaTime;
 	}
 
 	private void OnEnable()

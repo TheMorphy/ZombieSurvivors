@@ -24,20 +24,20 @@ public class EnemySpawner : MonoBehaviour
 		navMeshTriangulation = NavMesh.CalculateTriangulation();
 	}
 
-	public IEnumerator SpawnEnemies()
+	public IEnumerator SpawnEnemies(float timePassed)
 	{
 		int spawnedEnemies = 0;
 
 		while (spawnedEnemies < NumberOfEnemeisToSpawn)
 		{
-			Spawn();
+			Spawn(timePassed);
 			spawnedEnemies++;
 
 			yield return new WaitForSeconds(spawnDelay);
 		}
 	}
 
-	private void Spawn()
+	private void Spawn(float timePassed)
 	{
 		GameObject enemyObj = Instantiate(enemyDetails[0].enemyPrefab);
 

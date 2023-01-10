@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class ExpandSystem : MonoBehaviour
 {
-	[SerializeField] private Transform textOrientation;
-
     private TextMeshPro multiplyCountUI;
     private int randomMultiply;
     private bool IsMultiplied;

@@ -6,6 +6,7 @@ public class SquadControl : MonoBehaviour
 {
 	[SerializeField] private GameObject comradePrefab;
 	[SerializeField] private Transform squad;
+	private Player player;
 
 	[Range(0f, 1f)]
 	[SerializeField] private float DistanceFactor, Radius;
@@ -13,6 +14,11 @@ public class SquadControl : MonoBehaviour
 	[SerializeField] private int squadAmmount;
 
 	public event Action<SquadControl, int> OnSquadIncrease;
+
+	private void Awake()
+	{
+		player = GetComponent<Player>();
+	}
 
 	private void Start()
 	{
@@ -46,7 +52,8 @@ public class SquadControl : MonoBehaviour
 	{
 		for (int i = 0; i < comradesAmmount; i++)
 		{
-			Instantiate(comradePrefab, transform.position, Quaternion.identity, squad);
+			GameObject comObj = Instantiate(comradePrefab, transform.position, Quaternion.identity, squad);
+			comObj.GetComponent<Comrade>().SetPlayerReference(player);
 		}
 
 		ApplyMultiplication(comradesAmmount);
