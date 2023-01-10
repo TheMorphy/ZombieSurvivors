@@ -33,7 +33,7 @@ public class PlayerStatsUpgradeDetails : ScriptableObject
 
 		public override void OnInspectorGUI()
 		{
-			serializedObject.Update();
+			EditorGUI.BeginChangeCheck();
 
 			EditorGUILayout.Space(10);
 
@@ -45,16 +45,26 @@ public class PlayerStatsUpgradeDetails : ScriptableObject
 				case PlayerStats.Health:
 				case PlayerStats.MoveSpeed:
 
-					playerStatUpgradeDetails.FloatValue = EditorGUILayout.FloatField("Value", playerStatUpgradeDetails.FloatValue);
-
 					playerStatUpgradeDetails.UpgradeAction = (UpgradeAction)EditorGUILayout.EnumPopup("Value Action", playerStatUpgradeDetails.UpgradeAction);
+
+					if(playerStatUpgradeDetails.UpgradeAction != UpgradeAction.Toggle)
+					{
+						playerStatUpgradeDetails.FloatValue = EditorGUILayout.FloatField("Value", playerStatUpgradeDetails.FloatValue);
+					}
+					else
+					{
+						EditorGUILayout.HelpBox("Invalid value selected", MessageType.Error);
+					}
 
 					EditorGUILayout.Space(5);
 
 					break;
 			}
 
-			serializedObject.ApplyModifiedProperties();
+			if (EditorGUI.EndChangeCheck())
+			{
+				EditorUtility.SetDirty(playerStatUpgradeDetails);
+			}
 		}
 	}
 

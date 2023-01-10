@@ -3,7 +3,6 @@ using UnityEngine;
 public class Weapon
 {
 	public WeaponDetailsSO weaponDetails;
-	public AmmoDetailsSO ammoDetails;
 
 	public int weaponListPosition;
 	public float weaponReloadTimer;
@@ -11,7 +10,7 @@ public class Weapon
 	public int weaponRemainingAmmo;
 	public bool isWeaponReloading;
 
-	public void UpgradeWeapon(WeaponStats weaponStat, float value, UpgradeAction upgradeAction)
+	public void UpgradeWeapon(WeaponStats weaponStat, float value, bool boolValue, UpgradeAction upgradeAction)
 	{
 		switch (weaponStat)
 		{
@@ -60,28 +59,22 @@ public class Weapon
 					weaponDetails.fireRate = (int)Utilities.ApplyPercentage(value, weaponDetails.fireRate);
 				break;
 
-		}
-	}
-
-	public void EnableNewStat(WeaponStats weaponStat, bool toggle)
-	{
-		switch (weaponStat)
-		{
 			case WeaponStats.spreadShot:
-				weaponDetails.spreadShot = toggle;
+				weaponDetails.spreadShot = boolValue;
 				break;
 
 			case WeaponStats.hasInfiniteAmmo:
-				weaponDetails.hasInfiniteAmmo = toggle;
+				weaponDetails.hasInfiniteAmmo = boolValue;
 				break;
 
 			case WeaponStats.hasInfiniteClipCapacity:
-				weaponDetails.hasInfiniteClipCapacity = toggle;
+				weaponDetails.hasInfiniteClipCapacity = boolValue;
 				break;
 
 			case WeaponStats.burstFire:
-				weaponDetails.burstFire = toggle;
+				weaponDetails.burstFire = boolValue;
 				break;
+
 		}
 	}
 
@@ -91,47 +84,47 @@ public class Weapon
 		{
 			case AmmoStats.AmmoSpeed:
 				if (upgradeAction == UpgradeAction.Add)
-					ammoDetails.ammoSpeed += value;
+					weaponDetails.AmmoDetails.ammoSpeed += value;
 				else if (upgradeAction == UpgradeAction.Multiply)
-					ammoDetails.ammoSpeed *= value;
+					weaponDetails.AmmoDetails.ammoSpeed *= value;
 				else if (upgradeAction == UpgradeAction.Increase_Percentage)
-					ammoDetails.ammoSpeed = Utilities.ApplyPercentage(value, ammoDetails.ammoSpeed);
+					weaponDetails.AmmoDetails.ammoSpeed = Utilities.ApplyPercentage(value, weaponDetails.AmmoDetails.ammoSpeed);
 				break;
 
 			case AmmoStats.AmmoDamage:
 				if (upgradeAction == UpgradeAction.Add)
-					ammoDetails.ammoDamage += (int)value;
+					weaponDetails.AmmoDetails.ammoDamage += (int)value;
 				else if (upgradeAction == UpgradeAction.Multiply)
-					ammoDetails.ammoDamage = (int)(ammoDetails.ammoDamage * value);
+					weaponDetails.AmmoDetails.ammoDamage = (int)(weaponDetails.AmmoDetails.ammoDamage * value);
 				else if (upgradeAction == UpgradeAction.Increase_Percentage)
-					ammoDetails.ammoDamage = (int)Utilities.ApplyPercentage(value, ammoDetails.ammoDamage);
+					weaponDetails.AmmoDetails.ammoDamage = (int)Utilities.ApplyPercentage(value, weaponDetails.AmmoDetails.ammoDamage);
 				break;
 
 			case AmmoStats.AmmoRange:
 				if (upgradeAction == UpgradeAction.Add)
-					ammoDetails.ammoRange += value;
+					weaponDetails.AmmoDetails.ammoRange += value;
 				else if (upgradeAction == UpgradeAction.Multiply)
-					ammoDetails.ammoRange *= value;
+					weaponDetails.AmmoDetails.ammoRange *= value;
 				else if (upgradeAction == UpgradeAction.Increase_Percentage)
-					ammoDetails.ammoRange = Utilities.ApplyPercentage(value, ammoDetails.ammoRange);
+					weaponDetails.AmmoDetails.ammoRange = Utilities.ApplyPercentage(value, weaponDetails.AmmoDetails.ammoRange);
 				break;
 
 			case AmmoStats.AmmoPerShot:
 				if (upgradeAction == UpgradeAction.Add)
-					ammoDetails.ammoPerShot += (int)value;
+					weaponDetails.AmmoDetails.ammoPerShot += (int)value;
 				else if (upgradeAction == UpgradeAction.Multiply)
-					ammoDetails.ammoPerShot = (int)(ammoDetails.ammoPerShot * value);
+					weaponDetails.AmmoDetails.ammoPerShot = (int)(weaponDetails.AmmoDetails.ammoPerShot * value);
 				else if (upgradeAction == UpgradeAction.Increase_Percentage)
-					ammoDetails.ammoPerShot = (int)Utilities.ApplyPercentage(value, ammoDetails.ammoPerShot);
+					weaponDetails.AmmoDetails.ammoPerShot = (int)Utilities.ApplyPercentage(value, weaponDetails.AmmoDetails.ammoPerShot);
 				break;
 
-			case AmmoStats.AmmoShootAngle:
+			case AmmoStats.AmmoSpread:
 				if (upgradeAction == UpgradeAction.Add)
-					ammoDetails.ammoShootAngle += value;
+					weaponDetails.AmmoDetails.ammoSpread += value;
 				else if (upgradeAction == UpgradeAction.Multiply)
-					ammoDetails.ammoShootAngle *= value;
+					weaponDetails.AmmoDetails.ammoSpread *= value;
 				else if (upgradeAction == UpgradeAction.Increase_Percentage)
-					ammoDetails.ammoShootAngle = Utilities.ApplyPercentage(value, ammoDetails.ammoShootAngle);
+					weaponDetails.AmmoDetails.ammoSpread = Utilities.ApplyPercentage(value, weaponDetails.AmmoDetails.ammoSpread);
 				break;
 		}
 	}

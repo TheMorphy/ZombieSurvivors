@@ -10,9 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: df0b809d44f664d439a699f0a7f773f4, type: 3}
-  m_Name: AmmoUpgrade_Damage +2
+  m_Name: AmmoUpgrade_Spread x2
   m_EditorClassIdentifier: 
-  AmmoStats: 0
+  UpgradeType: 1
+  AmmoStats: 4
+  FloatValue: 2
+  Toggle: 0
   IntValue: 0
-  FloatValue: 0
-  UpgradeAction: 0
+  UpgradeAction: 1

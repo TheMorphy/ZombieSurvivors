@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class BaseScriptableObject : ScriptableObject
 {
+
+	//------------------ Not Sure What To Do With This -----------
 	public class Property
 	{
 		public string name;
@@ -23,4 +25,5 @@ public class BaseScriptableObject : ScriptableObject
 		}
 		return properties;
 	}
+	//------------------------------------------------------------
 }

@@ -33,7 +33,7 @@ public class AmmoUpgradeDetails : ScriptableObject
 
 		public override void OnInspectorGUI()
 		{
-			serializedObject.Update();
+			EditorGUI.BeginChangeCheck();
 
 			EditorGUILayout.Space(10);
 
@@ -46,18 +46,27 @@ public class AmmoUpgradeDetails : ScriptableObject
 				case AmmoStats.AmmoPerShot:
 				case AmmoStats.AmmoSpeed:
 				case AmmoStats.AmmoRange:
-				case AmmoStats.AmmoShootAngle:
-
-					ammoUpgradeDetails.FloatValue = EditorGUILayout.FloatField("Value", ammoUpgradeDetails.FloatValue);
+				case AmmoStats.AmmoSpread:
 
 					ammoUpgradeDetails.UpgradeAction = (UpgradeAction)EditorGUILayout.EnumPopup("Value Action", ammoUpgradeDetails.UpgradeAction);
 
+					if (ammoUpgradeDetails.UpgradeAction != UpgradeAction.Toggle)
+					{
+						ammoUpgradeDetails.FloatValue = EditorGUILayout.FloatField("Value", ammoUpgradeDetails.FloatValue);
+					}
+					else
+					{
+						EditorGUILayout.HelpBox("Invalid value selected", MessageType.Error);
+					}
 					EditorGUILayout.Space(5);
 
 					break;
 			}
 
-			serializedObject.ApplyModifiedProperties();
+			if (EditorGUI.EndChangeCheck())
+			{
+				EditorUtility.SetDirty(ammoUpgradeDetails);
+			}
 		}
 	}
 

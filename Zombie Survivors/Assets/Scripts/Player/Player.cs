@@ -9,8 +9,6 @@ using UnityEngine;
 [RequireComponent(typeof(HealthEvent))]
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(ReceiveContactDamage))]
-[RequireComponent(typeof(DestroyedEvent))]
-[RequireComponent(typeof(Destroyed))]
 [RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(FireWeaponEvent))]
 [RequireComponent(typeof(FireWeapon))]
@@ -31,7 +29,6 @@ public class Player : MonoBehaviour
 	[HideInInspector] public PlayerDetailsSO playerDetails;
 	[HideInInspector] public HealthEvent healthEvent;
 	[HideInInspector] public Health health;
-	[HideInInspector] public DestroyedEvent destroyedEvent;
 	[HideInInspector] public PlayerController playerController;
 	[HideInInspector] public FireWeaponEvent fireWeaponEvent;
 	[HideInInspector] public FireWeapon fireWeapon;
@@ -49,7 +46,6 @@ public class Player : MonoBehaviour
 	{
 		healthEvent = GetComponent<HealthEvent>();
 		health = GetComponent<Health>();
-		destroyedEvent = GetComponent<DestroyedEvent>();
 		playerController = GetComponent<PlayerController>();
 		fireWeaponEvent = GetComponent<FireWeaponEvent>();
 		fireWeapon = GetComponent<FireWeapon>();
@@ -64,13 +60,23 @@ public class Player : MonoBehaviour
 
 	private void OnEnable()
 	{
-		// Subscribe to player events
+		UpgradesManager.OnWeaponUpgrade += UpgradesManager_OnWeaponUpgrade;
+
+		UpgradesManager.OnPlayerStatUpgrade += UpgradesManager_OnPlayerStatUpgrade;
+
+		UpgradesManager.OnAmmoUpgrade += UpgradesManager_OnAmmoUpgrade;
+
 		healthEvent.OnHealthChanged += HealthEvent_OnHealthChanged;
 	}
 
 	private void OnDisable()
 	{
-		// Unsubscribe from player events
+		UpgradesManager.OnWeaponUpgrade -= UpgradesManager_OnWeaponUpgrade;
+
+		UpgradesManager.OnPlayerStatUpgrade -= UpgradesManager_OnPlayerStatUpgrade;
+
+		UpgradesManager.OnAmmoUpgrade -= UpgradesManager_OnAmmoUpgrade;
+
 		healthEvent.OnHealthChanged -= HealthEvent_OnHealthChanged;
 	}
 
@@ -83,8 +89,29 @@ public class Player : MonoBehaviour
 		if (healthEventArgs.healthAmount <= 0f)
 		{
 			animator.SetTrigger("Die");
-			//destroyedEvent.CallDestroyedEvent(true ,0);
 		}
+	}
+
+	private void UpgradesManager_OnAmmoUpgrade(AmmoUpgradeEventArgs ammoUpgradeEventArgs)
+	{
+		playerWeapon.UpgradeAmmo(ammoUpgradeEventArgs.ammoStats, ammoUpgradeEventArgs.floatValue, ammoUpgradeEventArgs.upgradeAction);
+	}
+
+	private void UpgradesManager_OnPlayerStatUpgrade(PlayerStatUpgradeEventArgs playerStatUpgradeEventArgs)
+	{
+		if(playerStatUpgradeEventArgs.playerStats == PlayerStats.Health)
+		{
+			health.UpgradPlayerHealth(playerStatUpgradeEventArgs.floatValue, playerStatUpgradeEventArgs.upgradeAction);
+		}
+		else if (playerStatUpgradeEventArgs.playerStats == PlayerStats.MoveSpeed)
+		{
+			playerController.UpgradeMoveSpeed(playerStatUpgradeEventArgs.floatValue, playerStatUpgradeEventArgs.upgradeAction);
+		}
+	}
+
+	private void UpgradesManager_OnWeaponUpgrade(WeaponUpgradeEventArgs weaponUpgradeEventArgs)
+	{
+		playerWeapon.UpgradeWeapon(weaponUpgradeEventArgs.weaponStats, weaponUpgradeEventArgs.floatValue, weaponUpgradeEventArgs.boolValue, weaponUpgradeEventArgs.upgradeAction);
 	}
 
 	/// <summary>
@@ -92,7 +119,7 @@ public class Player : MonoBehaviour
 	/// </summary>
 	public void Initialize(PlayerDetailsSO playerDetails)
 	{
-		this.playerDetails = playerDetails;
+		this.playerDetails = Instantiate(playerDetails);
 
 		//Create player starting weapons
 		CreatePlayerStartingWeapons();
@@ -103,22 +130,24 @@ public class Player : MonoBehaviour
 
 	private void CreatePlayerStartingWeapons()
 	{
-		AddWeaponToPlayer(playerDetails.StartingWeaponDetails);
+		AddWeaponToPlayer(playerDetails.PlayerWeaponDetails);
 	}
 
 	/// <summary>
 	/// Add a weapon to the player weapon dictionary
 	/// </summary>
-	public void AddWeaponToPlayer(WeaponDetailsSO weaponDetails)
+	public void AddWeaponToPlayer(WeaponDetailsSO weaponWeaponDetails)
 	{
-		playerWeapon = new Weapon() 
+		playerWeapon = new Weapon()
 		{
-			weaponDetails = weaponDetails, 
+			weaponDetails = Instantiate(weaponWeaponDetails),
 			weaponReloadTimer = 0f, 
-			weaponClipRemainingAmmo = weaponDetails.weaponClipAmmoCapacity, 
-			weaponRemainingAmmo = weaponDetails.weaponAmmoCapacity, 
+			weaponClipRemainingAmmo = weaponWeaponDetails.weaponClipAmmoCapacity, 
+			weaponRemainingAmmo = weaponWeaponDetails.weaponAmmoCapacity, 
 			isWeaponReloading = false 
 		};
+
+		playerWeapon.weaponDetails.AmmoDetails = Instantiate(weaponWeaponDetails.AmmoDetails);
 	}
 
 	/// <summary>

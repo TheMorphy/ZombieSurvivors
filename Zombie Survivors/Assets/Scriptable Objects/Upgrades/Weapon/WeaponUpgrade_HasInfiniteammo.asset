@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9abcf25bd377c8a4588a0e3ceeec4bc0, type: 3}
   m_Name: WeaponUpgrade_HasInfiniteammo
   m_EditorClassIdentifier: 
+  UpgradeType: 2
+  WeaponStats: 5
+  FloatValue: 10
   IntValue: 0
-  FloatValue: 8
-  BoolValue: 0
-  UpgradeAction: 1
+  Toggle: 0
+  UpgradeAction: 0

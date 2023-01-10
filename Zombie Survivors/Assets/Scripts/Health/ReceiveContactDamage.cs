@@ -9,7 +9,7 @@ public class ReceiveContactDamage : MonoBehaviour
 	#region Header
 	[Header("The contact damage amount to receive")]
 	#endregion
-	[SerializeField] private int contactDamageAmount;
+	private int contactDamageAmount;
 	private Health health;
 
 	private void Awake()

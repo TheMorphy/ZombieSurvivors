@@ -1,27 +1,14 @@
 using System;
-using UnityEngine;
 
-public class UpgradesManager : MonoBehaviour
+public static class UpgradesManager
 {
-	#region SINLETON
-	public static UpgradesManager Instance;
+	public static event Action<WeaponUpgradeEventArgs> OnWeaponUpgrade;
+	public static event Action<AmmoUpgradeEventArgs> OnAmmoUpgrade;
+	public static event Action<PlayerStatUpgradeEventArgs> OnPlayerStatUpgrade;
 
-	private void Awake()
+	public static void UpgradeWeapon(WeaponStats weaponStat, UpgradeAction upgradeAction, float cardFloatValue = 0, int cardIntValue = 0, bool cardBoolValue = false)
 	{
-		if (Instance == null)
-			Instance = this;
-		else
-			Destroy(gameObject);
-	}
-	#endregion
-
-	public event Action<UpgradesManager, WeaponUpgradeEventArgs> OnWeaponUpgrade;
-	public event Action<UpgradesManager, AmmoUpgradeEventArgs> OnAmmoUpgrade;
-	public event Action<UpgradesManager, PlayerStatUpgradeEventArgs> OnPlayerStatUpgrade;
-
-	public void UpgradeWeapon(WeaponStats weaponStat, UpgradeAction upgradeAction, float cardFloatValue = 0, int cardIntValue = 0, bool cardBoolValue = false)
-	{
-		OnWeaponUpgrade?.Invoke(this, new WeaponUpgradeEventArgs()
+		OnWeaponUpgrade?.Invoke(new WeaponUpgradeEventArgs()
 		{
 			boolValue = cardBoolValue,
 			intValue = cardIntValue,
@@ -31,9 +18,9 @@ public class UpgradesManager : MonoBehaviour
 		});
 	}
 
-	public void UpgradeAmmo(AmmoStats ammoStat, UpgradeAction upgradeAction, float cardFloatValue = 0, int cardIntValue = 0, bool cardBoolValue = false)
+	public static void UpgradeAmmo(AmmoStats ammoStat, UpgradeAction upgradeAction, float cardFloatValue = 0, int cardIntValue = 0, bool cardBoolValue = false)
 	{
-		OnAmmoUpgrade?.Invoke(this, new AmmoUpgradeEventArgs()
+		OnAmmoUpgrade?.Invoke(new AmmoUpgradeEventArgs()
 		{
 			boolValue = cardBoolValue,
 			intValue = cardIntValue,
@@ -43,9 +30,9 @@ public class UpgradesManager : MonoBehaviour
 		});
 	}
 
-	public void UpgradePlayerStat(PlayerStats playerStat, UpgradeAction upgradeAction, float cardFloatValue = 0, int cardIntValue = 0, bool cardBoolValue = false)
+	public static void UpgradePlayerStat(PlayerStats playerStat, UpgradeAction upgradeAction, float cardFloatValue = 0, int cardIntValue = 0, bool cardBoolValue = false)
 	{
-		OnPlayerStatUpgrade?.Invoke(this, new PlayerStatUpgradeEventArgs()
+		OnPlayerStatUpgrade?.Invoke(new PlayerStatUpgradeEventArgs()
 		{
 			boolValue = cardBoolValue,
 			intValue = cardIntValue,

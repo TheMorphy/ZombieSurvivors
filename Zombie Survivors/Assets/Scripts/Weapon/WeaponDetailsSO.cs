@@ -41,9 +41,7 @@ public class WeaponDetailsSO : BaseScriptableObject
 	private Vector3 weaponShootPosition;
 	public Vector3 WeaponShootPosition { get { return weaponShootPosition; } }
 
-	[SerializeField]
-	private AmmoDetailsSO ammoDetails;
-	public AmmoDetailsSO AmmoDetails { get { return ammoDetails; } }
+	public AmmoDetailsSO AmmoDetails;
 
 	[Tooltip("Has unlimited ammo")]
 	public bool hasInfiniteAmmo = true;
@@ -72,7 +70,6 @@ public class WeaponDetailsSO : BaseScriptableObject
 
 	[Tooltip("The time between bursts")]
 	public float burstInterval = 0.5f;
-
 
 	#region Header UPGRADES
 	[Space(5)]

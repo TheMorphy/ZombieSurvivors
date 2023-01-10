@@ -2,12 +2,11 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
-using System.Linq;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 
 public class LevelUI : MonoBehaviour
 {
+	public event Action OnUpgradeSet;
+
 	[SerializeField] private GameObject[] upgradeCards;
 	private Image[] cardsImages;
 	private TextMeshProUGUI[] cardsDescriptions;
@@ -51,11 +50,12 @@ public class LevelUI : MonoBehaviour
 			switch (upgradeType)
 			{
 				case UpgradeType.WeaponUpgrade:
-					statName = Utilities.GetRandomEnumName<WeaponStats>();
-					tempText = Utilities.GetDescription<WeaponStats>(statName);
-
+					
 					var weaponStatsUpgradesList = GameManager.Instance.GetPlayer().activeWeapon.GetCurrentWeapon().weaponDetails.WeaponUpgrades;
 					int randomWeaponStatsUpgradesListIndex = UnityEngine.Random.Range(0, weaponStatsUpgradesList.Count);
+
+					statName = weaponStatsUpgradesList[randomWeaponStatsUpgradesListIndex].WeaponStats.ToString();
+					tempText = Utilities.GetDescription<WeaponStats>(statName);
 
 					tempImg = GameManager.Instance.GetPlayer().activeWeapon.GetCurrentWeapon().weaponDetails.WeaponPicture;
 
@@ -65,13 +65,14 @@ public class LevelUI : MonoBehaviour
 					break;
 
 				case UpgradeType.AmmoUpgrade:
-					statName = Utilities.GetRandomEnumName<AmmoStats>();
-					tempText = Utilities.GetDescription<AmmoStats>(statName);
 
 					var ammoUpgradesList = GameManager.Instance.GetPlayer().activeWeapon.GetCurrentAmmo().AmmoUpgrades;
 					int randomAmmoUpgradesListIndex = UnityEngine.Random.Range(0, ammoUpgradesList.Count);
 
 					tempImg = GameManager.Instance.GetPlayer().activeWeapon.GetCurrentAmmo().AmmoPicture;
+
+					statName = ammoUpgradesList[randomAmmoUpgradesListIndex].AmmoStats.ToString();
+					tempText = Utilities.GetDescription<AmmoStats>(statName);
 
 					toggleValue = ammoUpgradesList[randomAmmoUpgradesListIndex].Toggle;
 					upgradeAction = ammoUpgradesList[randomAmmoUpgradesListIndex].UpgradeAction;
@@ -79,11 +80,12 @@ public class LevelUI : MonoBehaviour
 					break;
 
 				case UpgradeType.PlayerStatUpgrade:
-					statName = Utilities.GetRandomEnumName<PlayerStats>();
-					tempText = Utilities.GetDescription<PlayerStats>(statName);
 
 					var playerStatsUpgradesList = GameManager.Instance.GetPlayer().playerDetails.PlayerStatsUpgrades;
 					int randomplayerStatsUpgradesListIndex = UnityEngine.Random.Range(0, playerStatsUpgradesList.Count);
+
+					statName = playerStatsUpgradesList[randomplayerStatsUpgradesListIndex].PlayerStats.ToString();
+					tempText = Utilities.GetDescription<PlayerStats>(statName);
 
 					tempImg = GameManager.Instance.GetPlayer().activeWeapon.GetCurrentAmmo().AmmoPicture;
 
@@ -98,6 +100,11 @@ public class LevelUI : MonoBehaviour
 
 			DisplayCardInfo(cardsImages[i], cardsDescriptions[i]);
 		}
+	}
+
+	public void CallCardSelectedEvent()
+	{
+		OnUpgradeSet?.Invoke();
 	}
 
 	private void DisplayCardInfo(Image cardImage, TextMeshProUGUI cardDescription)
@@ -129,11 +136,6 @@ public class LevelUI : MonoBehaviour
 		}
 	}
 
-	public void DisableUI()
-	{
-		gameObject.SetActive(false);
-	}
-
 	private void SetExperienceBarSize(float experienceNormalized)
 	{
 		experienceBarImage.fillAmount = experienceNormalized;
@@ -158,8 +160,6 @@ public class LevelUI : MonoBehaviour
 	private void LevelSystem_OnLevelChanged(object sender, EventArgs eventArgs)
 	{
 		SetLevelNumber(levelSystem.GetPlayerLevel());
-
-		gameObject.SetActive(true);
 
 		InitializeUpgradeCards();
 	}

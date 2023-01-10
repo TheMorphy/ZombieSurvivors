@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01b4c492d6041d47874659724fdf62a, type: 3}
   m_Name: PlayerStatsUpgrade_Health
   m_EditorClassIdentifier: 
-  PlayerStats: 0
+  UpgradeType: 2
+  PlayerStats: 1
+  FloatValue: 15
+  Toggle: 0
   IntValue: 0
-  FloatValue: 0
-  UpgradeAction: 0
+  UpgradeAction: 2

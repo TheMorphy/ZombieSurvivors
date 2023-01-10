@@ -81,7 +81,7 @@ public class FireWeapon : MonoBehaviour
 		IsFiring = true;
 
 		int ammoPerShot = activeWeapon.GetCurrentAmmo().ammoPerShot;
-		float spreadAngle = activeWeapon.GetCurrentAmmo().ammoShootAngle;
+		float spreadAngle = activeWeapon.GetCurrentAmmo().ammoSpread;
 
 		// Only Spread Shot is enabled
 		if (activeWeapon.GetCurrentWeapon().weaponDetails.burstFire == false && activeWeapon.GetCurrentWeapon().weaponDetails.spreadShot == true)
@@ -129,7 +129,7 @@ public class FireWeapon : MonoBehaviour
 		Vector3 direction = rot * activeWeapon.GetShootFirePointTransform().forward;
 
 		Ammo ammo = PoolManager.Instance.SpawnFromPool("Ammo", activeWeapon.GetShootPosition(), Quaternion.identity).GetComponent<Ammo>();
-		ammo.InitialiseAmmo(activeWeapon.GetCurrentWeapon().ammoDetails, direction);
+		ammo.InitialiseAmmo(activeWeapon.GetCurrentWeapon().weaponDetails.AmmoDetails, direction);
 	}
 
 	private void SpreadShot(int ammoPerShot, float spreadAngle)
@@ -144,7 +144,7 @@ public class FireWeapon : MonoBehaviour
 			Vector3 direction = rotation * activeWeapon.GetShootFirePointTransform().forward;
 
 			Ammo ammo = PoolManager.Instance.SpawnFromPool("Ammo", activeWeapon.GetShootPosition(), Quaternion.identity).GetComponent<Ammo>();
-			ammo.InitialiseAmmo(activeWeapon.GetCurrentWeapon().ammoDetails, direction);
+			ammo.InitialiseAmmo(activeWeapon.GetCurrentWeapon().weaponDetails.AmmoDetails, direction);
 		}
 	}
 
@@ -166,7 +166,7 @@ public class FireWeapon : MonoBehaviour
 
 				// ... fire a bullet
 				Ammo ammo = PoolManager.Instance.SpawnFromPool("Ammo", activeWeapon.GetShootPosition(), Quaternion.identity).GetComponent<Ammo>();
-				ammo.InitialiseAmmo(activeWeapon.GetCurrentWeapon().ammoDetails, direction);
+				ammo.InitialiseAmmo(activeWeapon.GetCurrentWeapon().weaponDetails.AmmoDetails, direction);
 
 				// Increment the burst counter
 				burstCounter++;

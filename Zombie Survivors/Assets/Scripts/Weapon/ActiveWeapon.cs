@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-using System;
 
 [RequireComponent(typeof(SetActiveWeaponEvent))]
 [DisallowMultipleComponent]
@@ -22,30 +18,11 @@ public class ActiveWeapon : MonoBehaviour
 	private void OnEnable()
 	{
 		setWeaponEvent.OnSetActiveWeapon += SetWeaponEvent_OnSetActiveWeapon;
-
-		UpgradesManager.Instance.OnWeaponUpgrade += Instance_OnWeaponUpgrade;
-		UpgradesManager.Instance.OnAmmoUpgrade += Instance_OnAmmoUpgrade;
 	}
 
 	private void OnDisable()
 	{
 		setWeaponEvent.OnSetActiveWeapon -= SetWeaponEvent_OnSetActiveWeapon;
-
-		UpgradesManager.Instance.OnWeaponUpgrade -= Instance_OnWeaponUpgrade;
-		UpgradesManager.Instance.OnAmmoUpgrade -= Instance_OnAmmoUpgrade;
-	}
-
-	private void Instance_OnWeaponUpgrade(UpgradesManager arg1, WeaponUpgradeEventArgs weaponUpgradeEventArgs)
-	{
-		currentWeapon.UpgradeWeapon(
-			weaponUpgradeEventArgs.weaponStats,
-			weaponUpgradeEventArgs.floatValue,
-			weaponUpgradeEventArgs.upgradeAction);
-	}
-
-	private void Instance_OnAmmoUpgrade(UpgradesManager arg1, AmmoUpgradeEventArgs ammoUpgradeEventArgs)
-	{
-		currentWeapon.UpgradeAmmo(ammoUpgradeEventArgs.ammoStats, ammoUpgradeEventArgs.floatValue, ammoUpgradeEventArgs.upgradeAction);
 	}
 
 	private void SetWeaponEvent_OnSetActiveWeapon(SetActiveWeaponEvent setActiveWeaponEvent, SetActiveWeaponEventArgs setActiveWeaponEventArgs)
@@ -57,7 +34,7 @@ public class ActiveWeapon : MonoBehaviour
 	{
 		currentWeapon = weapon;
 
-		currentWeapon.ammoDetails = weapon.weaponDetails.AmmoDetails;
+		currentWeapon.weaponDetails.AmmoDetails = weapon.weaponDetails.AmmoDetails;
 
 		// Set weapon shoot position
 		weaponShootPositionTransform.localPosition = currentWeapon.weaponDetails.WeaponShootPosition;
@@ -70,7 +47,7 @@ public class ActiveWeapon : MonoBehaviour
 
 	public AmmoDetailsSO GetCurrentAmmo()
 	{
-		return currentWeapon.ammoDetails;
+		return currentWeapon.weaponDetails.AmmoDetails;
 	}
 
 	public Vector3 GetShootPosition()

@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e01b4c492d6041d47874659724fdf62a, type: 3}
   m_Name: PlayerStatsUpgrade_MoveSpeed
   m_EditorClassIdentifier: 
+  UpgradeType: 2
   PlayerStats: 0
+  FloatValue: 2
+  Toggle: 0
   IntValue: 0
-  FloatValue: 0
-  UpgradeAction: 0
+  UpgradeAction: 1

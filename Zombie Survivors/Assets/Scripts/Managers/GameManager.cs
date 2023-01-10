@@ -35,6 +35,8 @@ public class GameManager : MonoBehaviour
 		InstantiatePlayer();
 	}
 
+	//------- TODO: Make StopCoroutines -------------
+
 	private void Start()
 	{
 		StartCoroutine(enemySpawner.SpawnEnemies());
@@ -42,22 +44,28 @@ public class GameManager : MonoBehaviour
 
 	private void OnEnable()
 	{
-		// Subscribe to player destroyed event
-		player.destroyedEvent.OnDestroyed += Player_OnDestroyed;
+		levelUI.OnUpgradeSet += LevelUI_OnUpgradeSet;
 
+		levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
 	}
+
 	private void OnDisable()
 	{
-		// Unsubscribe from player destroyed event
-		player.destroyedEvent.OnDestroyed -= Player_OnDestroyed;
+		levelUI.OnUpgradeSet -= LevelUI_OnUpgradeSet;
+
+		levelSystem.OnLevelChanged -= LevelSystem_OnLevelChanged;
 	}
 
-	/// <summary>
-	/// Handle player destroyed event
-	/// </summary>
-	private void Player_OnDestroyed(DestroyedEvent destroyedEvent, DestroyedEventArgs destroyedEventArgs)
+	private void LevelUI_OnUpgradeSet()
 	{
-		StopAllCoroutines();
+		levelUI.gameObject.SetActive(false);
+		player.playerController.EnablePlayerMovement();
+	}
+
+	private void LevelSystem_OnLevelChanged(object sender, System.EventArgs e)
+	{
+		player.playerController.DisablePlayerMovement();
+		levelUI.gameObject.SetActive(true);
 	}
 
 	private void InstantiatePlayer()

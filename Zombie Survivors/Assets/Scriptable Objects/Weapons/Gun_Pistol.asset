@@ -15,7 +15,7 @@ MonoBehaviour:
   type: 0
   weaponPicture: {fileID: 21300000, guid: 0a4da12ff51bd83498216f698c7f20fa, type: 3}
   weaponShootPosition: {x: 0, y: 0.38, z: 0.914}
-  ammoDetails: {fileID: 11400000, guid: dfe25199ac408f742888f091e130ebba, type: 2}
+  AmmoDetails: {fileID: 11400000, guid: dfe25199ac408f742888f091e130ebba, type: 2}
   hasInfiniteAmmo: 1
   hasInfiniteClipCapacity: 0
   burstFire: 1

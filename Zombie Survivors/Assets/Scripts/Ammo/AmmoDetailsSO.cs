@@ -14,8 +14,8 @@ public enum AmmoStats
 	AmmoRange,
 	[Description("Ammo Speed")]
 	AmmoSpeed,
-	[Description("Ammo Spread Angle")]
-	AmmoShootAngle
+	[Description("Ammo Spread")]
+	AmmoSpread
 }
 
 
@@ -46,7 +46,7 @@ public class AmmoDetailsSO : BaseScriptableObject
 	public float ammoSpeed = 100;
 
 	[Tooltip("Ammo direction offset on X and Z axis (in degrees). Don't go too high")]
-	public float ammoShootAngle = 0;
+	public float ammoSpread = 0;
 
 	#region Header AMMO TRAIL DETAILS
 	[Space(10)]

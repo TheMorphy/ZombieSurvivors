@@ -48,7 +48,7 @@ public class Health : MonoBehaviour
 	/// <summary>
 	/// Increase health by specified percent
 	/// </summary>
-	public void AddHealth(int healthPercent)
+	public void AddHealthByPercentage(int healthPercent)
 	{
 		int healthIncrease = Mathf.RoundToInt((startingHealth * healthPercent) / 100f);
 
@@ -64,6 +64,24 @@ public class Health : MonoBehaviour
 		}
 
 		CallHealthEvent(0);
+	}
+
+	public void UpgradPlayerHealth(float value, UpgradeAction upgradeAction)
+	{
+		if (upgradeAction == UpgradeAction.Add)
+		{ 
+			currentHealth += ((int)value);
+
+		}
+		else if (upgradeAction == UpgradeAction.Multiply)
+		{
+			currentHealth = ((int)(currentHealth * value));
+		}
+		else if (upgradeAction == UpgradeAction.Increase_Percentage)
+		{
+			currentHealth = ((int)Utilities.ApplyPercentage(value, currentHealth));
+		}
+			
 	}
 
 }

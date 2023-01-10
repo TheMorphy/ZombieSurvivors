@@ -28,8 +28,8 @@ public class PlayerDetailsSO : BaseScriptableObject
 	public GameObject PlayerPrefab { get { return playerPrefab; } }
 
 	[SerializeField]
-	private WeaponDetailsSO startingWeaponDetails;
-	public WeaponDetailsSO StartingWeaponDetails { get { return startingWeaponDetails; } }
+	private WeaponDetailsSO playerWeaponDetails;
+	public WeaponDetailsSO PlayerWeaponDetails { get { return playerWeaponDetails; } }
 
 	public int Health = 100;
 
@@ -44,30 +44,6 @@ public class PlayerDetailsSO : BaseScriptableObject
 	[SerializeField]
 	private List<PlayerStatsUpgradeDetails> playerStatsUpgrades;
 	public List<PlayerStatsUpgradeDetails> PlayerStatsUpgrades { get { return playerStatsUpgrades; } }
-
-	public void UpgradPlayerBaseStats(PlayerStats statType, float value, UpgradeAction upgradeAction)
-	{
-		switch(statType)
-		{
-			case PlayerStats.MoveSpeed:
-				if (upgradeAction == UpgradeAction.Add)
-					MoveSpeed += value;
-				else if (upgradeAction == UpgradeAction.Multiply)
-					MoveSpeed *= value;
-				else if (upgradeAction == UpgradeAction.Increase_Percentage)
-					MoveSpeed = Utilities.ApplyPercentage(value, MoveSpeed);
-				break;
-
-			case PlayerStats.Health:
-				if (upgradeAction == UpgradeAction.Add)
-					Health += (int)value;
-				else if (upgradeAction == UpgradeAction.Multiply)
-					Health = (int)(Health * value);
-				else if (upgradeAction == UpgradeAction.Increase_Percentage)
-					Health = (int)Utilities.ApplyPercentage(value, Health);
-				break;
-		}
-	}
 }
 
 public enum PlayerClass

@@ -5,10 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(HealthEvent))]
 [RequireComponent(typeof(EnemyController))]
-[RequireComponent(typeof(DestroyedEvent))]
 [RequireComponent(typeof(DealContactDamage))]
 [RequireComponent(typeof(AnimateEnemy))]
-[RequireComponent(typeof(Destroyed))]
 [RequireComponent(typeof(Animator))]
 [DisallowMultipleComponent]
 public class Enemy : MonoBehaviour
@@ -16,7 +14,6 @@ public class Enemy : MonoBehaviour
 	[HideInInspector] public EnemyDetailsSO enemyDetails;
 	[HideInInspector] public EnemyController enemyController;
 	[HideInInspector] public DealContactDamage dealContactDamage;
-	[HideInInspector] public DestroyedEvent destroyedEvent;
 	[HideInInspector] public AnimateEnemy animateEnemy;
 	[HideInInspector] public Animator animator;
 
@@ -26,7 +23,6 @@ public class Enemy : MonoBehaviour
 	private void Awake()
 	{
 		healthEvent = GetComponent<HealthEvent>();
-		destroyedEvent = GetComponent<DestroyedEvent>();
 		dealContactDamage = GetComponent<DealContactDamage>();
 		enemyController = GetComponent<EnemyController>();
 		animateEnemy = GetComponent<AnimateEnemy>();

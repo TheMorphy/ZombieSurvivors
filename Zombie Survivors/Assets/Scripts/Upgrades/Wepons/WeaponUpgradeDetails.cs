@@ -37,7 +37,7 @@ public class WeaponUpgradeDetails : ScriptableObject
 
 		public override void OnInspectorGUI()
 		{
-			serializedObject.Update();
+			EditorGUI.BeginChangeCheck();
 
 			EditorGUILayout.Space(10);
 
@@ -52,9 +52,16 @@ public class WeaponUpgradeDetails : ScriptableObject
 				case WeaponStats.weaponAmmoCapacity:
 				case WeaponStats.weaponClipAmmoCapacity:
 
-					weaponUpgradeDetails.FloatValue = EditorGUILayout.FloatField("Value", weaponUpgradeDetails.FloatValue);
-
 					weaponUpgradeDetails.UpgradeAction = (UpgradeAction)EditorGUILayout.EnumPopup("Value Action", weaponUpgradeDetails.UpgradeAction);
+
+					if (weaponUpgradeDetails.UpgradeAction != UpgradeAction.Toggle)
+					{
+						weaponUpgradeDetails.FloatValue = EditorGUILayout.FloatField("Value", weaponUpgradeDetails.FloatValue);
+					}
+					else
+					{
+						EditorGUILayout.HelpBox("Invalid value selected", MessageType.Error);
+					}
 
 					EditorGUILayout.Space(5);
 
@@ -75,7 +82,10 @@ public class WeaponUpgradeDetails : ScriptableObject
 					break;
 			}
 
-			serializedObject.ApplyModifiedProperties();
+			if (EditorGUI.EndChangeCheck())
+			{
+				EditorUtility.SetDirty(weaponUpgradeDetails);
+			}
 		}
 	}
 

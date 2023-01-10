@@ -10,6 +10,13 @@ public class UpgradeCard : MonoBehaviour
 
 	private UpgradeType upgradeType;
 
+	private LevelUI levelUI;
+
+	private void Awake()
+	{
+		levelUI = GetComponentInParent<LevelUI>();
+	}
+
 	// Initializes card with FLOAT value
 	public void InitializeCard(UpgradeType upgradeType, string statType, float cardFloatValue, bool cardBoolValue, UpgradeAction upgradeAction)
 	{
@@ -38,7 +45,7 @@ public class UpgradeCard : MonoBehaviour
 
 				WeaponStats weaponStat = Utilities.GetEnumValue<WeaponStats>(statType);
 
-				UpgradesManager.Instance.UpgradeWeapon(weaponStat, upgradeAction, cardFloatValue, cardIntValue, cardBoolValue);
+				UpgradesManager.UpgradeWeapon(weaponStat, upgradeAction, cardFloatValue, cardIntValue, cardBoolValue);
 
 				break;
 
@@ -46,15 +53,19 @@ public class UpgradeCard : MonoBehaviour
 
 				AmmoStats ammoStat = Utilities.GetEnumValue<AmmoStats>(statType);
 
-				UpgradesManager.Instance.UpgradeAmmo(ammoStat, upgradeAction, cardFloatValue, cardIntValue, cardBoolValue);
+				UpgradesManager.UpgradeAmmo(ammoStat, upgradeAction, cardFloatValue, cardIntValue, cardBoolValue);
+
 				break;
 
 			case UpgradeType.PlayerStatUpgrade:
 
 				PlayerStats playerStat = Utilities.GetEnumValue<PlayerStats>(statType);
 
-				UpgradesManager.Instance.UpgradePlayerStat(playerStat, upgradeAction, cardFloatValue, cardIntValue, cardBoolValue);
+				UpgradesManager.UpgradePlayerStat(playerStat, upgradeAction, cardFloatValue, cardIntValue, cardBoolValue);
+
 				break;
 		}
+
+		levelUI.CallCardSelectedEvent();
 	}
 }

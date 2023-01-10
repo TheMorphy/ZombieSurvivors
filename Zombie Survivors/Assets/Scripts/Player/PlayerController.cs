@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Player))]
@@ -10,6 +12,7 @@ public class PlayerController : MonoBehaviour
 	private Rigidbody rb;
 	private Player player;
 	private bool isPlayerMovementDisabled = false;
+	private Quaternion currentRotation;
 
 	[SerializeField] private Transform Torso;
 
@@ -28,34 +31,11 @@ public class PlayerController : MonoBehaviour
 		SetStartingWeapon();
 	}
 
-	private void OnEnable()
-	{
-		UpgradesManager.Instance.OnPlayerStatUpgrade += Instance_OnPlayerStatUpgrade;
-	}
-
-	private void OnDisable()
-	{
-		UpgradesManager.Instance.OnPlayerStatUpgrade -= Instance_OnPlayerStatUpgrade;
-	}
-
-	private void Instance_OnPlayerStatUpgrade(UpgradesManager arg1, PlayerStatUpgradeEventArgs playerStatUpgradeEventArgs)
-	{
-		Console.WriteLine($"{playerStatUpgradeEventArgs.playerStats} upgraded by {playerStatUpgradeEventArgs.floatValue}");
-
-		player.playerDetails.UpgradPlayerBaseStats(
-			playerStatUpgradeEventArgs.playerStats, 
-			playerStatUpgradeEventArgs.floatValue, 
-			playerStatUpgradeEventArgs.upgradeAction
-			);
-	}
-
 	private void Update()
 	{
 		if(!isPlayerMovementDisabled)
 		{
 			WeaponInput();
-			HandleRotations();
-
 		}
 	}
 
@@ -67,13 +47,6 @@ public class PlayerController : MonoBehaviour
 		HandleMovement();
 	}
 
-	/// <summary>
-	/// Set the player starting weapon
-	/// </summary>
-	private void SetStartingWeapon()
-	{
-		player.setActiveWeaponEvent.CallSetActiveWeaponEvent(player.playerWeapon);
-	}
 	private void HandleMovement()
 	{
 		rb.velocity = new Vector3(joystick.Horizontal * player.playerDetails.MoveSpeed, rb.velocity.y, joystick.Vertical * player.playerDetails.MoveSpeed);
@@ -82,6 +55,8 @@ public class PlayerController : MonoBehaviour
 		{
 			transform.rotation = Quaternion.LookRotation(rb.velocity);
 		}
+
+		HandleRotations();
 	}
 
 	private void HandleRotations()
@@ -96,6 +71,11 @@ public class PlayerController : MonoBehaviour
 		{
 			Torso.localRotation = Quaternion.Euler(0, 0, 0);
 		}
+	}
+
+	private void SetStartingWeapon()
+	{
+		player.setActiveWeaponEvent.CallSetActiveWeaponEvent(player.playerWeapon);
 	}
 
 	Transform GetClosestEnemy(List<Transform> enemies)
@@ -122,7 +102,7 @@ public class PlayerController : MonoBehaviour
 	/// </summary>
 	private void WeaponInput()
 	{
-		player.fireWeapon.FireWeapn();  // It just works, but always could be worse
+		player.fireWeapon.FireWeapn();
 
 		// Reload weapon input
 		ReloadWeaponInput();
@@ -142,21 +122,50 @@ public class PlayerController : MonoBehaviour
 		if (currentWeapon.weaponClipRemainingAmmo == currentWeapon.weaponDetails.weaponClipAmmoCapacity) return;
 	}
 
-	/// <summary>
-	/// Enable the player movement
-	/// </summary>
 	public void EnablePlayerMovement()
 	{
-		joystick.enabled = true;
+		joystick.gameObject.SetActive(true);
+
+		rb.velocity = Vector3.zero;
+
+		transform.rotation = currentRotation;
+
 		isPlayerMovementDisabled = false;
+
+		Time.timeScale = 1;
 	}
 
-	/// <summary>
-	/// Disable the player movement
-	/// </summary>
 	public void DisablePlayerMovement()
 	{
-		joystick.enabled = false;
+		joystick.transform.GetChild(0).gameObject.SetActive(false);
+
+		rb.velocity = Vector3.zero;
+
+		currentRotation = transform.rotation;
+
+		joystick.gameObject.SetActive(false);
+
 		isPlayerMovementDisabled = true;
+
+		Time.timeScale = 0;
+
+		joystick.ResetJoystick();
 	}
+
+	public void UpgradeMoveSpeed(float value, UpgradeAction upgradeAction)
+	{
+		if (upgradeAction == UpgradeAction.Add)
+		{
+			player.playerDetails.MoveSpeed += value;
+		}
+		else if (upgradeAction == UpgradeAction.Multiply)
+		{
+			player.playerDetails.MoveSpeed *= value;
+		}
+		else if (upgradeAction == UpgradeAction.Increase_Percentage)
+		{
+			player.playerDetails.MoveSpeed = Utilities.ApplyPercentage(value, player.playerDetails.MoveSpeed);
+		}
+	}
+
 }
