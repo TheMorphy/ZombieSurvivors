@@ -37,7 +37,7 @@ public class ActiveWeapon : MonoBehaviour
 		currentWeapon.weaponDetails.AmmoDetails = weapon.weaponDetails.AmmoDetails;
 
 		// Set weapon shoot position
-		weaponShootPositionTransform.localPosition = currentWeapon.weaponDetails.WeaponShootPosition;
+		//weaponShootPositionTransform.localPosition = currentWeapon.weaponDetails.WeaponShootPosition;
 	}
 
 	public Weapon GetCurrentWeapon()
