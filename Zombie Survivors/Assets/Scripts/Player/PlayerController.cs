@@ -51,6 +51,11 @@ public class PlayerController : MonoBehaviour
 	{
 		rb.velocity = new Vector3(joystick.Horizontal * player.playerDetails.MoveSpeed, rb.velocity.y, joystick.Vertical * player.playerDetails.MoveSpeed);
 
+		if (joystick.Horizontal != 0 || joystick.Vertical != 0)
+		{
+			transform.rotation = Quaternion.LookRotation(rb.velocity);
+		}
+
 		HandleRotations();
 	}
 
