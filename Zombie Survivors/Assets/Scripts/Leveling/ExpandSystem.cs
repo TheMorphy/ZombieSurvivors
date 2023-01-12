@@ -6,7 +6,7 @@ using UnityEngine;
 public class ExpandSystem : MonoBehaviour
 {
     private TextMeshPro multiplyCountUI;
-    private int randomMultiply;
+    private int randomNumber;
     private bool IsMultiplied;
 
 	private void Awake()
@@ -29,19 +29,19 @@ public class ExpandSystem : MonoBehaviour
 
 		if (IsMultiplied)
 		{
-			randomMultiply = Random.Range(2, 5);
-			multiplyCountUI.text = "X" + randomMultiply.ToString();
+			randomNumber = Random.Range(2, 6);
+			multiplyCountUI.text = "X" + randomNumber.ToString();
 		}
 		else
 		{
-			randomMultiply = Random.Range(5, 20);
+			randomNumber = Random.Range(5, 20);
 
-			if (randomMultiply % 2 != 0)
+			if (randomNumber % 2 != 0)
 			{
-				randomMultiply += 1;
+				randomNumber += 1;
 			}
 
-			multiplyCountUI.text = "+" + randomMultiply.ToString();
+			multiplyCountUI.text = "+" + randomNumber.ToString();
 		}
 	}
 
@@ -49,9 +49,9 @@ public class ExpandSystem : MonoBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
-			SquadControl squadControl = other.GetComponent<SquadControl>();
+			SquadControl squadControl = other.GetComponentInParent<SquadControl>();
 
-			squadControl.IncreaseSquadSize(randomMultiply, IsMultiplied);
+			squadControl.IncreaseSquadSize(randomNumber, IsMultiplied);
 		}
 	}
 	private void OnTriggerExit(Collider other)

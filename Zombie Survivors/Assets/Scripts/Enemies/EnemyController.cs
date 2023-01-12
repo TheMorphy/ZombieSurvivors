@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -5,17 +7,12 @@ using UnityEngine.AI;
 public class EnemyController : MonoBehaviour
 {
 	private NavMeshAgent _agent;
-	private Enemy enemy;
 
-	private Transform _player;
 	private Vector3 startPos;
 
 	private void Awake()
 	{
 		_agent = GetComponent<NavMeshAgent>();
-		enemy = GetComponent<Enemy>();
-
-		_player = GameObject.FindGameObjectWithTag("Player").transform;
 	}
 
 	private void Start()
@@ -27,10 +24,12 @@ public class EnemyController : MonoBehaviour
 	{
 		if(_agent.enabled)
 		{
-			if(_player != null)
+			if(SquadControl.ComradesTransforms.Count != 0)
 			{
-				_agent.destination = _player.position;
-				transform.LookAt(_player);
+				var target = GetClosestComrade(SquadControl.ComradesTransforms);
+
+				_agent.destination = target.position;
+				transform.LookAt(target);
 			}
 			else
 			{
@@ -40,7 +39,26 @@ public class EnemyController : MonoBehaviour
 			}
 		}
 	}
-	
+
+	Transform GetClosestComrade(List<Transform> comrades)
+	{
+		Transform bestTarget = null;
+		float closestDistanceSqr = Mathf.Infinity;
+		Vector3 currentPosition = transform.position;
+		for (int i = 0; i < comrades.Count; i++)
+		{
+			Vector3 directionToTarget = comrades[i].position - currentPosition;
+			float dSqrToTarget = directionToTarget.sqrMagnitude;
+			if (dSqrToTarget < closestDistanceSqr)
+			{
+				closestDistanceSqr = dSqrToTarget;
+				bestTarget = comrades[i];
+			}
+		}
+
+		return bestTarget;
+	}
+
 	public NavMeshAgent GetAgent()
 	{
 		return _agent;

@@ -7,7 +7,7 @@ public class ActiveWeapon : MonoBehaviour
 	[SerializeField] private Transform weaponShootPositionTransform;
 
 	private SetActiveWeaponEvent setWeaponEvent;
-	private Weapon currentWeapon;
+	private static Weapon currentWeapon;
 
 	private void Awake()
 	{

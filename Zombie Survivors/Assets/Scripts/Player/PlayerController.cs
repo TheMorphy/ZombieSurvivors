@@ -4,8 +4,6 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-[RequireComponent(typeof(Player))]
-[RequireComponent(typeof(Rigidbody))]
 [DisallowMultipleComponent]
 public class PlayerController : MonoBehaviour
 {
@@ -18,12 +16,12 @@ public class PlayerController : MonoBehaviour
 
 	[HideInInspector] private FloatingJoystick joystick;
 
-
+	
 	private void Awake()
 	{
 		joystick = GameObject.FindGameObjectWithTag("Joystick").GetComponent<FloatingJoystick>(); // I no like dis, but it works for now
 
-		rb = GetComponent<Rigidbody>();
+		rb = GetComponentInParent<Rigidbody>();
 		player = GetComponent<Player>();
 	}
 	private void Start()
@@ -53,10 +51,16 @@ public class PlayerController : MonoBehaviour
 
 		if (joystick.Horizontal != 0 || joystick.Vertical != 0)
 		{
-			transform.rotation = Quaternion.LookRotation(rb.velocity);
+			player.parent.rotation = Quaternion.LookRotation(rb.velocity);
+			transform.rotation = player.parent.rotation;
 		}
 
 		HandleRotations();
+	}
+
+	public Quaternion GetPlayerRotation()
+	{
+		return player.parent.rotation;
 	}
 
 	private void HandleRotations()
@@ -67,10 +71,6 @@ public class PlayerController : MonoBehaviour
 		{
 			Quaternion rotation = Quaternion.LookRotation(target.position - Torso.position);
 			Torso.rotation = Quaternion.RotateTowards(Torso.rotation, rotation, 720 * Time.deltaTime);
-		}
-		else
-		{
-			Torso.localRotation = Quaternion.Euler(0, 0, 0);
 		}
 	}
 
@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
 	{
 		Transform bestTarget = null;
 		float closestDistanceSqr = Mathf.Infinity;
-		Vector3 currentPosition = transform.position;
+		Vector3 currentPosition = player.parent.position;
 		for (int i = 0; i < enemies.Count; i++)
 		{
 			Vector3 directionToTarget = enemies[i].position - currentPosition;

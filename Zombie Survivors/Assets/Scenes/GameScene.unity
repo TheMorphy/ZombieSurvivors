@@ -749,7 +749,7 @@ MonoBehaviour:
   pools:
   - name: Ammo
     prefab: {fileID: 1993615782416687002, guid: 4c8179aaa3a189243ad2decfd582c084, type: 3}
-    size: 60
+    size: 200
 --- !u!1 &384481127
 GameObject:
   m_ObjectHideFlags: 0

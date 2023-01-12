@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
 		virtualCamera.LookAt = playerGameObject.transform;
 
 		// Initialize Player
-		player = playerGameObject.GetComponent<Player>();
+		player = playerGameObject.GetComponentInChildren<Player>();
 
 		player.Initialize(playerDetails);
 	}

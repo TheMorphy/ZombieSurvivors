@@ -1,11 +1,11 @@
 using DG.Tweening;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SquadControl : MonoBehaviour
 {
 	[SerializeField] private GameObject comradePrefab;
-	[SerializeField] private Transform squad;
 	private Player player;
 
 	[Range(0f, 1f)]
@@ -15,48 +15,57 @@ public class SquadControl : MonoBehaviour
 
 	public event Action<SquadControl, int> OnSquadIncrease;
 
+	public static List<Transform> ComradesTransforms = new List<Transform>();
+
 	private void Awake()
 	{
-		player = GetComponent<Player>();
+		player = GetComponentInChildren<Player>();
 	}
 
 	private void Start()
 	{
-		squadAmmount = 1;
+		squadAmmount = transform.childCount;
 	}
 
-	public void IncreaseSquadSize(int size, bool multiply)
+	public void IncreaseSquadSize(int randomValue, bool multiply)
 	{
 		if (multiply == false)
-			squadAmmount += size;
+		{
+			CreateComrades(randomValue + squadAmmount);
+		}
 		else
-			squadAmmount *= size;
+		{
+			CreateComrades(randomValue * squadAmmount);
 
-		CreateComrades(squadAmmount);
+		}
 	}
 
-	private void ApplyMultiplication(int comradesAmmount)
+	private void ApplyMultiplication()
 	{
-		for (int i = 0; i < comradesAmmount; i++)
+		for (int i = 0; i < transform.childCount; i++)
 		{
 			var x = DistanceFactor * Mathf.Sqrt(i) * Mathf.Cos(i * Radius);
 			var z = DistanceFactor * Mathf.Sqrt(i) * Mathf.Sin(i * Radius);
 
 			var newPos = new Vector3(x, transform.position.y, z);
 
-			squad.transform.GetChild(i).DOLocalMove(newPos, 1f).SetEase(Ease.OutBack);
+			transform.transform.GetChild(i).DOLocalMove(newPos, 0.7f).SetEase(Ease.OutBack);
 		}
 	}
 
-	public void CreateComrades(int comradesAmmount)
+	public void CreateComrades(int number)
 	{
-		for (int i = 0; i < comradesAmmount; i++)
+		for (int i = squadAmmount; i < number; i++)
 		{
-			GameObject comObj = Instantiate(comradePrefab, transform.position, Quaternion.identity, squad);
+			GameObject comObj = Instantiate(comradePrefab, transform.position, Quaternion.identity, transform);
 			comObj.GetComponent<Comrade>().SetPlayerReference(player);
+
+			ComradesTransforms.Add(comObj.transform);
 		}
 
-		ApplyMultiplication(comradesAmmount);
+		squadAmmount = transform.childCount;
+
+		ApplyMultiplication();
 
 		OnSquadIncrease?.Invoke(this, squadAmmount);
 	}

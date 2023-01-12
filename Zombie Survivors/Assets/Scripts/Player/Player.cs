@@ -20,7 +20,6 @@ using UnityEngine;
 [RequireComponent(typeof(WeaponReloadedEvent))]
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(AnimatePlayer))]
-[RequireComponent(typeof(SquadControl))]
 [DisallowMultipleComponent]
 #endregion REQUIRE COMPONENTS
 
@@ -38,8 +37,8 @@ public class Player : MonoBehaviour
 	[HideInInspector] public ReloadWeaponEvent reloadWeaponEvent;
 	[HideInInspector] public WeaponReloadedEvent weaponReloadedEvent;
 	[HideInInspector] public AnimatePlayer animatePlayer;
-	[HideInInspector] public SquadControl squadControl;
 	[HideInInspector] public Animator animator;
+	[HideInInspector] public Transform parent;
 
 	[HideInInspector] public Weapon playerWeapon;
 
@@ -55,9 +54,14 @@ public class Player : MonoBehaviour
 		weaponFiredEvent = GetComponent<WeaponFiredEvent>();
 		reloadWeaponEvent = GetComponent<ReloadWeaponEvent>();
 		weaponReloadedEvent = GetComponent<WeaponReloadedEvent>();
+		parent = GetComponentInParent<Transform>();
 		animatePlayer = GetComponent<AnimatePlayer>();
-		squadControl = GetComponent<SquadControl>();
 		animator = GetComponent<Animator>();
+	}
+
+	private void Start()
+	{
+		SquadControl.ComradesTransforms.Add(transform);
 	}
 
 	private void OnEnable()

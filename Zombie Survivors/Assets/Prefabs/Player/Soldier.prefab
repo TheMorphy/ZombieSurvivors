@@ -587,7 +587,6 @@ Transform:
   m_Children:
   - {fileID: 8979901039091823495}
   - {fileID: 6720973841989613833}
-  - {fileID: 7725900491018740188}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -601,10 +600,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 0.4
+  m_Height: 2.5
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 1.25, z: 0.17}
 --- !u!54 &3373127689159597602
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -619,7 +618,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 1
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!95 &326212420209660602
 Animator:
@@ -842,9 +841,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   comradePrefab: {fileID: 321057240856242775, guid: 3dba209ac090101498332cd7b4d18bff, type: 3}
-  squad: {fileID: 7725900491018740188}
-  DistanceFactor: 0.75
-  Radius: 0.75
+  DistanceFactor: 0.62
+  Radius: 1
   squadAmmount: 0
 --- !u!1 &3393729045926103036
 GameObject:
@@ -1365,37 +1363,6 @@ Transform:
   - {fileID: 9005904527795775363}
   m_Father: {fileID: 4519054249031442003}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6700329756100011027
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7725900491018740188}
-  m_Layer: 0
-  m_Name: Squad
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7725900491018740188
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6700329756100011027}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3373127689159597592}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6842164200071660271
 GameObject:
