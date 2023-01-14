@@ -15,6 +15,7 @@ public class Comrade : MonoBehaviour
 	[HideInInspector] public Player Player;
 	[HideInInspector] public Animator Animator;
 	[HideInInspector] public AnimatePlayer AnimatePlayer;
+	[HideInInspector] public ComradeMovement ComradeMovement;
 	[HideInInspector] public Health Health;
 	[HideInInspector] public FireWeapon FireWeapon;
 	[HideInInspector] public ActiveWeapon ActiveWeapon;
@@ -25,6 +26,7 @@ public class Comrade : MonoBehaviour
 	{
 		Player = GetComponentInParent<Player>();
 		Animator = GetComponent<Animator>();
+		ComradeMovement = GetComponent<ComradeMovement>();
 		AnimatePlayer = GetComponent<AnimatePlayer>();
 		HealthEvent = GetComponent<HealthEvent>();
 		ActiveWeapon = GetComponent<ActiveWeapon>();
@@ -42,6 +44,8 @@ public class Comrade : MonoBehaviour
 
 	private void OnEnable()
 	{
+		SquadControl.ComradesTransforms.Add(transform);
+
 		HealthEvent.OnHealthChanged += HealthEvent_OnHealthChanged;
 	}
 

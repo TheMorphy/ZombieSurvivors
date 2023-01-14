@@ -9,6 +9,9 @@ public class AnimatePlayer : MonoBehaviour
 
 	public List<Collider> ragdollParts = new List<Collider>();
 
+	private float counter;
+	private float duration = 4f;
+
 	private void Awake()
 	{
 		comrade = GetComponent<Comrade>();
@@ -23,14 +26,15 @@ public class AnimatePlayer : MonoBehaviour
 
 	public void TurnOnRagdoll()
 	{
+		comrade.ComradeMovement.enabled = false;
+
 		transform.parent = null;
 		SquadControl.ComradesTransforms.Remove(transform);
 
-		comrade.FireWeapon.enabled = false;
 		comrade.Animator.enabled = false;
 		comrade.Animator.avatar = null;
 
-		gameObject.GetComponent<CapsuleCollider>().enabled = false;
+		gameObject.GetComponent<Collider>().enabled = false;
 
 		for (int i = 0; i < ragdollParts.Count; i++)
 		{
@@ -57,7 +61,16 @@ public class AnimatePlayer : MonoBehaviour
 
 	private IEnumerator Die()
 	{
-		yield return new WaitForSeconds(1);
+		yield return new WaitForSeconds(3f);
+
+		while (counter < duration)
+		{
+			counter += Time.deltaTime;
+
+			transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, Time.deltaTime * 2);
+			yield return null;
+		}
+
 		Destroy(gameObject);
 	}
 }

@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour
 		{
 			enemyController.GetAgent().isStopped = true;
 
-			animator.SetTrigger("Die");
+			//animator.SetTrigger("Die");
 			//destroyedEvent.CallDestroyedEvent(false, health.GetStartingHealth());
 		}
 	}

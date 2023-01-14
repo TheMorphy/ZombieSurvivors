@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 321057240856242774}
-  - component: {fileID: 8077317747272041666}
+  - component: {fileID: 2065891253324402850}
   - component: {fileID: 7754149071419856629}
   - component: {fileID: -8681231679938499642}
   - component: {fileID: 7864186590533768608}
@@ -46,8 +46,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &8077317747272041666
-CapsuleCollider:
+--- !u!65 &2065891253324402850
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -56,10 +56,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2.5
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.25, z: 0}
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2.342465, z: 1}
+  m_Center: {x: 0, y: 1.1712325, z: 0}
 --- !u!95 &7754149071419856629
 Animator:
   serializedVersion: 5
@@ -95,6 +94,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   Animator: {fileID: 0}
   AnimatePlayer: {fileID: 0}
+  ComradeMovement: {fileID: 0}
   Health: {fileID: 0}
   FireWeapon: {fileID: 0}
   ActiveWeapon: {fileID: 0}
@@ -459,8 +459,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.45500645, y: 0.68071055, z: 0.47659427}
-  m_Center: {x: -0.22750323, y: 0.25926006, z: 0.019471213}
+  m_Size: {x: 0.8331803, y: 0.6220282, z: 0.47036356}
+  m_Center: {x: -0.038416304, y: 0.2886013, z: 0.12251982}
 --- !u!54 &7798262973401702381
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1124,10 +1124,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.07722189
-  m_Height: 0.27986902
+  m_Radius: 0.11773389
+  m_Height: 0.31638104
   m_Direction: 1
-  m_Center: {x: 0.003094833, y: 0.24000002, z: 0.056554966}
+  m_Center: {x: 0.0030947044, y: 0.2565447, z: 0.08046597}
 --- !u!54 &3880558687766981099
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1301,8 +1301,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.4955709, y: 0.6872368, z: 0.47337282}
-  m_Center: {x: 0.24778545, y: 0.112259865, z: 0.031498224}
+  m_Size: {x: 0.9293051, y: 0.8885608, z: 0.35614577}
+  m_Center: {x: 0.030921955, y: 0.18546328, z: -0.30416107}
 --- !u!54 &9163507886636898454
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1616,8 +1616,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.48929766
-  m_Center: {x: -0.0000000056089347, y: 0.41554645, z: -0.02724084}
+  m_Radius: 0.50976664
+  m_Center: {x: -0.000000039818087, y: 0.3777964, z: -0.004669488}
 --- !u!54 &9068513822774150820
 Rigidbody:
   m_ObjectHideFlags: 0

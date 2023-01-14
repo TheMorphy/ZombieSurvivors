@@ -6,7 +6,6 @@ using UnityEngine;
 public class SquadControl : MonoBehaviour
 {
 	[SerializeField] private GameObject comradePrefab;
-	private Player player;
 
 	[Range(0f, 1f)]
 	[SerializeField] private float DistanceFactor, Radius;
@@ -16,11 +15,6 @@ public class SquadControl : MonoBehaviour
 	public event Action<SquadControl, int> OnSquadIncrease;
 
 	public static List<Transform> ComradesTransforms = new List<Transform>();
-
-	private void Awake()
-	{
-		player = GetComponentInChildren<Player>();
-	}
 
 	private void Start()
 	{
@@ -57,9 +51,7 @@ public class SquadControl : MonoBehaviour
 	{
 		for (int i = squadAmmount; i < number; i++)
 		{
-			GameObject comrade = Instantiate(comradePrefab, transform.position, Quaternion.identity, transform);
-
-			ComradesTransforms.Add(comrade.transform);
+			Instantiate(comradePrefab, transform.position, Quaternion.identity, transform);
 		}
 
 		squadAmmount = transform.childCount - 1;
