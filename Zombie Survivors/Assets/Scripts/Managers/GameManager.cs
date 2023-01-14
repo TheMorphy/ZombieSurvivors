@@ -1,4 +1,5 @@
 using Cinemachine;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,7 +9,7 @@ public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
 
-	[SerializeField] private int SurviveTime = 10;
+	[SerializeField] private float SurviveTime = 10;
 	private float timeElapsed = 0;
 
 	[SerializeField] private EnemySpawner enemySpawner;
@@ -21,6 +22,11 @@ public class GameManager : MonoBehaviour
 	private Player player;
 
 	public static List<GameObject> createdEnemies = new List<GameObject>();
+
+	// To make sure that circle doesn't spawn on the edge
+	private float spawnMargin = 5;
+	private Vector3 spawnPos;
+	private Bounds groundBounds;
 
 	private void Awake()
 	{
@@ -39,12 +45,18 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
+		SurviveTime *= 60;
+
+		groundBounds = GameObject.FindGameObjectWithTag("Ground").GetComponent<MeshCollider>().bounds;
+
 		StartCoroutine(enemySpawner.SpawnEnemies(timeElapsed));
+
+		StartCoroutine(SpawnNewExpandAreaAtRandomPosition());
 	}
 
 	private void Update()
 	{
-		timeElapsed += Time.deltaTime;
+		SurviveTime -= Time.deltaTime;
 	}
 
 	private void OnEnable()
@@ -52,6 +64,10 @@ public class GameManager : MonoBehaviour
 		levelUI.OnUpgradeSet += LevelUI_OnUpgradeSet;
 
 		levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
+
+		//player.squadControl.OnSquadIncrease += SquadControl_OnSquadIncrease;
+
+		//player.destroyedEvent.OnDestroyed += Player_OnDestroyed;
 	}
 
 	private void OnDisable()
@@ -59,7 +75,18 @@ public class GameManager : MonoBehaviour
 		levelUI.OnUpgradeSet -= LevelUI_OnUpgradeSet;
 
 		levelSystem.OnLevelChanged -= LevelSystem_OnLevelChanged;
+
+		//player.squadControl.OnSquadIncrease -= SquadControl_OnSquadIncrease;
+
+		//player.destroyedEvent.OnDestroyed -= Player_OnDestroyed;
 	}
+
+	//private void SquadControl_OnSquadIncrease(SquadControl arg1, int arg2)
+	//{
+	//	arg1.gameObject.SetActive(false);
+
+	//	SpawnNewExpandArea = true;
+	//}
 
 	private void LevelUI_OnUpgradeSet()
 	{
@@ -72,6 +99,28 @@ public class GameManager : MonoBehaviour
 		player.playerController.DisablePlayerMovement();
 		levelUI.gameObject.SetActive(true);
 	}
+	
+	private IEnumerator SpawnNewExpandAreaAtRandomPosition()
+	{
+		while (SurviveTime > 0)
+		{
+			spawnPos = new Vector3(
+			Random.Range(groundBounds.min.x + spawnMargin, groundBounds.max.x - spawnMargin),
+			0,
+			Random.Range(groundBounds.min.z + spawnMargin, groundBounds.max.z - spawnMargin));
+
+			GameObject circle = Instantiate(GameResources.Instance.MultiplicationCircle);
+			circle.transform.position = spawnPos;
+			
+			yield return new WaitForSeconds(60);
+		}
+	}
+
+	//private void Player_OnDestroyed(object sender, System.EventArgs e)
+	//{
+	//	//previousGameState = gameState;
+	//	//gameState = GameState.gameLost;
+	//}
 
 	private void InstantiatePlayer()
 	{

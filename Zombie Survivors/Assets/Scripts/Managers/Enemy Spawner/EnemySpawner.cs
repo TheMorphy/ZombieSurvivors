@@ -13,14 +13,10 @@ public class EnemySpawner : MonoBehaviour
 
 	NavMeshTriangulation navMeshTriangulation;
 
-	private Transform _playerTransform;
-
 	public static List<Transform> activeEnemies = new List<Transform>();
 
 	private void Awake()
 	{
-		_playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-
 		navMeshTriangulation = NavMesh.CalculateTriangulation();
 	}
 
@@ -49,11 +45,12 @@ public class EnemySpawner : MonoBehaviour
 		// Get screen bounds. I don't know how it works, but I think it does
 		var screenBounds = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
 
+		Transform playerTransform = GameManager.Instance.GetPlayer().transform;
+
 		// Loops thorugh navMeshTriangulation, to get the vertex position, outside the camera bounds
-		while ((spawnPos - _playerTransform.position).magnitude < (screenBounds - _playerTransform.position).magnitude)
+		while ((spawnPos - playerTransform.position).magnitude < (screenBounds - playerTransform.position).magnitude)
 		{
-			int vertexIndex = Random.Range(0, navMeshTriangulation.vertices.Length);
-			spawnPos = navMeshTriangulation.vertices[vertexIndex];
+			spawnPos = GetRandSpawnPosOnMesh();
 		}
 
 		NavMeshHit Hit;
@@ -63,5 +60,11 @@ public class EnemySpawner : MonoBehaviour
 		{
 			enemy.enemyController.GetAgent().Warp(Hit.position);
 		}
+	}
+
+	public Vector3 GetRandSpawnPosOnMesh()
+	{
+		int vertexIndex = Random.Range(0, navMeshTriangulation.vertices.Length);
+		return navMeshTriangulation.vertices[vertexIndex];
 	}
 }

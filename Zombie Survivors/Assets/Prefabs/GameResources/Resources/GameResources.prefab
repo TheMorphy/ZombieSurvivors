@@ -50,13 +50,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7934ca44781819c4c9c5e67b8a1732fc, type: 2}
   CurrentPlayer: {fileID: 11400000, guid: fa02e9736a2e0594e8b197f3169c2b9c, type: 2}
   ExpDrop: {fileID: 8908623256187235432, guid: 7029781d16f496d4198b78dea5fa2b95, type: 3}
-  WeaponUpgrades:
-  - {fileID: 11400000, guid: 692010924cad95a4ab24870c58f5f3c7, type: 2}
-  - {fileID: 11400000, guid: 42f3626068e91234aae755abbb3723b1, type: 2}
-  AmmoUpgrades:
-  - {fileID: 11400000, guid: e14458b4ae498fa439cecd79f61770b5, type: 2}
-  - {fileID: 11400000, guid: 8d8271a3e8af0d8419e08c5c119027d5, type: 2}
-  - {fileID: 11400000, guid: 0d7ef15f83725734db6041d117fdc3af, type: 2}
-  PlayerStatsUpgrades:
-  - {fileID: 11400000, guid: e6e4129fd1dbef14282fe9ca492eadd1, type: 2}
-  - {fileID: 11400000, guid: d8c9503f35aad534b8db745dc7253496, type: 2}
+  MultiplicationCircle: {fileID: 8920200563324837378, guid: e01df52244e562e48b9b4dc4d56ffe06, type: 3}

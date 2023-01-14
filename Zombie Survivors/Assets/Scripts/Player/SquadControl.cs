@@ -24,7 +24,7 @@ public class SquadControl : MonoBehaviour
 
 	private void Start()
 	{
-		squadAmmount = transform.childCount;
+		squadAmmount = transform.childCount - 1;
 	}
 
 	public void IncreaseSquadSize(int randomValue, bool multiply)
@@ -42,14 +42,14 @@ public class SquadControl : MonoBehaviour
 
 	private void ApplyMultiplication()
 	{
-		for (int i = 0; i < transform.childCount; i++)
+		for (int i = 1; i < transform.childCount; i++)
 		{
 			var x = DistanceFactor * Mathf.Sqrt(i) * Mathf.Cos(i * Radius);
 			var z = DistanceFactor * Mathf.Sqrt(i) * Mathf.Sin(i * Radius);
 
 			var newPos = new Vector3(x, transform.position.y, z);
 
-			transform.transform.GetChild(i).DOLocalMove(newPos, 0.7f).SetEase(Ease.OutBack);
+			transform.GetChild(i).DOLocalMove(newPos, 0.7f).SetEase(Ease.OutBack);
 		}
 	}
 
@@ -57,13 +57,12 @@ public class SquadControl : MonoBehaviour
 	{
 		for (int i = squadAmmount; i < number; i++)
 		{
-			GameObject comObj = Instantiate(comradePrefab, transform.position, Quaternion.identity, transform);
-			comObj.GetComponent<Comrade>().SetPlayerReference(player);
+			GameObject comrade = Instantiate(comradePrefab, transform.position, Quaternion.identity, transform);
 
-			ComradesTransforms.Add(comObj.transform);
+			ComradesTransforms.Add(comrade.transform);
 		}
 
-		squadAmmount = transform.childCount;
+		squadAmmount = transform.childCount - 1;
 
 		ApplyMultiplication();
 

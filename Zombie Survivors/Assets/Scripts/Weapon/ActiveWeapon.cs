@@ -7,7 +7,7 @@ public class ActiveWeapon : MonoBehaviour
 	[SerializeField] private Transform weaponShootPositionTransform;
 
 	private SetActiveWeaponEvent setWeaponEvent;
-	private static Weapon currentWeapon;
+	private static Weapon CurrentWeapon;
 
 	private void Awake()
 	{
@@ -30,11 +30,11 @@ public class ActiveWeapon : MonoBehaviour
 		SetWeapon(setActiveWeaponEventArgs.weapon);
 	}
 
-	private void SetWeapon(Weapon weapon)
+	public void SetWeapon(Weapon weapon)
 	{
-		currentWeapon = weapon;
+		CurrentWeapon = weapon;
 
-		currentWeapon.weaponDetails.AmmoDetails = weapon.weaponDetails.AmmoDetails;
+		CurrentWeapon.weaponDetails.AmmoDetails = weapon.weaponDetails.AmmoDetails;
 
 		// Set weapon shoot position
 		//weaponShootPositionTransform.localPosition = currentWeapon.weaponDetails.WeaponShootPosition;
@@ -42,12 +42,12 @@ public class ActiveWeapon : MonoBehaviour
 
 	public Weapon GetCurrentWeapon()
 	{
-		return currentWeapon;
+		return CurrentWeapon;
 	}
 
 	public AmmoDetailsSO GetCurrentAmmo()
 	{
-		return currentWeapon.weaponDetails.AmmoDetails;
+		return CurrentWeapon.weaponDetails.AmmoDetails;
 	}
 
 	public Vector3 GetShootPosition()
@@ -62,6 +62,6 @@ public class ActiveWeapon : MonoBehaviour
 
 	public void RemoveCurrentWeapon()
 	{
-		currentWeapon = null;
+		CurrentWeapon = null;
 	}
 }

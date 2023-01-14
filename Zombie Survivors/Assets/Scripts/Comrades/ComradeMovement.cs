@@ -9,6 +9,8 @@ public class ComradeMovement : MonoBehaviour
 
 	private FireWeapon fireWeapon;
 
+	private float turnSpeed = 720;
+
 	private void Awake()
 	{
 		comrade = GetComponent<Comrade>();
@@ -17,8 +19,6 @@ public class ComradeMovement : MonoBehaviour
 
 	private void Update()
 	{
-		transform.rotation = comrade.GetPlayer().playerController.GetPlayerRotation();
-
 		HandleRotations();
 
 		fireWeapon.FireWeapn();
@@ -30,8 +30,8 @@ public class ComradeMovement : MonoBehaviour
 
 		if (target != null)
 		{
-			Quaternion rotation = Quaternion.LookRotation(target.position - bodyPivot.position);
-			bodyPivot.rotation = Quaternion.RotateTowards(bodyPivot.rotation, rotation, 720 * Time.deltaTime);
+			Quaternion rotation = Quaternion.LookRotation(target.position - transform.position);
+			bodyPivot.rotation = Quaternion.RotateTowards(bodyPivot.rotation, rotation, turnSpeed * Time.deltaTime);
 		}
 	}
 

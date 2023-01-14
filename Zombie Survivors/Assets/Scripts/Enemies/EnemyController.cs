@@ -33,8 +33,6 @@ public class EnemyController : MonoBehaviour
 			}
 			else
 			{
-				_agent.isStopped = true;
-
 				_agent.destination = startPos;
 			}
 		}

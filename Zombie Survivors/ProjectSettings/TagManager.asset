@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Joystick
   - Wall
+  - Comrade
+  - Ground
   layers:
   - Default
   - TransparentFX

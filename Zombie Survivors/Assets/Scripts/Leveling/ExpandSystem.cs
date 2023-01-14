@@ -52,13 +52,8 @@ public class ExpandSystem : MonoBehaviour
 			SquadControl squadControl = other.GetComponentInParent<SquadControl>();
 
 			squadControl.IncreaseSquadSize(randomNumber, IsMultiplied);
-		}
-	}
-	private void OnTriggerExit(Collider other)
-	{
-		if (other.CompareTag("Player"))
-		{
-			GenerateNewValue();
+
+			Destroy(gameObject);
 		}
 	}
 }

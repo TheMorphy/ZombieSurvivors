@@ -45,4 +45,6 @@ public class GameResources : MonoBehaviour
 	[Header("EXPERIENCE")]
 	#endregion Header EXPERIENCE
 	public GameObject ExpDrop;
+
+	public GameObject MultiplicationCircle;
 }

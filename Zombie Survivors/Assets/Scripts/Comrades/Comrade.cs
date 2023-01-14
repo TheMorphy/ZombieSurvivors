@@ -1,8 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ComradeMovement))]
+[RequireComponent(typeof(AnimatePlayer))]
+[RequireComponent(typeof(FireWeapon))]
+[RequireComponent(typeof(ActiveWeapon))]
+[RequireComponent(typeof(SetActiveWeaponEvent))]
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(ReceiveContactDamage))]
 [RequireComponent(typeof(HealthEvent))]
@@ -10,66 +12,49 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class Comrade : MonoBehaviour
 {
-    private Player player;
-	private Animator animator;
-	private Health comradeHealth;
-	private HealthEvent comradeHealthEven;
+	[HideInInspector] public Player Player;
+	[HideInInspector] public Animator Animator;
+	[HideInInspector] public AnimatePlayer AnimatePlayer;
+	[HideInInspector] public Health Health;
+	[HideInInspector] public FireWeapon FireWeapon;
+	[HideInInspector] public ActiveWeapon ActiveWeapon;
+	[HideInInspector] public SetActiveWeaponEvent SetActiveWeaponEvent;
+	[HideInInspector] public HealthEvent HealthEvent;
 
 	private void Awake()
 	{
-		animator = GetComponent<Animator>();
-		comradeHealthEven = GetComponent<HealthEvent>();
-		comradeHealth = GetComponent<Health>();
+		Player = GetComponentInParent<Player>();
+		Animator = GetComponent<Animator>();
+		AnimatePlayer = GetComponent<AnimatePlayer>();
+		HealthEvent = GetComponent<HealthEvent>();
+		ActiveWeapon = GetComponent<ActiveWeapon>();
+		SetActiveWeaponEvent = GetComponent<SetActiveWeaponEvent>();
+		FireWeapon = GetComponent<FireWeapon>();
+		Health = GetComponent<Health>();
+	}
+
+	private void Start()
+	{
+		SetActiveWeaponEvent.CallSetActiveWeaponEvent(Player.playerWeapon);
+
+		Health.SetStartingHealth(Player.playerDetails.Health);
 	}
 
 	private void OnEnable()
 	{
-		comradeHealthEven.OnHealthChanged += HealthEvent_OnHealthChanged;
+		HealthEvent.OnHealthChanged += HealthEvent_OnHealthChanged;
 	}
 
 	private void OnDisable()
 	{
-		comradeHealthEven.OnHealthChanged -= HealthEvent_OnHealthChanged;
+		HealthEvent.OnHealthChanged -= HealthEvent_OnHealthChanged;
 	}
 
-	/// <summary>
-	/// Handle health changed event
-	/// </summary>
 	private void HealthEvent_OnHealthChanged(HealthEvent healthEvent, HealthEventArgs healthEventArgs)
 	{
-		// If player has died
 		if (healthEventArgs.healthAmount <= 0f)
 		{
-			animator.SetTrigger("Die");
+			AnimatePlayer.TurnOnRagdoll();
 		}
-	}
-
-	public void SetComradeHealth(int ammount)
-	{
-		comradeHealth.SetStartingHealth(ammount);
-	}
-
-	public void SetAnimator(Animator playerAnimator)
-	{
-		animator.runtimeAnimatorController = playerAnimator.runtimeAnimatorController;
-
-		AnimatorClipInfo[] clipInfo = playerAnimator.GetCurrentAnimatorClipInfo(0);
-		string currentClipName = clipInfo[0].clip.name;
-
-		animator.Play(currentClipName, 0, playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime);
-	}
-
-	public void SetPlayerReference(Player player)
-	{
-		this.player = player;
-
-		SetAnimator(player.animator);
-
-		SetComradeHealth(player.health.GetStartingHealth());
-	}
-
-	public Player GetPlayer()
-	{
-		return player;
 	}
 }
