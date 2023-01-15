@@ -1840,6 +1840,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7083254d1ecc31b4ea5d6a7d92261d7c, type: 2}
   NumberOfEnemeisToSpawn: 1
   spawnDelay: 1
+  spawnEndlessly: 1
 --- !u!1 &1174460875
 GameObject:
   m_ObjectHideFlags: 0

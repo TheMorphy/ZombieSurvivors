@@ -10,6 +10,7 @@ public class EnemySpawner : MonoBehaviour
 
 	[SerializeField] private int NumberOfEnemeisToSpawn = 15;
 	[SerializeField] private float spawnDelay = 1.5f;
+	[SerializeField] private bool spawnEndlessly = false;
 
 	NavMeshTriangulation navMeshTriangulation;
 
@@ -20,20 +21,20 @@ public class EnemySpawner : MonoBehaviour
 		navMeshTriangulation = NavMesh.CalculateTriangulation();
 	}
 
-	public IEnumerator SpawnEnemies(float timePassed)
+	public IEnumerator SpawnEnemies()
 	{
 		int spawnedEnemies = 0;
 
-		while (spawnedEnemies < NumberOfEnemeisToSpawn)
+		while (spawnedEnemies < NumberOfEnemeisToSpawn || spawnEndlessly)
 		{
-			Spawn(timePassed);
+			Spawn();
 			spawnedEnemies++;
 
 			yield return new WaitForSeconds(spawnDelay);
 		}
 	}
 
-	private void Spawn(float timePassed)
+	private void Spawn()
 	{
 		GameObject enemyObj = Instantiate(enemyDetails[0].enemyPrefab);
 

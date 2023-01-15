@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 
 		groundBounds = GameObject.FindGameObjectWithTag("Ground").GetComponent<MeshCollider>().bounds;
 
-		StartCoroutine(enemySpawner.SpawnEnemies(timeElapsed));
+		StartCoroutine(enemySpawner.SpawnEnemies());
 
 		StartCoroutine(SpawnNewExpandAreaAtRandomPosition());
 	}
