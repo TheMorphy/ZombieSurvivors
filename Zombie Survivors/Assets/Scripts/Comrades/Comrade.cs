@@ -40,6 +40,8 @@ public class Comrade : MonoBehaviour
 		SetActiveWeaponEvent.CallSetActiveWeaponEvent(Player.playerWeapon);
 
 		Health.SetStartingHealth(Player.playerDetails.Health);
+
+		Player.health.AddTotalHealth(Health.StartingHealth);
 	}
 
 	private void OnEnable()
@@ -60,5 +62,7 @@ public class Comrade : MonoBehaviour
 		{
 			AnimatePlayer.TurnOnRagdoll();
 		}
+
+		Player.health.TakeDamage(healthEventArgs.damageAmount);
 	}
 }

@@ -4,8 +4,9 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class Health : MonoBehaviour
 {
-	[SerializeField] private int startingHealth;
-	[SerializeField] private int currentHealth;
+	public int StartingHealth;
+	public int CurrentHealth;
+
 	private HealthEvent healthEvent;
 
 	private void Awake()
@@ -16,7 +17,7 @@ public class Health : MonoBehaviour
 	private void CallHealthEvent(int damageAmount)
 	{
 		// Trigger health event
-		healthEvent.CallHealthChangedEvent(((float)currentHealth / (float)startingHealth), currentHealth, damageAmount);
+		healthEvent.CallHealthChangedEvent(((float)CurrentHealth / (float)StartingHealth), CurrentHealth, damageAmount);
 	}
 
 	/// <summary>
@@ -24,7 +25,7 @@ public class Health : MonoBehaviour
 	/// </summary>
 	public void TakeDamage(int damageAmount)
 	{
-		currentHealth -= damageAmount;
+		CurrentHealth -= damageAmount;
 		CallHealthEvent(damageAmount);
 	}
 
@@ -33,8 +34,16 @@ public class Health : MonoBehaviour
 	/// </summary>
 	public void SetStartingHealth(int startingHealth)
 	{
-		this.startingHealth = startingHealth;
-		currentHealth = startingHealth;
+		this.StartingHealth = startingHealth;
+		CurrentHealth = startingHealth;
+	}
+
+	public void AddTotalHealth(int healthToAdd)
+	{
+		this.StartingHealth += healthToAdd;
+		CurrentHealth += healthToAdd;
+
+		CallHealthEvent(0);
 	}
 
 	/// <summary>
@@ -42,23 +51,23 @@ public class Health : MonoBehaviour
 	/// </summary>
 	public int GetStartingHealth()
 	{
-		return startingHealth;
+		return StartingHealth;
 	}
 
 	public void UpgradPlayerHealth(float value, UpgradeAction upgradeAction)
 	{
 		if (upgradeAction == UpgradeAction.Add)
 		{ 
-			currentHealth += ((int)value);
+			CurrentHealth += ((int)value);
 
 		}
 		else if (upgradeAction == UpgradeAction.Multiply)
 		{
-			currentHealth = ((int)(currentHealth * value));
+			CurrentHealth = ((int)(CurrentHealth * value));
 		}
 		else if (upgradeAction == UpgradeAction.Increase_Percentage)
 		{
-			currentHealth = ((int)Utilities.ApplyPercentage(value, currentHealth));
+			CurrentHealth = ((int)Utilities.ApplyPercentage(value, CurrentHealth));
 		}
 			
 	}

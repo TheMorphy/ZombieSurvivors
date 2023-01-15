@@ -31,6 +31,16 @@ public class Player : MonoBehaviour
 		UpgradesManager.OnPlayerStatUpgrade += UpgradesManager_OnPlayerStatUpgrade;
 
 		UpgradesManager.OnAmmoUpgrade += UpgradesManager_OnAmmoUpgrade;
+
+		healthEvent.OnHealthChanged += HealthEvent_OnHealthChanged1;
+	}
+
+	private void HealthEvent_OnHealthChanged1(HealthEvent healthEvent, HealthEventArgs healthEventArgs)
+	{
+		if (healthEventArgs.healthAmount <= 0f)
+		{
+			playerController.SetPlayerToDead();
+		}
 	}
 
 	private void OnDisable()

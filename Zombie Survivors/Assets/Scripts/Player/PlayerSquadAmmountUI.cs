@@ -3,13 +3,16 @@ using UnityEngine;
 
 public class PlayerSquadAmmountUI : MonoBehaviour
 {
-	private TextMeshPro squadAmmountText;
+	[SerializeField] private GameObject HealthBar;
+	[SerializeField] private TextMeshPro squadAmmountText;
+
 	private SquadControl squadControl;
+	private Player player;
 
 	private void Awake()
 	{
 		squadControl = GetComponentInParent<SquadControl>();
-		squadAmmountText = GetComponentInChildren<TextMeshPro>();
+		player = GetComponentInParent<Player>();
 	}
 
 	private void Start()
@@ -19,11 +22,15 @@ public class PlayerSquadAmmountUI : MonoBehaviour
 
 	private void OnEnable()
 	{
+		player.healthEvent.OnHealthChanged += HealthEvent_OnHealthChanged;
+
 		squadControl.OnSquadIncrease += PlayerController_OnSquadIncrease;
 	}
 
 	private void OnDisable()
 	{
+		player.healthEvent.OnHealthChanged -= HealthEvent_OnHealthChanged;
+
 		squadControl.OnSquadIncrease -= PlayerController_OnSquadIncrease;
 	}
 
@@ -32,10 +39,13 @@ public class PlayerSquadAmmountUI : MonoBehaviour
 		squadAmmountText.text = squadSize.ToString();
 	}
 
-	//private void LateUpdate()
- //   {
-	//	squadAmmountText.transform.LookAt(Camera.main.transform.position);
+	private void HealthEvent_OnHealthChanged(HealthEvent healthEvent, HealthEventArgs healthEventArgs)
+	{
+		if(healthEventArgs.healthPercent <= 0f)
+		{
+			healthEventArgs.healthPercent = 0f;
+		}
 
-	//	squadAmmountText.transform.rotation = Quaternion.LookRotation(squadAmmountText.transform.position - Camera.main.transform.position);
-	//}
+		HealthBar.transform.localScale = new Vector2(HealthBar.transform.localScale.x, healthEventArgs.healthPercent);
+	}
 }

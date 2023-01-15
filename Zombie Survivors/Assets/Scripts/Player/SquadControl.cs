@@ -16,6 +16,13 @@ public class SquadControl : MonoBehaviour
 
 	public static List<Transform> ComradesTransforms = new List<Transform>();
 
+	private Player player;
+
+	private void Awake()
+	{
+		player = GetComponent<Player>();
+	}
+
 	private void Start()
 	{
 		squadAmmount = transform.childCount - 1;

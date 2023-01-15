@@ -87,4 +87,9 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+	public void SetPlayerToDead()
+	{
+		IsPlayerDead = true;
+	}
+
 }
