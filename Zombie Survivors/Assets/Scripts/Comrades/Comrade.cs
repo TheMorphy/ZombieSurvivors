@@ -58,11 +58,12 @@ public class Comrade : MonoBehaviour
 
 	private void HealthEvent_OnHealthChanged(HealthEvent healthEvent, HealthEventArgs healthEventArgs)
 	{
+		Player.health.TakeDamage(healthEventArgs.damageAmount);
+
 		if (healthEventArgs.healthAmount <= 0f)
 		{
-			AnimatePlayer.TurnOnRagdoll();
-		}
+			Player.squadControl.RemoveFromSquad(this.transform);
 
-		Player.health.TakeDamage(healthEventArgs.damageAmount);
+			AnimatePlayer.TurnOnRagdoll();		}
 	}
 }

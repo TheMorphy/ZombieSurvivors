@@ -12,16 +12,9 @@ public class SquadControl : MonoBehaviour
 
 	[SerializeField] private int squadAmmount;
 
-	public event Action<SquadControl, int> OnSquadIncrease;
+	public event Action<SquadControl, SquadControlEventArgs> OnSquadAmmountChanged;
 
 	public static List<Transform> ComradesTransforms = new List<Transform>();
-
-	private Player player;
-
-	private void Awake()
-	{
-		player = GetComponent<Player>();
-	}
 
 	private void Start()
 	{
@@ -65,11 +58,32 @@ public class SquadControl : MonoBehaviour
 
 		ApplyMultiplication();
 
-		OnSquadIncrease?.Invoke(this, squadAmmount);
+		CallSquadChangedEvent(squadAmmount);
 	}
 
 	public int GetSquadAmmount()
 	{
 		return squadAmmount;
 	}
+
+	public void RemoveFromSquad(Transform comradeTransform)
+	{
+		squadAmmount--;
+
+		ComradesTransforms.Remove(comradeTransform);
+		CallSquadChangedEvent(squadAmmount);
+	}
+
+	public void CallSquadChangedEvent(int squadSize)
+	{
+		OnSquadAmmountChanged?.Invoke(this, new SquadControlEventArgs()
+		{
+			squadSize = squadSize
+		});
+	}
+}
+
+public class SquadControlEventArgs : EventArgs
+{
+	public int squadSize;
 }

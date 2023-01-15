@@ -1838,7 +1838,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyDetails:
   - {fileID: 11400000, guid: 7083254d1ecc31b4ea5d6a7d92261d7c, type: 2}
-  NumberOfEnemeisToSpawn: 8
+  NumberOfEnemeisToSpawn: 1
   spawnDelay: 1
 --- !u!1 &1174460875
 GameObject:
@@ -2960,7 +2960,7 @@ Transform:
   m_GameObject: {fileID: 4011280827779132403}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 6.6871047, y: 7.4934473, z: -1.8835683}
-  m_LocalScale: {x: 5, y: 1, z: 6}
+  m_LocalScale: {x: 3, y: 1, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4011280828485949893}

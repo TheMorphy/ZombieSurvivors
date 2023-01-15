@@ -29,7 +29,6 @@ public class AnimatePlayer : MonoBehaviour
 		comrade.ComradeMovement.enabled = false;
 
 		transform.parent = null;
-		SquadControl.ComradesTransforms.Remove(transform);
 
 		comrade.Animator.enabled = false;
 		comrade.Animator.avatar = null;

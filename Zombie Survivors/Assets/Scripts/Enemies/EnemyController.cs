@@ -43,7 +43,12 @@ public class EnemyController : MonoBehaviour
 		Transform bestTarget = null;
 		float closestDistanceSqr = Mathf.Infinity;
 		Vector3 currentPosition = transform.position;
-		for (int i = 0; i < comrades.Count; i++)
+
+		int index = 0;
+		if (comrades.Count > 1)
+			index = 1;
+		
+		for (int i = index; i < comrades.Count; i++)
 		{
 			Vector3 directionToTarget = comrades[i].position - currentPosition;
 			float dSqrToTarget = directionToTarget.sqrMagnitude;

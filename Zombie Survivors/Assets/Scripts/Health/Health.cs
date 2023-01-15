@@ -34,13 +34,13 @@ public class Health : MonoBehaviour
 	/// </summary>
 	public void SetStartingHealth(int startingHealth)
 	{
-		this.StartingHealth = startingHealth;
+		StartingHealth = startingHealth;
 		CurrentHealth = startingHealth;
 	}
 
 	public void AddTotalHealth(int healthToAdd)
 	{
-		this.StartingHealth += healthToAdd;
+		StartingHealth += healthToAdd;
 		CurrentHealth += healthToAdd;
 
 		CallHealthEvent(0);

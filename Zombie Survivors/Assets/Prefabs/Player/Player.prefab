@@ -718,7 +718,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 321057240856242775, guid: 3dba209ac090101498332cd7b4d18bff, type: 3}
       propertyPath: m_Name
-      value: Comrade
+      value: Leader
       objectReference: {fileID: 0}
     - target: {fileID: 321057240856242775, guid: 3dba209ac090101498332cd7b4d18bff, type: 3}
       propertyPath: m_Layer

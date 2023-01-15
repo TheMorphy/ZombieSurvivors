@@ -24,19 +24,19 @@ public class PlayerSquadAmmountUI : MonoBehaviour
 	{
 		player.healthEvent.OnHealthChanged += HealthEvent_OnHealthChanged;
 
-		squadControl.OnSquadIncrease += PlayerController_OnSquadIncrease;
+		squadControl.OnSquadAmmountChanged += PlayerController_OnSquadIncrease;
 	}
 
 	private void OnDisable()
 	{
 		player.healthEvent.OnHealthChanged -= HealthEvent_OnHealthChanged;
 
-		squadControl.OnSquadIncrease -= PlayerController_OnSquadIncrease;
+		squadControl.OnSquadAmmountChanged -= PlayerController_OnSquadIncrease;
 	}
 
-	private void PlayerController_OnSquadIncrease(SquadControl SquadControlEvent, int squadSize)
+	private void PlayerController_OnSquadIncrease(SquadControl SquadControlEvent, SquadControlEventArgs squadControlEventArgs)
 	{
-		squadAmmountText.text = squadSize.ToString();
+		squadAmmountText.text = squadControlEventArgs.squadSize.ToString();
 	}
 
 	private void HealthEvent_OnHealthChanged(HealthEvent healthEvent, HealthEventArgs healthEventArgs)

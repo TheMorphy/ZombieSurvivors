@@ -20,6 +20,20 @@ public class DealContactDamage : MonoBehaviour
 
 	private int contactDamageAmount;
 
+	//private void OnCollisionEnter(Collision collision)
+	//{
+	//	if (isColliding) return;
+
+	//	ContactDamage(collision);
+	//}
+
+	//private void OnCollisionExit(Collision collision)
+	//{
+	//	if (isColliding) return;
+
+	//	ContactDamage(collision);
+	//}
+
 	private void OnTriggerEnter(Collider collider)
 	{
 		if (isColliding) return;
