@@ -62,8 +62,11 @@ public class Comrade : MonoBehaviour
 
 		if (healthEventArgs.healthAmount <= 0f)
 		{
+			GameManager.Instance.RemoveTargetFromCamera(transform);
+
 			Player.squadControl.RemoveFromSquad(this.transform);
 
-			AnimatePlayer.TurnOnRagdoll();		}
+			AnimatePlayer.TurnOnRagdoll();		
+		}
 	}
 }

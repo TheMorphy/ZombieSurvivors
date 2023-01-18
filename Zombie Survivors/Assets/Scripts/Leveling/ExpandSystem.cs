@@ -49,6 +49,8 @@ public class ExpandSystem : MonoBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
+			StaticEvents.CallCircleDespawnedEvent(transform.position);
+
 			SquadControl squadControl = other.GetComponentInParent<SquadControl>();
 
 			squadControl.IncreaseSquadSize(randomNumber, IsMultiplied);

@@ -13,9 +13,9 @@ public class GameManager : MonoBehaviour
 	private float timeElapsed = 0;
 
 	[SerializeField] private EnemySpawner enemySpawner;
-	[SerializeField] private CinemachineVirtualCamera virtualCamera;
+	[SerializeField] private CinemachineTargetGroup targetGroup;
 	[SerializeField] private LevelUI levelUI;
-	
+
 	private LevelSystem levelSystem;
 
 	private PlayerDetailsSO playerDetails;
@@ -54,6 +54,11 @@ public class GameManager : MonoBehaviour
 		StartCoroutine(SpawnNewExpandAreaAtRandomPosition());
 	}
 
+	private void LateUpdate()
+	{
+		targetGroup.transform.position = player.transform.position;
+	}
+
 	private void Update()
 	{
 		SurviveTime -= Time.deltaTime;
@@ -65,8 +70,6 @@ public class GameManager : MonoBehaviour
 
 		levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
 
-		//player.squadControl.OnSquadIncrease += SquadControl_OnSquadIncrease;
-
 		//player.destroyedEvent.OnDestroyed += Player_OnDestroyed;
 	}
 
@@ -76,17 +79,18 @@ public class GameManager : MonoBehaviour
 
 		levelSystem.OnLevelChanged -= LevelSystem_OnLevelChanged;
 
-		//player.squadControl.OnSquadIncrease -= SquadControl_OnSquadIncrease;
-
 		//player.destroyedEvent.OnDestroyed -= Player_OnDestroyed;
 	}
 
-	//private void SquadControl_OnSquadIncrease(SquadControl arg1, int arg2)
-	//{
-	//	arg1.gameObject.SetActive(false);
+	public void AddTargetToCamera(Transform transform, float weight = 1, float radius = 1)
+	{
+		targetGroup.AddMember(transform, weight, radius);
+	}
 
-	//	SpawnNewExpandArea = true;
-	//}
+	public void RemoveTargetFromCamera(Transform transform)
+	{
+		targetGroup.RemoveMember(transform);
+	}
 
 	private void LevelUI_OnUpgradeSet()
 	{
@@ -111,8 +115,10 @@ public class GameManager : MonoBehaviour
 
 			GameObject circle = Instantiate(GameResources.Instance.MultiplicationCircle);
 			circle.transform.position = spawnPos;
+
+			StaticEvents.CallCircleSpawnedEvent(spawnPos);
 			
-			yield return new WaitForSeconds(60);
+			yield return new WaitForSeconds(10);
 		}
 	}
 
@@ -130,9 +136,6 @@ public class GameManager : MonoBehaviour
 		// Instantiate player
 		GameObject playerGameObject = Instantiate(playerDetails.PlayerPrefab);
 
-		virtualCamera.Follow = playerGameObject.transform;
-		virtualCamera.LookAt = playerGameObject.transform;
-
 		// Initialize Player
 		player = playerGameObject.GetComponentInChildren<Player>();
 
@@ -144,7 +147,7 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	private void RestartGame()
 	{
-		SceneManager.LoadScene("MainMenuScene");
+		SceneManager.LoadScene("MainMenu");
 	}
 
 

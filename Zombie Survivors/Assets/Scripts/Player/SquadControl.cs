@@ -19,6 +19,8 @@ public class SquadControl : MonoBehaviour
 	private void Start()
 	{
 		squadAmmount = transform.childCount - 1;
+
+		GameManager.Instance.AddTargetToCamera(transform, 1, 1);
 	}
 
 	public void IncreaseSquadSize(int randomValue, bool multiply)
@@ -51,9 +53,11 @@ public class SquadControl : MonoBehaviour
 	{
 		for (int i = squadAmmount; i < number; i++)
 		{
-			Instantiate(comradePrefab, transform.position, Quaternion.identity, transform);
-		}
+			GameObject member = Instantiate(comradePrefab, transform.position, Quaternion.identity, transform);
 
+			GameManager.Instance.AddTargetToCamera(member.transform, 1, 1);
+		}
+		
 		squadAmmount = transform.childCount - 1;
 
 		ApplyMultiplication();

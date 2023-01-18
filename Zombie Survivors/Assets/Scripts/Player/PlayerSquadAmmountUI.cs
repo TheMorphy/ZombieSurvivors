@@ -41,7 +41,7 @@ public class PlayerSquadAmmountUI : MonoBehaviour
 
 	private void HealthEvent_OnHealthChanged(HealthEvent healthEvent, HealthEventArgs healthEventArgs)
 	{
-		if(healthEventArgs.healthPercent <= 0f)
+		if (healthEventArgs.healthPercent <= 0f)
 		{
 			healthEventArgs.healthPercent = 0f;
 		}

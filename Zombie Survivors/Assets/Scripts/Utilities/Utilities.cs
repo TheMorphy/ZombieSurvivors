@@ -93,4 +93,13 @@ public static class Utilities
 		// If the component was not found in any of the children, return null
 		return null;
 	}
+
+	public static float GetAngleFromVectorFloatXZ(Vector3 dir)
+	{
+		dir = dir.normalized;
+		float n = Mathf.Atan2(dir.z, dir.x) * Mathf.Rad2Deg;
+		if (n < 0) n += 360;
+
+		return n;
+	}
 }

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: AmmoDetail_Rifle
   m_EditorClassIdentifier: 
   ammoPicture: {fileID: 21300000, guid: affeade9874cf2347abb155e8d0db4d8, type: 3}
-  ammoDamage: 1
-  ammoPerShot: 1
+  ammoDamage: 4
+  ammoPerShot: 5
   ammoRange: 20
   ammoSpeed: 30
-  ammoSpread: 1
+  ammoSpread: 2
   isAmmoTrail: 1
   ammoTrailTime: 0.03
   ammoTrailMaterial: {fileID: 2100000, guid: 9366e3f8f4b04134da1b7b6a53898087, type: 2}

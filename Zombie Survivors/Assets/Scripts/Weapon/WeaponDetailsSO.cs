@@ -37,10 +37,6 @@ public class WeaponDetailsSO : BaseScriptableObject
 	private Sprite weaponPicture;
 	public Sprite WeaponPicture { get { return weaponPicture; } }
 
-	[SerializeField]
-	private Vector3 weaponShootPosition;
-	public Vector3 WeaponShootPosition { get { return weaponShootPosition; } }
-
 	public AmmoDetailsSO AmmoDetails;
 
 	[Tooltip("Has unlimited ammo")]
