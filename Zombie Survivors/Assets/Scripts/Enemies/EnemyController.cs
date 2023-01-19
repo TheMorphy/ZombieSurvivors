@@ -17,6 +17,8 @@ public class EnemyController : MonoBehaviour
 
 	private void Start()
 	{
+		_agent.enabled = true;
+
 		startPos = transform.position;
 	}
 

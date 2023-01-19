@@ -8,6 +8,7 @@ public class Health : MonoBehaviour
 	public int CurrentHealth;
 
 	private HealthEvent healthEvent;
+	[SerializeField] private Transform healthBar;
 
 	private void Awake()
 	{
@@ -72,4 +73,13 @@ public class Health : MonoBehaviour
 			
 	}
 
+	public void UpdateHealthBar(float healthPercent)
+	{
+		if (healthPercent <= 0f)
+		{
+			healthPercent = 0f;
+		}
+
+		healthBar.localScale = new Vector2(healthPercent, healthBar.localScale.y);
+	}
 }

@@ -35,23 +35,19 @@ public class GameManager : MonoBehaviour
 		else
 			Destroy(gameObject);
 
+		groundBounds = GameObject.FindGameObjectWithTag("Ground").GetComponent<MeshCollider>().bounds;
+
 		levelSystem = new LevelSystem();
 
 		levelUI.SetLevelSystem(levelSystem);
-
-		// Instantiate player
-		InstantiatePlayer();
 	}
 
 	private void Start()
 	{
 		SurviveTime *= 60;
 
-		groundBounds = GameObject.FindGameObjectWithTag("Ground").GetComponent<MeshCollider>().bounds;
-
-		StartCoroutine(enemySpawner.SpawnEnemies());
-
-		StartCoroutine(SpawnNewExpandAreaAtRandomPosition());
+		// Instantiate player
+		InstantiatePlayer();
 	}
 
 	private void LateUpdate()
@@ -70,6 +66,8 @@ public class GameManager : MonoBehaviour
 
 		levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
 
+		StaticEvents.OnPlayerInitialized += StaticEvents_OnPlayerInitialized;
+
 		//player.destroyedEvent.OnDestroyed += Player_OnDestroyed;
 	}
 
@@ -81,6 +79,12 @@ public class GameManager : MonoBehaviour
 
 		//player.destroyedEvent.OnDestroyed -= Player_OnDestroyed;
 	}
+
+	private void StaticEvents_OnPlayerInitialized(PlayerInitializedEventArgs playerInitializedEventArgs)
+	{
+		StartCoroutine(SpawnNewExpandAreaAtRandomPosition());
+	}
+
 
 	public void AddTargetToCamera(Transform transform, float weight = 1, float radius = 1)
 	{
@@ -108,10 +112,7 @@ public class GameManager : MonoBehaviour
 	{
 		while (SurviveTime > 0)
 		{
-			spawnPos = new Vector3(
-			Random.Range(groundBounds.min.x + spawnMargin, groundBounds.max.x - spawnMargin),
-			0,
-			Random.Range(groundBounds.min.z + spawnMargin, groundBounds.max.z - spawnMargin));
+			spawnPos = GetRandomSpawnPositionGround(spawnMargin);
 
 			GameObject circle = Instantiate(GameResources.Instance.MultiplicationCircle);
 			circle.transform.position = spawnPos;
@@ -127,6 +128,14 @@ public class GameManager : MonoBehaviour
 	//	//previousGameState = gameState;
 	//	//gameState = GameState.gameLost;
 	//}
+
+	public Vector3 GetRandomSpawnPositionGround(float spawnMargin = 0)
+	{
+		return new Vector3(
+			Random.Range(groundBounds.min.x + spawnMargin, groundBounds.max.x - spawnMargin),
+			0,
+			Random.Range(groundBounds.min.z + spawnMargin, groundBounds.max.z - spawnMargin));
+	}
 
 	private void InstantiatePlayer()
 	{

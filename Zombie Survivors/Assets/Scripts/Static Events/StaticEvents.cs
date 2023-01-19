@@ -18,6 +18,19 @@ public static class StaticEvents
 	{
 		OnCircleDespawned?.Invoke(new CircleDespawnedEventArgs() { despawnPosition = spawnPosition });
 	}
+
+	// Player Initialized
+	public static event Action<PlayerInitializedEventArgs> OnPlayerInitialized;
+
+	public static void CallPlayerInitializedEvent(Transform playerTransform)
+	{
+		OnPlayerInitialized?.Invoke(new PlayerInitializedEventArgs() { playerTransform = playerTransform });
+	}
+}
+
+public class PlayerInitializedEventArgs : EventArgs
+{
+	public Transform playerTransform;
 }
 
 public class CircleSpawnedEventArgs : EventArgs

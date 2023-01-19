@@ -46,3 +46,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: UI_Camera
+    uniqueID: 3143937353
+    locked: 0
+  - name: Main Camera
+    uniqueID: 1630771461
+    locked: 0
+  - name: Comrade UI
+    uniqueID: 1472263453
+    locked: 0
+  - name: Player UI
+    uniqueID: 500283249
+    locked: 0

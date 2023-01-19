@@ -1,5 +1,6 @@
 using UnityEngine;
 
+#region Required Components
 [RequireComponent(typeof(ComradeMovement))]
 [RequireComponent(typeof(AnimatePlayer))]
 [RequireComponent(typeof(FireWeapon))]
@@ -10,6 +11,8 @@ using UnityEngine;
 [RequireComponent(typeof(HealthEvent))]
 [RequireComponent(typeof(Animator))]
 [DisallowMultipleComponent]
+#endregion
+
 public class Comrade : MonoBehaviour
 {
 	[HideInInspector] public Player Player;
@@ -40,8 +43,6 @@ public class Comrade : MonoBehaviour
 		SetActiveWeaponEvent.CallSetActiveWeaponEvent(Player.playerWeapon);
 
 		Health.SetStartingHealth(Player.playerDetails.Health);
-
-		Player.health.AddTotalHealth(Health.StartingHealth);
 	}
 
 	private void OnEnable()
@@ -58,13 +59,13 @@ public class Comrade : MonoBehaviour
 
 	private void HealthEvent_OnHealthChanged(HealthEvent healthEvent, HealthEventArgs healthEventArgs)
 	{
-		Player.health.TakeDamage(healthEventArgs.damageAmount);
+		Health.UpdateHealthBar(healthEventArgs.healthPercent);
 
 		if (healthEventArgs.healthAmount <= 0f)
 		{
 			GameManager.Instance.RemoveTargetFromCamera(transform);
 
-			Player.squadControl.RemoveFromSquad(this.transform);
+			Player.squadControl.RemoveFromSquad(transform);
 
 			AnimatePlayer.TurnOnRagdoll();		
 		}

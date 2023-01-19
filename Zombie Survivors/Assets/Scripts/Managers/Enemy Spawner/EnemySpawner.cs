@@ -12,60 +12,77 @@ public class EnemySpawner : MonoBehaviour
 	[SerializeField] private float spawnDelay = 1.5f;
 	[SerializeField] private bool spawnEndlessly = false;
 
-	NavMeshTriangulation navMeshTriangulation;
+	private int spawnedEnemies = 0;
+
+	NavMeshTriangulation navTriangulation;
 
 	public static List<Transform> activeEnemies = new List<Transform>();
 
 	private void Awake()
 	{
-		navMeshTriangulation = NavMesh.CalculateTriangulation();
+		navTriangulation = NavMesh.CalculateTriangulation();
+	}
+
+	private void Start()
+	{
+		StartCoroutine(SpawnEnemies());
 	}
 
 	public IEnumerator SpawnEnemies()
 	{
-		int spawnedEnemies = 0;
-
 		while (spawnedEnemies < NumberOfEnemeisToSpawn || spawnEndlessly)
 		{
 			Spawn();
-			spawnedEnemies++;
-
+			
 			yield return new WaitForSeconds(spawnDelay);
 		}
 	}
 
 	private void Spawn()
 	{
-		GameObject enemyObj = Instantiate(enemyDetails[0].enemyPrefab);
+		Vector3 randomPos;
+		Vector3 screenPos;
+
+		do
+		{
+			// Find a random point on the navmesh
+			randomPos = RandomNavmeshLocation(Camera.main.transform.position, 50f);
+			// Check if the enemy is within the camera's view
+			screenPos = Camera.main.WorldToScreenPoint(randomPos);
+		}
+		while (screenPos.x >= 0 && screenPos.x <= Screen.width && screenPos.y >= 0 && screenPos.y <= Screen.height);
+
+		GameObject enemyObj = Instantiate(enemyDetails[0].enemyPrefab, randomPos, Quaternion.identity);
 
 		Enemy enemy = enemyObj.GetComponent<Enemy>();
+		enemy.enemyController.GetAgent().enabled = false;
+
 		enemy.InitializeEnemy(enemyDetails[0]);
 
-		Vector3 spawnPos = enemyObj.transform.position;
-
-		// Get screen bounds. I don't know how it works, but I think it does
-		var screenBounds = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, Camera.main.nearClipPlane));
-
-		Transform playerTransform = GameManager.Instance.GetPlayer().transform;
-
-		// Loops thorugh navMeshTriangulation, to get the vertex position, outside the camera bounds
-		while ((spawnPos - playerTransform.position).magnitude < (screenBounds - playerTransform.position).magnitude)
-		{
-			spawnPos = GetRandSpawnPosOnMesh();
-		}
-
-		NavMeshHit Hit;
-
-		// Spawn the agent at the nav mesh vertex position
-		if (NavMesh.SamplePosition(spawnPos, out Hit, 2f, 1))
-		{
-			enemy.enemyController.GetAgent().Warp(Hit.position);
-		}
+		spawnedEnemies++;
 	}
 
-	public Vector3 GetRandSpawnPosOnMesh()
+	Vector3 RandomNavmeshLocation(Vector3 origin, float range)
 	{
-		int vertexIndex = Random.Range(0, navMeshTriangulation.vertices.Length);
-		return navMeshTriangulation.vertices[vertexIndex];
+		NavMeshHit hit;
+		Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * range;
+		Vector3 randomPos = origin + randomDirection;
+		NavMesh.SamplePosition(randomPos, out hit, range, 1);
+		int randomTriangleIndex = UnityEngine.Random.Range(0, navTriangulation.indices.Length / 3);
+		Vector3[] triangle = new Vector3[3];
+		for (int i = 0; i < 3; i++)
+		{
+			triangle[i] = navTriangulation.vertices[navTriangulation.indices[randomTriangleIndex * 3 + i]];
+		}
+		randomPos = hit.position;
+		return randomPos;
 	}
+
+
+
+	//public Vector3 GetRandSpawnPosOnMesh()
+	//{
+	//	int vertexIndex = Random.Range(0, navMeshTriangulation.vertices.Length);
+	//	return navMeshTriangulation.vertices[vertexIndex];
+	//}
 }

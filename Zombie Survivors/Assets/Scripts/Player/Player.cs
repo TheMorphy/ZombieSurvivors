@@ -1,17 +1,13 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SetActiveWeaponEvent))]
-[RequireComponent(typeof(HealthEvent))]
-[RequireComponent(typeof(Health))]
 [DisallowMultipleComponent]
 public class Player : MonoBehaviour
 {
 	[HideInInspector] public PlayerDetailsSO playerDetails;
 	[HideInInspector] public PlayerController playerController;
 	[HideInInspector] public SetActiveWeaponEvent setActiveWeaponEvent;
-	[HideInInspector] public HealthEvent healthEvent;
 	[HideInInspector] public SquadControl squadControl;
-	[HideInInspector] public Health health;
 
 	[HideInInspector] public Weapon playerWeapon;
 
@@ -19,28 +15,20 @@ public class Player : MonoBehaviour
 	{
 		playerController = GetComponent<PlayerController>();
 		setActiveWeaponEvent = GetComponent<SetActiveWeaponEvent>();
-		health = GetComponent<Health>();
-		healthEvent = GetComponent<HealthEvent>();
 		squadControl = GetComponent<SquadControl>();
 	}
 
 	private void OnEnable()
 	{
+		StaticEvents.CallPlayerInitializedEvent(transform);
+
 		UpgradesManager.OnWeaponUpgrade += UpgradesManager_OnWeaponUpgrade;
 
 		UpgradesManager.OnPlayerStatUpgrade += UpgradesManager_OnPlayerStatUpgrade;
 
 		UpgradesManager.OnAmmoUpgrade += UpgradesManager_OnAmmoUpgrade;
 
-		healthEvent.OnHealthChanged += HealthEvent_OnHealthChanged1;
-	}
-
-	private void HealthEvent_OnHealthChanged1(HealthEvent healthEvent, HealthEventArgs healthEventArgs)
-	{
-		if (healthEventArgs.healthAmount <= 0f)
-		{
-			playerController.SetPlayerToDead();
-		}
+		//healthEvent.OnHealthChanged += HealthEvent_OnHealthChanged1;
 	}
 
 	private void OnDisable()
@@ -52,6 +40,14 @@ public class Player : MonoBehaviour
 		UpgradesManager.OnAmmoUpgrade -= UpgradesManager_OnAmmoUpgrade;
 	}
 
+	//private void HealthEvent_OnHealthChanged1(HealthEvent healthEvent, HealthEventArgs healthEventArgs)
+	//{
+	//	if (healthEventArgs.healthAmount <= 0f)
+	//	{
+	//		playerController.SetPlayerToDead();
+	//	}
+	//}
+
 	private void UpgradesManager_OnAmmoUpgrade(AmmoUpgradeEventArgs ammoUpgradeEventArgs)
 	{
 		playerWeapon.UpgradeAmmo(ammoUpgradeEventArgs.ammoStats, ammoUpgradeEventArgs.floatValue, ammoUpgradeEventArgs.upgradeAction);
@@ -61,7 +57,9 @@ public class Player : MonoBehaviour
 	{
 		if(playerStatUpgradeEventArgs.playerStats == PlayerStats.Health)
 		{
-			health.UpgradPlayerHealth(playerStatUpgradeEventArgs.floatValue, playerStatUpgradeEventArgs.upgradeAction);
+			SquadControl.ComradesTransforms
+				.ForEach(x => x.GetComponent<Health>()
+				.UpgradPlayerHealth(playerStatUpgradeEventArgs.floatValue, playerStatUpgradeEventArgs.upgradeAction));
 		}
 		else if (playerStatUpgradeEventArgs.playerStats == PlayerStats.MoveSpeed)
 		{
@@ -71,7 +69,11 @@ public class Player : MonoBehaviour
 
 	private void UpgradesManager_OnWeaponUpgrade(WeaponUpgradeEventArgs weaponUpgradeEventArgs)
 	{
-		playerWeapon.UpgradeWeapon(weaponUpgradeEventArgs.weaponStats, weaponUpgradeEventArgs.floatValue, weaponUpgradeEventArgs.boolValue, weaponUpgradeEventArgs.upgradeAction);
+		playerWeapon.UpgradeWeapon(
+			weaponUpgradeEventArgs.weaponStats, 
+			weaponUpgradeEventArgs.floatValue, 
+			weaponUpgradeEventArgs.boolValue, 
+			weaponUpgradeEventArgs.upgradeAction);
 	}
 
 	/// <summary>
