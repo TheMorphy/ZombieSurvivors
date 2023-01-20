@@ -51,6 +51,7 @@ public class Enemy : MonoBehaviour
 	private void HealthEvent_OnHealthChanged(HealthEvent healthEvent, HealthEventArgs healthEventArgs)
 	{
 		health.UpdateHealthBar(healthEventArgs.healthPercent);
+		StartCoroutine(health.ShowHealthBarForSeconds(1f));
 
 		if (healthEventArgs.healthAmount <= 0)
 		{

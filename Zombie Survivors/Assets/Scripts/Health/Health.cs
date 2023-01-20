@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(HealthEvent))]
@@ -8,10 +9,13 @@ public class Health : MonoBehaviour
 	public int CurrentHealth;
 
 	private HealthEvent healthEvent;
+
+	bool isVisible = false;
 	[SerializeField] private Transform healthBar;
 
 	private void Awake()
 	{
+		healthBar.parent.gameObject.SetActive(false);
 		healthEvent = GetComponent<HealthEvent>();
 	}
 
@@ -71,6 +75,18 @@ public class Health : MonoBehaviour
 			CurrentHealth = ((int)Utilities.ApplyPercentage(value, CurrentHealth));
 		}
 			
+	}
+
+	public IEnumerator ShowHealthBarForSeconds(float seconds)
+	{
+		if (!isVisible)
+		{
+			healthBar.parent.gameObject.SetActive(true);
+			isVisible = true;
+		}
+		yield return new WaitForSeconds(seconds);
+		healthBar.parent.gameObject.SetActive(false);
+		isVisible = false;
 	}
 
 	public void UpdateHealthBar(float healthPercent)

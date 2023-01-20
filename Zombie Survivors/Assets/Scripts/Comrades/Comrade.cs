@@ -60,6 +60,7 @@ public class Comrade : MonoBehaviour
 	private void HealthEvent_OnHealthChanged(HealthEvent healthEvent, HealthEventArgs healthEventArgs)
 	{
 		Health.UpdateHealthBar(healthEventArgs.healthPercent);
+		StartCoroutine(Health.ShowHealthBarForSeconds(1f));
 
 		if (healthEventArgs.healthAmount <= 0f)
 		{

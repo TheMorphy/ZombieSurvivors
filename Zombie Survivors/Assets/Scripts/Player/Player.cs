@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(SetActiveWeaponEvent))]
@@ -28,7 +29,7 @@ public class Player : MonoBehaviour
 
 		UpgradesManager.OnAmmoUpgrade += UpgradesManager_OnAmmoUpgrade;
 
-		//healthEvent.OnHealthChanged += HealthEvent_OnHealthChanged1;
+		squadControl.OnSquadAmmountChanged += PlayerController_OnSquadIncrease;
 	}
 
 	private void OnDisable()
@@ -38,15 +39,9 @@ public class Player : MonoBehaviour
 		UpgradesManager.OnPlayerStatUpgrade -= UpgradesManager_OnPlayerStatUpgrade;
 
 		UpgradesManager.OnAmmoUpgrade -= UpgradesManager_OnAmmoUpgrade;
-	}
 
-	//private void HealthEvent_OnHealthChanged1(HealthEvent healthEvent, HealthEventArgs healthEventArgs)
-	//{
-	//	if (healthEventArgs.healthAmount <= 0f)
-	//	{
-	//		playerController.SetPlayerToDead();
-	//	}
-	//}
+		squadControl.OnSquadAmmountChanged -= PlayerController_OnSquadIncrease;
+	}
 
 	private void UpgradesManager_OnAmmoUpgrade(AmmoUpgradeEventArgs ammoUpgradeEventArgs)
 	{
@@ -75,6 +70,15 @@ public class Player : MonoBehaviour
 			weaponUpgradeEventArgs.boolValue, 
 			weaponUpgradeEventArgs.upgradeAction);
 	}
+
+	private void PlayerController_OnSquadIncrease(SquadControl squadControl, SquadControlEventArgs squadControlEventArgs)
+	{
+		if(squadControlEventArgs.squadSize == 0)
+		{
+			playerController.SetPlayerToDead();
+		}
+	}
+
 
 	/// <summary>
 	/// Initialize the player

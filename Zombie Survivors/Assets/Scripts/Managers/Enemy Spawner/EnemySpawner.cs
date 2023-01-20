@@ -23,11 +23,6 @@ public class EnemySpawner : MonoBehaviour
 		navTriangulation = NavMesh.CalculateTriangulation();
 	}
 
-	private void Start()
-	{
-		StartCoroutine(SpawnEnemies());
-	}
-
 	public IEnumerator SpawnEnemies()
 	{
 		while (spawnedEnemies < NumberOfEnemeisToSpawn || spawnEndlessly)

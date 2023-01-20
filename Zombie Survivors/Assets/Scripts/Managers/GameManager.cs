@@ -67,8 +67,6 @@ public class GameManager : MonoBehaviour
 		levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
 
 		StaticEvents.OnPlayerInitialized += StaticEvents_OnPlayerInitialized;
-
-		//player.destroyedEvent.OnDestroyed += Player_OnDestroyed;
 	}
 
 	private void OnDisable()
@@ -77,11 +75,15 @@ public class GameManager : MonoBehaviour
 
 		levelSystem.OnLevelChanged -= LevelSystem_OnLevelChanged;
 
-		//player.destroyedEvent.OnDestroyed -= Player_OnDestroyed;
+		StaticEvents.OnPlayerInitialized -= StaticEvents_OnPlayerInitialized;
 	}
 
+	/// <summary>
+	/// When player gets fully initialized, start spawning enemeis and multiplication circles
+	/// </summary>
 	private void StaticEvents_OnPlayerInitialized(PlayerInitializedEventArgs playerInitializedEventArgs)
 	{
+		StartCoroutine(enemySpawner.SpawnEnemies());
 		StartCoroutine(SpawnNewExpandAreaAtRandomPosition());
 	}
 
@@ -123,12 +125,6 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	//private void Player_OnDestroyed(object sender, System.EventArgs e)
-	//{
-	//	//previousGameState = gameState;
-	//	//gameState = GameState.gameLost;
-	//}
-
 	public Vector3 GetRandomSpawnPositionGround(float spawnMargin = 0)
 	{
 		return new Vector3(
@@ -158,7 +154,6 @@ public class GameManager : MonoBehaviour
 	{
 		SceneManager.LoadScene("MainMenu");
 	}
-
 
 	/// <summary>
 	/// Get the player
