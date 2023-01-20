@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ExpandSystem : MonoBehaviour
+public class MultiplicationCircleManager : MonoBehaviour
 {
     private TextMeshPro multiplyCountUI;
     private int randomNumber;
     private bool IsMultiplied;
+
+	List<Transform> collidingObjects = new List<Transform>();
 
 	private void Awake()
 	{
@@ -47,15 +49,19 @@ public class ExpandSystem : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag("Player"))
+		if (other.CompareTag("Comrade"))
 		{
-			StaticEvents.CallCircleDespawnedEvent(transform.position);
+			if (!collidingObjects.Contains(other.transform))
+			{
+				collidingObjects.Add(other.transform);
+				StaticEvents.CallCircleDespawnedEvent(transform.position);
 
-			SquadControl squadControl = other.GetComponentInParent<SquadControl>();
+				SquadControl squadControl = other.GetComponentInParent<SquadControl>();
 
-			squadControl.IncreaseSquadSize(randomNumber, IsMultiplied);
+				squadControl.IncreaseSquadSize(randomNumber, IsMultiplied);
 
-			Destroy(gameObject);
+				Destroy(gameObject);
+			}
 		}
 	}
 }

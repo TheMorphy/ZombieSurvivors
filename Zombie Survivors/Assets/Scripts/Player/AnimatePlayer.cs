@@ -28,8 +28,6 @@ public class AnimatePlayer : MonoBehaviour
 	{
 		comrade.ComradeMovement.enabled = false;
 
-		transform.parent = null;
-
 		comrade.Animator.enabled = false;
 		comrade.Animator.avatar = null;
 

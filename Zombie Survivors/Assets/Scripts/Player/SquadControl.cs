@@ -36,14 +36,14 @@ public class SquadControl : MonoBehaviour
 		}
 	}
 
-	private void ApplyMultiplication()
+	public void FormatSquad()
 	{
 		for (int i = 1; i < transform.childCount; i++)
 		{
 			var x = DistanceFactor * Mathf.Sqrt(i) * Mathf.Cos(i * Radius);
 			var z = DistanceFactor * Mathf.Sqrt(i) * Mathf.Sin(i * Radius);
 
-			var newPos = new Vector3(x, transform.position.y, z);
+			var newPos = new Vector3(x, 0f, z);
 
 			transform.GetChild(i).DOLocalMove(newPos, 0.7f).SetEase(Ease.OutBack);
 		}
@@ -60,7 +60,7 @@ public class SquadControl : MonoBehaviour
 		
 		squadAmmount = transform.childCount - 1;
 
-		ApplyMultiplication();
+		FormatSquad();
 
 		CallSquadChangedEvent(squadAmmount);
 	}
@@ -72,10 +72,13 @@ public class SquadControl : MonoBehaviour
 
 	public void RemoveFromSquad(Transform comradeTransform)
 	{
+		comradeTransform.parent = null;
 		squadAmmount--;
-
+		
 		ComradesTransforms.Remove(comradeTransform);
 		CallSquadChangedEvent(squadAmmount);
+
+		FormatSquad();
 	}
 
 	public void CallSquadChangedEvent(int squadSize)

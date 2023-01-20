@@ -83,6 +83,8 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	private void StaticEvents_OnPlayerInitialized(PlayerInitializedEventArgs playerInitializedEventArgs)
 	{
+		targetGroup.transform.position = playerInitializedEventArgs.playerTransform.position;
+
 		StartCoroutine(enemySpawner.SpawnEnemies());
 		StartCoroutine(SpawnNewExpandAreaAtRandomPosition());
 	}
