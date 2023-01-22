@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -10,7 +11,7 @@ public class AnimatePlayer : MonoBehaviour
 	public List<Collider> ragdollParts = new List<Collider>();
 
 	private float counter;
-	private float duration = 4f;
+	private float duration = 2f;
 
 	private void Awake()
 	{
@@ -58,13 +59,17 @@ public class AnimatePlayer : MonoBehaviour
 
 	private IEnumerator Die()
 	{
-		yield return new WaitForSeconds(3f);
+		yield return new WaitForSeconds(2f);
+
+		var joints = transform.GetComponentsInChildren<CharacterJoint>().ToList();
+		joints.ForEach(x => x.breakTorque = 0.1f);
+		joints.ForEach(x => x.breakForce = 0.1f);
 
 		while (counter < duration)
 		{
 			counter += Time.deltaTime;
 
-			transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, Time.deltaTime * 2);
+			transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, counter / duration);
 			yield return null;
 		}
 

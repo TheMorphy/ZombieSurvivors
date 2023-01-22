@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 public class SquadControl : MonoBehaviour
 {
@@ -16,11 +17,28 @@ public class SquadControl : MonoBehaviour
 
 	public static List<Transform> ComradesTransforms = new List<Transform>();
 
+	BoxCollider collider;
+	float timer;
+
+	private void Awake()
+	{
+		collider = GetComponent<BoxCollider>();
+	}
+
 	private void Start()
 	{
 		squadAmmount = transform.childCount - 1;
+	}
 
-		GameManager.Instance.AddTargetToCamera(transform, 1, 1);
+	private void Update()
+	{
+		timer += Time.deltaTime;
+
+		if(timer > 2f)
+		{
+			UpdateColliderSize();
+			timer = 0;
+		}
 	}
 
 	public void IncreaseSquadSize(int randomValue, bool multiply)
@@ -34,6 +52,28 @@ public class SquadControl : MonoBehaviour
 			CreateComrades(randomValue * squadAmmount);
 
 		}
+	}
+
+	public Bounds GetChildrenBounds()
+	{
+		Bounds bounds = new Bounds(transform.GetChild(0).position, Vector3.zero);
+
+		for (int i = 1; i < transform.childCount; i++)
+		{
+			bounds.Encapsulate(transform.GetChild(i).GetComponent<Collider>().bounds);
+		}
+		return bounds;
+	}
+
+	private void UpdateColliderSize()
+	{
+		Bounds childrenBounds = GetChildrenBounds();
+		Vector3 boundingBoxMin = childrenBounds.min;
+		Vector3 boundingBoxMax = childrenBounds.max;
+		float boundingWidthX = (boundingBoxMax.x - boundingBoxMin.x);
+		float boundingWidthZ = (boundingBoxMax.z - boundingBoxMin.z);
+
+		collider.size = new Vector3(boundingWidthX, collider.size.y, boundingWidthZ);
 	}
 
 	public void FormatSquad()
@@ -53,9 +93,7 @@ public class SquadControl : MonoBehaviour
 	{
 		for (int i = squadAmmount; i < number; i++)
 		{
-			GameObject member = Instantiate(comradePrefab, transform.position, Quaternion.identity, transform);
-
-			GameManager.Instance.AddTargetToCamera(member.transform, 1, 1);
+			Instantiate(comradePrefab, transform.position, Quaternion.identity, transform);
 		}
 		
 		squadAmmount = transform.childCount - 1;
@@ -73,19 +111,19 @@ public class SquadControl : MonoBehaviour
 	public void RemoveFromSquad(Transform comradeTransform)
 	{
 		comradeTransform.parent = null;
+
 		squadAmmount--;
 		
 		ComradesTransforms.Remove(comradeTransform);
 		CallSquadChangedEvent(squadAmmount);
-
-		FormatSquad();
 	}
 
 	public void CallSquadChangedEvent(int squadSize)
 	{
 		OnSquadAmmountChanged?.Invoke(this, new SquadControlEventArgs()
 		{
-			squadSize = squadSize
+			squadSize = squadSize,
+			previousSquadSize = squadAmmount
 		});
 	}
 }
@@ -93,4 +131,5 @@ public class SquadControl : MonoBehaviour
 public class SquadControlEventArgs : EventArgs
 {
 	public int squadSize;
+	public int previousSquadSize;
 }

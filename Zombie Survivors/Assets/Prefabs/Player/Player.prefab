@@ -285,6 +285,7 @@ MonoBehaviour:
   playerController: {fileID: 0}
   setActiveWeaponEvent: {fileID: 0}
   squadControl: {fileID: 0}
+  cameraController: {fileID: 0}
 --- !u!114 &8648394057788579890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,7 +403,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 500283249
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: 91eb97e16aa8b8041805d88957266379, type: 3}
   m_Color: {r: 0.21867211, g: 0.67597735, b: 0.735849, a: 1}
@@ -492,7 +493,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 500283249
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &1875819547356091832
@@ -733,6 +734,10 @@ PrefabInstance:
     - target: {fileID: 2032898448079932247, guid: 3dba209ac090101498332cd7b4d18bff, type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2065891253324402850, guid: 3dba209ac090101498332cd7b4d18bff, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2281238318759793043, guid: 3dba209ac090101498332cd7b4d18bff, type: 3}
       propertyPath: m_Layer

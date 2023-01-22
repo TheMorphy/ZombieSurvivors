@@ -9,7 +9,7 @@ public class MultiplicationCircleManager : MonoBehaviour
     private int randomNumber;
     private bool IsMultiplied;
 
-	List<Transform> collidingObjects = new List<Transform>();
+	//List<Transform> collidingObjects = new List<Transform>();
 
 	private void Awake()
 	{
@@ -49,19 +49,15 @@ public class MultiplicationCircleManager : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag("Comrade"))
+		if (other.CompareTag("Player"))
 		{
-			if (!collidingObjects.Contains(other.transform))
-			{
-				collidingObjects.Add(other.transform);
-				StaticEvents.CallCircleDespawnedEvent(transform.position);
+			StaticEvents.CallCircleDespawnedEvent(transform.position);
 
-				SquadControl squadControl = other.GetComponentInParent<SquadControl>();
+			SquadControl squadControl = other.GetComponentInParent<SquadControl>();
 
-				squadControl.IncreaseSquadSize(randomNumber, IsMultiplied);
+			squadControl.IncreaseSquadSize(randomNumber, IsMultiplied);
 
-				Destroy(gameObject);
-			}
+			Destroy(gameObject);
 		}
 	}
 }

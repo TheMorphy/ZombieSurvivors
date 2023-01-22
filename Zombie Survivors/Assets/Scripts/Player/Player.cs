@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 	[HideInInspector] public PlayerController playerController;
 	[HideInInspector] public SetActiveWeaponEvent setActiveWeaponEvent;
 	[HideInInspector] public SquadControl squadControl;
+	[HideInInspector] public CameraController cameraController;
 
 	[HideInInspector] public Weapon playerWeapon;
 
@@ -17,6 +18,7 @@ public class Player : MonoBehaviour
 		playerController = GetComponent<PlayerController>();
 		setActiveWeaponEvent = GetComponent<SetActiveWeaponEvent>();
 		squadControl = GetComponent<SquadControl>();
+		cameraController = GetComponent<CameraController>();
 	}
 
 	private void OnEnable()
@@ -77,6 +79,8 @@ public class Player : MonoBehaviour
 		{
 			playerController.SetPlayerToDead();
 		}
+
+		squadControl.FormatSquad();
 	}
 
 

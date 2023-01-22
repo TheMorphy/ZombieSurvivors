@@ -13,15 +13,12 @@ public class GameManager : MonoBehaviour
 	private float timeElapsed = 0;
 
 	[SerializeField] private EnemySpawner enemySpawner;
-	[SerializeField] private CinemachineTargetGroup targetGroup;
 	[SerializeField] private LevelUI levelUI;
 
 	private LevelSystem levelSystem;
 
 	private PlayerDetailsSO playerDetails;
 	private Player player;
-
-	public static List<GameObject> createdEnemies = new List<GameObject>();
 
 	// To make sure that circle doesn't spawn on the edge
 	private float spawnMargin = 5;
@@ -46,20 +43,13 @@ public class GameManager : MonoBehaviour
 	{
 		SurviveTime *= 60;
 
-		// Instantiate player
 		InstantiatePlayer();
-	}
-
-	private void LateUpdate()
-	{
-		targetGroup.transform.position = player.transform.position;
 	}
 
 	private void Update()
 	{
 		SurviveTime -= Time.deltaTime;
 	}
-
 	private void OnEnable()
 	{
 		levelUI.OnUpgradeSet += LevelUI_OnUpgradeSet;
@@ -83,21 +73,10 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	private void StaticEvents_OnPlayerInitialized(PlayerInitializedEventArgs playerInitializedEventArgs)
 	{
-		targetGroup.transform.position = playerInitializedEventArgs.playerTransform.position;
+		Camera.main.GetComponent<CameraController>().Player = playerInitializedEventArgs.playerTransform.GetComponent<Player>();
 
 		StartCoroutine(enemySpawner.SpawnEnemies());
 		StartCoroutine(SpawnNewExpandAreaAtRandomPosition());
-	}
-
-
-	public void AddTargetToCamera(Transform transform, float weight = 1, float radius = 1)
-	{
-		targetGroup.AddMember(transform, weight, radius);
-	}
-
-	public void RemoveTargetFromCamera(Transform transform)
-	{
-		targetGroup.RemoveMember(transform);
 	}
 
 	private void LevelUI_OnUpgradeSet()
@@ -144,7 +123,7 @@ public class GameManager : MonoBehaviour
 		GameObject playerGameObject = Instantiate(playerDetails.PlayerPrefab);
 
 		// Initialize Player
-		player = playerGameObject.GetComponentInChildren<Player>();
+		player = playerGameObject.GetComponent<Player>();
 
 		player.Initialize(playerDetails);
 	}

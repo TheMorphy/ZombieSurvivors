@@ -19,6 +19,11 @@ public class Health : MonoBehaviour
 		healthEvent = GetComponent<HealthEvent>();
 	}
 
+	private void LateUpdate()
+	{
+		healthBar.parent.transform.LookAt(Camera.main.transform);
+	}
+
 	private void CallHealthEvent(int damageAmount)
 	{
 		// Trigger health event
