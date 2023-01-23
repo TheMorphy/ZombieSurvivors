@@ -19,9 +19,8 @@ public class Enemy : MonoBehaviour
 	[HideInInspector] public DealContactDamage dealContactDamage;
 	[HideInInspector] public AnimateEnemy animateEnemy;
 	[HideInInspector] public Animator animator;
-
-	private HealthEvent healthEvent;
-	private Health health;
+	[HideInInspector] public HealthEvent healthEvent;
+	[HideInInspector] public Health health;
 
 	private void Awake()
 	{
@@ -60,7 +59,6 @@ public class Enemy : MonoBehaviour
 			enemyController.GetAgent().isStopped = true;
 
 			animator.SetBool("Die", true);
-			//destroyedEvent.CallDestroyedEvent(false, health.GetStartingHealth());
 		}
 	}
 
@@ -74,11 +72,6 @@ public class Enemy : MonoBehaviour
 		SetEnemyStartingHealth();
 		SetMoveSpeed();
 		SetContactDamage();
-	}
-
-	public void IncreaseEnemyHealth()
-	{
-
 	}
 
 	/// <summary>

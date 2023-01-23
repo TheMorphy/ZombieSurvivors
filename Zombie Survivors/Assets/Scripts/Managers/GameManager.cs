@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,10 +11,10 @@ public class GameManager : MonoBehaviour
 	public static GameManager Instance;
 
 	[SerializeField] private float SurviveTime = 10;
-	private float timeElapsed = 0;
 
 	[SerializeField] private EnemySpawner enemySpawner;
 	[SerializeField] private LevelUI levelUI;
+	[SerializeField] private TextMeshProUGUI timerText;
 
 	private LevelSystem levelSystem;
 
@@ -24,6 +25,8 @@ public class GameManager : MonoBehaviour
 	private float spawnMargin = 5;
 	private Vector3 spawnPos;
 	private Bounds groundBounds;
+
+	[HideInInspector] public GameState gameState;
 
 	private void Awake()
 	{
@@ -48,7 +51,21 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		SurviveTime -= Time.deltaTime;
+		switch (gameState)
+		{
+			case GameState.gameStarted:
+
+				EnableSpawners();
+				gameState = GameState.playingLevel;
+
+				break;
+			case GameState.playingLevel:
+
+				DisplayTime();
+
+
+				break;
+		}
 	}
 	private void OnEnable()
 	{
@@ -73,8 +90,11 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	private void StaticEvents_OnPlayerInitialized(PlayerInitializedEventArgs playerInitializedEventArgs)
 	{
-		Camera.main.GetComponent<CameraController>().Player = playerInitializedEventArgs.playerTransform.GetComponent<Player>();
+		gameState = GameState.gameStarted;
+	}
 
+	private void EnableSpawners()
+	{
 		StartCoroutine(enemySpawner.SpawnEnemies());
 		StartCoroutine(SpawnNewExpandAreaAtRandomPosition());
 	}
@@ -90,7 +110,17 @@ public class GameManager : MonoBehaviour
 		player.playerController.DisablePlayerMovement();
 		levelUI.gameObject.SetActive(true);
 	}
-	
+
+	void DisplayTime()
+	{
+		SurviveTime -= Time.deltaTime;
+
+		float minutes = Mathf.FloorToInt(SurviveTime / 60);
+		float seconds = Mathf.FloorToInt(SurviveTime % 60);
+
+		timerText.text = minutes + ":" + seconds;
+	}
+
 	private IEnumerator SpawnNewExpandAreaAtRandomPosition()
 	{
 		while (SurviveTime > 0)
@@ -124,6 +154,8 @@ public class GameManager : MonoBehaviour
 
 		// Initialize Player
 		player = playerGameObject.GetComponent<Player>();
+
+		Camera.main.GetComponent<CameraController>().Player = player;
 
 		player.Initialize(playerDetails);
 	}

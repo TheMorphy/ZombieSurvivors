@@ -16,6 +16,21 @@ public class EnemyDetailsSO : ScriptableObject
 	public int Damage = 10;
 
 	public int EXP_Increase = 10;
+
+	public EnemyDetailsSO ScaleUpLevel(ScalingConfigurationSO Scaling, int Level)
+	{
+		EnemyDetailsSO scaledUpenemy = CreateInstance<EnemyDetailsSO>();
+
+		scaledUpenemy.Class = Class;
+		scaledUpenemy.enemyPrefab = enemyPrefab;
+
+		scaledUpenemy.Health = Mathf.FloorToInt(Health * Scaling.HealthCurve.Evaluate(Level));
+		scaledUpenemy.Damage = Mathf.FloorToInt(Health * Scaling.HealthCurve.Evaluate(Level));
+		scaledUpenemy.MoveSpeed = MoveSpeed * Scaling.SpeedCurve.Evaluate(Level);
+		
+		return scaledUpenemy;
+	}
+
 }
 
 public enum EnemyClass

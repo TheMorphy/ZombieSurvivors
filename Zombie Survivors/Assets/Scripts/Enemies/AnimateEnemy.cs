@@ -6,8 +6,6 @@ using UnityEngine;
 public class AnimateEnemy : MonoBehaviour
 {
 	private Enemy enemy;
-	[SerializeField] private float deathTime = 1.5f;
-	[SerializeField] private float preDeathWait = 1f;
 
 	private void Awake()
 	{
@@ -19,6 +17,6 @@ public class AnimateEnemy : MonoBehaviour
 		GameObject exp = Instantiate(GameResources.Instance.ExpDrop, transform.position, Quaternion.identity);
 		exp.GetComponent<ExpDrop>().SetExpValue(enemy.enemyDetails.EXP_Increase);
 
-		Destroy(gameObject);
+		enemy.destroyedEvent.CallDestroyedEvent(false, enemy.enemyDetails.EXP_Increase);
 	}
 }
