@@ -10,11 +10,11 @@ public class UpgradeCard : MonoBehaviour
 
 	private UpgradeType upgradeType;
 
-	private LevelUI levelUI;
+	private UpgradesUI levelUI;
 
 	private void Awake()
 	{
-		levelUI = GetComponentInParent<LevelUI>();
+		levelUI = GetComponentInParent<UpgradesUI>();
 	}
 
 	// Initializes card with FLOAT value

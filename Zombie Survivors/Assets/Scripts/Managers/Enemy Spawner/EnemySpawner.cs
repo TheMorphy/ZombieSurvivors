@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour
 	public static List<Transform> activeEnemies = new List<Transform>();
 
 	[Space]
-	[Header("Read At Runtime")]
+	[Header("Read At Runtime (Readonly)")]
 	[Space]
 	[SerializeField]
 	private int Level = 0;
@@ -46,6 +46,9 @@ public class EnemySpawner : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// So at the moment it spawns enemies in waves and each wave gets stronger.
+	/// </summary>
 	public IEnumerator SpawnEnemies()
 	{
 		Level++;

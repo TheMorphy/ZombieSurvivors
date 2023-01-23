@@ -28,7 +28,7 @@ public class GameResources : MonoBehaviour
 	//public GameObject playerSelectionPrefab;
 
 	#region Header PLAYER
-	[Space(10)]
+	[Space(5)]
 	[Header("PLAYER")]
 	#endregion Header PLAYER
 	#region Tooltip
@@ -39,6 +39,12 @@ public class GameResources : MonoBehaviour
 	[Tooltip("The current player scriptable object - this is used to reference the current player between scenes")]
 	#endregion Tooltip
 	public CurrentPlayerSO CurrentPlayer;
+
+	#region Header BOSSES
+	[Space(5)]
+	[Header("BOSSES")]
+	#endregion Header PLAYER
+	public List<EnemyDetailsSO> Bosses;
 
 	#region Header EXPERIENCE
 	[Space(10)]

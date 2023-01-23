@@ -49,8 +49,15 @@ public class Enemy : MonoBehaviour
 
 	private void HealthEvent_OnHealthChanged(HealthEvent healthEvent, HealthEventArgs healthEventArgs)
 	{
-		health.UpdateHealthBar(healthEventArgs.healthPercent);
-		StartCoroutine(health.ShowHealthBarForSeconds(1f));
+		if(enemyDetails.Class == EnemyClass.Boss)
+		{
+			health.UpdateHealthBar(healthEventArgs.healthPercent);
+		}
+		else
+		{
+			health.UpdateHealthBar(healthEventArgs.healthPercent);
+			StartCoroutine(health.ShowHealthBarForSeconds(1f));
+		}
 
 		if (healthEventArgs.healthAmount <= 0)
 		{
@@ -72,6 +79,11 @@ public class Enemy : MonoBehaviour
 		SetEnemyStartingHealth();
 		SetMoveSpeed();
 		SetContactDamage();
+	}
+
+	public void InitializeCustomHealth(GameObject bossHealthbar)
+	{
+		health.SetHealthbar(bossHealthbar);
 	}
 
 	/// <summary>

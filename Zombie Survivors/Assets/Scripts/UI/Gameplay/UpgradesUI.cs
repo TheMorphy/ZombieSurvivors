@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 
-public class LevelUI : MonoBehaviour
+public class UpgradesUI : MonoBehaviour
 {
 	public event Action OnUpgradeSet;
 

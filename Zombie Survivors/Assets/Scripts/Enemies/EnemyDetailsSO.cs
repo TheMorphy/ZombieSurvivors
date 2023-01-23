@@ -35,5 +35,6 @@ public class EnemyDetailsSO : ScriptableObject
 
 public enum EnemyClass
 {
-	Zombie
+	Zombie,
+	Boss
 }

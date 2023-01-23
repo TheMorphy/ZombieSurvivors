@@ -1,6 +1,4 @@
-using Cinemachine;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,9 +9,11 @@ public class GameManager : MonoBehaviour
 	public static GameManager Instance;
 
 	[SerializeField] private float SurviveTime = 10;
+	[SerializeField] private int currentLevel = 1;
+	public GameObject bossHealthbar;
 
 	[SerializeField] private EnemySpawner enemySpawner;
-	[SerializeField] private LevelUI levelUI;
+	[SerializeField] private UpgradesUI levelUI;
 	[SerializeField] private TextMeshProUGUI timerText;
 
 	private LevelSystem levelSystem;
@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
+		bossHealthbar.SetActive(false);
+
 		SurviveTime *= 60;
 
 		InstantiatePlayer();
@@ -63,6 +65,21 @@ public class GameManager : MonoBehaviour
 
 				DisplayTime();
 
+				if(SurviveTime == 0)
+				{
+					StopAllCoroutines();
+					gameState = GameState.bossFight;
+				}
+					
+				break;
+			case GameState.bossFight:
+
+				SpawnBoss(currentLevel);
+				gameState = GameState.engagngBoss;
+
+				break;
+
+			case GameState.engagngBoss:
 
 				break;
 		}
@@ -99,6 +116,20 @@ public class GameManager : MonoBehaviour
 		StartCoroutine(SpawnNewExpandAreaAtRandomPosition());
 	}
 
+	private void SpawnBoss(int currentLevel)
+	{
+		bossHealthbar.SetActive(true);
+
+		if (currentLevel > 0)
+			currentLevel--;
+
+		var bossDetails = GameResources.Instance.Bosses[0];
+
+		Enemy boss = Instantiate(bossDetails.enemyPrefab, Vector3.zero, Quaternion.identity).GetComponent<Enemy>();
+		boss.InitializeEnemy(bossDetails);
+		boss.InitializeCustomHealth(bossHealthbar);
+	}
+
 	private void LevelUI_OnUpgradeSet()
 	{
 		levelUI.gameObject.SetActive(false);
@@ -118,11 +149,24 @@ public class GameManager : MonoBehaviour
 		float minutes = Mathf.FloorToInt(SurviveTime / 60);
 		float seconds = Mathf.FloorToInt(SurviveTime % 60);
 
+		if(minutes <= 0) minutes = 0;
+		if(seconds <= 0) seconds = 0;
+
+		if(minutes == 0 && seconds == 0)
+		{
+			SurviveTime = 0;
+			timerText.gameObject.SetActive(false);
+			return;
+		} 
+
 		timerText.text = minutes + ":" + seconds;
 	}
 
 	private IEnumerator SpawnNewExpandAreaAtRandomPosition()
 	{
+		float delay = 30;
+		WaitForSeconds spawnDelay = new WaitForSeconds(delay);
+
 		while (SurviveTime > 0)
 		{
 			spawnPos = GetRandomSpawnPositionGround(spawnMargin);
@@ -131,8 +175,8 @@ public class GameManager : MonoBehaviour
 			circle.transform.position = spawnPos;
 
 			StaticEvents.CallCircleSpawnedEvent(spawnPos);
-			
-			yield return new WaitForSeconds(10);
+
+			yield return spawnDelay;
 		}
 	}
 
@@ -188,6 +232,7 @@ public enum GameState
 	restartGame,
 	playingLevel,
 	bossFight,
+	engagngBoss,
 	levelCompleted,
 	gameWon,
 	gameLost,

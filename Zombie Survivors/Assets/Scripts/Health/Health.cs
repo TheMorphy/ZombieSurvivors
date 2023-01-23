@@ -15,13 +15,16 @@ public class Health : MonoBehaviour
 
 	private void Awake()
 	{
-		healthBar.parent.gameObject.SetActive(false);
+		if(healthBar != null)
+			healthBar.parent.gameObject.SetActive(false);
+
 		healthEvent = GetComponent<HealthEvent>();
 	}
 
 	private void LateUpdate()
 	{
-		healthBar.parent.transform.LookAt(Camera.main.transform);
+		if (healthBar != null && !transform.tag.Contains("Boss"))
+			healthBar.parent.transform.LookAt(Camera.main.transform);
 	}
 
 	private void CallHealthEvent(int damageAmount)
@@ -79,7 +82,6 @@ public class Health : MonoBehaviour
 		{
 			CurrentHealth = ((int)Utilities.ApplyPercentage(value, CurrentHealth));
 		}
-			
 	}
 
 	public IEnumerator ShowHealthBarForSeconds(float seconds)
@@ -102,5 +104,11 @@ public class Health : MonoBehaviour
 		}
 
 		healthBar.localScale = new Vector2(healthPercent, healthBar.localScale.y);
+
+	}
+
+	public void SetHealthbar(GameObject newHealthbar)
+	{
+		healthBar = newHealthbar.transform.GetChild(0).transform;
 	}
 }
