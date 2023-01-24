@@ -1,10 +1,10 @@
+using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
 public class ComradeMovement : MonoBehaviour
 {
-	private Comrade comrade;
     [SerializeField] private Transform bodyPivot;
 
 	private FireWeapon fireWeapon;
@@ -13,7 +13,6 @@ public class ComradeMovement : MonoBehaviour
 
 	private void Awake()
 	{
-		comrade = GetComponent<Comrade>();
 		fireWeapon = GetComponent<FireWeapon>();
 	}
 

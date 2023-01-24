@@ -8,6 +8,7 @@ public class ScalingConfigurationSO : ScriptableObject
     public AnimationCurve HealthCurve;
     public AnimationCurve DamageCurve;
     public AnimationCurve SpeedCurve;
+    public AnimationCurve ExpCurve;
     public AnimationCurve SpawnRateCurve;
     public AnimationCurve SpawnCountCurve;
 }

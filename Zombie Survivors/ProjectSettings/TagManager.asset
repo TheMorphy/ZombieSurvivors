@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - Comrade
   - Ground
+  - Escape
   layers:
   - Default
   - TransparentFX

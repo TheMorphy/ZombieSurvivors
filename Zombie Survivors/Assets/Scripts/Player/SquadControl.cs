@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 
@@ -74,6 +75,14 @@ public class SquadControl : MonoBehaviour
 		float boundingWidthZ = (boundingBoxMax.z - boundingBoxMin.z);
 
 		collider.size = new Vector3(boundingWidthX, collider.size.y, boundingWidthZ);
+	}
+
+	public void DisableComrades()
+	{
+		for (int i = 0; i < transform.childCount; i++)
+		{
+			transform.GetChild(i).GetComponents<MonoBehaviour>().ToList().ForEach(x => x.enabled = false);
+		}
 	}
 
 	public void FormatSquad()

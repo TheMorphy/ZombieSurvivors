@@ -40,17 +40,15 @@ public class GameResources : MonoBehaviour
 	#endregion Tooltip
 	public CurrentPlayerSO CurrentPlayer;
 
-	#region Header BOSSES
-	[Space(5)]
-	[Header("BOSSES")]
-	#endregion Header PLAYER
-	public List<EnemyDetailsSO> Bosses;
-
 	#region Header EXPERIENCE
-	[Space(10)]
+	[Space(5)]
 	[Header("EXPERIENCE")]
 	#endregion Header EXPERIENCE
 	public GameObject ExpDrop;
 
 	public GameObject MultiplicationCircle;
+	
+	[Space(5)]
+	[Header("END GAME")]
+	public GameObject EvacuationArea;
 }

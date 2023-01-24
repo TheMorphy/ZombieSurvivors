@@ -1,4 +1,7 @@
+using DG.Tweening;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,8 +12,8 @@ public class GameManager : MonoBehaviour
 	public static GameManager Instance;
 
 	[SerializeField] private float SurviveTime = 10;
-	[SerializeField] private int currentLevel = 1;
-	public GameObject bossHealthbar;
+	[SerializeField] private int currentLevel = 0;
+	[SerializeField] private float timeElapsed = 0;
 
 	[SerializeField] private EnemySpawner enemySpawner;
 	[SerializeField] private UpgradesUI levelUI;
@@ -44,8 +47,6 @@ public class GameManager : MonoBehaviour
 
 	private void Start()
 	{
-		bossHealthbar.SetActive(false);
-
 		SurviveTime *= 60;
 
 		InstantiatePlayer();
@@ -63,6 +64,7 @@ public class GameManager : MonoBehaviour
 				break;
 			case GameState.playingLevel:
 
+				timeElapsed += Time.deltaTime;
 				DisplayTime();
 
 				if(SurviveTime == 0)
@@ -74,12 +76,17 @@ public class GameManager : MonoBehaviour
 				break;
 			case GameState.bossFight:
 
-				SpawnBoss(currentLevel);
+				enemySpawner.SpawnBoss(currentLevel);
 				gameState = GameState.engagngBoss;
 
 				break;
 
 			case GameState.engagngBoss:
+
+
+				break;
+			case GameState.evacuating:
+
 
 				break;
 		}
@@ -116,20 +123,6 @@ public class GameManager : MonoBehaviour
 		StartCoroutine(SpawnNewExpandAreaAtRandomPosition());
 	}
 
-	private void SpawnBoss(int currentLevel)
-	{
-		bossHealthbar.SetActive(true);
-
-		if (currentLevel > 0)
-			currentLevel--;
-
-		var bossDetails = GameResources.Instance.Bosses[0];
-
-		Enemy boss = Instantiate(bossDetails.enemyPrefab, Vector3.zero, Quaternion.identity).GetComponent<Enemy>();
-		boss.InitializeEnemy(bossDetails);
-		boss.InitializeCustomHealth(bossHealthbar);
-	}
-
 	private void LevelUI_OnUpgradeSet()
 	{
 		levelUI.gameObject.SetActive(false);
@@ -140,6 +133,11 @@ public class GameManager : MonoBehaviour
 	{
 		player.playerController.DisablePlayerMovement();
 		levelUI.gameObject.SetActive(true);
+	}
+
+	public float GetElapsedTime()
+	{
+		return timeElapsed;
 	}
 
 	void DisplayTime()
@@ -204,6 +202,39 @@ public class GameManager : MonoBehaviour
 		player.Initialize(playerDetails);
 	}
 
+	public void SpawnEvacuationArea()
+	{
+		gameState = GameState.evacuating;
+
+		Instantiate(GameResources.Instance.EvacuationArea, Vector3.zero, Quaternion.identity);
+	}
+
+	public void Evacuate(Vector3 evacuationZonePosition)
+	{
+		player.playerController.StopPlayer();
+
+		player.squadControl.DisableComrades();
+
+		var arangedComrades = SquadControl.ComradesTransforms
+			.OrderBy(x => Vector3.Distance(x.transform.position, evacuationZonePosition)).ToList();
+
+		print(arangedComrades.Count);
+
+		StartCoroutine(MoveTransformsToPosition(arangedComrades, evacuationZonePosition));
+	}
+
+	IEnumerator MoveTransformsToPosition(List<Transform> transforms, Vector3 position)
+	{
+		// A bit of delay before boarding
+		yield return new WaitForSeconds(1.5f);
+
+		foreach (var t in transforms)
+		{
+			yield return t.DOMove(position, 0.7f).WaitForCompletion();
+			t.gameObject.SetActive(false);
+		}
+	}
+
 	/// <summary>
 	/// Restart the game
 	/// </summary>
@@ -233,7 +264,8 @@ public enum GameState
 	playingLevel,
 	bossFight,
 	engagngBoss,
-	levelCompleted,
+	preparingForEvacuation,
+	evacuating,
 	gameWon,
 	gameLost,
 	gamePaused

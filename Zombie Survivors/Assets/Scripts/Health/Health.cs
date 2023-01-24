@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(HealthEvent))]
 [DisallowMultipleComponent]
@@ -12,6 +13,8 @@ public class Health : MonoBehaviour
 
 	bool isVisible = false;
 	[SerializeField] private Transform healthBar;
+
+	private Image bossHealth;
 
 	private void Awake()
 	{
@@ -104,11 +107,24 @@ public class Health : MonoBehaviour
 		}
 
 		healthBar.localScale = new Vector2(healthPercent, healthBar.localScale.y);
-
 	}
 
-	public void SetHealthbar(GameObject newHealthbar)
+	/// <summary>
+	/// Some stinky stuff in here. Remember to update
+	/// </summary>
+	public void UpdateBossHealthBar(float healthPercent)
 	{
-		healthBar = newHealthbar.transform.GetChild(0).transform;
+		if (healthPercent <= 0f)
+		{
+			healthPercent = 0f;
+		}
+
+		// This needs to be separated, but for now lets leave it here
+		bossHealth.fillAmount = healthPercent;
+	}
+
+	public void SetHealthbar(Image bossHealthbar)
+	{
+		bossHealth = bossHealthbar;
 	}
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(HealthEvent))]
@@ -51,7 +52,7 @@ public class Enemy : MonoBehaviour
 	{
 		if(enemyDetails.Class == EnemyClass.Boss)
 		{
-			health.UpdateHealthBar(healthEventArgs.healthPercent);
+			health.UpdateBossHealthBar(healthEventArgs.healthPercent);
 		}
 		else
 		{
@@ -81,9 +82,9 @@ public class Enemy : MonoBehaviour
 		SetContactDamage();
 	}
 
-	public void InitializeCustomHealth(GameObject bossHealthbar)
+	public void InitializeBossHealthbar(Image healthbarImage)
 	{
-		health.SetHealthbar(bossHealthbar);
+		health.SetHealthbar(healthbarImage);
 	}
 
 	/// <summary>

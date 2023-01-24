@@ -15,6 +15,6 @@ MonoBehaviour:
   Class: 1
   enemyPrefab: {fileID: 3373127689159597595, guid: dccae493a3241424ab3d87f500ee41b2, type: 3}
   Health: 1500
-  MoveSpeed: 5.5
+  MoveSpeed: 5
   Damage: 60
-  EXP_Increase: 550
+  EXP_Increase: 0

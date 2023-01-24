@@ -35,6 +35,24 @@ public class PlayerController : MonoBehaviour
 		rb.MovePosition(transform.position + moveDirection * Time.deltaTime * GetMoveSpeed());
 	}
 
+	public void StopPlayer()
+	{
+		joystick.ResetJoystick();
+
+		transform.GetChild(0).gameObject.SetActive(false);
+
+		joystick.gameObject.SetActive(false);
+
+		player.playerController.enabled = false;
+
+		moveDirection = Vector3.zero;
+	}
+
+	public Vector3 GetMoveDirection()
+	{
+		return moveDirection;
+	}
+
 	public Quaternion GetLookDirection()
 	{
 		return currentRotation;

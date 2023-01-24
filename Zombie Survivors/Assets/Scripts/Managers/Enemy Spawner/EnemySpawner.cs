@@ -7,11 +7,17 @@ using UnityEngine.AI;
 public class EnemySpawner : MonoBehaviour
 {
 	public List<EnemyDetailsSO> Enemies = new List<EnemyDetailsSO>();
-	public ScalingConfigurationSO EnemiesScalingConfiguration;
+	public ScalingConfigurationSO ScalingConfiguration;
 
 	[SerializeField] private int NumberOfEnemies = 15;
 	[SerializeField] private float spawnDelay = 1.5f;
-	//[SerializeField] private bool spawnEndlessly = false;
+	[SerializeField] private bool spawnEndlessly = false;
+
+	[Space]
+	[Header("Bosses")]
+	[Tooltip("List position represents level number")]
+	public List<EnemyDetailsSO> Bosses = new List<EnemyDetailsSO>();
+	[SerializeField] private BossHealthUI bossHealthUI;
 
 	NavMeshTriangulation navTriangulation;
 	public static List<Transform> activeEnemies = new List<Transform>();
@@ -19,9 +25,7 @@ public class EnemySpawner : MonoBehaviour
 	[Space]
 	[Header("Read At Runtime (Readonly)")]
 	[Space]
-	[SerializeField]
 	private int Level = 0;
-
 	[SerializeField]
 	private List<EnemyDetailsSO> scaledEnemies = new List<EnemyDetailsSO>();
 
@@ -42,7 +46,7 @@ public class EnemySpawner : MonoBehaviour
 	{
 		for (int i = 0; i < Enemies.Count; i++)
 		{
-			scaledEnemies.Add(Enemies[i].ScaleUpLevel(EnemiesScalingConfiguration, 0));
+			scaledEnemies.Add(Enemies[i].ScaleUpEnemiesByLevel(ScalingConfiguration, 0));
 		}
 	}
 
@@ -51,17 +55,20 @@ public class EnemySpawner : MonoBehaviour
 	/// </summary>
 	public IEnumerator SpawnEnemies()
 	{
-		Level++;
-		enemiesAlive = 0;
-		enemiesSpawned = 0;
-
-		for (int i = 0; i < Enemies.Count; i++)
+		if(spawnEndlessly == false)
 		{
-			scaledEnemies[i] = Enemies[i].ScaleUpLevel(EnemiesScalingConfiguration, Level);
-		}
+			Level++;
+			enemiesAlive = 0;
+			enemiesSpawned = 0;
 
+			for (int i = 0; i < Enemies.Count; i++)
+			{
+				scaledEnemies.Add(Enemies[i].ScaleUpEnemiesByLevel(ScalingConfiguration, Level));
+			}
+		}
+		
 		WaitForSeconds Wait = new WaitForSeconds(spawnDelay);
-		while (enemiesSpawned < NumberOfEnemies)
+		while (enemiesSpawned < NumberOfEnemies || spawnEndlessly)
 		{
 			Spawn();
 
@@ -76,8 +83,9 @@ public class EnemySpawner : MonoBehaviour
 
 		do
 		{
-			// Find a random point on the navmesh
-			randomPos = RandomNavmeshLocation(Camera.main.transform.position, 50f);
+			// Find a random point on the navmesh within 50 units
+			float spawnRadius = 50f;
+			randomPos = RandomNavmeshLocation(Camera.main.transform.position, spawnRadius);
 			// Check if the enemy is within the camera's view
 			screenPos = Camera.main.WorldToScreenPoint(randomPos);
 		}
@@ -90,10 +98,23 @@ public class EnemySpawner : MonoBehaviour
 
 		enemy.InitializeEnemy(scaledEnemies[0]);
 
-		enemy.destroyedEvent.OnDestroyed += DestroyedEvent_OnDestroyed;
+		if (spawnEndlessly)
+		{
+			float timeElapsed = GameManager.Instance.GetElapsedTime();
+			for (int i = 0; i < scaledEnemies.Count; i++)
+			{
+				scaledEnemies[i].ScaleUpEnemiesByTime(ScalingConfiguration, timeElapsed);
+			}
+			
+			ScaleUpSpawns(timeElapsed);
+		}
+		else
+		{
+			enemy.destroyedEvent.OnDestroyed += DestroyedEvent_OnEnemyDestroyed;
 
-		enemiesSpawned++;
-		enemiesAlive++;
+			enemiesSpawned++;
+			enemiesAlive++;
+		}
 	}
 
 	Vector3 RandomNavmeshLocation(Vector3 origin, float range)
@@ -112,7 +133,7 @@ public class EnemySpawner : MonoBehaviour
 		return randomPos;
 	}
 
-	private void DestroyedEvent_OnDestroyed(DestroyedEvent destroyedEvent, DestroyedEventArgs destroyedEventArgs)
+	private void DestroyedEvent_OnEnemyDestroyed(DestroyedEvent destroyedEvent, DestroyedEventArgs destroyedEventArgs)
 	{
 		if(destroyedEventArgs.playerDied == false)
 		{
@@ -126,9 +147,33 @@ public class EnemySpawner : MonoBehaviour
 		}
 	}
 
+	public void SpawnBoss(int levelIndex)
+	{
+		bossHealthUI.GetUITransform().gameObject.SetActive(true);
+
+		Enemy boss = Instantiate(Bosses[levelIndex].enemyPrefab, Vector3.zero, Quaternion.identity).GetComponent<Enemy>();
+		boss.InitializeEnemy(Bosses[levelIndex]);
+		boss.InitializeBossHealthbar(bossHealthUI.GetHealthbar());
+
+		boss.destroyedEvent.OnDestroyed += DestroyedEvent_OnBossDestroyed;
+	}
+
+	private void DestroyedEvent_OnBossDestroyed(DestroyedEvent destroyedEvent, DestroyedEventArgs destroyedEventArgs)
+	{
+		bossHealthUI.GetUITransform().gameObject.SetActive(false);
+
+		GameManager.Instance.SpawnEvacuationArea();
+	}
+
 	public void ScaleUpSpawns()
 	{
-		NumberOfEnemies = Mathf.FloorToInt(initialEnemiesToSpawn * EnemiesScalingConfiguration.SpawnCountCurve.Evaluate(Level + 1));
-		spawnDelay = InitialSpawnDelay * EnemiesScalingConfiguration.SpawnRateCurve.Evaluate(Level + 1);
+		NumberOfEnemies = Mathf.FloorToInt(initialEnemiesToSpawn * ScalingConfiguration.SpawnCountCurve.Evaluate(Level + 1));
+		spawnDelay = InitialSpawnDelay * ScalingConfiguration.SpawnRateCurve.Evaluate(Level + 1);
+	}
+
+	public void ScaleUpSpawns(float time)
+	{
+		NumberOfEnemies = Mathf.FloorToInt(initialEnemiesToSpawn * ScalingConfiguration.SpawnCountCurve.Evaluate(time));
+		spawnDelay = InitialSpawnDelay * ScalingConfiguration.SpawnRateCurve.Evaluate(time);
 	}
 }
