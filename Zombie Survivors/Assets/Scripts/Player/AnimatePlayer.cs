@@ -22,7 +22,7 @@ public class AnimatePlayer : MonoBehaviour
 
 	private void Update()
 	{
-		comrade.Animator.SetFloat("MoveSpeed", comrade.Player.playerController.GetMoveSpeed());
+		comrade.Animator.SetFloat(Settings.MoveSpeed, comrade.Player.playerController.GetMoveSpeed());
 	}
 
 	public void TurnOnRagdoll()

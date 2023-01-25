@@ -26,7 +26,6 @@ public class EnemySpawner : MonoBehaviour
 	[Header("Read At Runtime (Readonly)")]
 	[Space]
 	private int Level = 0;
-	[SerializeField]
 	private List<EnemyDetailsSO> scaledEnemies = new List<EnemyDetailsSO>();
 
 	private int enemiesAlive = 0;
@@ -46,7 +45,14 @@ public class EnemySpawner : MonoBehaviour
 	{
 		for (int i = 0; i < Enemies.Count; i++)
 		{
-			scaledEnemies.Add(Enemies[i].ScaleUpEnemiesByLevel(ScalingConfiguration, 0));
+			if(spawnEndlessly == false)
+			{
+				scaledEnemies.Add(Enemies[i].ScaleUpEnemiesByLevel(ScalingConfiguration, 0));
+			}
+			else
+			{
+				scaledEnemies.Add(Enemies[i]);
+			}
 		}
 	}
 

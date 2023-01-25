@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+#region Required Components
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(HealthEvent))]
 [RequireComponent(typeof(Destroyed))]
@@ -10,6 +11,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(AnimateEnemy))]
 [RequireComponent(typeof(Animator))]
 [DisallowMultipleComponent]
+#endregion
 
 public class Enemy : MonoBehaviour
 {
@@ -64,9 +66,9 @@ public class Enemy : MonoBehaviour
 		{
 			EnemySpawner.activeEnemies.Remove(transform);
 
-			enemyController.GetAgent().isStopped = true;
+			enemyController.DisableEnemy();
 
-			animator.SetBool("Die", true);
+			animateEnemy.TurnOnRagdoll();
 		}
 	}
 

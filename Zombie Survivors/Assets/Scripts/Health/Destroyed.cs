@@ -22,18 +22,13 @@ public class Destroyed : MonoBehaviour
 	{
 		//Unsubscribe to destroyed event
 		destroyedEvent.OnDestroyed -= DestroyedEvent_OnDestroyed;
-
 	}
 
 	private void DestroyedEvent_OnDestroyed(DestroyedEvent destroyedEvent, DestroyedEventArgs destroyedEventArgs)
 	{
-		if (destroyedEventArgs.playerDied)
-		{
-			gameObject.SetActive(false);
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
+		//if(destroyedEventArgs.playerDied)
+		//{
+		//	Destroy(gameObject);
+		//}
 	}
 }

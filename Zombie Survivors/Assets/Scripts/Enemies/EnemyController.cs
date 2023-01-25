@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -9,6 +8,8 @@ public class EnemyController : MonoBehaviour
 	private NavMeshAgent _agent;
 
 	private Vector3 startPos;
+
+	public float speed;
 
 	private void Awake()
 	{
@@ -26,7 +27,9 @@ public class EnemyController : MonoBehaviour
 	{
 		if(_agent.enabled)
 		{
-			if(SquadControl.ComradesTransforms.Count != 0)
+			speed = _agent.velocity.magnitude;
+
+			if (SquadControl.ComradesTransforms.Count != 0)
 			{
 				var target = GetClosestComrade(SquadControl.ComradesTransforms);
 
@@ -38,6 +41,13 @@ public class EnemyController : MonoBehaviour
 				_agent.destination = startPos;
 			}
 		}
+	}
+
+	public void DisableEnemy()
+	{
+		enabled = false;
+
+		_agent.enabled = false;
 	}
 
 	Transform GetClosestComrade(List<Transform> comrades)
@@ -67,5 +77,10 @@ public class EnemyController : MonoBehaviour
 	public NavMeshAgent GetAgent()
 	{
 		return _agent;
+	}
+
+	public float GetMoveSpeed()
+	{
+		return _agent.velocity.magnitude;
 	}
 }

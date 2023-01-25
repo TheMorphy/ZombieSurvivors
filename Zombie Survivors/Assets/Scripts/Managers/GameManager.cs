@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private float timeElapsed = 0;
 
 	[SerializeField] private EnemySpawner enemySpawner;
+	[SerializeField] private SceneController sceneController;
 	[SerializeField] private UpgradesUI levelUI;
 	[SerializeField] private TextMeshProUGUI timerText;
 
@@ -225,13 +226,12 @@ public class GameManager : MonoBehaviour
 
 	IEnumerator MoveTransformsToPosition(List<Transform> transforms, Vector3 position)
 	{
-		// A bit of delay before boarding
-		yield return new WaitForSeconds(1.5f);
-
 		foreach (var t in transforms)
 		{
-			yield return t.DOMove(position, 0.7f).WaitForCompletion();
-			t.gameObject.SetActive(false);
+			var moveTween = t.DOMove(position, 0.7f);
+			Vector3 startScale = t.localScale;
+			moveTween.OnUpdate(() => t.localScale = Vector3.Lerp(startScale, startScale / 2, moveTween.Elapsed()));
+			yield return moveTween.WaitForCompletion();
 		}
 	}
 
@@ -240,7 +240,7 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	private void RestartGame()
 	{
-		SceneManager.LoadScene("MainMenu");
+		sceneController.LoadScene("MainMenu");
 	}
 
 	/// <summary>
