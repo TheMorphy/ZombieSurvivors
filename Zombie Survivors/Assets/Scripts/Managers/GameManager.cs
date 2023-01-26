@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour
 	/// <summary>
 	/// When player gets fully initialized, start spawning enemeis and multiplication circles
 	/// </summary>
-	private void StaticEvents_OnPlayerInitialized(PlayerInitializedEventArgs playerInitializedEventArgs)
+	private void StaticEvents_OnPlayerInitialized(ComradeBoardedEventArgs playerInitializedEventArgs)
 	{
 		gameState = GameState.gameStarted;
 	}
@@ -212,14 +212,14 @@ public class GameManager : MonoBehaviour
 
 	public void Evacuate(Vector3 evacuationZonePosition)
 	{
+		Camera.main.GetComponent<CameraController>().SetNewTargetPosition(evacuationZonePosition);
+
 		player.playerController.StopPlayer();
 
 		player.squadControl.DisableComrades();
 
 		var arangedComrades = SquadControl.ComradesTransforms
 			.OrderBy(x => Vector3.Distance(x.transform.position, evacuationZonePosition)).ToList();
-
-		print(arangedComrades.Count);
 
 		StartCoroutine(MoveTransformsToPosition(arangedComrades, evacuationZonePosition));
 	}
@@ -230,7 +230,18 @@ public class GameManager : MonoBehaviour
 		{
 			var moveTween = t.DOMove(position, 0.7f);
 			Vector3 startScale = t.localScale;
-			moveTween.OnUpdate(() => t.localScale = Vector3.Lerp(startScale, startScale / 2, moveTween.Elapsed()));
+			bool eventCalled = false;
+			moveTween.OnUpdate(() => 
+			{ 
+				t.localScale = Vector3.Lerp(startScale, startScale / 2, moveTween.Elapsed());
+
+				if (Vector3.Distance(t.transform.position, position) < 0.5f && !eventCalled)
+				{
+					StaticEvents.CallComradeBoardedEvent();
+					eventCalled = true;
+				}
+			});
+
 			yield return moveTween.WaitForCompletion();
 		}
 	}

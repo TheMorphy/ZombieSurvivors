@@ -15,6 +15,8 @@ public class CameraController : MonoBehaviour
 
 	[HideInInspector] public Player Player;
 
+	private Vector3 targetPosition;
+
 	private void Start()
 	{
 		transform.rotation = Quaternion.Euler(rotationOffset.x, rotationOffset.y, rotationOffset.z);
@@ -24,11 +26,20 @@ public class CameraController : MonoBehaviour
 	{
 		if (Player != null)
 		{
-			AdjustCamera();
+			FollowPlayer();
+		}
+		else
+		{
+			FollowTarget();
 		}
 	}
 
-	private void AdjustCamera()
+	private void FollowTarget()
+	{
+		transform.position = Vector3.SmoothDamp(transform.position, targetPosition + offset, ref velocity, 1.2f);
+	}
+	
+	private void FollowPlayer()
 	{
 		Bounds childrenBounds = Player.squadControl.GetChildrenBounds();
 		Vector3 boundingBoxMin = Camera.main.WorldToScreenPoint(childrenBounds.min);
@@ -56,5 +67,12 @@ public class CameraController : MonoBehaviour
 		{
 			offset += (minDistance - distance) * (transform.position - Player.transform.position).normalized;
 		}
+	}
+
+	public void SetNewTargetPosition(Vector3 targetPosition)
+	{
+		Player = null;
+
+		this.targetPosition = targetPosition;
 	}
 }

@@ -20,15 +20,23 @@ public static class StaticEvents
 	}
 
 	// Player Initialized
-	public static event Action<PlayerInitializedEventArgs> OnPlayerInitialized;
+	public static event Action<ComradeBoardedEventArgs> OnPlayerInitialized;
 
 	public static void CallPlayerInitializedEvent(Transform playerTransform)
 	{
-		OnPlayerInitialized?.Invoke(new PlayerInitializedEventArgs() { playerTransform = playerTransform });
+		OnPlayerInitialized?.Invoke(new ComradeBoardedEventArgs() { playerTransform = playerTransform });
+	}
+
+	// Comrade boarded to helicopter
+	public static event Action OnComradeBoarded;
+
+	public static void CallComradeBoardedEvent()
+	{
+		OnComradeBoarded?.Invoke();
 	}
 }
 
-public class PlayerInitializedEventArgs : EventArgs
+public class ComradeBoardedEventArgs : EventArgs
 {
 	public Transform playerTransform;
 }

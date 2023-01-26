@@ -64,9 +64,9 @@ public class Enemy : MonoBehaviour
 
 		if (healthEventArgs.healthAmount <= 0)
 		{
-			EnemySpawner.activeEnemies.Remove(transform);
-
 			enemyController.DisableEnemy();
+
+			EnemySpawner.activeEnemies.Remove(transform);
 
 			animateEnemy.TurnOnRagdoll();
 		}

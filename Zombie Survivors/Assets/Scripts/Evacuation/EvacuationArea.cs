@@ -1,20 +1,37 @@
-using System;
+using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 
 [DisallowMultipleComponent]
 public class EvacuationArea : MonoBehaviour
 {
-    private Collider collider;
+	[SerializeField] private Transform helicopter;
+    private Collider areaCollider;
 
 	private void Awake()
 	{
-		collider = GetComponent<Collider>();
-		collider.enabled = false;
+		StaticEvents.OnComradeBoarded += StaticEvents_OnComradeBoarded;
+
+		areaCollider = transform.GetComponent<Collider>();
+		areaCollider.enabled = false;
+	}
+
+	private void StaticEvents_OnComradeBoarded()
+	{
+		StartCoroutine(AnimateHelicopterScale());
+	}
+
+	private IEnumerator AnimateHelicopterScale()
+	{
+		Vector3 initialScale = helicopter.localScale;
+		Vector3 scaleTo = initialScale * 1.2f;
+
+		yield return helicopter.DOScale(scaleTo, 0.1f).OnComplete(() => helicopter.DOScale(initialScale, 0.1f));
 	}
 
 	public void EnableCollider()
     {
-		collider.enabled = true;
+		areaCollider.enabled = true;
 	}
 
 	private void OnTriggerEnter(Collider other)

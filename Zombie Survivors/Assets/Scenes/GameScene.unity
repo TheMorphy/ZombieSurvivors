@@ -1136,7 +1136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db97fc8eb8946aa46aa2882f499eec35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SurviveTime: 5
+  SurviveTime: 0.1
   currentLevel: 0
   timeElapsed: 0
   enemySpawner: {fileID: 1051503593}

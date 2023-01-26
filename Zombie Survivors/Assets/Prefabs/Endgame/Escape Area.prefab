@@ -200,6 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83a4a1fca6e8cb14cbf2aa243b2da602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  helicopter: {fileID: 127898790184926261}
 --- !u!1 &8920200564432738664
 GameObject:
   m_ObjectHideFlags: 0

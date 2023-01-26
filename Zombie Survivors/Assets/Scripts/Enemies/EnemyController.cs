@@ -9,8 +9,6 @@ public class EnemyController : MonoBehaviour
 
 	private Vector3 startPos;
 
-	public float speed;
-
 	private void Awake()
 	{
 		_agent = GetComponent<NavMeshAgent>();
@@ -27,8 +25,6 @@ public class EnemyController : MonoBehaviour
 	{
 		if(_agent.enabled)
 		{
-			speed = _agent.velocity.magnitude;
-
 			if (SquadControl.ComradesTransforms.Count != 0)
 			{
 				var target = GetClosestComrade(SquadControl.ComradesTransforms);
@@ -45,9 +41,9 @@ public class EnemyController : MonoBehaviour
 
 	public void DisableEnemy()
 	{
-		enabled = false;
-
 		_agent.enabled = false;
+
+		enabled = false;
 	}
 
 	Transform GetClosestComrade(List<Transform> comrades)
