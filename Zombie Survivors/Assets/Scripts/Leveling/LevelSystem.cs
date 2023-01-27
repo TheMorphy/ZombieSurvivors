@@ -1,6 +1,4 @@
 using System;
-using UnityEngine;
-using UnityEngine.Events;
 
 public class LevelSystem
 {
@@ -9,7 +7,7 @@ public class LevelSystem
 	private int experienceToNextLevel;
 
     public event EventHandler OnExperienceChanged;
-	public event EventHandler OnLevelChanged;
+	public event EventHandler OnLevelUp;
 
     public LevelSystem()
     {
@@ -28,7 +26,7 @@ public class LevelSystem
             level++;
             experience -= experienceToNextLevel;
 
-			OnLevelChanged?.Invoke(this, EventArgs.Empty);
+			OnLevelUp?.Invoke(this, EventArgs.Empty);
 		}
 
         OnExperienceChanged?.Invoke(this, EventArgs.Empty);

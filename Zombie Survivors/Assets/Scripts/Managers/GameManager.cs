@@ -1,27 +1,23 @@
-using DG.Tweening;
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
 
-	[SerializeField] private float SurviveTime = 10;
-	[SerializeField] private int currentLevel = 0;
-	[SerializeField] private float timeElapsed = 0;
-
+	[Header("Controllers")]
 	[SerializeField] private EnemySpawner enemySpawner;
 	[SerializeField] private SceneController sceneController;
-	[SerializeField] private UpgradesUI levelUI;
-	[SerializeField] private TextMeshProUGUI timerText;
 
+	[Space]
+	[Header("Base Info")]
+	[SerializeField] private int currentLevel = 0;
+	public float SurviveTime = 10;
+	private float timeElapsed = 0;
+	
 	private LevelSystem levelSystem;
-
 	private PlayerDetailsSO playerDetails;
 	private Player player;
 
@@ -29,7 +25,9 @@ public class GameManager : MonoBehaviour
 	private float spawnMargin = 5;
 	private Vector3 spawnPos;
 	private Bounds groundBounds;
+	private bool airdropDropped = false;
 
+	public static event Action<GameState> OnGameStateChanged;
 	[HideInInspector] public GameState gameState;
 
 	private void Awake()
@@ -39,11 +37,9 @@ public class GameManager : MonoBehaviour
 		else
 			Destroy(gameObject);
 
-		groundBounds = GameObject.FindGameObjectWithTag("Ground").GetComponent<MeshCollider>().bounds;
-
 		levelSystem = new LevelSystem();
 
-		levelUI.SetLevelSystem(levelSystem);
+		groundBounds = GameObject.FindGameObjectWithTag("Ground").GetComponent<MeshCollider>().bounds;
 	}
 
 	private void Start()
@@ -60,52 +56,45 @@ public class GameManager : MonoBehaviour
 			case GameState.gameStarted:
 
 				EnableSpawners();
-				gameState = GameState.playingLevel;
 
 				break;
 			case GameState.playingLevel:
 
 				timeElapsed += Time.deltaTime;
-				DisplayTime();
 
-				if(SurviveTime == 0)
+				// Spawns Airdrop after 1min
+				if (Mathf.FloorToInt(timeElapsed) == 15 && !airdropDropped)
+				{
+					SpawnAirdrop();
+				}
+
+				if(SurviveTime <= 0)
 				{
 					StopAllCoroutines();
-					gameState = GameState.bossFight;
+					enemySpawner.SpawnBoss(currentLevel);
 				}
-					
+
 				break;
 			case GameState.bossFight:
 
-				enemySpawner.SpawnBoss(currentLevel);
-				gameState = GameState.engagngBoss;
-
 				break;
 
-			case GameState.engagngBoss:
-
-
-				break;
-			case GameState.evacuating:
-
+			case GameState.gameWon:
 
 				break;
 		}
 	}
+
 	private void OnEnable()
 	{
-		levelUI.OnUpgradeSet += LevelUI_OnUpgradeSet;
-
-		levelSystem.OnLevelChanged += LevelSystem_OnLevelChanged;
+		levelSystem.OnLevelUp += LevelSystem_OnLevelUp;
 
 		StaticEvents.OnPlayerInitialized += StaticEvents_OnPlayerInitialized;
 	}
 
 	private void OnDisable()
 	{
-		levelUI.OnUpgradeSet -= LevelUI_OnUpgradeSet;
-
-		levelSystem.OnLevelChanged -= LevelSystem_OnLevelChanged;
+		levelSystem.OnLevelUp -= LevelSystem_OnLevelUp;
 
 		StaticEvents.OnPlayerInitialized -= StaticEvents_OnPlayerInitialized;
 	}
@@ -115,50 +104,40 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	private void StaticEvents_OnPlayerInitialized(ComradeBoardedEventArgs playerInitializedEventArgs)
 	{
-		gameState = GameState.gameStarted;
+		CallGameStateChangedEvent(GameState.gameStarted);
+	}
+
+	private void LevelSystem_OnLevelUp(object sender, EventArgs e)
+	{
+		player.playerController.DisablePlayerMovement();
 	}
 
 	private void EnableSpawners()
 	{
 		StartCoroutine(enemySpawner.SpawnEnemies());
 		StartCoroutine(SpawnNewExpandAreaAtRandomPosition());
+
+		CallGameStateChangedEvent(GameState.playingLevel);
 	}
 
-	private void LevelUI_OnUpgradeSet()
+	public void CallGameStateChangedEvent(GameState gameState)
 	{
-		levelUI.gameObject.SetActive(false);
-		player.playerController.EnablePlayerMovement();
+		this.gameState = gameState;
+		OnGameStateChanged?.Invoke(gameState);
 	}
 
-	private void LevelSystem_OnLevelChanged(object sender, System.EventArgs e)
+	private void SpawnAirdrop()
 	{
-		player.playerController.DisablePlayerMovement();
-		levelUI.gameObject.SetActive(true);
+		airdropDropped = true;
+		var airdrops = GameResources.Instance.Airdrops;
+		GameObject airdrop = Instantiate(airdrops[UnityEngine.Random.Range(0, airdrops.Count)].airdropPackage);
+		airdrop.transform.position = GetRandomSpawnPositionGround(4);
+		StaticEvents.CallAirdropSpawnedEvent(airdrop.transform.position);
 	}
 
 	public float GetElapsedTime()
 	{
 		return timeElapsed;
-	}
-
-	void DisplayTime()
-	{
-		SurviveTime -= Time.deltaTime;
-
-		float minutes = Mathf.FloorToInt(SurviveTime / 60);
-		float seconds = Mathf.FloorToInt(SurviveTime % 60);
-
-		if(minutes <= 0) minutes = 0;
-		if(seconds <= 0) seconds = 0;
-
-		if(minutes == 0 && seconds == 0)
-		{
-			SurviveTime = 0;
-			timerText.gameObject.SetActive(false);
-			return;
-		} 
-
-		timerText.text = minutes + ":" + seconds;
 	}
 
 	private IEnumerator SpawnNewExpandAreaAtRandomPosition()
@@ -178,13 +157,17 @@ public class GameManager : MonoBehaviour
 			yield return spawnDelay;
 		}
 	}
-
+	/// <summary>
+	///  Gets random position on the ground. 
+	///  Also takes into account a margin to prevent object from spawning directly on the edge
+	/// </summary>
+	/// <param name="spawnMargin">Distance from ground sides in units</param>
 	public Vector3 GetRandomSpawnPositionGround(float spawnMargin = 0)
 	{
 		return new Vector3(
-			Random.Range(groundBounds.min.x + spawnMargin, groundBounds.max.x - spawnMargin),
+			UnityEngine.Random.Range(groundBounds.min.x + spawnMargin, groundBounds.max.x - spawnMargin),
 			0,
-			Random.Range(groundBounds.min.z + spawnMargin, groundBounds.max.z - spawnMargin));
+			UnityEngine.Random.Range(groundBounds.min.z + spawnMargin, groundBounds.max.z - spawnMargin));
 	}
 
 	private void InstantiatePlayer()
@@ -205,7 +188,7 @@ public class GameManager : MonoBehaviour
 
 	public void SpawnEvacuationArea()
 	{
-		gameState = GameState.evacuating;
+		CallGameStateChangedEvent(GameState.evacuating);
 
 		Instantiate(GameResources.Instance.EvacuationArea, Vector3.zero, Quaternion.identity);
 	}
@@ -216,42 +199,7 @@ public class GameManager : MonoBehaviour
 
 		player.playerController.StopPlayer();
 
-		player.squadControl.DisableComrades();
-
-		var arangedComrades = SquadControl.ComradesTransforms
-			.OrderBy(x => Vector3.Distance(x.transform.position, evacuationZonePosition)).ToList();
-
-		StartCoroutine(MoveTransformsToPosition(arangedComrades, evacuationZonePosition));
-	}
-
-	IEnumerator MoveTransformsToPosition(List<Transform> transforms, Vector3 position)
-	{
-		foreach (var t in transforms)
-		{
-			var moveTween = t.DOMove(position, 0.7f);
-			Vector3 startScale = t.localScale;
-			bool eventCalled = false;
-			moveTween.OnUpdate(() => 
-			{ 
-				t.localScale = Vector3.Lerp(startScale, startScale / 2, moveTween.Elapsed());
-
-				if (Vector3.Distance(t.transform.position, position) < 0.5f && !eventCalled)
-				{
-					StaticEvents.CallComradeBoardedEvent();
-					eventCalled = true;
-				}
-			});
-
-			yield return moveTween.WaitForCompletion();
-		}
-	}
-
-	/// <summary>
-	/// Restart the game
-	/// </summary>
-	private void RestartGame()
-	{
-		sceneController.LoadScene("MainMenu");
+		StartCoroutine(player.squadControl.MoveTransformsToPosition(evacuationZonePosition));
 	}
 
 	/// <summary>
@@ -275,7 +223,6 @@ public enum GameState
 	playingLevel,
 	bossFight,
 	engagngBoss,
-	preparingForEvacuation,
 	evacuating,
 	gameWon,
 	gameLost,

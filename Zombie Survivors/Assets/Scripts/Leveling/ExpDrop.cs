@@ -21,7 +21,7 @@ public class ExpDrop : MonoBehaviour
 	{
 		transform.position += Vector3.up * 2f;
 
-		rb.velocity = new Vector2(Random.onUnitSphere.x, Random.onUnitSphere.z) * 3f;
+		rb.velocity = new Vector2(Random.onUnitSphere.x, Random.onUnitSphere.z) * 4f;
 	}
 
 	private void OnTriggerEnter(Collider other)

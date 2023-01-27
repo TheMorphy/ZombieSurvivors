@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -110,6 +111,34 @@ public class SquadControl : MonoBehaviour
 		FormatSquad();
 
 		CallSquadChangedEvent(squadAmmount);
+	}
+
+	public IEnumerator MoveTransformsToPosition(Vector3 position)
+	{
+		DisableComrades();
+
+		var arangedComrades = ComradesTransforms.OrderBy(x => Vector3.Distance(x.transform.position, position)).ToList();
+
+		for (int i = 0; i < arangedComrades.Count; i++)
+		{
+			var moveTween = arangedComrades[i].DOMove(position, 0.7f);
+			Vector3 startScale = arangedComrades[i].localScale;
+			bool eventCalled = false;
+			moveTween.OnUpdate(() =>
+			{
+				arangedComrades[i].localScale = Vector3.Lerp(startScale, startScale / 2, moveTween.Elapsed());
+
+				if (Vector3.Distance(arangedComrades[i].transform.position, position) < 0.5f && !eventCalled)
+				{
+					StaticEvents.CallComradeBoardedEvent();
+					eventCalled = true;
+				}
+			});
+
+			yield return moveTween.WaitForCompletion();
+		}
+
+		GameManager.Instance.CallGameStateChangedEvent(GameState.gameWon);
 	}
 
 	public int GetSquadAmmount()

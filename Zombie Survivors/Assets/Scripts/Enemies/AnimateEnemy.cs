@@ -12,6 +12,7 @@ public class AnimateEnemy : MonoBehaviour
 
 	private float counter;
 	private float duration = 2f;
+	private bool expDropped = false;
 
 	private void Awake()
 	{
@@ -24,7 +25,7 @@ public class AnimateEnemy : MonoBehaviour
 	{
 		GameObject exp = Instantiate(GameResources.Instance.ExpDrop, transform.position, Quaternion.identity);
 		exp.GetComponent<ExpDrop>().SetExpValue(enemy.enemyDetails.EXP_Increase);
-
+		expDropped = true;
 		enemy.destroyedEvent.CallDestroyedEvent(false, enemy.enemyDetails.EXP_Increase);
 	}
 
@@ -76,10 +77,15 @@ public class AnimateEnemy : MonoBehaviour
 			counter += Time.deltaTime;
 
 			transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, counter / duration);
+
+			if(transform.localScale.x < 0.1f && !expDropped)
+			{
+				EnemyDeath();
+			}
+
 			yield return null;
 		}
-		EnemyDeath();
-
+		
 		Destroy(gameObject);
 	}
 }

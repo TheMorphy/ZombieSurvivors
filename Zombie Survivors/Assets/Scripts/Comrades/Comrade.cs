@@ -40,6 +40,8 @@ public class Comrade : MonoBehaviour
 
 	private void Start()
 	{
+		SquadControl.ComradesTransforms.Add(transform);
+
 		SetActiveWeaponEvent.CallSetActiveWeaponEvent(Player.playerWeapon);
 
 		Health.SetStartingHealth(Player.playerDetails.Health);
@@ -47,8 +49,6 @@ public class Comrade : MonoBehaviour
 
 	private void OnEnable()
 	{
-		SquadControl.ComradesTransforms.Add(transform);
-
 		HealthEvent.OnHealthChanged += HealthEvent_OnHealthChanged;
 	}
 

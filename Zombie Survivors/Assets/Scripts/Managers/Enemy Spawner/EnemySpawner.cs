@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 [DisallowMultipleComponent]
 public class EnemySpawner : MonoBehaviour
@@ -17,7 +18,6 @@ public class EnemySpawner : MonoBehaviour
 	[Header("Bosses")]
 	[Tooltip("List position represents level number")]
 	public List<EnemyDetailsSO> Bosses = new List<EnemyDetailsSO>();
-	[SerializeField] private BossHealthUI bossHealthUI;
 
 	NavMeshTriangulation navTriangulation;
 	public static List<Transform> activeEnemies = new List<Transform>();
@@ -155,18 +155,20 @@ public class EnemySpawner : MonoBehaviour
 
 	public void SpawnBoss(int levelIndex)
 	{
-		bossHealthUI.GetUITransform().gameObject.SetActive(true);
+		GameManager.Instance.CallGameStateChangedEvent(GameState.bossFight);
 
-		Enemy boss = Instantiate(Bosses[levelIndex].enemyPrefab, Vector3.zero, Quaternion.identity).GetComponent<Enemy>();
+		Vector3 bossSpawnPosition = GameManager.Instance.GetRandomSpawnPositionGround();
+
+		Enemy boss = Instantiate(Bosses[levelIndex].enemyPrefab, bossSpawnPosition, Quaternion.identity).GetComponent<Enemy>();
 		boss.InitializeEnemy(Bosses[levelIndex]);
-		boss.InitializeBossHealthbar(bossHealthUI.GetHealthbar());
+		boss.InitializeBossHealthbar(CanvasManager.Instance.GetActiveCanvas().GetBossHealth());
 
 		boss.destroyedEvent.OnDestroyed += DestroyedEvent_OnBossDestroyed;
 	}
 
 	private void DestroyedEvent_OnBossDestroyed(DestroyedEvent destroyedEvent, DestroyedEventArgs destroyedEventArgs)
 	{
-		bossHealthUI.GetUITransform().gameObject.SetActive(false);
+		GameManager.Instance.CallGameStateChangedEvent(GameState.evacuating);
 
 		GameManager.Instance.SpawnEvacuationArea();
 	}

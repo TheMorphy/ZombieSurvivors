@@ -40,15 +40,30 @@ public class GameResources : MonoBehaviour
 	#endregion Tooltip
 	public CurrentPlayerSO CurrentPlayer;
 
-	#region Header EXPERIENCE
+	#region Header GAMEPLAY
 	[Space(5)]
-	[Header("EXPERIENCE")]
+	[Header("GAMEPLAY")]
 	#endregion Header EXPERIENCE
 	public GameObject ExpDrop;
-
 	public GameObject MultiplicationCircle;
+	[Space(1)]
+	[Header("AIRDROPS")]
+	public List<Airdrop> Airdrops;
 	
 	[Space(5)]
 	[Header("END GAME")]
 	public GameObject EvacuationArea;
+}
+
+[System.Serializable]
+public class Airdrop
+{
+	public AirdropType airdropType;
+	public GameObject airdropPackage;
+}
+public enum AirdropType
+{
+	Gold,
+	Iron,
+	Wooden
 }
