@@ -122,10 +122,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.13488093
-  m_Height: 0.46787742
+  m_Radius: 0.11276321
+  m_Height: 0.39233822
   m_Direction: 0
-  m_Center: {x: -0.22819205, y: 0.008796692, z: -0.00039955974}
+  m_Center: {x: -0.19042245, y: 0.008796692, z: -0.00039955974}
 --- !u!4 &5678602551779159919 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bafaa6c20552e1a4db2bdb3c578cf563, type: 3}
@@ -144,15 +144,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4f622321a1b7dd9419eaf3f30464bfef, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.4589
+      value: -0.386
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4f622321a1b7dd9419eaf3f30464bfef, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.0262
+      value: 0.012
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4f622321a1b7dd9419eaf3f30464bfef, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0
+      value: 0.001
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4f622321a1b7dd9419eaf3f30464bfef, type: 3}
       propertyPath: m_LocalRotation.w
