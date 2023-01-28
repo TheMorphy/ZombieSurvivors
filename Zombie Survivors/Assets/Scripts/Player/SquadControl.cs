@@ -78,6 +78,9 @@ public class SquadControl : MonoBehaviour
 		collider.size = new Vector3(boundingWidthX, collider.size.y, boundingWidthZ);
 	}
 
+	/// <summary>
+	/// Turns off all MonoBehaviour scripts
+	/// </summary>
 	public void DisableComrades()
 	{
 		for (int i = 0; i < transform.childCount; i++)
@@ -119,16 +122,16 @@ public class SquadControl : MonoBehaviour
 
 		var arangedComrades = ComradesTransforms.OrderBy(x => Vector3.Distance(x.transform.position, position)).ToList();
 
-		for (int i = 0; i < arangedComrades.Count; i++)
+		foreach (var comrade in arangedComrades)
 		{
-			var moveTween = arangedComrades[i].DOMove(position, 0.7f);
-			Vector3 startScale = arangedComrades[i].localScale;
+			var moveTween = comrade.DOMove(position, 0.7f);
+			Vector3 startScale = comrade.localScale;
 			bool eventCalled = false;
 			moveTween.OnUpdate(() =>
 			{
-				arangedComrades[i].localScale = Vector3.Lerp(startScale, startScale / 2, moveTween.Elapsed());
+				comrade.localScale = Vector3.Lerp(startScale, startScale / 2, moveTween.Elapsed());
 
-				if (Vector3.Distance(arangedComrades[i].transform.position, position) < 0.5f && !eventCalled)
+				if (Vector3.Distance(comrade.transform.position, position) < 0.5f && !eventCalled)
 				{
 					StaticEvents.CallComradeBoardedEvent();
 					eventCalled = true;

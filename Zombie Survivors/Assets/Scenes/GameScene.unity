@@ -1127,7 +1127,7 @@ MonoBehaviour:
   enemySpawner: {fileID: 1051503593}
   sceneController: {fileID: 268114791}
   currentLevel: 0
-  SurviveTime: 2
+  SurviveTime: 0.2
   gameState: 0
 --- !u!1 &534395278
 GameObject:
