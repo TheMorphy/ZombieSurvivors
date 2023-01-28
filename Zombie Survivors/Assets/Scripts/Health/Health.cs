@@ -30,19 +30,19 @@ public class Health : MonoBehaviour
 			healthBar.parent.transform.LookAt(Camera.main.transform);
 	}
 
-	private void CallHealthEvent(int damageAmount)
+	private void CallHealthEvent(int damageAmount, Limb limb = null)
 	{
 		// Trigger health event
-		healthEvent.CallHealthChangedEvent(((float)CurrentHealth / (float)StartingHealth), CurrentHealth, damageAmount);
+		healthEvent.CallHealthChangedEvent(((float)CurrentHealth / (float)StartingHealth), CurrentHealth, damageAmount, limb);
 	}
 
 	/// <summary>
 	/// Public method called when damage is taken
 	/// </summary>
-	public void TakeDamage(int damageAmount)
+	public void TakeDamage(int damageAmount, Limb limb = null)
 	{
 		CurrentHealth -= damageAmount;
-		CallHealthEvent(damageAmount);
+		CallHealthEvent(damageAmount, limb);
 	}
 
 	/// <summary>

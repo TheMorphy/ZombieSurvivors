@@ -28,6 +28,8 @@ public class PoolManager : MonoBehaviour
 
 	private void Start()
 	{
+		GameObject ammo = new GameObject("Ammo");
+
 		poolDictionary = new Dictionary<string, Queue<GameObject>>();
 
 		for (int i = 0; i < pools.Count; i++)
@@ -37,7 +39,7 @@ public class PoolManager : MonoBehaviour
 
 			for (int j = 0; j < pools[i].size; j++)
 			{
-				GameObject obj = Instantiate(pools[i].prefab);
+				GameObject obj = Instantiate(pools[i].prefab, ammo.transform.position, Quaternion.identity, ammo.transform);
 				obj.SetActive(false);
 				objectPool.Enqueue(obj);
 			}

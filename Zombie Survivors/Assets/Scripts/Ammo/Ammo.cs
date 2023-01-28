@@ -16,8 +16,18 @@ public class Ammo : MonoBehaviour
 	private Vector3 fireDirectionVector;
 	private bool isColliding = false;
 
+	private float bulletForce;
+	private Rigidbody rb;
+
+	private void Awake()
+	{
+		rb = GetComponent<Rigidbody>();
+	}
+
 	private void Update()
 	{
+		bulletForce = rb.angularVelocity.magnitude;
+
 		// Calculate distance vector to move ammo
 		Vector3 distanceVector = fireDirectionVector * ammoSpeed * Time.deltaTime;
 
@@ -48,11 +58,6 @@ public class Ammo : MonoBehaviour
 		DisableAmmo();
 	}
 
-	/// <summary>
-	/// Initialise the ammo being fired - using the ammodetails, the aimangle, weaponAngle, and
-	/// weaponAimDirectionVector. If this ammo is part of a pattern the ammo movement can be
-	/// overriden by setting overrideAmmoMovement to true
-	/// </summary>
 	public void InitialiseAmmo(AmmoDetailsSO ammoDetails, Vector3 launchDirection)
 	{
 		#region Ammo
@@ -100,10 +105,13 @@ public class Ammo : MonoBehaviour
 	{
 		isColliding = true;
 
-		if (collision.TryGetComponent(out Health health))
+		// Enemey takes damage, when a specific limb was hit instead of whole character collider
+		if(collision.TryGetComponent(out Limb limb))
 		{
-			health.TakeDamage(ammoDetails.ammoDamage);
+			print($"{limb.transform.name} was hit !");
+			limb.GetHit(ammoDetails.ammoDamage);
 		}
+
 	}
 	private void OnDisable()
 	{

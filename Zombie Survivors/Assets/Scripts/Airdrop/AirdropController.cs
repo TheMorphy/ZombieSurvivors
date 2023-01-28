@@ -14,8 +14,13 @@ public class AirdropController : MonoBehaviour
 	{
 		if (other.transform.CompareTag("Player"))
 		{
-
+			Destroy(gameObject);
 		}
+	}
+
+	public void SetAirdropType(AirdropType airdropType)
+	{
+		this.airdropType = airdropType;
 	}
 
 	public void EnableCollider()

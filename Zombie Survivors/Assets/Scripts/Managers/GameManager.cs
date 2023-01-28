@@ -62,11 +62,11 @@ public class GameManager : MonoBehaviour
 
 				timeElapsed += Time.deltaTime;
 
-				// Spawns Airdrop after 1min
-				if (Mathf.FloorToInt(timeElapsed) == 15 && !airdropDropped)
-				{
-					SpawnAirdrop();
-				}
+				//// Spawns Airdrop after 1min
+				//if (Mathf.FloorToInt(timeElapsed) == 15 && !airdropDropped)
+				//{
+				//	SpawnAirdrop();
+				//}
 
 				if(SurviveTime <= 0)
 				{
@@ -130,8 +130,13 @@ public class GameManager : MonoBehaviour
 	{
 		airdropDropped = true;
 		var airdrops = GameResources.Instance.Airdrops;
-		GameObject airdrop = Instantiate(airdrops[UnityEngine.Random.Range(0, airdrops.Count)].airdropPackage);
+		int index = UnityEngine.Random.Range(0, airdrops.Count);
+
+		GameObject airdrop = Instantiate(airdrops[index].airdropPackage);
 		airdrop.transform.position = GetRandomSpawnPositionGround(4);
+
+		airdrop.GetComponent<Airdrop>().airdropType = airdrops[index].airdropType;
+
 		StaticEvents.CallAirdropSpawnedEvent(airdrop.transform.position);
 	}
 

@@ -1,18 +1,45 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class Limb : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	[SerializeField] private GameObject limbPrefab;
+	private Limb[] childLimbs;
 
-    // Update is called once per frame
-    void Update()
+	private Enemy enemy;
+	CharacterJoint joint;
+	Rigidbody rb;
+
+	private void Awake()
+	{
+		//childLimbs = GetComponentsInChildren<Limb>();
+		enemy = transform.root.GetComponentInParent<Enemy>();
+		joint = GetComponent<CharacterJoint>();
+		rb = GetComponent<Rigidbody>();
+	}
+
+	public void GetHit(int damageAmmount)
     {
-        
-    }
+        enemy.health.TakeDamage(damageAmmount, this);
+	}
+
+	public void RemoveLimb()
+	{
+		//for (int i = 0; i < childLimbs.Length; i++)
+		//{
+		//	if (childLimbs[i] != null)
+		//	{
+		//		childLimbs[i].transform.localScale = Vector3.zero;
+		//		Destroy(childLimbs[i]);
+		//	}
+		//}
+
+		Instantiate(limbPrefab, transform.position, transform.rotation);
+
+		//limb.GetComponent<Rigidbody>().AddForce(transform.forward * 10f);
+
+		transform.localScale = Vector3.zero;
+
+		//Destroy(this);
+	}
 }

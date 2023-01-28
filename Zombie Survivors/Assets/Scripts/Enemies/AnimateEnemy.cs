@@ -46,7 +46,7 @@ public class AnimateEnemy : MonoBehaviour
 			ragdollParts[i].isTrigger = false;
 			ragdollParts[i].attachedRigidbody.velocity = Vector3.zero;
 		}
-
+		
 		StartCoroutine(Die());
 	}
 

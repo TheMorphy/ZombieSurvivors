@@ -1127,7 +1127,7 @@ MonoBehaviour:
   enemySpawner: {fileID: 1051503593}
   sceneController: {fileID: 268114791}
   currentLevel: 0
-  SurviveTime: 0.2
+  SurviveTime: 5
   gameState: 0
 --- !u!1 &534395278
 GameObject:
@@ -2309,8 +2309,8 @@ MonoBehaviour:
   Enemies:
   - {fileID: 11400000, guid: 7083254d1ecc31b4ea5d6a7d92261d7c, type: 2}
   ScalingConfiguration: {fileID: 11400000, guid: d7a62201de657fa4cb5dbdb1a00db5fd, type: 2}
-  NumberOfEnemies: 0
-  spawnDelay: 1
+  NumberOfEnemies: 1
+  spawnDelay: 2
   spawnEndlessly: 1
   Bosses:
   - {fileID: 11400000, guid: a3b934ccb9723d34fbc7b8b7f06a8e7b, type: 2}
