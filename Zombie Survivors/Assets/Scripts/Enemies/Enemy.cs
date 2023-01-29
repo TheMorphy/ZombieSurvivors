@@ -8,7 +8,6 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Destroyed))]
 [RequireComponent(typeof(DestroyedEvent))]
 [RequireComponent(typeof(EnemyController))]
-[RequireComponent(typeof(DealContactDamage))]
 [RequireComponent(typeof(AnimateEnemy))]
 [RequireComponent(typeof(Animator))]
 [DisallowMultipleComponent]
@@ -20,7 +19,6 @@ public class Enemy : MonoBehaviour
 	[HideInInspector] public EnemyController enemyController;
 	[HideInInspector] public Destroyed destroyed;
 	[HideInInspector] public DestroyedEvent destroyedEvent;
-	[HideInInspector] public DealContactDamage dealContactDamage;
 	[HideInInspector] public AnimateEnemy animateEnemy;
 	[HideInInspector] public Animator animator;
 	[HideInInspector] public HealthEvent healthEvent;
@@ -31,7 +29,6 @@ public class Enemy : MonoBehaviour
 		healthEvent = GetComponent<HealthEvent>();
 		destroyed = GetComponent<Destroyed>();
 		destroyedEvent = GetComponent<DestroyedEvent>();
-		dealContactDamage = GetComponent<DealContactDamage>();
 		enemyController = GetComponent<EnemyController>();
 		animateEnemy = GetComponent<AnimateEnemy>();
 		health = GetComponent<Health>();
@@ -82,7 +79,6 @@ public class Enemy : MonoBehaviour
 
 		SetEnemyStartingHealth();
 		SetMoveSpeed();
-		SetContactDamage();
 	}
 
 	public void InitializeBossHealthbar(Image healthbarImage)
@@ -98,10 +94,6 @@ public class Enemy : MonoBehaviour
 		health.SetStartingHealth(enemyDetails.Health);
 	}
 
-	private void SetContactDamage()
-	{
-		dealContactDamage.SetContactDamage(enemyDetails.Damage);
-	}
 	private void SetMoveSpeed()
 	{
 		enemyController.GetAgent().speed = enemyDetails.MoveSpeed;

@@ -15,7 +15,6 @@ public class AirdropController : Collectable
 	{
 		if (other.transform.CompareTag("Player"))
 		{
-			print("Collect Airdrop");
 			Collect(other.transform, 1f);
 		}
 	}

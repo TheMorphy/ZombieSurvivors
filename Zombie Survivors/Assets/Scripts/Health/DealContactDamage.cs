@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -16,7 +14,7 @@ public class DealContactDamage : MonoBehaviour
 	[SerializeField] private LayerMask layerMask;
 	private bool isColliding = false;
 
-	private const float contactDamageCollisionResetDelay = 0.5f;
+	private const float contactDamageCollisionResetDelay = 1f;
 
 	private int contactDamageAmount;
 
@@ -41,13 +39,13 @@ public class DealContactDamage : MonoBehaviour
 		ContactDamage(collider);
 	}
 
-	private void OnTriggerStay(Collider collider)
-	{
-		// If already colliding with something return
-		if (isColliding) return;
+	//private void OnTriggerStay(Collider collider)
+	//{
+	//	// If already colliding with something return
+	//	if (isColliding) return;
 
-		ContactDamage(collider);
-	}
+	//	ContactDamage(collider);
+	//}
 
 	private void ContactDamage(Collider collision)
 	{
@@ -56,6 +54,8 @@ public class DealContactDamage : MonoBehaviour
 
 		if ((layerMask.value & collisionObjectLayerMask) == 0)
 			return;
+
+		print("Player Hit");
 
 		// Check to see if the colliding object should take contact damage
 		ReceiveContactDamage receiveContactDamage = collision.gameObject.GetComponent<ReceiveContactDamage>();

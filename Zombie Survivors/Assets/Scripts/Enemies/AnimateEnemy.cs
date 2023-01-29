@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,32 +7,41 @@ using UnityEngine;
 public class AnimateEnemy : MonoBehaviour
 {
 	private Enemy enemy;
+	private Animator animator;
 
 	public List<Collider> ragdollParts = new List<Collider>();
 
 	private float counter;
 	private float duration = 2f;
-	private bool expDropped = false;
-
+	
 	private void Awake()
 	{
 		enemy = GetComponent<Enemy>();
+		animator = GetComponent<Animator>();
 
 		SetRagdollColliders();
 	}
 
-	private void EnemyDeath()
-	{
-		GameObject exp = Instantiate(GameResources.Instance.ExpDrop, transform.position, Quaternion.identity);
-		exp.GetComponent<ExpDrop>().SetExpValue(enemy.enemyDetails.EXP_Increase);
-		expDropped = true;
-		enemy.destroyedEvent.CallDestroyedEvent(false, enemy.enemyDetails.EXP_Increase);
-	}
-
 	private void Update()
 	{
-		enemy.animator.SetFloat(Settings.MoveSpeed, enemy.enemyController.GetMoveSpeed());
+		animator.SetFloat(Settings.MoveSpeed, enemy.enemyController.GetMoveSpeed());
 	}
+
+	public IEnumerator Attack()
+	{
+		WaitForSeconds attackDelay = new WaitForSeconds(1f);
+
+		while (enemy.enemyController.Attacking)
+		{
+			enemy.enemyController.EnableHitboxes();
+
+			animator.SetBool("Attacking", enemy.enemyController.Attacking);
+			animator.SetInteger(Settings.AttackIndex, Random.Range(0, Settings.AttacksCount));
+			
+			yield return attackDelay;
+		}
+	}
+
 
 	public void TurnOnRagdoll(Limb shotLimb)
 	{
@@ -85,9 +93,9 @@ public class AnimateEnemy : MonoBehaviour
 
 			transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, counter / duration);
 
-			if(transform.localScale.x < 0.1f && !expDropped)
+			if(transform.localScale.x < 0.1f && !enemy.enemyController.ExpDropped)
 			{
-				EnemyDeath();
+				enemy.enemyController.DropEXP();
 			}
 
 			yield return null;
