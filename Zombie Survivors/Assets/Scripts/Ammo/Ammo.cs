@@ -16,18 +16,8 @@ public class Ammo : MonoBehaviour
 	private Vector3 fireDirectionVector;
 	private bool isColliding = false;
 
-	private float bulletForce;
-	private Rigidbody rb;
-
-	private void Awake()
-	{
-		rb = GetComponent<Rigidbody>();
-	}
-
 	private void Update()
 	{
-		bulletForce = rb.angularVelocity.magnitude;
-
 		// Calculate distance vector to move ammo
 		Vector3 distanceVector = fireDirectionVector * ammoSpeed * Time.deltaTime;
 
@@ -108,8 +98,7 @@ public class Ammo : MonoBehaviour
 		// Enemey takes damage, when a specific limb was hit instead of whole character collider
 		if(collision.TryGetComponent(out Limb limb))
 		{
-			print($"{limb.transform.name} was hit !");
-			limb.GetHit(ammoDetails.ammoDamage);
+			limb.GetHit(ammoDetails.ammoDamage, fireDirectionVector, ammoSpeed);
 		}
 
 	}

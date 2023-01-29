@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
 [DisallowMultipleComponent]
-public class ExpDrop : MonoBehaviour
+public class ExpDrop : Collectable
 {
 	[SerializeField] private float absorbTime = 1.5f;
 
@@ -19,36 +17,18 @@ public class ExpDrop : MonoBehaviour
 	}
 	private void Start()
 	{
+		// Moves a bit up, instead of just being on the ground
 		transform.position += Vector3.up * 2f;
 
+		// Adds velocity to the random direction to create falling effect
 		rb.velocity = new Vector2(Random.onUnitSphere.x, Random.onUnitSphere.z) * 4f;
 	}
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.transform.CompareTag("Player"))
+		if (other.transform.CompareTag("Player") || other.transform.CompareTag("Comrade"))
 		{
-			StartCoroutine(GoTowardsPlayer(other.transform));
-		}
-	}
-
-	private IEnumerator GoTowardsPlayer(Transform playerTransform)
-	{
-		float elapsedTime = 0;
-
-		while (elapsedTime < absorbTime)
-		{
-			transform.position = Vector3.Lerp(transform.position, playerTransform.position, (elapsedTime / absorbTime));
-			transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, (elapsedTime / absorbTime));
-			elapsedTime += Time.deltaTime;
-
-			if (Vector3.Distance(transform.position, playerTransform.position) <= 0.5f)
-			{
-				GameManager.Instance.GetLevelSystem().AddExperience(expAmmount);
-				Destroy(gameObject);
-			}
-
-			yield return null;
+			StartCoroutine(Collect(other.transform, absorbTime));
 		}
 	}
 
@@ -60,5 +40,10 @@ public class ExpDrop : MonoBehaviour
 	public int CollectExp()
 	{
 		return expAmmount;
+	}
+
+	protected override void ActionAfterCollected()
+	{
+		GameManager.Instance.GetLevelSystem().AddExperience(expAmmount);
 	}
 }

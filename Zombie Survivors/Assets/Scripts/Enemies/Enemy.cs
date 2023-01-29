@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,8 +26,6 @@ public class Enemy : MonoBehaviour
 	[HideInInspector] public HealthEvent healthEvent;
 	[HideInInspector] public Health health;
 
-	public float speed;
-
 	private void Awake()
 	{
 		healthEvent = GetComponent<HealthEvent>();
@@ -38,10 +37,7 @@ public class Enemy : MonoBehaviour
 		health = GetComponent<Health>();
 		animator = GetComponent<Animator>();
 	}
-	private void Update()
-	{
-		speed = enemyDetails.MoveSpeed;
-	}
+
 	private void OnEnable()
 	{
 		EnemySpawner.activeEnemies.Add(transform);
@@ -57,7 +53,7 @@ public class Enemy : MonoBehaviour
 
 	private void HealthEvent_OnHealthChanged(HealthEvent healthEvent, HealthEventArgs healthEventArgs)
 	{
-		if(enemyDetails.Class == EnemyClass.Boss)
+		if (enemyDetails.Class == EnemyClass.Boss)
 		{
 			health.UpdateBossHealthBar(healthEventArgs.healthPercent);
 		}
@@ -69,13 +65,11 @@ public class Enemy : MonoBehaviour
 
 		if (healthEventArgs.healthAmount <= 0)
 		{
-			healthEventArgs.limbShot.RemoveLimb();
-
 			enemyController.DisableEnemy();
 
 			EnemySpawner.activeEnemies.Remove(transform);
 
-			animateEnemy.TurnOnRagdoll();
+			animateEnemy.TurnOnRagdoll(healthEventArgs.limbShot);
 		}
 	}
 

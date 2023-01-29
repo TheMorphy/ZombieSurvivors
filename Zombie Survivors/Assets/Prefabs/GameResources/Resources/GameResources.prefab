@@ -52,10 +52,7 @@ MonoBehaviour:
   ExpDrop: {fileID: 8908623256187235432, guid: 7029781d16f496d4198b78dea5fa2b95, type: 3}
   MultiplicationCircle: {fileID: 8920200563324837378, guid: e01df52244e562e48b9b4dc4d56ffe06, type: 3}
   Airdrops:
-  - airdropType: 0
-    airdropPackage: {fileID: 2480925719425717160, guid: ca1e55c73f96558438549e0482ef916d, type: 3}
-  - airdropType: 1
-    airdropPackage: {fileID: 2550342976017127007, guid: e3a93d13c35e2e544a015bf081a60bf5, type: 3}
-  - airdropType: 2
-    airdropPackage: {fileID: 6219553856910850472, guid: fee1ffc4cb5499546b09e53cbd6f4488, type: 3}
+  - {fileID: 11400000, guid: 5f1624a65656b0c45a20b4e159b5e077, type: 2}
+  - {fileID: 11400000, guid: b79f6456d47022f4d83bec814c7f03ee, type: 2}
+  - {fileID: 11400000, guid: d11e18cf5fa814443b9e9520c1c707f1, type: 2}
   EvacuationArea: {fileID: 8920200563324837378, guid: df7183e9a6f26f84b8079681930e9407, type: 3}

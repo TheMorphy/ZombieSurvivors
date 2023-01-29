@@ -5,9 +5,9 @@ public class DestroyedEvent : MonoBehaviour
 {
 	public event Action<DestroyedEvent, DestroyedEventArgs> OnDestroyed;
 
-	public void CallDestroyedEvent(bool character, int points)
+	public void CallDestroyedEvent(bool playerDied, int points)
 	{
-		OnDestroyed?.Invoke(this, new DestroyedEventArgs() { playerDied = character, points = points });
+		OnDestroyed?.Invoke(this, new DestroyedEventArgs() { playerDied = playerDied, points = points });
 	}
 }
 

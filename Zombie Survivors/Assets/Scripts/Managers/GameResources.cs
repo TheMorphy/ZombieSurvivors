@@ -48,22 +48,9 @@ public class GameResources : MonoBehaviour
 	public GameObject MultiplicationCircle;
 	[Space(1)]
 	[Header("AIRDROPS")]
-	public List<Airdrop> Airdrops;
+	public List<AirdropDetails> Airdrops;
 	
 	[Space(5)]
 	[Header("END GAME")]
 	public GameObject EvacuationArea;
-}
-
-[System.Serializable]
-public class Airdrop
-{
-	public AirdropType airdropType;
-	public GameObject airdropPackage;
-}
-public enum AirdropType
-{
-	Gold,
-	Iron,
-	Wooden
 }

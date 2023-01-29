@@ -1,12 +1,13 @@
 using UnityEngine;
 
-public class AirdropController : MonoBehaviour
+public class AirdropController : Collectable
 {
     private Collider collider;
-    private AirdropType airdropType;
+	private AirdropDetails airdrop;
 
 	private void Awake()
 	{
+		collider = GetComponent<Collider>();
 		collider.enabled = false;
 	}
 
@@ -14,17 +15,23 @@ public class AirdropController : MonoBehaviour
 	{
 		if (other.transform.CompareTag("Player"))
 		{
-			Destroy(gameObject);
+			print("Collect Airdrop");
+			Collect(other.transform, 1f);
 		}
 	}
 
-	public void SetAirdropType(AirdropType airdropType)
+	public void InitializeAirdrop(AirdropDetails airdrop)
 	{
-		this.airdropType = airdropType;
+		this.airdrop = airdrop;
 	}
 
 	public void EnableCollider()
 	{
 		collider.enabled = true;
+	}
+
+	protected override void ActionAfterCollected()
+	{
+		Destroy(gameObject);
 	}
 }

@@ -62,13 +62,13 @@ public class GameManager : MonoBehaviour
 
 				timeElapsed += Time.deltaTime;
 
-				//// Spawns Airdrop after 1min
-				//if (Mathf.FloorToInt(timeElapsed) == 15 && !airdropDropped)
-				//{
-				//	SpawnAirdrop();
-				//}
+				// Spawns Airdrop after 1min
+				if (Mathf.FloorToInt(timeElapsed) == 15 && !airdropDropped)
+				{
+					SpawnAirdrop();
+				}
 
-				if(SurviveTime <= 0)
+				if (SurviveTime <= 0)
 				{
 					StopAllCoroutines();
 					enemySpawner.SpawnBoss(currentLevel);
@@ -135,7 +135,7 @@ public class GameManager : MonoBehaviour
 		GameObject airdrop = Instantiate(airdrops[index].airdropPackage);
 		airdrop.transform.position = GetRandomSpawnPositionGround(4);
 
-		airdrop.GetComponent<Airdrop>().airdropType = airdrops[index].airdropType;
+		airdrop.GetComponent<AirdropController>().InitializeAirdrop(airdrops[index]);
 
 		StaticEvents.CallAirdropSpawnedEvent(airdrop.transform.position);
 	}
