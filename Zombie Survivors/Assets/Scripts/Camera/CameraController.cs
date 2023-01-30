@@ -1,78 +1,102 @@
-using DG.Tweening.Core.Easing;
-using System;
+using Cinemachine;
+using DG.Tweening;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-	[SerializeField] private Vector3 offset;
-	[SerializeField] private Vector3 rotationOffset;
-	[SerializeField] private float zoomOutSpeed = 5f;
-	[SerializeField] private float zoomInSpeed = 1f;
-	[SerializeField] private float smoothTime = 0;
-	[SerializeField] private float margin = 0.15f;
-	[SerializeField] private float minDistance = 15f;
-	private Vector3 velocity = Vector3.zero;
+	[SerializeField] private Transform cameraFollowTarget;
 
-	[HideInInspector] public Player Player;
+	private static CinemachineTargetGroup targetGroup;
 
-	private Vector3 targetPosition;
+	private Transform target;
 
-	private void Start()
+	private void Awake()
 	{
-		transform.rotation = Quaternion.Euler(rotationOffset.x, rotationOffset.y, rotationOffset.z);
+		targetGroup = cameraFollowTarget.GetComponent<CinemachineTargetGroup>();
 	}
 
 	private void LateUpdate()
 	{
-		if (Player != null)
-		{
-			FollowPlayer();
-		}
-		else
-		{
-			FollowTarget();
-		}
+		if (target == null)
+			return;
+
+		cameraFollowTarget.position = target.position;
 	}
 
-	private void FollowTarget()
+	public static void AddToTargetGroup(Transform target)
 	{
-		transform.position = Vector3.SmoothDamp(transform.position, targetPosition + offset, ref velocity, 1.2f);
+		targetGroup.AddMember(target, 1, 7);
 	}
-	
-	private void FollowPlayer()
+
+	public static void IncreaseTargetGroupBoundingBox(float increaseAmmount)
 	{
-		Bounds childrenBounds = Player.squadControl.GetChildrenBounds();
-		Vector3 boundingBoxMin = Camera.main.WorldToScreenPoint(childrenBounds.min);
-		Vector3 boundingBoxMax = Camera.main.WorldToScreenPoint(childrenBounds.max);
-		float boundingWidth = boundingBoxMax.x - boundingBoxMin.x;
-		float screenWidth = Screen.width * (1 - margin * 2);
-
-		float occupiedWidth = boundingWidth / screenWidth;
-
-		var targetPosition = Player.transform.position + offset;
-
-		// Zoom in
-		if (occupiedWidth > 1)
-		{
-			targetPosition += (occupiedWidth - 1) * zoomInSpeed * (transform.position - Player.transform.position).normalized;
-		}
-		// Zoom out
-		else if (occupiedWidth < 1)
-		{
-			targetPosition -= (1 - occupiedWidth) * zoomOutSpeed * (transform.position - Player.transform.position).normalized;
-		}
-		transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-		float distance = Vector3.Distance(transform.position, Player.transform.position);
-		if (distance < minDistance)
-		{
-			offset += (minDistance - distance) * (transform.position - Player.transform.position).normalized;
-		}
+		targetGroup.m_Targets[0].radius = increaseAmmount > 7 ? increaseAmmount : 7;
 	}
 
-	public void SetNewTargetPosition(Vector3 targetPosition)
+	public static void RemoveFromTargetGroup(Transform transform)
 	{
-		Player = null;
+		targetGroup.RemoveMember(transform);
 
-		this.targetPosition = targetPosition;
+		targetGroup.m_Targets[0].radius -= 1;
 	}
+
+	public void SetTarget(Transform target)
+	{
+		this.target = target;
+	}
+
+	//[SerializeField] private Vector3 offset;
+	//[SerializeField] private float zoomSpeed = 5f;
+	//[SerializeField] private float smoothTime = 0.1f;
+	//[SerializeField] private float margin = 0.15f;
+	//[SerializeField] private float minDistance = 15f;
+	//private Vector3 velocity;
+
+	//[HideInInspector] public Player Player;
+
+	//private Vector3? targetPosition = null;
+
+	//private void LateUpdate()
+	//{
+	//	if (Player == null)
+	//	{
+	//		return;
+	//	}
+
+	//	Bounds childrenBounds = Player.squadControl.GetChildrenBounds();
+	//	Vector3 boundingBoxMin = Camera.main.WorldToScreenPoint(childrenBounds.min);
+	//	Vector3 boundingBoxMax = Camera.main.WorldToScreenPoint(childrenBounds.max);
+	//	float boundingWidth = boundingBoxMax.x - boundingBoxMin.x;
+	//	float screenWidth = Screen.width * (1 - margin * 2);
+
+	//	float occupiedWidth = boundingWidth / screenWidth;
+
+	//	var targetPosition = Player.transform.position + offset;
+
+	//	// Zoom in
+	//	if (occupiedWidth > 1)
+	//	{
+	//		targetPosition += (occupiedWidth - 1) * zoomSpeed * (transform.position - Player.transform.position).normalized;
+	//	}
+	//	// Zoom out
+	//	else if (occupiedWidth < 1)
+	//	{
+	//		targetPosition -= (1 - occupiedWidth) * zoomSpeed * (transform.position - Player.transform.position).normalized;
+	//	}
+
+	//	transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+
+	//	float distance = Vector3.Distance(transform.position, Player.transform.position);
+	//	if (distance < minDistance)
+	//	{
+	//		offset += (minDistance - distance) * (transform.position - Player.transform.position).normalized;
+	//	}
+	//}
+
+	//public void SetNewTargetPosition(Vector3 targetPosition)
+	//{
+	//	Player = null;
+
+	//	this.targetPosition = targetPosition;
+	//}
 }

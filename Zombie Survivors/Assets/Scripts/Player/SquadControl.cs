@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 
 public class SquadControl : MonoBehaviour
 {
@@ -34,13 +33,15 @@ public class SquadControl : MonoBehaviour
 
 	private void Update()
 	{
-		timer += Time.deltaTime;
+		UpdateColliderSize();
 
-		if(timer > 2f)
-		{
-			UpdateColliderSize();
-			timer = 0;
-		}
+		//timer += Time.deltaTime;
+
+		//if(timer > 0.2f)
+		//{
+			
+		//	timer = 0;
+		//}
 	}
 
 	public void IncreaseSquadSize(int randomValue, bool multiply)
@@ -76,6 +77,8 @@ public class SquadControl : MonoBehaviour
 		float boundingWidthZ = (boundingBoxMax.z - boundingBoxMin.z);
 
 		collider.size = new Vector3(boundingWidthX, collider.size.y, boundingWidthZ);
+
+		CameraController.IncreaseTargetGroupBoundingBox(boundingWidthX);
 	}
 
 	/// <summary>

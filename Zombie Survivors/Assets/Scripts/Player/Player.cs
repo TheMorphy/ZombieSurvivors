@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
 
 	private void OnEnable()
 	{
+		CameraController.AddToTargetGroup(transform);
+
 		StaticEvents.CallPlayerInitializedEvent(transform);
 
 		UpgradesManager.OnWeaponUpgrade += UpgradesManager_OnWeaponUpgrade;

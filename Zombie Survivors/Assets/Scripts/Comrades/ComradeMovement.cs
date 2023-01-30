@@ -8,7 +8,6 @@ public class ComradeMovement : MonoBehaviour
     [SerializeField] private Transform bodyPivot;
 
 	private FireWeapon fireWeapon;
-
 	private float turnSpeed = 720;
 
 	private void Awake()

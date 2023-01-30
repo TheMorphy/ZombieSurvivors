@@ -14,16 +14,17 @@ public class DealContactDamage : MonoBehaviour
 	[SerializeField] private LayerMask layerMask;
 	private bool isColliding = false;
 
-	private const float contactDamageCollisionResetDelay = 1f;
+	private const float contactDamageCollisionResetDelay = 0.5f;
 
-	private int contactDamageAmount;
+	private int contactDamageAmount = 0;
 
-	private Enemy enemy;
+	//private Enemy enemy;
 
-	private void Awake()
-	{
-		enemy = transform.root.GetComponent<Enemy>();
-	}
+	//private void Awake()
+	//{
+	//	enemy = transform.root.GetComponent<Enemy>();
+	//}
+
 	//private void OnCollisionEnter(Collision collision)
 	//{
 	//	if (isColliding) return;
@@ -61,21 +62,18 @@ public class DealContactDamage : MonoBehaviour
 		if ((layerMask.value & collisionObjectLayerMask) == 0)
 			return;
 
-		print("Player Hit");
-
 		// Check to see if the colliding object should take contact damage
-		ReceiveContactDamage receiveContactDamage = collision.gameObject.GetComponent<ReceiveContactDamage>();
-
-		if (receiveContactDamage != null)
+		if(collision.gameObject.TryGetComponent(out ReceiveContactDamage receiveContactDamage))
 		{
 			isColliding = true;
 
 			// Reset the contact collision after set time
 			Invoke("ResetContactCollision", contactDamageCollisionResetDelay);
 
-			receiveContactDamage.TakeContactDamage(contactDamageAmount);
+			receiveContactDamage.TakeContactDamage(79);
+
+			//enemy.enemyController.DisableHitboxes();
 		}
-		enemy.enemyController.DisableHitboxes();
 	}
 
 	public void SetContactDamage(int contactDamage)

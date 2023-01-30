@@ -17,6 +17,8 @@ public class ReceiveContactDamage : MonoBehaviour
 
 	public void TakeContactDamage(int damageAmount = 0)
 	{
+		//print("DamageAmount: " + damageAmount);
+
 		if (contactDamageAmount > 0)
 			damageAmount = contactDamageAmount;
 

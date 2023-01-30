@@ -107,6 +107,23 @@ public class GameManager : MonoBehaviour
 		CallGameStateChangedEvent(GameState.gameStarted);
 	}
 
+	private void InstantiatePlayer()
+	{
+		// Set player details - saved in current player scriptable object from the main menu
+		playerDetails = GameResources.Instance.CurrentPlayer.playerDetails;
+
+		// Instantiate player
+		GameObject playerGameObject = Instantiate(playerDetails.PlayerPrefab);
+
+		// Initialize Player
+		player = playerGameObject.GetComponent<Player>();
+
+		player.Initialize(playerDetails);
+
+		Camera.main.GetComponent<CameraController>().SetTarget(playerGameObject.transform);
+
+	}
+
 	private void LevelSystem_OnLevelUp(object sender, EventArgs e)
 	{
 		player.playerController.DisablePlayerMovement();
@@ -147,7 +164,7 @@ public class GameManager : MonoBehaviour
 
 	private IEnumerator SpawnNewExpandAreaAtRandomPosition()
 	{
-		float delay = 30;
+		float delay = 15;
 		WaitForSeconds spawnDelay = new WaitForSeconds(delay);
 
 		while (SurviveTime > 0)
@@ -175,22 +192,6 @@ public class GameManager : MonoBehaviour
 			UnityEngine.Random.Range(groundBounds.min.z + spawnMargin, groundBounds.max.z - spawnMargin));
 	}
 
-	private void InstantiatePlayer()
-	{
-		// Set player details - saved in current player scriptable object from the main menu
-		playerDetails = GameResources.Instance.CurrentPlayer.playerDetails;
-
-		// Instantiate player
-		GameObject playerGameObject = Instantiate(playerDetails.PlayerPrefab);
-
-		// Initialize Player
-		player = playerGameObject.GetComponent<Player>();
-
-		Camera.main.GetComponent<CameraController>().Player = player;
-
-		player.Initialize(playerDetails);
-	}
-
 	public void SpawnEvacuationArea()
 	{
 		CallGameStateChangedEvent(GameState.evacuating);
@@ -200,7 +201,7 @@ public class GameManager : MonoBehaviour
 
 	public void Evacuate(Vector3 evacuationZonePosition)
 	{
-		Camera.main.GetComponent<CameraController>().SetNewTargetPosition(evacuationZonePosition);
+		//Camera.main.GetComponent<CameraController>().SetTarget(evacuationZonePosition);
 
 		player.playerController.StopPlayer();
 
