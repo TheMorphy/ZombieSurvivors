@@ -18,6 +18,12 @@ public class DealContactDamage : MonoBehaviour
 
 	private int contactDamageAmount;
 
+	private Enemy enemy;
+
+	private void Awake()
+	{
+		enemy = transform.root.GetComponent<Enemy>();
+	}
 	//private void OnCollisionEnter(Collision collision)
 	//{
 	//	if (isColliding) return;
@@ -68,9 +74,8 @@ public class DealContactDamage : MonoBehaviour
 			Invoke("ResetContactCollision", contactDamageCollisionResetDelay);
 
 			receiveContactDamage.TakeContactDamage(contactDamageAmount);
-
 		}
-
+		enemy.enemyController.DisableHitboxes();
 	}
 
 	public void SetContactDamage(int contactDamage)

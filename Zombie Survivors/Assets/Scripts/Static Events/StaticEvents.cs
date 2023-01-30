@@ -10,11 +10,11 @@ public static class StaticEvents
 		OnCircleSpawned?.Invoke(new CircleSpawnedEventArgs() { spawnPosition = spawnPosition });
 	}
 
-	// Multiplication Circle Spawned
-	public static event Action<CircleDespawnedEventArgs> OnCircleDespawned;
-	public static void CallCircleDespawnedEvent(Vector3 spawnPosition)
+	// Collected object event
+	public static event Action<CollectedEventArgs> OnCollected;
+	public static void CallCollectedEvent(Vector3 collectedPosition)
 	{
-		OnCircleDespawned?.Invoke(new CircleDespawnedEventArgs() { despawnPosition = spawnPosition });
+		OnCollected?.Invoke(new CollectedEventArgs() { collectedPosition = collectedPosition });
 	}
 
 	// Player Initialized
@@ -49,7 +49,7 @@ public class CircleSpawnedEventArgs : EventArgs
 	public Vector3 spawnPosition;
 }
 
-public class CircleDespawnedEventArgs : EventArgs
+public class CollectedEventArgs : EventArgs
 {
-	public Vector3 despawnPosition;
+	public Vector3 collectedPosition;
 }

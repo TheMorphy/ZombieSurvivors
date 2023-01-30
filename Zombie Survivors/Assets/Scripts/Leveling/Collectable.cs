@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class Collectable : MonoBehaviour
 {
-	protected abstract void ActionAfterCollected();
+	protected abstract void OnCollected();
 
 	protected IEnumerator Collect(Transform playerTransform, float collectTime)
 	{
@@ -15,10 +15,9 @@ public abstract class Collectable : MonoBehaviour
 			transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, (elapsedTime / collectTime));
 			elapsedTime += Time.deltaTime;
 
-			if (Vector3.Distance(transform.position, playerTransform.position) <= 0.5f)
+			if (Vector3.Distance(transform.position, playerTransform.position) <= 0.1f)
 			{
-				ActionAfterCollected();
-				Destroy(gameObject);
+				OnCollected();
 			}
 
 			yield return null;

@@ -42,8 +42,9 @@ public class ExpDrop : Collectable
 		return expAmmount;
 	}
 
-	protected override void ActionAfterCollected()
+	protected override void OnCollected()
 	{
 		GameManager.Instance.GetLevelSystem().AddExperience(expAmmount);
+		Destroy(gameObject);
 	}
 }

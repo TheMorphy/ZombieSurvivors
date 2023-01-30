@@ -29,12 +29,10 @@ public class AnimateEnemy : MonoBehaviour
 
 	public IEnumerator Attack()
 	{
-		WaitForSeconds attackDelay = new WaitForSeconds(1f);
+		WaitForSeconds attackDelay = new WaitForSeconds(2f);
 
 		while (enemy.enemyController.Attacking)
 		{
-			enemy.enemyController.EnableHitboxes();
-
 			animator.SetBool("Attacking", enemy.enemyController.Attacking);
 			animator.SetInteger(Settings.AttackIndex, Random.Range(0, Settings.AttacksCount));
 			

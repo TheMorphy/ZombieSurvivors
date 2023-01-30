@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
 				timeElapsed += Time.deltaTime;
 
 				// Spawns Airdrop after 1min
-				if (Mathf.FloorToInt(timeElapsed) == 15 && !airdropDropped)
+				if (Mathf.FloorToInt(timeElapsed) == 8 && !airdropDropped)
 				{
 					SpawnAirdrop();
 				}

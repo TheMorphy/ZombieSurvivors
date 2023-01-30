@@ -219,6 +219,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cebf2b6e539a10c4ca3bd0bfbe9b58af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minMaxMultiplied: {x: 2, y: 5}
+  minMaxAddition: {x: 5, y: 20}
 --- !u!65 &8920200563324837383
 BoxCollider:
   m_ObjectHideFlags: 0

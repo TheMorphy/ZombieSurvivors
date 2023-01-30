@@ -9,6 +9,9 @@ public class MultiplicationCircleManager : MonoBehaviour
     private int randomNumber;
     private bool IsMultiplied;
 
+	[SerializeField] private Vector2Int minMaxMultiplied = new Vector2Int(2, 5);
+	[SerializeField] private Vector2Int minMaxAddition = new Vector2Int(5, 20);
+
 	//List<Transform> collidingObjects = new List<Transform>();
 
 	private void Awake()
@@ -31,12 +34,12 @@ public class MultiplicationCircleManager : MonoBehaviour
 
 		if (IsMultiplied)
 		{
-			randomNumber = Random.Range(2, 6);
+			randomNumber = Random.Range(minMaxMultiplied.x, minMaxMultiplied.y);
 			multiplyCountUI.text = "X" + randomNumber.ToString();
 		}
 		else
 		{
-			randomNumber = Random.Range(5, 20);
+			randomNumber = Random.Range(minMaxAddition.x, minMaxAddition.y);
 
 			if (randomNumber % 2 != 0)
 			{
@@ -51,7 +54,7 @@ public class MultiplicationCircleManager : MonoBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
-			StaticEvents.CallCircleDespawnedEvent(transform.position);
+			StaticEvents.CallCollectedEvent(transform.position);
 
 			SquadControl squadControl = other.GetComponentInParent<SquadControl>();
 

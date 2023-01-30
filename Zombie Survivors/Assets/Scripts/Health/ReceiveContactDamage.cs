@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Health))]
 [DisallowMultipleComponent]
 public class ReceiveContactDamage : MonoBehaviour
 {

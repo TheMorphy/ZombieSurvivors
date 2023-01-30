@@ -62,7 +62,7 @@ public class GameViewCanvasController : MonoBehaviour
 
 		StaticEvents.OnCircleSpawned += StaticEvents_OnCircleSpawned;
 
-		StaticEvents.OnCircleDespawned += StaticEvents_OnCircleDespawned;
+		StaticEvents.OnCollected += StaticEvents_OnCollected;
 	}
 
 	private void OnDisable()
@@ -75,7 +75,7 @@ public class GameViewCanvasController : MonoBehaviour
 
 		StaticEvents.OnCircleSpawned -= StaticEvents_OnCircleSpawned;
 
-		StaticEvents.OnCircleDespawned -= StaticEvents_OnCircleDespawned;
+		StaticEvents.OnCollected -= StaticEvents_OnCollected;
 	}
 
 	private void GameManager_OnGameStateChanged(GameState gameState)
@@ -113,9 +113,9 @@ public class GameViewCanvasController : MonoBehaviour
 		pointer.CreateMultiplicationTargetPointer(circleSpawnedEventArgs.spawnPosition);
 	}
 
-	private void StaticEvents_OnCircleDespawned(CircleDespawnedEventArgs circleDespawnedEventArgs)
+	private void StaticEvents_OnCollected(CollectedEventArgs circleDespawnedEventArgs)
 	{
-		pointer.targetPointers.First(x => x.targetPosition == circleDespawnedEventArgs.despawnPosition).DestroySelf();
+		pointer.targetPointers.First(x => x.targetPosition == circleDespawnedEventArgs.collectedPosition).DestroySelf();
 	}
 
 	public Image GetBossHealth()
@@ -147,6 +147,11 @@ public class GameViewCanvasController : MonoBehaviour
 	{
 		airdropIncomming.text = "!! AIRDROP INCOMMING !!";
 		airdropIncomming.gameObject.SetActive(true);
+	}
+
+	public void HideAirdropAlert()
+	{
+		airdropIncomming.gameObject.SetActive(false);
 	}
 
 	public void ShowBossHealth()
