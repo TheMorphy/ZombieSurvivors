@@ -17,6 +17,9 @@ public class ComradeMovement : MonoBehaviour
 
 	private void Update()
 	{
+		if (GameManager.Instance.gameState == GameState.evacuating)
+			return;
+
 		HandleRotations();
 
 		fireWeapon.FireWeapn();

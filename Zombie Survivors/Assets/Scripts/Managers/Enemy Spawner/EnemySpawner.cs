@@ -10,9 +10,9 @@ public class EnemySpawner : MonoBehaviour
 	public List<EnemyDetailsSO> Enemies = new List<EnemyDetailsSO>();
 	public ScalingConfigurationSO ScalingConfiguration;
 
-	[SerializeField] private int NumberOfEnemies = 15;
+	[SerializeField] private int StartEnemyCount = 15;
 	[SerializeField] private float spawnDelay = 1.5f;
-	[SerializeField] private bool spawnEndlessly = false;
+	//[SerializeField] private bool spawnEndlessly = false;
 
 	[Space]
 	[Header("Bosses")]
@@ -37,7 +37,7 @@ public class EnemySpawner : MonoBehaviour
 	{
 		navTriangulation = NavMesh.CalculateTriangulation();
 
-		initialEnemiesToSpawn = NumberOfEnemies;
+		initialEnemiesToSpawn = StartEnemyCount;
 		InitialSpawnDelay = spawnDelay;
 	}
 
@@ -45,14 +45,7 @@ public class EnemySpawner : MonoBehaviour
 	{
 		for (int i = 0; i < Enemies.Count; i++)
 		{
-			if(spawnEndlessly == false)
-			{
-				scaledEnemies.Add(Enemies[i].ScaleUpEnemiesByLevel(ScalingConfiguration, 0));
-			}
-			else
-			{
-				scaledEnemies.Add(Enemies[i]);
-			}
+			scaledEnemies.Add(Enemies[i].ScaleUpEnemies(ScalingConfiguration, 0));
 		}
 	}
 
@@ -61,20 +54,17 @@ public class EnemySpawner : MonoBehaviour
 	/// </summary>
 	public IEnumerator SpawnEnemies()
 	{
-		if(spawnEndlessly == false)
-		{
-			Level++;
-			enemiesAlive = 0;
-			enemiesSpawned = 0;
+		Level++;
+		enemiesAlive = 0;
+		enemiesSpawned = 0;
 
-			for (int i = 0; i < Enemies.Count; i++)
-			{
-				scaledEnemies.Add(Enemies[i].ScaleUpEnemiesByLevel(ScalingConfiguration, Level));
-			}
+		for (int i = 0; i < Enemies.Count; i++)
+		{
+			scaledEnemies.Add(Enemies[i].ScaleUpEnemies(ScalingConfiguration, Level));
 		}
-		
+
 		WaitForSeconds Wait = new WaitForSeconds(spawnDelay);
-		while (enemiesSpawned < NumberOfEnemies || spawnEndlessly)
+		while (enemiesSpawned < StartEnemyCount)
 		{
 			Spawn();
 
@@ -104,23 +94,10 @@ public class EnemySpawner : MonoBehaviour
 
 		enemy.InitializeEnemy(scaledEnemies[0]);
 
-		if (spawnEndlessly)
-		{
-			float timeElapsed = GameManager.Instance.GetElapsedTime();
-			for (int i = 0; i < scaledEnemies.Count; i++)
-			{
-				scaledEnemies[i].ScaleUpEnemiesByTime(ScalingConfiguration, timeElapsed);
-			}
-			
-			ScaleUpSpawns(timeElapsed);
-		}
-		else
-		{
-			enemy.destroyedEvent.OnDestroyed += DestroyedEvent_OnEnemyDestroyed;
+		enemy.destroyedEvent.OnDestroyed += DestroyedEvent_OnEnemyDestroyed;
 
-			enemiesSpawned++;
-			enemiesAlive++;
-		}
+		enemiesSpawned++;
+		enemiesAlive++;
 	}
 
 	Vector3 RandomNavmeshLocation(Vector3 origin, float range)
@@ -145,10 +122,13 @@ public class EnemySpawner : MonoBehaviour
 		{
 			enemiesAlive--;
 
-			if (enemiesAlive == 0 && enemiesSpawned == NumberOfEnemies)
+			if (enemiesAlive == 0 && enemiesSpawned == StartEnemyCount)
 			{
-				ScaleUpSpawns();
-				StartCoroutine(SpawnEnemies());
+				if(GameManager.Instance.gameState == GameState.playingLevel)
+				{
+					ScaleUpSpawns();
+					StartCoroutine(SpawnEnemies());
+				}
 			}
 		}
 	}
@@ -168,20 +148,29 @@ public class EnemySpawner : MonoBehaviour
 
 	private void DestroyedEvent_OnBossDestroyed(DestroyedEvent destroyedEvent, DestroyedEventArgs destroyedEventArgs)
 	{
+		GameManager.Instance.DisableSpawners();
+
+		ClearEnemies();
+
 		GameManager.Instance.CallGameStateChangedEvent(GameState.evacuating);
 
 		GameManager.Instance.SpawnEvacuationArea();
 	}
 
+	private void ClearEnemies()
+	{
+		activeEnemies.ForEach(x => x.GetComponent<Enemy>().animateEnemy.TurnOnRagdoll());
+	}
+
 	public void ScaleUpSpawns()
 	{
-		NumberOfEnemies = Mathf.FloorToInt(initialEnemiesToSpawn * ScalingConfiguration.SpawnCountCurve.Evaluate(Level + 1));
+		StartEnemyCount = Mathf.FloorToInt(initialEnemiesToSpawn * ScalingConfiguration.SpawnCountCurve.Evaluate(Level + 1));
 		spawnDelay = InitialSpawnDelay * ScalingConfiguration.SpawnRateCurve.Evaluate(Level + 1);
 	}
 
 	public void ScaleUpSpawns(float time)
 	{
-		NumberOfEnemies = Mathf.FloorToInt(initialEnemiesToSpawn * ScalingConfiguration.SpawnCountCurve.Evaluate(time));
+		StartEnemyCount = Mathf.FloorToInt(initialEnemiesToSpawn * ScalingConfiguration.SpawnCountCurve.Evaluate(time));
 		spawnDelay = InitialSpawnDelay * ScalingConfiguration.SpawnRateCurve.Evaluate(time);
 	}
 }

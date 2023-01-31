@@ -18,7 +18,7 @@ public class EnemyDetailsSO : ScriptableObject
 	/// <summary>
 	/// Uses animation curve as multiplier instead of directly setting values
 	/// </summary>
-	public EnemyDetailsSO ScaleUpEnemiesByLevel(ScalingConfigurationSO Scaling, int Level)
+	public EnemyDetailsSO ScaleUpEnemies(ScalingConfigurationSO Scaling, int Level)
 	{
 		EnemyDetailsSO scaledUpenemy = CreateInstance<EnemyDetailsSO>();
 
@@ -32,18 +32,6 @@ public class EnemyDetailsSO : ScriptableObject
 		
 		return scaledUpenemy;
 	}
-
-	/// <summary>
-	/// Bit different than scaling by Level. This one just sets values directly to the ones on the curve.
-	/// </summary>
-	public void ScaleUpEnemiesByTime(ScalingConfigurationSO Scaling, float Time)
-	{
-		Health = Mathf.FloorToInt(Scaling.HealthCurve.Evaluate(Time));
-		Damage = Mathf.FloorToInt(Scaling.DamageCurve.Evaluate(Time));
-		EXP_Increase = Mathf.FloorToInt(Scaling.ExpCurve.Evaluate(Time));
-		MoveSpeed = Scaling.SpeedCurve.Evaluate(Time);
-	}
-
 }
 
 public enum EnemyClass

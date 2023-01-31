@@ -15,7 +15,7 @@ public class EvacuationArea : MonoBehaviour
 		areaCollider = transform.GetComponent<Collider>();
 		areaCollider.enabled = false;
 	}
-
+	
 	private void StaticEvents_OnComradeBoarded()
 	{
 		StartCoroutine(AnimateHelicopterScale());
@@ -38,7 +38,7 @@ public class EvacuationArea : MonoBehaviour
 	{
         if (other.transform.CompareTag("Player"))
         {
-			GameManager.Instance.Evacuate(transform.position);
+			GameManager.Instance.Evacuate(transform);
 		}
 	}
 }

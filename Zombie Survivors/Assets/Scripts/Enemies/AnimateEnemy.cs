@@ -41,13 +41,8 @@ public class AnimateEnemy : MonoBehaviour
 	}
 
 
-	public void TurnOnRagdoll(Limb shotLimb)
+	public void TurnOnRagdoll()
 	{
-		float force;
-		Vector3 forceDirection;
-
-		shotLimb.RemoveLimb(out force, out forceDirection);
-
 		enemy.animator.enabled = false;
 		enemy.animator.avatar = null;
 
@@ -56,8 +51,11 @@ public class AnimateEnemy : MonoBehaviour
 		for (int i = 0; i < ragdollParts.Count; i++)
 		{
 			ragdollParts[i].isTrigger = false;
-			ragdollParts[i].attachedRigidbody.velocity = Vector3.zero;
-			ragdollParts[i].attachedRigidbody.AddForce(forceDirection * force * UnityEngine.Random.Range(12, 25));
+
+			if (ragdollParts[i].attachedRigidbody != null)
+			{
+				ragdollParts[i].attachedRigidbody.velocity = Vector3.zero;
+			}
 		}
 		
 		StartCoroutine(Die());

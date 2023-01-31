@@ -95,12 +95,18 @@ public class Ammo : MonoBehaviour
 	{
 		isColliding = true;
 
-		// Enemey takes damage, when a specific limb was hit instead of whole character collider
-		if(collision.TryGetComponent(out Limb limb))
+		if (collision.TryGetComponent(out Health playerHealth))
 		{
-			limb.GetHit(ammoDetails.ammoDamage, fireDirectionVector, ammoSpeed);
+			playerHealth.TakeDamage(ammoDetails.ammoDamage);
 		}
 
+		if (collision.TryGetComponent(out Limb limb))
+		{
+			if(limb.limbShot == false)
+			{
+				limb.RemoveLimb(ammoDetails.ammoDamage, fireDirectionVector, ammoSpeed);
+			}
+		}
 	}
 	private void OnDisable()
 	{

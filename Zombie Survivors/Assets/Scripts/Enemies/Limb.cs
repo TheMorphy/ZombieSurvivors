@@ -6,13 +6,13 @@ public class Limb : MonoBehaviour
 	[SerializeField] private GameObject limbPrefab;
 	private Enemy enemy;
 
-	GameObject limbObject;
-	Vector3 forceDirection;
-	float force;
+	private GameObject limbObject;
+
+	[HideInInspector] public bool limbShot = false;
 
 	private void Awake()
 	{
-		enemy = transform.root.GetComponentInParent<Enemy>();
+		enemy = transform.root.GetComponent<Enemy>();
 	}
 
 	private void OnEnable()
@@ -33,24 +33,20 @@ public class Limb : MonoBehaviour
 		}
 	}
 
-	public void GetHit(int damageAmmount, Vector3 forceDirection, float force)
+	public void GetHit(int damageAmmount)
     {
-		this.forceDirection = forceDirection;
-		this.force = force;
-
-		enemy.health.TakeDamage(damageAmmount, this);
+		enemy.health.TakeDamage(damageAmmount);
 	}
 
-	public void RemoveLimb(out float forceToAdd, out Vector3 forceDirection)
+	public void RemoveLimb(int damageAmmount, Vector3 forceDirection, float force)
 	{
-		forceToAdd = force;
-		forceDirection = this.forceDirection;
+		limbShot = true;
 
-		limbObject = Instantiate(limbPrefab, transform.position, transform.rotation);
-
-		limbObject.GetComponent<Rigidbody>().AddForce(forceDirection * forceToAdd * 15f);
+		enemy.health.TakeDamage(damageAmmount);
 
 		transform.localScale = Vector3.zero;
+		limbObject = Instantiate(limbPrefab, transform.position, transform.rotation);
+		limbObject.GetComponent<Rigidbody>().AddForce(forceDirection * force * 10f);
 	}
 
 	public void DestroyLimb()

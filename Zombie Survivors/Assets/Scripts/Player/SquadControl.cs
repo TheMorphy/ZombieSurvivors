@@ -78,7 +78,7 @@ public class SquadControl : MonoBehaviour
 
 		collider.size = new Vector3(boundingWidthX, collider.size.y, boundingWidthZ);
 
-		CameraController.IncreaseTargetGroupBoundingBox(boundingWidthX);
+		CameraController.UpdateTargetGroupBoundingBox(boundingWidthX);
 	}
 
 	/// <summary>

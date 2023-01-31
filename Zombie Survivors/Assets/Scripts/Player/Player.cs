@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
 
 	private void OnEnable()
 	{
-		CameraController.AddToTargetGroup(transform);
+		Camera.main.GetComponent<CameraController>().SetNewTarget(transform);
 
 		StaticEvents.CallPlayerInitializedEvent(transform);
 

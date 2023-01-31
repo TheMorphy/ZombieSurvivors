@@ -34,6 +34,12 @@ public class Enemy : MonoBehaviour
 		animator = GetComponent<Animator>();
 	}
 
+	private void Start()
+	{
+		if (GameManager.Instance.gameState == GameState.evacuating)
+			Destroy(gameObject);
+	}
+
 	private void OnEnable()
 	{
 		EnemySpawner.activeEnemies.Add(transform);
@@ -65,7 +71,7 @@ public class Enemy : MonoBehaviour
 
 			EnemySpawner.activeEnemies.Remove(transform);
 
-			animateEnemy.TurnOnRagdoll(healthEventArgs.limbShot);
+			animateEnemy.TurnOnRagdoll();
 		}
 	}
 
@@ -96,6 +102,5 @@ public class Enemy : MonoBehaviour
 	private void SetMoveSpeed()
 	{
 		enemyController.GetAgent().speed = enemyDetails.MoveSpeed;
-
 	}
 }

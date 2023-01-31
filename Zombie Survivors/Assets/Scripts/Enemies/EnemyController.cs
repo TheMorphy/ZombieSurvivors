@@ -16,8 +16,9 @@ public class EnemyController : MonoBehaviour
 	[HideInInspector] public bool ExpDropped = false;
 	public bool Attacking;
 
-	public List<Collider> hitColliders;
-	public List<DealContactDamage> damageDealers;
+	[HideInInspector] public List<Collider> hitColliders;
+	[HideInInspector] public List<DealContactDamage> damageDealers;
+	[HideInInspector] public Limb LimbsHit;
 
 	private void Awake()
 	{
@@ -67,11 +68,6 @@ public class EnemyController : MonoBehaviour
 			Attacking = true;
 			StartCoroutine(enemy.animateEnemy.Attack());
 		}
-	}
-
-	private void OnTriggerExit(Collider other)
-	{
-		DisableHitboxes();
 	}
 
 	public void DisableAttacking()

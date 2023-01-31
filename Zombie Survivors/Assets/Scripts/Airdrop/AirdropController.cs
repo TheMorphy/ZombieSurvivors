@@ -34,8 +34,10 @@ public class AirdropController : Collectable
 		this.airdrop = Instantiate(airdrop);
 	}
 
-	public void EnableCollider()
+	public void OnPackageLanded()
 	{
+		CanvasManager.Instance.GetActiveCanvas().HideAirdropAlert();
+
 		collider.enabled = true;
 	}
 
@@ -47,8 +49,6 @@ public class AirdropController : Collectable
 	protected override void OnCollected()
 	{
 		StaticEvents.CallCollectedEvent(startPos);
-
-		CanvasManager.Instance.GetActiveCanvas().HideAirdropAlert();
 
 		Destroy(gameObject);
 	}

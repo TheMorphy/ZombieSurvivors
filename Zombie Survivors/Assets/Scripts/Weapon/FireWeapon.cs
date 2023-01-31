@@ -139,7 +139,7 @@ public class FireWeapon : MonoBehaviour
 		for (int i = 0; i < ammoPerShot; i++)
 		{
 			float angle = -spreadAngle / 2 + i * stepSize;
-			Quaternion rotation = Quaternion.Euler(0, angle, 0);
+			Quaternion rotation = Quaternion.Euler(angle, angle, 0);
 			Vector3 direction = rotation * activeWeapon.GetShootFirePointTransform().forward;
 
 			Ammo ammo = PoolManager.Instance.SpawnFromPool("Ammo", activeWeapon.GetShootPosition(), Quaternion.identity).GetComponent<Ammo>();

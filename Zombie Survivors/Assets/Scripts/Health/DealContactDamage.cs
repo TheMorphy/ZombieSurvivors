@@ -14,30 +14,16 @@ public class DealContactDamage : MonoBehaviour
 	[SerializeField] private LayerMask layerMask;
 	private bool isColliding = false;
 
-	private const float contactDamageCollisionResetDelay = 0.5f;
+	private const float contactDamageCollisionResetDelay = 1.5f;
 
 	private int contactDamageAmount = 0;
 
-	//private Enemy enemy;
+	private Enemy enemy;
 
-	//private void Awake()
-	//{
-	//	enemy = transform.root.GetComponent<Enemy>();
-	//}
-
-	//private void OnCollisionEnter(Collision collision)
-	//{
-	//	if (isColliding) return;
-
-	//	ContactDamage(collision);
-	//}
-
-	//private void OnCollisionExit(Collision collision)
-	//{
-	//	if (isColliding) return;
-
-	//	ContactDamage(collision);
-	//}
+	private void Awake()
+	{
+		enemy = transform.root.GetComponent<Enemy>();
+	}
 
 	private void OnTriggerEnter(Collider collider)
 	{
@@ -46,13 +32,13 @@ public class DealContactDamage : MonoBehaviour
 		ContactDamage(collider);
 	}
 
-	//private void OnTriggerStay(Collider collider)
-	//{
-	//	// If already colliding with something return
-	//	if (isColliding) return;
+	private void OnTriggerStay(Collider collider)
+	{
+		// If already colliding with something return
+		if (isColliding) return;
 
-	//	ContactDamage(collider);
-	//}
+		ContactDamage(collider);
+	}
 
 	private void ContactDamage(Collider collision)
 	{
@@ -70,9 +56,9 @@ public class DealContactDamage : MonoBehaviour
 			// Reset the contact collision after set time
 			Invoke("ResetContactCollision", contactDamageCollisionResetDelay);
 
-			receiveContactDamage.TakeContactDamage(79);
+			receiveContactDamage.TakeContactDamage(contactDamageAmount);
 
-			//enemy.enemyController.DisableHitboxes();
+			enemy.enemyController.DisableHitboxes();
 		}
 	}
 

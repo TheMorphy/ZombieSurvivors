@@ -22,7 +22,7 @@ MonoBehaviour:
   weaponReloadTime: 1.5
   weaponAmmoCapacity: 40
   weaponClipAmmoCapacity: 20
-  fireRate: 5
+  fireRate: 0.05
   burstInterval: 0.1
   weaponUpgrades:
   - {fileID: 11400000, guid: 692010924cad95a4ab24870c58f5f3c7, type: 2}

@@ -70,7 +70,6 @@ public class GameManager : MonoBehaviour
 
 				if (SurviveTime <= 0)
 				{
-					StopAllCoroutines();
 					enemySpawner.SpawnBoss(currentLevel);
 				}
 
@@ -120,7 +119,7 @@ public class GameManager : MonoBehaviour
 
 		player.Initialize(playerDetails);
 
-		Camera.main.GetComponent<CameraController>().SetTarget(playerGameObject.transform);
+		Camera.main.GetComponent<CameraController>().SetNewTarget(playerGameObject.transform);
 
 	}
 
@@ -135,6 +134,12 @@ public class GameManager : MonoBehaviour
 		StartCoroutine(SpawnNewExpandAreaAtRandomPosition());
 
 		CallGameStateChangedEvent(GameState.playingLevel);
+	}
+
+	public void DisableSpawners()
+	{
+		StopCoroutine(enemySpawner.SpawnEnemies());
+		StopCoroutine(SpawnNewExpandAreaAtRandomPosition());
 	}
 
 	public void CallGameStateChangedEvent(GameState gameState)
@@ -199,13 +204,13 @@ public class GameManager : MonoBehaviour
 		Instantiate(GameResources.Instance.EvacuationArea, Vector3.zero, Quaternion.identity);
 	}
 
-	public void Evacuate(Vector3 evacuationZonePosition)
+	public void Evacuate(Transform evacuationZonePosition)
 	{
-		//Camera.main.GetComponent<CameraController>().SetTarget(evacuationZonePosition);
-
 		player.playerController.StopPlayer();
 
-		StartCoroutine(player.squadControl.MoveTransformsToPosition(evacuationZonePosition));
+		Camera.main.GetComponent<CameraController>().SetNewTarget(evacuationZonePosition);
+
+		StartCoroutine(player.squadControl.MoveTransformsToPosition(evacuationZonePosition.position));
 	}
 
 	/// <summary>

@@ -24,6 +24,14 @@ public class ExpDrop : Collectable
 		rb.velocity = new Vector2(Random.onUnitSphere.x, Random.onUnitSphere.z) * 4f;
 	}
 
+	private void Update()
+	{
+		if(GameManager.Instance.gameState == GameState.evacuating)
+		{
+			Destroy(gameObject);
+		}
+	}
+
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.transform.CompareTag("Player") || other.transform.CompareTag("Comrade"))

@@ -24,6 +24,15 @@ public class MultiplicationCircleManager : MonoBehaviour
 		GenerateNewValue();
 	}
 
+	private void Update()
+	{
+		if (GameManager.Instance.gameState == GameState.evacuating)
+		{
+			StaticEvents.CallCollectedEvent(transform.position);
+			Destroy(gameObject);
+		}
+	}
+
 	private void GenerateNewValue()
 	{
 		if (Random.value > 0.5f)
