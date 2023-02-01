@@ -210,6 +210,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limbPrefab: {fileID: 9159089088042120197, guid: 8925cfe65bbf2a7409876313a75e7a09, type: 3}
+  bloodFX: {fileID: 7981485343479408528, guid: 84916689a0a383f4bb66f33fa24ff2c6, type: 3}
+  limbShot: 0
 --- !u!1 &979089857875459306
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,6 +492,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limbPrefab: {fileID: 7125564112664108790, guid: 17145225bc193974dae88ba581f799e3, type: 3}
+  bloodFX: {fileID: 7981485343479408528, guid: 84916689a0a383f4bb66f33fa24ff2c6, type: 3}
+  limbShot: 0
 --- !u!1 &2069034553193700664
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,6 +651,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limbPrefab: {fileID: 3631978774873961473, guid: 7298b2c99021c5642abee9a6fc648eb9, type: 3}
+  bloodFX: {fileID: 7981485343479408528, guid: 84916689a0a383f4bb66f33fa24ff2c6, type: 3}
+  limbShot: 0
 --- !u!1 &2571383848623845755
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,6 +778,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limbPrefab: {fileID: 125383346474775013, guid: bb5f16ca12157af47b57ce86d943ee17, type: 3}
+  bloodFX: {fileID: 7981485343479408528, guid: 84916689a0a383f4bb66f33fa24ff2c6, type: 3}
+  limbShot: 0
 --- !u!1 &3001973424649644165
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,6 +1059,7 @@ MonoBehaviour:
   Attacking: 0
   hitColliders: []
   damageDealers: []
+  LimbsHit: {fileID: 0}
 --- !u!114 &1988776847793509328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1367,9 +1376,6 @@ GameObject:
   - component: {fileID: 1110890481958586774}
   - component: {fileID: 3595909648626149283}
   - component: {fileID: 3602661359523472799}
-  - component: {fileID: 301069416530461816}
-  - component: {fileID: 7108346359626625322}
-  - component: {fileID: 1121673012462248726}
   m_Layer: 8
   m_Name: mixamorig:Head
   m_TagString: Untagged
@@ -1481,45 +1487,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limbPrefab: {fileID: 9215492792428462193, guid: abf579eb0c481494982574c7348b8192, type: 3}
---- !u!114 &301069416530461816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4872777624137882470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 536b25cd212588a4ab71ece2d42631c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7108346359626625322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4872777624137882470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4428b5109792bd846bf9536a1a944206, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StartingHealth: 0
-  CurrentHealth: 0
-  healthBar: {fileID: 0}
---- !u!114 &1121673012462248726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4872777624137882470}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fe98142dc967724183b76bbfdbeb0ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  bloodFX: {fileID: 7981485343479408528, guid: 84916689a0a383f4bb66f33fa24ff2c6, type: 3}
+  limbShot: 0
 --- !u!1 &4958014547532004542
 GameObject:
   m_ObjectHideFlags: 0
@@ -1887,6 +1856,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limbPrefab: {fileID: 4354274710122849732, guid: d6a31160b5f7d4640afbb01ddb49c2a1, type: 3}
+  bloodFX: {fileID: 7981485343479408528, guid: 84916689a0a383f4bb66f33fa24ff2c6, type: 3}
+  limbShot: 0
 --- !u!1 &7241441870408992993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2012,6 +1983,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limbPrefab: {fileID: 1262452549913576502, guid: e28a0bb23b15f384cad2412f4761050b, type: 3}
+  bloodFX: {fileID: 7981485343479408528, guid: 84916689a0a383f4bb66f33fa24ff2c6, type: 3}
+  limbShot: 0
 --- !u!1 &7423457268885093088
 GameObject:
   m_ObjectHideFlags: 0
@@ -2231,6 +2204,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limbPrefab: {fileID: 1117968722371572755, guid: 08dbee1be47d6b04aa6771e063d065de, type: 3}
+  bloodFX: {fileID: 7981485343479408528, guid: 84916689a0a383f4bb66f33fa24ff2c6, type: 3}
+  limbShot: 0
 --- !u!1 &7992755927844639841
 GameObject:
   m_ObjectHideFlags: 0
@@ -2486,3 +2461,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   limbPrefab: {fileID: 3848329554670618902, guid: e432980d58f3cf8459a786922d9fa3f3, type: 3}
+  bloodFX: {fileID: 7981485343479408528, guid: 84916689a0a383f4bb66f33fa24ff2c6, type: 3}
+  limbShot: 0

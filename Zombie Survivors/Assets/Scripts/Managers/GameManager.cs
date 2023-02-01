@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
 
 	[Header("Controllers")]
 	[SerializeField] private EnemySpawner enemySpawner;
-	[SerializeField] private SceneController sceneController;
 
 	[Space]
 	[Header("Base Info")]

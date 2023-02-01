@@ -4,6 +4,7 @@ using UnityEngine;
 public class Limb : MonoBehaviour
 {
 	[SerializeField] private GameObject limbPrefab;
+	[SerializeField] private GameObject bloodFX;
 	private Enemy enemy;
 
 	private GameObject limbObject;
@@ -45,8 +46,11 @@ public class Limb : MonoBehaviour
 		enemy.health.TakeDamage(damageAmmount);
 
 		transform.localScale = Vector3.zero;
+
 		limbObject = Instantiate(limbPrefab, transform.position, transform.rotation);
 		limbObject.GetComponent<Rigidbody>().AddForce(forceDirection * force * 10f);
+
+		Instantiate(bloodFX, limbObject.transform.position, limbObject.transform.rotation);
 	}
 
 	public void DestroyLimb()

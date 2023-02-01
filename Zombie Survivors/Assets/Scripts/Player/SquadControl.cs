@@ -31,30 +31,9 @@ public class SquadControl : MonoBehaviour
 		squadAmmount = transform.childCount - 1;
 	}
 
-	private void Update()
+	private void LateUpdate()
 	{
 		UpdateColliderSize();
-
-		//timer += Time.deltaTime;
-
-		//if(timer > 0.2f)
-		//{
-			
-		//	timer = 0;
-		//}
-	}
-
-	public void IncreaseSquadSize(int randomValue, bool multiply)
-	{
-		if (multiply == false)
-		{
-			CreateComrades(randomValue + squadAmmount);
-		}
-		else
-		{
-			CreateComrades(randomValue * squadAmmount);
-
-		}
 	}
 
 	public Bounds GetChildrenBounds()
@@ -78,7 +57,20 @@ public class SquadControl : MonoBehaviour
 
 		collider.size = new Vector3(boundingWidthX, collider.size.y, boundingWidthZ);
 
-		CameraController.UpdateTargetGroupBoundingBox(boundingWidthX);
+		CameraController.Instance.UpdateTargetGroupBoundingBox(boundingWidthX);
+	}
+
+	public void IncreaseSquadSize(int randomValue, bool multiply)
+	{
+		if (multiply == false)
+		{
+			CreateComrades(randomValue + squadAmmount);
+		}
+		else
+		{
+			CreateComrades(randomValue * squadAmmount);
+
+		}
 	}
 
 	/// <summary>
