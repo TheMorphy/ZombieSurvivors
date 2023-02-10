@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -64,5 +63,9 @@ public class SlotsController : MonoBehaviour
 	public void Hide()
 	{
 		transform.parent.gameObject.SetActive(false);
+	}
+	public void Show()
+	{
+		transform.parent.gameObject.SetActive(true);
 	}
 }

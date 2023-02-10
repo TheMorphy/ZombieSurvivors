@@ -30,12 +30,24 @@ public class RewardsController : MonoBehaviour
 
 	private List<CardSO> cards = new List<CardSO>();
 
-	int cardsToOpenCount = 0;
+	private int cardsToOpenCount = 0;
+
+	private bool rewardsShowed = false;
 
 	private void Start()
 	{
 		rewardsWindow.SetActive(false);
 		openingWindow.SetActive(true);
+	}
+
+	private void Update()
+	{
+		if(Input.GetMouseButtonDown(0) && rewardsShowed)
+		{
+			MainMenuViewController.Instance.GetSlotsController().Show();
+
+			Hide();
+		}
 	}
 
 	public void InitializeWindow(AirdropDetails airdrop)
@@ -69,6 +81,7 @@ public class RewardsController : MonoBehaviour
 				rewardCard.gameObject.SetActive(true);
 				rewardCard.InitializeRewardCard(cards[i].CardSprite, Random.Range(1, 5)); // For now random number of cards
 			}
+			rewardsShowed = true;
 			return;
 		}
 			
