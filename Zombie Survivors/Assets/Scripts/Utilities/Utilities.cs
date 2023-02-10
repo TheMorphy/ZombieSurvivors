@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using UnityEngine;
@@ -101,5 +102,13 @@ public static class Utilities
 		if (n < 0) n += 360;
 
 		return n;
+	}
+	 
+	public static void DeletePrefs(string[] prefsKeysToDelete)
+	{
+		for (int i = 0; i < prefsKeysToDelete.Length; i++)
+		{
+			PlayerPrefs.DeleteKey(prefsKeysToDelete[i]);
+		}
 	}
 }

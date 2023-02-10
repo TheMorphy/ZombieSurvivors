@@ -49,7 +49,12 @@ public class GameResources : MonoBehaviour
 	[Space(1)]
 	[Header("AIRDROPS")]
 	public List<AirdropDetails> Airdrops;
-	
+
+	[Space(5)]
+	[Header("UPGRADE CARDS")]
+	public List<CardSO> RareCards;
+	public List<CardSO> CoomonCards;
+
 	[Space(5)]
 	[Header("END GAME")]
 	public GameObject EvacuationArea;

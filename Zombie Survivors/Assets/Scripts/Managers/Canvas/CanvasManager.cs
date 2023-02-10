@@ -15,10 +15,7 @@ public class CanvasManager : MonoBehaviour
 	public static CanvasManager Instance;
 
 	// All Posible Canvas Screens Can Be Referenced like this
-	GameViewCanvasController gameViewController;
-	// MainMenuCanvasController mainMenuCanvasController;
-	// SettingsCanvasController settingsCanvasController;
-	// etc...
+	[HideInInspector] public GameViewCanvasController gameViewController;
 
 	private void Awake()
 	{
@@ -52,6 +49,9 @@ public class CanvasManager : MonoBehaviour
 			case GameState.gameStarted:
 				SwitchCanvas(CanvasType.GameView);
 				break;
+			case GameState.gamePaused:
+				SwitchCanvas(CanvasType.PauseScreen);
+				break;
 		}
 	}
 
@@ -66,6 +66,19 @@ public class CanvasManager : MonoBehaviour
 	public void BackToMainMenu()
 	{
 		SceneManager.LoadScene(0);
+	}
+
+	public void StartGame()
+	{
+		SlotsController.Instance.GetOccupiedSlots().ForEach(slot => 
+		{ 
+			if (slot.isTimerRunning) 
+			{ 
+				slot.SaveOpeniningTime(); 
+			} 
+		});
+
+		SceneManager.LoadScene(1);
 	}
 
 	public GameViewCanvasController GetActiveCanvas()

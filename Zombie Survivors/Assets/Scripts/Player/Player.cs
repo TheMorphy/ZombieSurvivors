@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(SetActiveWeaponEvent))]
@@ -10,8 +9,9 @@ public class Player : MonoBehaviour
 	[HideInInspector] public SetActiveWeaponEvent setActiveWeaponEvent;
 	[HideInInspector] public SquadControl squadControl;
 	[HideInInspector] public CameraController cameraController;
-
 	[HideInInspector] public Weapon playerWeapon;
+
+	private AirdropDetails collectedAirdrop = null;
 
 	private void Awake()
 	{
@@ -21,10 +21,13 @@ public class Player : MonoBehaviour
 		cameraController = GetComponent<CameraController>();
 	}
 
+	private void Start()
+	{
+		CameraController.Instance.SetInitialTarget(transform);
+	}
+
 	private void OnEnable()
 	{
-		Camera.main.GetComponent<CameraController>().SetNewTarget(transform);
-
 		StaticEvents.CallPlayerInitializedEvent(transform);
 
 		UpgradesManager.OnWeaponUpgrade += UpgradesManager_OnWeaponUpgrade;

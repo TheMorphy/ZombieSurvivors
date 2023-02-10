@@ -55,4 +55,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5f1624a65656b0c45a20b4e159b5e077, type: 2}
   - {fileID: 11400000, guid: b79f6456d47022f4d83bec814c7f03ee, type: 2}
   - {fileID: 11400000, guid: d11e18cf5fa814443b9e9520c1c707f1, type: 2}
+  RareCards:
+  - {fileID: 11400000, guid: 46c65fbd658dc214ea94406bd2f41781, type: 2}
+  - {fileID: 11400000, guid: 330ad9503ea8db94f9a0393b983d686b, type: 2}
+  CoomonCards:
+  - {fileID: 11400000, guid: 136d840a0baa73b4681819ee038bacfc, type: 2}
+  - {fileID: 11400000, guid: f1e0b3d1921727c419ef30c7bc585014, type: 2}
   EvacuationArea: {fileID: 8920200563324837378, guid: df7183e9a6f26f84b8079681930e9407, type: 3}

@@ -13,4 +13,12 @@ MonoBehaviour:
   m_Name: AirdropDetails_Wooden
   m_EditorClassIdentifier: 
   airdropType: 2
-  airdropPackage: {fileID: 6219553856910850472, guid: fee1ffc4cb5499546b09e53cbd6f4488, type: 3}
+  airdropSprite: {fileID: -266860002, guid: 3868bfafbfa06d4468cc157da153690b, type: 3}
+  airdropPrefab: {fileID: 6219553856910850472, guid: fee1ffc4cb5499546b09e53cbd6f4488, type: 3}
+  maxGemsAmmount: 3
+  minGemsAmmount: 1
+  minGoldAmmount: 18
+  maxGoldAmmount: 25
+  unlockDuration: 5
+  cardAmmount: 3
+  unlockCost: 20

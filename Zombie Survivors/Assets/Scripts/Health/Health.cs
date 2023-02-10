@@ -127,4 +127,9 @@ public class Health : MonoBehaviour
 	{
 		bossHealth = bossHealthbar;
 	}
+
+	public void DisableHealthbar()
+	{
+		healthBar.gameObject.SetActive(false);
+	}
 }

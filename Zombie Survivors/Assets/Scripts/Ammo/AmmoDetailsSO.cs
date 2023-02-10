@@ -20,7 +20,7 @@ public enum AmmoStats
 
 
 [CreateAssetMenu(fileName = "AmmoDetail_", menuName = "Scriptable Objects/Weapons/Ammo Detail")]
-public class AmmoDetailsSO : BaseScriptableObject
+public class AmmoDetailsSO : ScriptableObject
 {
 	[SerializeField]
 	private Sprite ammoPicture;

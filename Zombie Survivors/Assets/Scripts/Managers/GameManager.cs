@@ -61,8 +61,8 @@ public class GameManager : MonoBehaviour
 
 				timeElapsed += Time.deltaTime;
 
-				// Spawns Airdrop after 1min
-				if (Mathf.FloorToInt(timeElapsed) == 8 && !airdropDropped)
+				// Spawns Airdrop after 8sec
+				if (Mathf.FloorToInt(timeElapsed) == 1 && !airdropDropped)
 				{
 					SpawnAirdrop();
 				}
@@ -117,9 +117,6 @@ public class GameManager : MonoBehaviour
 		player = playerGameObject.GetComponent<Player>();
 
 		player.Initialize(playerDetails);
-
-		Camera.main.GetComponent<CameraController>().SetNewTarget(playerGameObject.transform);
-
 	}
 
 	private void LevelSystem_OnLevelUp(object sender, EventArgs e)
@@ -153,10 +150,10 @@ public class GameManager : MonoBehaviour
 		var airdrops = GameResources.Instance.Airdrops;
 		int index = UnityEngine.Random.Range(0, airdrops.Count);
 
-		GameObject airdrop = Instantiate(airdrops[index].airdropPackage);
+		GameObject airdrop = Instantiate(airdrops[index].AirdropPackage);
 		airdrop.transform.position = GetRandomSpawnPositionGround(4);
 
-		airdrop.GetComponent<AirdropController>().InitializeAirdrop(airdrops[index]);
+		airdrop.GetComponent<Airdrop>().InitializeAirdrop(airdrops[index]);
 
 		StaticEvents.CallAirdropSpawnedEvent(airdrop.transform.position);
 	}
@@ -207,7 +204,7 @@ public class GameManager : MonoBehaviour
 	{
 		player.playerController.StopPlayer();
 
-		Camera.main.GetComponent<CameraController>().SetNewTarget(evacuationZonePosition);
+		CameraController.Instance.SetInitialTarget(evacuationZonePosition);
 
 		StartCoroutine(player.squadControl.MoveTransformsToPosition(evacuationZonePosition.position));
 	}

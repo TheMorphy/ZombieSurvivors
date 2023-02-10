@@ -13,7 +13,7 @@ public enum PlayerStats
 }
 
 [CreateAssetMenu(fileName = "PlayerDetails", menuName = "Scriptable Objects/Characters/Player")]
-public class PlayerDetailsSO : BaseScriptableObject
+public class PlayerDetailsSO : ScriptableObject
 {
 	[SerializeField]
 	private PlayerClass playerClass;

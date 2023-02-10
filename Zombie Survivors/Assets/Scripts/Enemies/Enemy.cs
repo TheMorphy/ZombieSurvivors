@@ -67,6 +67,8 @@ public class Enemy : MonoBehaviour
 
 		if (healthEventArgs.healthAmount <= 0)
 		{
+			health.DisableHealthbar();
+
 			enemyController.DisableEnemy();
 
 			EnemySpawner.activeEnemies.Remove(transform);

@@ -50,7 +50,7 @@ public class Limb : MonoBehaviour
 		limbObject = Instantiate(limbPrefab, transform.position, transform.rotation);
 		limbObject.GetComponent<Rigidbody>().AddForce(forceDirection * force * 10f);
 
-		Instantiate(bloodFX, limbObject.transform.position, limbObject.transform.rotation);
+		Instantiate(bloodFX, limbObject.transform.position, limbObject.transform.rotation, transform);
 	}
 
 	public void DestroyLimb()

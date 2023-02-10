@@ -31,14 +31,20 @@ public class SquadControl : MonoBehaviour
 		squadAmmount = transform.childCount - 1;
 	}
 
-	private void LateUpdate()
+	private void Update()
 	{
-		UpdateColliderSize();
+		timer += Time.deltaTime;
+
+		if(timer > 1f)
+		{
+			UpdateColliderSize();
+			timer = 0;
+		}
 	}
 
-	public Bounds GetChildrenBounds()
+	public static Bounds GetChildrenBounds(Transform transform)
 	{
-		Bounds bounds = new Bounds(transform.GetChild(0).position, Vector3.zero);
+		Bounds bounds = new Bounds(transform.position, Vector3.zero);
 
 		for (int i = 1; i < transform.childCount; i++)
 		{
@@ -49,15 +55,13 @@ public class SquadControl : MonoBehaviour
 
 	private void UpdateColliderSize()
 	{
-		Bounds childrenBounds = GetChildrenBounds();
+		Bounds childrenBounds = GetChildrenBounds(transform);
 		Vector3 boundingBoxMin = childrenBounds.min;
 		Vector3 boundingBoxMax = childrenBounds.max;
 		float boundingWidthX = (boundingBoxMax.x - boundingBoxMin.x);
 		float boundingWidthZ = (boundingBoxMax.z - boundingBoxMin.z);
 
 		collider.size = new Vector3(boundingWidthX, collider.size.y, boundingWidthZ);
-
-		CameraController.Instance.UpdateTargetGroupBoundingBox(boundingWidthX);
 	}
 
 	public void IncreaseSquadSize(int randomValue, bool multiply)
@@ -73,17 +77,6 @@ public class SquadControl : MonoBehaviour
 		}
 	}
 
-	/// <summary>
-	/// Turns off all MonoBehaviour scripts
-	/// </summary>
-	public void DisableComrades()
-	{
-		for (int i = 0; i < transform.childCount; i++)
-		{
-			transform.GetChild(i).GetComponents<MonoBehaviour>().ToList().ForEach(x => x.enabled = false);
-		}
-	}
-
 	public void FormatSquad()
 	{
 		for (int i = 1; i < transform.childCount; i++)
@@ -96,12 +89,12 @@ public class SquadControl : MonoBehaviour
 			transform.GetChild(i).DOLocalMove(newPos, 0.7f).SetEase(Ease.OutBack);
 		}
 	}
-
 	public void CreateComrades(int number)
 	{
 		for (int i = squadAmmount; i < number; i++)
 		{
-			Instantiate(comradePrefab, transform.position, Quaternion.identity, transform);
+			var obj = Instantiate(comradePrefab, transform.position, Quaternion.identity, transform);
+			obj.name = $"Comrade_{i}";
 		}
 		
 		squadAmmount = transform.childCount - 1;
@@ -137,6 +130,14 @@ public class SquadControl : MonoBehaviour
 		}
 
 		GameManager.Instance.CallGameStateChangedEvent(GameState.gameWon);
+	}
+
+	public void DisableComrades()
+	{
+		for (int i = 0; i < transform.childCount; i++)
+		{
+			transform.GetChild(i).GetComponents<MonoBehaviour>().ToList().ForEach(x => x.enabled = false);
+		}
 	}
 
 	public int GetSquadAmmount()

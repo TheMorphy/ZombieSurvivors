@@ -43,7 +43,7 @@ public class EnemyController : MonoBehaviour
 	{
 		if(_agent.enabled)
 		{
-			if (SquadControl.ComradesTransforms.Count != 0)
+			if (SquadControl.ComradesTransforms.Count > 0)
 			{
 				target = GetClosestComrade(SquadControl.ComradesTransforms);
 

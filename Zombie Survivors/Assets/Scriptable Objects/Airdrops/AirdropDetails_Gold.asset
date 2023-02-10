@@ -13,4 +13,12 @@ MonoBehaviour:
   m_Name: AirdropDetails_Gold
   m_EditorClassIdentifier: 
   airdropType: 0
-  airdropPackage: {fileID: 2480925719425717160, guid: ca1e55c73f96558438549e0482ef916d, type: 3}
+  airdropSprite: {fileID: 366758278, guid: 3868bfafbfa06d4468cc157da153690b, type: 3}
+  airdropPrefab: {fileID: 2480925719425717160, guid: ca1e55c73f96558438549e0482ef916d, type: 3}
+  maxGemsAmmount: 10
+  minGemsAmmount: 15
+  minGoldAmmount: 500
+  maxGoldAmmount: 600
+  unlockDuration: 5
+  cardAmmount: 38
+  unlockCost: 150

@@ -9,4 +9,6 @@ public static class Settings
 
 	public static int AttacksCount = 4;
 	#endregion
+
+	public static string[] AirdropTypes = { AirdropType.Gold.ToString(), AirdropType.Wooden.ToString(), AirdropType.Iron.ToString() };
 }

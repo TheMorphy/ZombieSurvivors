@@ -1,15 +1,17 @@
+using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class AirdropController : Collectable
+public class Airdrop : Collectable
 {
     private Collider collider;
 	private AirdropDetails airdrop;
-	private Player player;
 
 	[SerializeField] private GameObject crashmark;
 	[SerializeField] private float absorbTime = 1.5f;
 
 	Vector3 startPos;
+
 	private void Awake()
 	{
 		collider = GetComponent<Collider>();
@@ -23,7 +25,6 @@ public class AirdropController : Collectable
 	{
 		if (other.transform.CompareTag("Player"))
 		{
-			player = other.GetComponent<Player>();
 			DisableCrashmark();
 			StartCoroutine(Collect(other.transform, absorbTime));
 		}
@@ -48,8 +49,27 @@ public class AirdropController : Collectable
 
 	protected override void OnCollected()
 	{
+		bool airdropSaved = false;
+
+		for (int i = 0; i < 4; i++)
+		{
+			if (PlayerPrefs.HasKey($"{airdrop.AirdropType + "_" + i}") == false)
+			{
+				PlayerPrefs.SetString(airdrop.AirdropType + "_" + i, airdrop.AirdropType.ToString());
+				airdropSaved = true;
+				break;
+			}
+		}
+
+		if(airdropSaved == false)
+		{
+			// TODO: Add money instead
+		}
+
 		StaticEvents.CallCollectedEvent(startPos);
 
 		Destroy(gameObject);
 	}
+
+
 }

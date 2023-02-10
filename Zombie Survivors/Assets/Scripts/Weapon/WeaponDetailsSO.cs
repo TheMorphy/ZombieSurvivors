@@ -25,7 +25,7 @@ public enum WeaponStats
 }
 
 [CreateAssetMenu(fileName = "Gun_", menuName = "Scriptable Objects/Weapons/Gun")]
-public class WeaponDetailsSO : BaseScriptableObject
+public class WeaponDetailsSO : ScriptableObject
 {
 	[Space]
 	[SerializeField]

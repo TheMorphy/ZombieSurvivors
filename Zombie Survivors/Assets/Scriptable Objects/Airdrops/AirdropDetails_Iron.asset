@@ -13,4 +13,12 @@ MonoBehaviour:
   m_Name: AirdropDetails_Iron
   m_EditorClassIdentifier: 
   airdropType: 1
-  airdropPackage: {fileID: 2550342976017127007, guid: e3a93d13c35e2e544a015bf081a60bf5, type: 3}
+  airdropSprite: {fileID: -1414042783, guid: 3868bfafbfa06d4468cc157da153690b, type: 3}
+  airdropPrefab: {fileID: 2550342976017127007, guid: e3a93d13c35e2e544a015bf081a60bf5, type: 3}
+  maxGemsAmmount: 3
+  minGemsAmmount: 6
+  minGoldAmmount: 100
+  maxGoldAmmount: 150
+  unlockDuration: 5
+  cardAmmount: 13
+  unlockCost: 100
