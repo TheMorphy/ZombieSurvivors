@@ -8,6 +8,7 @@ public class MainMenuViewController : MonoBehaviour
 	[Space]
 	[SerializeField] private SlotsController slotsController;
 	[SerializeField] private RewardsController rewardsController;
+	[SerializeField] private SkipWaitingTab skipWaitingTabController;
 
 	private void Awake()
 	{
@@ -49,5 +50,10 @@ public class MainMenuViewController : MonoBehaviour
 	public SlotsController GetSlotsController()
 	{
 		return slotsController;
+	}
+
+	public SkipWaitingTab GetSkipWaitingTabController()
+	{
+		return skipWaitingTabController;
 	}
 }

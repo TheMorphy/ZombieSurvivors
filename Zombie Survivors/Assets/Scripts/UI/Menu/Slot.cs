@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(SlotView))]
 public class Slot : MonoBehaviour
 {
-	[SerializeField] private SlotView airdropView;
+	private SlotView slotView;
 	public bool IsEmpty;
 	[HideInInspector]
 	public AirdropDetails AirdropDetails;
@@ -13,6 +14,12 @@ public class Slot : MonoBehaviour
 	[HideInInspector] public bool isTimerRunning = false;
 
 	[HideInInspector] public string SlotKey = "";
+	[HideInInspector] public string TimerText = "";
+
+	private void Awake()
+	{
+		slotView = GetComponent<SlotView>();
+	}
 
 	private void Start()
 	{
@@ -43,17 +50,17 @@ public class Slot : MonoBehaviour
 
 			if (unlockTimer <= 0)
 			{
-				airdropView.EnteringUnlockedState();
+				slotView.EnteringUnlockedState();
 			}
 			else
 			{
-				airdropView.EnteringUnlockingState();
+				slotView.EnteringUnlockingState();
 			}
 		}
 		else
 		{
 			unlockTimer = airdropDetails.UnlockDuration;
-			airdropView.InitialiseViewUIForLockedChest();
+			slotView.InitialiseViewUIForLockedChest();
 		}
 		SlotKey = $"{airdropDetails.AirdropType.ToString() + "_" + slotIndex}";
 		IsEmpty = false;
@@ -61,7 +68,7 @@ public class Slot : MonoBehaviour
 
 	public void SetSlotReference()
 	{
-		airdropView.SlotReference = this;
+		slotView.SlotReference = this;
 	}
 
 	public IEnumerator StartTimer(float startTime = -1)
@@ -77,11 +84,14 @@ public class Slot : MonoBehaviour
 			int minutes = (int)(unlockTimer / 60) % 60;
 			int seconds = (int)(unlockTimer % 60);
 
-			airdropView.chestTimerTxt.text = "";
-			if (days > 0) { airdropView.chestTimerTxt.text += days + "d "; }
-			if(hours > 0) { airdropView.chestTimerTxt.text += hours + "h "; }
-			if(minutes > 0) { airdropView.chestTimerTxt.text += minutes + "m "; }
-			if(seconds > 0) { airdropView.chestTimerTxt.text += seconds + "s "; }
+			slotView.chestTimerTxt.text = "";
+			TimerText = "";
+			if (days > 0) { slotView.chestTimerTxt.text += days + "d "; }
+			if (hours > 0) { slotView.chestTimerTxt.text += hours + "h "; }
+			if (minutes > 0) { slotView.chestTimerTxt.text += minutes + "m "; }
+			if (seconds > 0) { slotView.chestTimerTxt.text += seconds + "s "; }
+
+			TimerText += slotView.chestTimerTxt.text;
 
 			yield return waitTime;
 
@@ -91,7 +101,7 @@ public class Slot : MonoBehaviour
 				unlockTimer -= 1;
 		}
 		isTimerRunning = false;
-		airdropView.EnteringUnlockedState();
+		slotView.EnteringUnlockedState();
 	}
 	public void SaveOpeniningTime()
 	{
@@ -111,6 +121,13 @@ public class Slot : MonoBehaviour
 
 		PlayerPrefs.SetString(transform.name, transform.name);
 	}
+
+	public void RemoveTime(float time)
+	{
+		unlockTimer -= time;
+	}
+
+	public SlotView GetSlotView() { return slotView; }
 
 	private void OnApplicationPause(bool pause)
 	{

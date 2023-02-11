@@ -3,21 +3,8 @@ using UnityEngine;
 
 public class SlotsController : MonoBehaviour
 {
-	public static SlotsController Instance;
-
 	[SerializeField]
 	private Slot[] Slots;
-	public bool IsUnlocking;
-
-	private void Awake()
-	{
-		Instance = this;
-	}
-
-	private void Start()
-	{
-		IsUnlocking = false;
-	}
 
 	public void InitializeAirdropSlotIfEmpty(AirdropDetails airdropDetails, int index)
 	{

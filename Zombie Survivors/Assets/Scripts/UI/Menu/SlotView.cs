@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -25,14 +24,14 @@ public class SlotView : MonoBehaviour
 		InitializeEmptyChestView();
 
 		ChestButton.onClick.AddListener(() => {
-			
+
 			switch(currentState)
 			{
 				case ChestState.Locked:
 					EnteringUnlockingState();
 					break;
 				case ChestState.Unlocking:
-					OpenInstantly();
+					MainMenuViewController.Instance.GetSkipWaitingTabController().InitializeWindow(SlotReference);
 					break;
 				case ChestState.Unlocked:
 					OpenChest();
@@ -81,7 +80,7 @@ public class SlotView : MonoBehaviour
 		coinsTxt.gameObject.SetActive(false);
 		gemImage.gameObject.SetActive(false);
 		gemsTxt.gameObject.SetActive(false);
-		ChestButton.enabled = false;
+		ChestButton.enabled = true;
 		currentState = ChestState.Unlocking;
 	}
 
@@ -101,10 +100,8 @@ public class SlotView : MonoBehaviour
 
 	public void EnteringUnlockingState()
 	{
-		SlotsController.Instance.IsUnlocking = true;
 		InitialiseViewUIForUnlockingChest();
 		StartCoroutine(SlotReference.StartTimer());
-
 	}
 
 	public void OpenInstantly()
@@ -116,7 +113,6 @@ public class SlotView : MonoBehaviour
 
 	public void EnteringUnlockedState()
 	{
-		SlotsController.Instance.IsUnlocking = false;
 		InitialiseViewUIForUnlockedChest();
 		chestTimerTxt.text = "OPEN!";
 	}
@@ -133,6 +129,11 @@ public class SlotView : MonoBehaviour
 
 	public void ReceiveChestRewards()
 	{
+		DeleteSlotPrefs();
+	}
+
+	public void DeleteSlotPrefs()
+	{
 		Utilities.DeletePrefs(new string[] {
 		$"{SlotReference.transform.name}_QuitTimeDay",
 		$"{SlotReference.transform.name}_QuitTimeHour",
@@ -143,7 +144,6 @@ public class SlotView : MonoBehaviour
 		$"{SlotReference.SlotKey}"
 		});
 	}
-
 }
 
 public enum ChestState

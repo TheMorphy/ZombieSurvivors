@@ -70,7 +70,7 @@ public class CanvasManager : MonoBehaviour
 
 	public void StartGame()
 	{
-		SlotsController.Instance.GetOccupiedSlots().ForEach(slot => 
+		MainMenuViewController.Instance.GetSlotsController().GetOccupiedSlots().ForEach(slot => 
 		{ 
 			if (slot.isTimerRunning) 
 			{ 
