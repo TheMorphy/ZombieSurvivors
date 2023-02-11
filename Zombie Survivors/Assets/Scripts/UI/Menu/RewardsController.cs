@@ -45,15 +45,17 @@ public class RewardsController : MonoBehaviour
 		if(Input.GetMouseButtonDown(0) && rewardsShowed)
 		{
 			MainMenuViewController.Instance.GetSlotsController().Show();
-
+			MainMenuViewController.Instance.EnableNavigationTab();
 			Hide();
 		}
 	}
 
 	public void InitializeWindow(AirdropDetails airdrop)
 	{
-		Show();
+		MainMenuViewController.Instance.GetSlotsController().Hide();
+		MainMenuViewController.Instance.DisableNavigationTab();
 
+		Show();
 		airdropDetails = airdrop;
 		cardImage.gameObject.SetActive(true);
 		chestImage.sprite = airdropDetails.AirdropSprite;
@@ -79,12 +81,11 @@ public class RewardsController : MonoBehaviour
 			{
 				RewardCard rewardCard = Instantiate(rewardCardReference, rewardsGrid.transform).GetComponent<RewardCard>();
 				rewardCard.gameObject.SetActive(true);
-				rewardCard.InitializeRewardCard(cards[i].CardSprite, Random.Range(1, 5)); // For now random number of cards
+				rewardCard.InitializeReward(cards[i], Random.Range(1, 5)); // For now random number of cards
 			}
 			rewardsShowed = true;
 			return;
 		}
-			
 
 		var cardToShow = cards[cardsToOpenCount];
 
@@ -98,8 +99,9 @@ public class RewardsController : MonoBehaviour
 
 	private void AddCards()
 	{
-		var commonCards = GameResources.Instance.CoomonCards;
+		var commonCards = GameResources.Instance.CommonCards;
 		var rareCards = GameResources.Instance.RareCards;
+		var epicCards = GameResources.Instance.EpicCards;
 
 		cardsToOpenCount = airdropDetails.CardAmmount;
 
@@ -110,35 +112,46 @@ public class RewardsController : MonoBehaviour
 			switch (airdropDetails.AirdropType)
 			{
 				case AirdropType.Wooden:
-
 					if (randomChance > 0.0f && randomChance < 0.2f)
 					{
 						cards.Add(GameResources.Instance.RareCards[Random.Range(0, rareCards.Count)]);
 					}
+					else if (randomChance > 0.2f && randomChance < 0.4f)
+					{
+						cards.Add(GameResources.Instance.CommonCards[Random.Range(0, commonCards.Count)]);
+					}
 					else
 					{
-						cards.Add(GameResources.Instance.CoomonCards[Random.Range(0, commonCards.Count)]);
+						cards.Add(GameResources.Instance.EpicCards[Random.Range(0, epicCards.Count)]);
 					}
 					break;
 				case AirdropType.Iron:
-					if (randomChance > 0.0f && randomChance < 0.3f)
+					if (randomChance > 0.0f && randomChance < 0.1f)
 					{
 						cards.Add(GameResources.Instance.RareCards[Random.Range(0, rareCards.Count)]);
 					}
+					else if (randomChance > 0.1f && randomChance < 0.2f)
+					{
+						cards.Add(GameResources.Instance.CommonCards[Random.Range(0, commonCards.Count)]);
+					}
 					else
 					{
-						cards.Add(GameResources.Instance.CoomonCards[Random.Range(0, commonCards.Count)]);
+						cards.Add(GameResources.Instance.EpicCards[Random.Range(0, epicCards.Count)]);
 					}
 					break;
 
 				case AirdropType.Gold:
-					if (randomChance > 0.0f && randomChance < 0.6f)
+					if (randomChance > 0.0f && randomChance < 0.3f)
 					{
 						cards.Add(GameResources.Instance.RareCards[Random.Range(0, rareCards.Count)]);
 					}
+					else if(randomChance > 0.3f && randomChance < 0.9f)
+					{
+						cards.Add(GameResources.Instance.CommonCards[Random.Range(0, commonCards.Count)]);
+					}
 					else
 					{
-						cards.Add(GameResources.Instance.CoomonCards[Random.Range(0, commonCards.Count)]);
+						cards.Add(GameResources.Instance.EpicCards[Random.Range(0, epicCards.Count)]);
 					}
 					break;
 			}

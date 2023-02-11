@@ -10,6 +10,8 @@ public class MainMenuViewController : MonoBehaviour
 	[SerializeField] private RewardsController rewardsController;
 	[SerializeField] private SkipWaitingTab skipWaitingTabController;
 
+	[SerializeField] private GameObject navigationTab;
+
 	private void Awake()
 	{
 		Instance = this;
@@ -35,6 +37,16 @@ public class MainMenuViewController : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	public void EnableNavigationTab()
+	{
+		navigationTab.SetActive(true);
+	}
+
+	public void DisableNavigationTab()
+	{
+		navigationTab.SetActive(false);
 	}
 
 	public void ResetPrefs()

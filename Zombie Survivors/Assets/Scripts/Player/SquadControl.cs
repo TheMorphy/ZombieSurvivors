@@ -108,6 +108,8 @@ public class SquadControl : MonoBehaviour
 	{
 		DisableComrades();
 
+		position = Vector3.zero;
+
 		var arangedComrades = ComradesTransforms.OrderBy(x => Vector3.Distance(x.transform.position, position)).ToList();
 
 		foreach (var comrade in arangedComrades)
@@ -119,7 +121,7 @@ public class SquadControl : MonoBehaviour
 			{
 				comrade.localScale = Vector3.Lerp(startScale, startScale / 2, moveTween.Elapsed());
 
-				if (Vector3.Distance(comrade.transform.position, position) < 0.5f && !eventCalled)
+				if (Vector3.Distance(comrade.transform.position, position) < 0.2f && !eventCalled)
 				{
 					StaticEvents.CallComradeBoardedEvent();
 					eventCalled = true;

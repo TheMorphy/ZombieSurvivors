@@ -21,4 +21,4 @@ MonoBehaviour:
   maxGoldAmmount: 25
   unlockDuration: 30
   cardAmmount: 3
-  unlockCost: 20
+  unlockCost: 3

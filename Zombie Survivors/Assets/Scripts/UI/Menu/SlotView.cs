@@ -31,7 +31,7 @@ public class SlotView : MonoBehaviour
 					EnteringUnlockingState();
 					break;
 				case ChestState.Unlocking:
-					MainMenuViewController.Instance.GetSkipWaitingTabController().InitializeWindow(SlotReference);
+					SkipWaitingTime();
 					break;
 				case ChestState.Unlocked:
 					OpenChest();
@@ -65,7 +65,7 @@ public class SlotView : MonoBehaviour
 		coinsTxt.text = SlotReference.AirdropDetails.UnlockCost.ToString();
 		gemImage.gameObject.SetActive(true);
 		gemsTxt.gameObject.SetActive(true);
-		gemsTxt.text = SlotReference.AirdropDetails.GetGemCost().ToString();
+		gemsTxt.text = SlotReference.AirdropDetails.UnlockCost.ToString();
 		ChestButton.enabled = true;
 		currentState = ChestState.Locked;
 	}
@@ -117,6 +117,11 @@ public class SlotView : MonoBehaviour
 		chestTimerTxt.text = "OPEN!";
 	}
 
+	public void SkipWaitingTime()
+	{
+		MainMenuViewController.Instance.GetSkipWaitingTabController().InitializeWindow(SlotReference);
+	}
+
 	public void OpenChest()
 	{
 		InitializeEmptyChestView();
@@ -124,7 +129,6 @@ public class SlotView : MonoBehaviour
 		SlotReference.IsEmpty = true;
 
 		MainMenuViewController.Instance.GetRewardsController().InitializeWindow(SlotReference.AirdropDetails);
-		MainMenuViewController.Instance.GetSlotsController().Hide();
 	}
 
 	public void ReceiveChestRewards()

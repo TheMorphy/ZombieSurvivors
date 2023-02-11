@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0fd154d715f82245b7728774a525db5, type: 3}
-  m_Name: UpgradeCard_Weapon
+  m_Name: UpgradeCard_Gloves 1
   m_EditorClassIdentifier: 
-  cardType: 0
-  cardRarity: 0
-  cardName: Megalodon
+  cardType: 1
+  cardRarity: 2
+  cardName: Devils
   cardSprite: {fileID: 21300000, guid: f8c9467a892580344bb697526dac0d13, type: 3}
-  upgradeStat: 7
-  upgradeAction: 1
-  upgradeAmmount: 0.1
+  upgradeStat: 1
+  upgradeAction: 3
+  upgradeAmmount: 0

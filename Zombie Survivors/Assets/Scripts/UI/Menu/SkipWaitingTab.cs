@@ -38,6 +38,7 @@ public class SkipWaitingTab : MonoBehaviour
 	{
 		if (giveReward)
 		{
+			MainMenuViewController.Instance.GetSlotsController().Show();
 			slot.RemoveTime(1800);
 			gameObject.SetActive(false);
 			slot.GetSlotView().ChestButton.enabled = true;
@@ -54,7 +55,7 @@ public class SkipWaitingTab : MonoBehaviour
 
 		airdropDetails = slot.AirdropDetails;
 
-		gemsCost.text = airdropDetails.GetGemCost().ToString();
+		gemsCost.text = airdropDetails.UnlockCost.ToString();
 
 		useGemsButton.onClick.AddListener(() => {
 			

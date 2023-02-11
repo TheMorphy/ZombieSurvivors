@@ -11,4 +11,8 @@ public static class Settings
 	#endregion
 
 	public static string[] AirdropTypes = { AirdropType.Gold.ToString(), AirdropType.Wooden.ToString(), AirdropType.Iron.ToString() };
+
+	public static string CurrentCardLevel = "CurrentCardLevel";
+	public static string CardsRequiredToLevelUp = "RequiredCardsAmmount";
+	public static string CardAmmount = "CardsAmmount";
 }

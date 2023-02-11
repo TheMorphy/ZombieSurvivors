@@ -29,6 +29,9 @@ public class CardSO : ScriptableObject
 	[SerializeField] CardRarity cardRarity;
 	public CardRarity CardRarity { get { return cardRarity; } }
 
+	[SerializeField] private string cardName;
+	public string CardName { get { return cardName; } }
+
 	[SerializeField] private Sprite cardSprite;
 	public Sprite CardSprite { get { return cardSprite; } }
 
@@ -41,4 +44,6 @@ public class CardSO : ScriptableObject
 
 	[SerializeField] private float upgradeAmmount;
 	public float UpgradeAmmount { get { return upgradeAmmount; } }
+
+	[HideInInspector] public string CardCode => CardName + "_" + CardRarity.ToString();
 }

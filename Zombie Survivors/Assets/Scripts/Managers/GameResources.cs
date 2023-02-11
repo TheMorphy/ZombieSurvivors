@@ -52,8 +52,9 @@ public class GameResources : MonoBehaviour
 
 	[Space(5)]
 	[Header("UPGRADE CARDS")]
+	public List<CardSO> CommonCards;
 	public List<CardSO> RareCards;
-	public List<CardSO> CoomonCards;
+	public List<CardSO> EpicCards;
 
 	[Space(5)]
 	[Header("END GAME")]

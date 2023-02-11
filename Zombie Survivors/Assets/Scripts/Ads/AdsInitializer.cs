@@ -8,6 +8,7 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSho
 	[SerializeField] Button _showAdButton;
 	[SerializeField] string _androidAdUnitId;
 	[SerializeField] string _iOSAdUnitId;
+	[SerializeField] bool isTesting = true;
 	string _adUnitId = null; // This will remain null for unsupported platforms
 
 	public event Action<bool> OnAdClosed;
@@ -24,7 +25,7 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSho
 
 	public void InitializeAd()
 	{
-		Advertisement.Initialize(_adUnitId, true, this);
+		Advertisement.Initialize(_adUnitId, isTesting, this);
 	}
 
 	// Load content to the Ad Unit:
@@ -71,7 +72,7 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSho
 			// Grant a reward.
 
 			// Load another ad:
-			Advertisement.Load(_adUnitId, this);
+			LoadAd();
 
 			OnAdClosed?.Invoke(true);
 		}

@@ -125,6 +125,11 @@ public class Slot : MonoBehaviour
 	public void RemoveTime(float time)
 	{
 		unlockTimer -= time;
+
+		if (unlockTimer <= 0)
+		{
+			slotView.EnteringUnlockedState();
+		}
 	}
 
 	public SlotView GetSlotView() { return slotView; }

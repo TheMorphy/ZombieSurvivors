@@ -48,17 +48,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a28a35380f884424a9c1e2a93552097b, type: 2}
   - {fileID: 11400000, guid: fbdc84d95c415b14abb136516812a6d8, type: 2}
   - {fileID: 11400000, guid: 7934ca44781819c4c9c5e67b8a1732fc, type: 2}
-  CurrentPlayer: {fileID: 11400000, guid: fa02e9736a2e0594e8b197f3169c2b9c, type: 2}
+  CurrentPlayer: {fileID: 11400000, guid: 72eaaf1d1458c2e4788b73c864d255b1, type: 2}
   ExpDrop: {fileID: 8908623256187235432, guid: 7029781d16f496d4198b78dea5fa2b95, type: 3}
   MultiplicationCircle: {fileID: 8920200563324837378, guid: e01df52244e562e48b9b4dc4d56ffe06, type: 3}
   Airdrops:
   - {fileID: 11400000, guid: 5f1624a65656b0c45a20b4e159b5e077, type: 2}
   - {fileID: 11400000, guid: b79f6456d47022f4d83bec814c7f03ee, type: 2}
   - {fileID: 11400000, guid: d11e18cf5fa814443b9e9520c1c707f1, type: 2}
+  CommonCards:
+  - {fileID: 11400000, guid: f1e0b3d1921727c419ef30c7bc585014, type: 2}
+  - {fileID: 11400000, guid: 136d840a0baa73b4681819ee038bacfc, type: 2}
   RareCards:
   - {fileID: 11400000, guid: 46c65fbd658dc214ea94406bd2f41781, type: 2}
   - {fileID: 11400000, guid: 330ad9503ea8db94f9a0393b983d686b, type: 2}
-  CoomonCards:
-  - {fileID: 11400000, guid: 136d840a0baa73b4681819ee038bacfc, type: 2}
-  - {fileID: 11400000, guid: f1e0b3d1921727c419ef30c7bc585014, type: 2}
+  EpicCards:
+  - {fileID: 11400000, guid: 3d9966fb66b9542409a0599396bf1f41, type: 2}
+  - {fileID: 11400000, guid: b22352223a379574f92ddf3818c30ec7, type: 2}
   EvacuationArea: {fileID: 8920200563324837378, guid: df7183e9a6f26f84b8079681930e9407, type: 3}

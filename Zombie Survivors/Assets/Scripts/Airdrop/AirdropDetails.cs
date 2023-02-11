@@ -40,9 +40,9 @@ public class AirdropDetails : ScriptableObject
 	[SerializeField] private int unlockCost;
 	public int UnlockCost { get { return unlockCost; } }
 
-	public int GetGemCost()
+	public int GetGemCostByRemainingTime()
 	{
 		float unlockTimer = UnlockDuration;
-		return (int)Mathf.Ceil(unlockTimer / 2);
+		return (int)Mathf.Ceil((unlockTimer * 3600 ) / 2);
 	}
 }
