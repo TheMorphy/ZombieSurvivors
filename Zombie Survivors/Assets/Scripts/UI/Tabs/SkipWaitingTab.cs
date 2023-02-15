@@ -1,8 +1,9 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SkipWaitingTab : MonoBehaviour
+public class SkipWaitingTab : MonoBehaviour, IPointerClickHandler
 {
 	[SerializeField] private AdsInitializer adsInitializer;
 
@@ -16,7 +17,7 @@ public class SkipWaitingTab : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI skipTimeWithAdsText;
 	[SerializeField] private Button watchAdButton;
 
-	private AirdropDetails airdropDetails;
+	private AirdropDTO airdropDetails;
 	private Slot slot;
 
 	private void Start()
@@ -38,30 +39,39 @@ public class SkipWaitingTab : MonoBehaviour
 	{
 		if (giveReward)
 		{
-			MainMenuViewController.Instance.GetSlotsController().Show();
-			slot.RemoveTime(1800);
-			gameObject.SetActive(false);
+			CanvasManager.GetTab<PlayTab>().Show();
+			slot.RemoveTime(airdropDetails.RemoveTime);
 			slot.GetSlotView().ChestButton.enabled = true;
+			Hide();
 		}
 	}
 
 	public void InitializeWindow(Slot slot)
 	{
+		Show();
+
 		this.slot = slot;
-
-		slot.GetSlotView().ChestButton.enabled = false;
-
-		gameObject.SetActive(true);
-
 		airdropDetails = slot.AirdropDetails;
-
 		gemsCost.text = airdropDetails.UnlockCost.ToString();
 
 		useGemsButton.onClick.AddListener(() => {
-			
-			slot.RemoveTime(Mathf.Infinity);
-			slot.GetSlotView().EnteringUnlockedState();
-			gameObject.SetActive(false);
+			slot.GetSlotView().OpenChest();
+			Hide();
 		});
+	}
+
+	public void OnPointerClick(PointerEventData eventData)
+	{
+		Hide();
+	}
+
+	public void Hide()
+	{
+		gameObject.SetActive(false);
+	}
+
+	public void Show()
+	{
+		gameObject.SetActive(true);
 	}
 }

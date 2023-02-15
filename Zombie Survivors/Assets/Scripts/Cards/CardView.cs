@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,7 +24,7 @@ public class CardView : MonoBehaviour
     [SerializeField] private Image cardLevelBar;
     [SerializeField] private Button cardButton;
 
-	public bool IsInOptions = false;
+	private CardView _selectedCardView; // Keep track of the currently selected card
 
 	private void Awake()
 	{
@@ -35,7 +37,7 @@ public class CardView : MonoBehaviour
 	private void Start()
 	{
 		cardButton.onClick.AddListener(() => {
-			SelectCard();
+			SelectCard(this);
 		});
 	}
 
@@ -60,17 +62,29 @@ public class CardView : MonoBehaviour
 		SetExpFillAmmount();
 	}
 
-	private void SelectCard()
+	private void SelectCard(CardView clickedCardView)
 	{
-		if (IsInOptions)
+		if (_selectedCardView == clickedCardView)
 		{
-			IsInOptions = false;
-			HideOptions();
+			// If the clicked card is already selected, hide the options
+			clickedCardView.HideOptions();
+			_selectedCardView = null;
 		}
 		else
 		{
-			IsInOptions = true;
-			DisplayOptions();
+			// Display options for the clicked card and hide options for all others
+			//foreach (CardView cardView in ActiveCardsController.ActiveDeck.Select(card => card.ca))
+			//{
+			//	if (cardView == clickedCardView)
+			//	{
+			//		cardView.DisplayOptions();
+			//		_selectedCardView = cardView;
+			//	}
+			//	else
+			//	{
+			//		cardView.HideOptions();
+			//	}
+			//}
 		}
 	}
 
@@ -98,37 +112,22 @@ public class CardView : MonoBehaviour
 	/// </summary>
 	private void ToggleOptions()
 	{
-		switch (cardReference.cardSlot)
+		topActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Info";
+
+		if (cardReference.IsReadyToUpgrade == true)
 		{
-			case CardSlot.Active:
-
-				if (cardReference.IsReadyToUpgrade == false)
-				{
-					topActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Info";
-					// TODO: Show Card Info
-				}
-				else
-				{
-					topActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Upgrade";
-					// TODO: Call Upgrade Card Method
-				}
-
-				break;
-
-			case CardSlot.Inventory:
-
-				if (cardReference.IsReadyToUpgrade == false)
-				{
-					topActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Info";
-					// TODO: Show Card Info
-				}
-				else
-				{
-					topActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Use";
-					// TODO: Add Card to active cards slot or replace if there are no empty
-				}
-
-				break;
+			bottomActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Upgrade";
+		}
+		else
+		{
+			if (ActiveCardsController.ActiveDeck.Contains(cardReference.CardDetails)) // If this card is part of the Active deck set
+			{
+				bottomActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Remove";
+			}
+			else
+			{
+				bottomActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Use";
+			}
 		}
 	}
 }

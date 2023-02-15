@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SetActiveWeaponEvent))]
@@ -11,7 +12,9 @@ public class Player : MonoBehaviour
 	[HideInInspector] public CameraController cameraController;
 	[HideInInspector] public Weapon playerWeapon;
 
-	private AirdropDetails collectedAirdrop = null;
+	[Space]
+	[Header("Readonly! (initialized during runtime)")]
+	public List<ActiveUpgrades> ActiveUpgrades;
 
 	private void Awake()
 	{
@@ -95,6 +98,10 @@ public class Player : MonoBehaviour
 	public void Initialize(PlayerDetailsSO playerDetails)
 	{
 		this.playerDetails = Instantiate(playerDetails);
+
+		ActiveUpgrades = SaveManager.ReadFromJSON<ActiveUpgrades>(Settings.ACTIVE_UPGRADES_PATH);
+
+		this.playerDetails.ActiveUpgrades = ActiveUpgrades;
 
 		//Create player starting weapons
 		CreatePlayerStartingWeapons();

@@ -4,12 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [DisallowMultipleComponent]
-public class GameViewCanvasController : MonoBehaviour
+public class GameplayTab : Tab
 {
-	public CanvasType canvasType;
-	private CanvasManager canvasManager;
-
-	private UpgradeSystem upgradesController;
+	private UpgradesTab upgradesController;
 	private Pointer pointer;
 
 	[Space]
@@ -27,12 +24,11 @@ public class GameViewCanvasController : MonoBehaviour
 
 	private void Awake()
 	{
-		canvasManager = GetComponentInParent<CanvasManager>();
 		pointer = GetComponentInChildren<Pointer>();
-		upgradesController = GetComponentInChildren<UpgradeSystem>();
+		upgradesController = GetComponentInChildren<UpgradesTab>();
 	}
 
-	private void Start()
+	public override void Initialize()
 	{
 		upgradesController.SetLevelSystem(GameManager.Instance.GetLevelSystem());
 
@@ -41,8 +37,13 @@ public class GameViewCanvasController : MonoBehaviour
 		airdropIncomming.gameObject.SetActive(false);
 
 		backToMainMenu.onClick.AddListener(() => {
-			canvasManager.BackToMainMenu();
+			CanvasManager.ReturnToMainMenu();
 		});
+	}
+
+	public override void InitializeWithArgs(object[] args)
+	{
+		
 	}
 
 	private void Update()

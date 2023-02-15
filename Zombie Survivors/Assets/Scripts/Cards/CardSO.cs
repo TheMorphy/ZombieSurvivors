@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum CardType
 {
 	Weapon,
-	Glove,
+	Gloves,
 	Helmet,
 	Armor,
-	Vest,
 	Boots
 }
 
@@ -34,6 +31,9 @@ public class CardSO : ScriptableObject
 
 	[SerializeField] private Sprite cardSprite;
 	public Sprite CardSprite { get { return cardSprite; } }
+
+	[SerializeField] private AnimationCurve scallingConfiguration;
+	public AnimationCurve ScallingConfiguration { get { return scallingConfiguration; } }
 
 	[Space]
 	[SerializeField] WeaponStats upgradeStat;

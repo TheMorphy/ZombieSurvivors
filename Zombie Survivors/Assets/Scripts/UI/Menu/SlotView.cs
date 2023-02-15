@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,9 +8,9 @@ public class SlotView : MonoBehaviour
 	[HideInInspector] public Slot SlotReference;
 
 	public Sprite EmptySlotSprite;
-	public TextMeshProUGUI chestTimerTxt;
-	public Image chestSlotSprite;
-	public TextMeshProUGUI chestTypeTxt;
+	public TextMeshProUGUI unlockTimeText;
+	public Image airdropSlotSprite;
+	public TextMeshProUGUI airdropTypeTxt;
 	public Image coinImage;
 	public TextMeshProUGUI coinsTxt;
 	public Image gemImage;
@@ -21,14 +22,12 @@ public class SlotView : MonoBehaviour
 
 	private void Start()
 	{
-		InitializeEmptyChestView();
-
 		ChestButton.onClick.AddListener(() => {
 
 			switch(currentState)
 			{
 				case ChestState.Locked:
-					EnteringUnlockingState();
+					StartUnlockingAirdrop();
 					break;
 				case ChestState.Unlocking:
 					SkipWaitingTime();
@@ -37,15 +36,14 @@ public class SlotView : MonoBehaviour
 					OpenChest();
 					break;
 			}
-
 		});
 	}
 
 	public void InitializeEmptyChestView()
 	{
-		chestTimerTxt.gameObject.SetActive(false);
-		chestSlotSprite.sprite = EmptySlotSprite;
-		chestTypeTxt.gameObject.SetActive(false);
+		unlockTimeText.gameObject.SetActive(false);
+		airdropSlotSprite.sprite = EmptySlotSprite;
+		airdropTypeTxt.gameObject.SetActive(false);
 		coinImage.gameObject.SetActive(false);
 		coinsTxt.gameObject.SetActive(false);
 		gemImage.gameObject.SetActive(false);
@@ -56,10 +54,10 @@ public class SlotView : MonoBehaviour
 
 	public void InitialiseViewUIForLockedChest()
 	{
-		chestTimerTxt.gameObject.SetActive(false);
-		chestSlotSprite.sprite = SlotReference.AirdropDetails.AirdropSprite;
-		chestTypeTxt.gameObject.SetActive(true);
-		chestTypeTxt.text = SlotReference.AirdropDetails.AirdropType.ToString();
+		unlockTimeText.gameObject.SetActive(false);
+		airdropSlotSprite.sprite = SlotReference.AirdropDetails.AirdropSprite;
+		airdropTypeTxt.gameObject.SetActive(true);
+		airdropTypeTxt.text = SlotReference.AirdropDetails.AirdropType.ToString();
 		coinImage.gameObject.SetActive(true);
 		coinsTxt.gameObject.SetActive(true);
 		coinsTxt.text = SlotReference.AirdropDetails.UnlockCost.ToString();
@@ -72,10 +70,10 @@ public class SlotView : MonoBehaviour
 
 	public void InitialiseViewUIForUnlockingChest()
 	{
-		chestTimerTxt.gameObject.SetActive(true);
-		chestSlotSprite.sprite = SlotReference.AirdropDetails.AirdropSprite;
-		chestTypeTxt.gameObject.SetActive(true);
-		chestTypeTxt.text = SlotReference.AirdropDetails.AirdropType.ToString();
+		unlockTimeText.gameObject.SetActive(true);
+		airdropSlotSprite.sprite = SlotReference.AirdropDetails.AirdropSprite;
+		airdropTypeTxt.gameObject.SetActive(true);
+		airdropTypeTxt.text = SlotReference.AirdropDetails.AirdropType.ToString();
 		coinImage.gameObject.SetActive(false);
 		coinsTxt.gameObject.SetActive(false);
 		gemImage.gameObject.SetActive(false);
@@ -86,10 +84,11 @@ public class SlotView : MonoBehaviour
 
 	public void InitialiseViewUIForUnlockedChest()
 	{
-		chestTimerTxt.gameObject.SetActive(true);
-		chestSlotSprite.sprite = SlotReference.AirdropDetails.AirdropSprite;
-		chestTypeTxt.gameObject.SetActive(true);
-		chestTypeTxt.text = SlotReference.AirdropDetails.AirdropType.ToString();
+		unlockTimeText.gameObject.SetActive(true);
+		unlockTimeText.text = "OPEN!";
+		airdropSlotSprite.sprite = SlotReference.AirdropDetails.AirdropSprite;
+		airdropTypeTxt.gameObject.SetActive(true);
+		airdropTypeTxt.text = SlotReference.AirdropDetails.AirdropType.ToString();
 		coinImage.gameObject.SetActive(false);
 		coinsTxt.gameObject.SetActive(false);
 		gemImage.gameObject.SetActive(false);
@@ -98,55 +97,52 @@ public class SlotView : MonoBehaviour
 		currentState = ChestState.Unlocked;
 	}
 
-	public void EnteringUnlockingState()
+	public void StartUnlockingAirdrop()
 	{
+		if (SlotReference.TimerStarted == false)
+			TimeTracker.Instance.StartTrackingTime(SlotReference);
+
 		InitialiseViewUIForUnlockingChest();
-		StartCoroutine(SlotReference.StartTimer());
-	}
 
-	public void OpenInstantly()
-	{
-		InitializeEmptyChestView();
-		ReceiveChestRewards();
-		SlotReference.IsEmpty = true;
-	}
-
-	public void EnteringUnlockedState()
-	{
-		InitialiseViewUIForUnlockedChest();
-		chestTimerTxt.text = "OPEN!";
+		StartCoroutine(DisplayRemainingTime());
 	}
 
 	public void SkipWaitingTime()
 	{
-		MainMenuViewController.Instance.GetSkipWaitingTabController().InitializeWindow(SlotReference);
+		CanvasManager.GetTab<PlayTab>().GetSkipWaitingTab().InitializeWindow(SlotReference);
 	}
 
 	public void OpenChest()
 	{
+		StopCoroutine(DisplayRemainingTime());
 		InitializeEmptyChestView();
-		ReceiveChestRewards();
-		SlotReference.IsEmpty = true;
 
-		MainMenuViewController.Instance.GetRewardsController().InitializeWindow(SlotReference.AirdropDetails);
+		CanvasManager.Show<ChestOpeningTab>(true, new object[] { SlotReference });
 	}
 
-	public void ReceiveChestRewards()
+	public IEnumerator DisplayRemainingTime()
 	{
-		DeleteSlotPrefs();
-	}
+		print("DisplayRemainingTime");
+		WaitForSeconds wait = new WaitForSeconds(1f);
 
-	public void DeleteSlotPrefs()
-	{
-		Utilities.DeletePrefs(new string[] {
-		$"{SlotReference.transform.name}_QuitTimeDay",
-		$"{SlotReference.transform.name}_QuitTimeHour",
-		$"{SlotReference.transform.name}_QuitTimeMinute",
-		$"{SlotReference.transform.name}_QuitTimeSecond",
-		$"{SlotReference.transform.name}_SecondsLeft",
-		$"{SlotReference.transform.name}",
-		$"{SlotReference.SlotKey}"
-		});
+		while(SlotReference.UnlockTimer > 0)
+		{
+			int days = (int)(SlotReference.UnlockTimer / 86400) % 365;
+			int hours = (int)(SlotReference.UnlockTimer / 3600) % 24;
+			int minutes = (int)(SlotReference.UnlockTimer / 60) % 60;
+			int seconds = (int)(SlotReference.UnlockTimer % 60);
+
+			unlockTimeText.text = "";
+
+			if (days > 0) { unlockTimeText.text += days + "d "; }
+			if (hours > 0) { unlockTimeText.text += hours + "h "; }
+			if (minutes > 0) { unlockTimeText.text += minutes + "m "; }
+			if (seconds > 0) { unlockTimeText.text += seconds + "s "; }
+
+			SlotReference.UnlockTimer -= 1;
+			yield return wait;
+		}
+		InitialiseViewUIForUnlockedChest();
 	}
 }
 

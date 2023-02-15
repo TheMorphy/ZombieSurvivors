@@ -10,9 +10,6 @@ public enum CardSlot
 public class Card : MonoBehaviour
 {
 	[HideInInspector] public CardView CardView;
-	private CardSO cardDetails;
-
-	public CardSlot cardSlot;
 
     [HideInInspector] public int CurrentCardLevel = 0;
     [HideInInspector] public int CardsRequiredToNextLevel = 2;
@@ -20,7 +17,9 @@ public class Card : MonoBehaviour
 
 	public bool IsEmpty = true;
 	public bool IsReadyToUpgrade = false;
-	
+
+	[HideInInspector] public CardSO CardDetails;
+
 	private void Awake()
 	{
 		CardView = GetComponent<CardView>();
@@ -28,17 +27,15 @@ public class Card : MonoBehaviour
 
 	public void InitializeCard(CardSO cardDetails)
 	{
-		IsEmpty = false;
+		CardDetails = cardDetails;
 
-		this.cardDetails = cardDetails;
-		
+		UpdateGearStats();
+
 		CardView.UpdateCardView(cardDetails);
 	}
 
-	private void UpgradeCards(CardSO cardDetails)
+	private void UpdateGearStats()
 	{
-		int savedCardLevel = PlayerPrefs.GetInt(cardDetails.CardCode + Settings.CurrentCardLevel);
-		int cardsRequiredToLevelUp = PlayerPrefs.GetInt(cardDetails.CardCode + Settings.CardsRequiredToLevelUp);
-		int cardsSaved = PlayerPrefs.GetInt(cardDetails.CardCode + Settings.CardAmmount);
+		
 	}
 }

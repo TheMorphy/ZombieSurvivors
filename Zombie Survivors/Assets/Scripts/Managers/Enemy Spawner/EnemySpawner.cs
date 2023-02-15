@@ -141,7 +141,8 @@ public class EnemySpawner : MonoBehaviour
 
 		Enemy boss = Instantiate(Bosses[levelIndex].enemyPrefab, bossSpawnPosition, Quaternion.identity).GetComponent<Enemy>();
 		boss.InitializeEnemy(Bosses[levelIndex]);
-		boss.InitializeBossHealthbar(CanvasManager.Instance.GetActiveCanvas().GetBossHealth());
+		
+		boss.InitializeBossHealthbar(CanvasManager.GetTab<GameplayTab>().GetBossHealth());
 
 		boss.destroyedEvent.OnDestroyed += DestroyedEvent_OnBossDestroyed;
 	}

@@ -40,6 +40,10 @@ public class AirdropDetails : ScriptableObject
 	[SerializeField] private int unlockCost;
 	public int UnlockCost { get { return unlockCost; } }
 
+	[Tooltip("Time in seconds. Value of 3600 = 1h")]
+	[SerializeField] private int removeTime = 1800;
+	public int RemoveTime { get { return removeTime; } }
+
 	public int GetGemCostByRemainingTime()
 	{
 		float unlockTimer = UnlockDuration;

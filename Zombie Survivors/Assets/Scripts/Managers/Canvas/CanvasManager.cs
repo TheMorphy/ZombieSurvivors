@@ -1,88 +1,110 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum CanvasType
-{
-	MainMenu,
-	GameView,
-	PauseScreen,
-	Settings,
-	EndScreen
-}
-
 public class CanvasManager : MonoBehaviour
 {
-	public static CanvasManager Instance;
+	private static CanvasManager instance;
 
-	// All Posible Canvas Screens Can Be Referenced like this
-	[HideInInspector] public GameViewCanvasController gameViewController;
+	[SerializeField] private Tab startingTab;
+	[SerializeField] private Tab[] tabs;
+
+	private Tab currentTab;
+
+	private readonly Stack<Tab> history = new Stack<Tab>();
 
 	private void Awake()
 	{
-		if(Instance == null)
-			Instance = this;
+		if(instance == null)
+			instance = this;
 		else
 			Destroy(gameObject);
-
-		gameViewController = GetComponentInChildren<GameViewCanvasController>();
 	}
 
 	private void Start()
 	{
-		SwitchCanvas(CanvasType.GameView);
-	}
-
-	private void OnEnable()
-	{
-		GameManager.OnGameStateChanged += GameManager_OnGameStateChanged;
-	}
-
-	private void OnDisable()
-	{
-		GameManager.OnGameStateChanged -= GameManager_OnGameStateChanged;
-	}
-
-	private void GameManager_OnGameStateChanged(GameState currentGameState)
-	{
-		switch (currentGameState)
+		for (int i = 0; i < tabs.Length; i++)
 		{
-			case GameState.gameStarted:
-				SwitchCanvas(CanvasType.GameView);
-				break;
-			case GameState.gamePaused:
-				SwitchCanvas(CanvasType.PauseScreen);
-				break;
+			tabs[i].Initialize();
+
+			if (tabs[i].GetType() == typeof(NavigationTab)) 
+				continue;
+			
+			tabs[i].Hide();
+		}
+
+		if(startingTab != null)
+		{
+			Show(startingTab, true);
 		}
 	}
 
-	public void SwitchCanvas(CanvasType canvasType)
+	public static T GetTab<T>() where T : Tab
 	{
-		if(gameViewController != null)
+		for (int i = 0; i < instance.tabs.Length; i++)
 		{
-			gameViewController.gameObject.SetActive(true);
+			if (instance.tabs[i] is T tTab)
+			{
+				return tTab;
+			}
+		}
+		return null;
+	}
+
+	public static void Show<T>(bool remember = true, object[] args = null) where T : Tab
+	{
+		for (int i = 0; i < instance.tabs.Length; i++)
+		{
+			if (instance.tabs[i] is T)
+			{
+				if (instance.currentTab != null)
+				{
+					if (remember)
+					{
+						instance.history.Push(instance.currentTab);
+					}
+					
+					instance.currentTab.Hide();
+				}
+
+				instance.tabs[i].Show();
+
+				if (args != null)
+				{
+					instance.tabs[i].InitializeWithArgs(args);
+				}
+
+				instance.currentTab = instance.tabs[i];
+			}
 		}
 	}
 
-	public void BackToMainMenu()
+	public static void Show(Tab tab, bool remember = true)
+	{
+		if (instance.currentTab != null)
+		{
+			if (remember)
+			{
+				instance.history.Push(instance.currentTab);
+			}
+
+			instance.currentTab.Hide();
+		}
+		tab.Show();
+
+		instance.currentTab = tab;
+	}
+
+	public static void ShowLast()
+	{
+		if (instance.history.Count != 0)
+		{
+			Show(instance.history.Pop(), false);
+		}
+	}
+
+	public static void ReturnToMainMenu()
 	{
 		SceneManager.LoadScene(0);
-	}
-
-	public void StartGame()
-	{
-		MainMenuViewController.Instance.GetSlotsController().GetOccupiedSlots().ForEach(slot => 
-		{ 
-			if (slot.isTimerRunning) 
-			{ 
-				slot.SaveOpeniningTime(); 
-			} 
-		});
-
-		SceneManager.LoadScene(1);
-	}
-
-	public GameViewCanvasController GetActiveCanvas()
-	{
-		return gameViewController;
 	}
 }

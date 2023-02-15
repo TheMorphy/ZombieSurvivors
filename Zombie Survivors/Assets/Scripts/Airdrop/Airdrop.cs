@@ -1,11 +1,10 @@
 using System;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Airdrop : Collectable
 {
     private Collider collider;
-	private AirdropDetails airdrop;
+	private AirdropDetails airdropDetails;
 
 	[SerializeField] private GameObject crashmark;
 	[SerializeField] private float absorbTime = 1.5f;
@@ -32,12 +31,12 @@ public class Airdrop : Collectable
 
 	public void InitializeAirdrop(AirdropDetails airdrop)
 	{
-		this.airdrop = Instantiate(airdrop);
+		this.airdropDetails = Instantiate(airdrop);
 	}
 
 	public void OnPackageLanded()
 	{
-		CanvasManager.Instance.GetActiveCanvas().HideAirdropAlert();
+		CanvasManager.GetTab<GameplayTab>().HideAirdropAlert();
 
 		collider.enabled = true;
 	}
@@ -49,27 +48,50 @@ public class Airdrop : Collectable
 
 	protected override void OnCollected()
 	{
-		bool airdropSaved = false;
-
-		for (int i = 0; i < 4; i++)
+		AirdropDTO collectedAirrop = new AirdropDTO
 		{
-			if (PlayerPrefs.HasKey($"{airdrop.AirdropType + "_" + i}") == false)
-			{
-				PlayerPrefs.SetString(airdrop.AirdropType + "_" + i, airdrop.AirdropType.ToString());
-				airdropSaved = true;
-				break;
-			}
+			AirdropSprite = airdropDetails.AirdropSprite,
+			AirdropPackage = airdropDetails.AirdropPackage,
+			AirdropType = airdropDetails.AirdropType,
+			CardAmmount = airdropDetails.CardAmmount,
+			MaxGemsAmmount = airdropDetails.MaxGemsAmmount,
+			MaxGoldAmmount = airdropDetails.MaxGoldAmmount,
+			MinGemsAmmount = airdropDetails.MinGemsAmmount,
+			MinGoldAmmount = airdropDetails.MinGoldAmmount,
+			RemoveTime = airdropDetails.RemoveTime,
+			UnlockCost = airdropDetails.UnlockCost,
+			UnlockDuration = airdropDetails.UnlockDuration,
+		};
+
+		if (SaveManager.GetNumSavedItems<AirdropDTO>(Settings.AIRDROPS_PATH) < Settings.AVAILABLE_AIRDROP_SLOTS_COUNT)
+		{
+			SaveManager.SaveToJSON(collectedAirrop, Settings.AIRDROPS_PATH);
 		}
-
-		if(airdropSaved == false)
+		else
 		{
-			// TODO: Add money instead
+			// TODO: Gib money
 		}
 
 		StaticEvents.CallCollectedEvent(startPos);
 
 		Destroy(gameObject);
 	}
-
-
 }
+
+#region For Serializing Airdrop Scriptable Object To File
+[Serializable]
+public class AirdropDTO
+{
+	public AirdropType AirdropType;
+	public Sprite AirdropSprite;
+	public GameObject AirdropPackage;
+	public int MaxGemsAmmount;
+	public int MinGemsAmmount;
+	public int MinGoldAmmount;
+	public int MaxGoldAmmount;
+	public int UnlockDuration;
+	public int CardAmmount;
+	public int UnlockCost;
+	public int RemoveTime;
+}
+#endregion

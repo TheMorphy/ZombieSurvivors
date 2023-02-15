@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 
-public class UpgradeSystem : MonoBehaviour
+public class UpgradesTab : MonoBehaviour
 {
 	public event Action OnUpgradeSet;
 
@@ -176,6 +176,4 @@ public class UpgradeSystem : MonoBehaviour
 	{
 		gameObject.SetActive(true);
 	}
-
-
 }
