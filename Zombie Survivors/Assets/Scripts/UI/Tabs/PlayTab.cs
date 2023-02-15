@@ -69,7 +69,7 @@ public class PlayTab : Tab
 			Slot slot = slotsController.GetSlot(i);
 			if (slot.IsEmpty == false && slot.TimerStarted)
 			{
-				TimeTracker.Instance.StartTrackingTime(slot);
+				//TimeTracker.Instance.StartTrackingTime(slot);
 			}
 		}
 	}

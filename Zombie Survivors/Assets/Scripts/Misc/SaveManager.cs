@@ -19,6 +19,22 @@ public static class SaveManager
 		WriteFile(GetPath(fileName), content);
 	}
 
+	public static void DeleteFromJSON<T>(T item, string fileName)
+	{
+		string path = GetPath(fileName);
+		if (File.Exists(path))
+		{
+			// Load the JSON file into a list
+			List<T> itemsList = ReadFromJSON<T>(fileName);
+
+			// Remove the item from the list
+			itemsList.Remove(item);
+
+			// Save the updated list to the JSON file
+			SaveToJSON(itemsList, fileName);
+		}
+	}
+
 
 	public static List<T> ReadFromJSON<T>(string fileName)
 	{
@@ -50,7 +66,7 @@ public static class SaveManager
 
 	private static string GetPath(string fileName)
 	{
-		return Application.persistentDataPath+ "/" + fileName;
+		return Application.persistentDataPath + "/" + fileName;
 	}
 
 	private static void WriteFile(string path, string content)

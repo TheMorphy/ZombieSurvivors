@@ -27,8 +27,12 @@ public class CanvasManager : MonoBehaviour
 		{
 			tabs[i].Initialize();
 
-			if (tabs[i].GetType() == typeof(NavigationTab)) 
+			if (tabs[i].GetType() == typeof(NavigationTab))
+			{
+				tabs[i].Show();
 				continue;
+			}
+				
 			
 			tabs[i].Hide();
 		}

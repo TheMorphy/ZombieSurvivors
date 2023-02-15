@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum CardSlot
@@ -39,3 +40,20 @@ public class Card : MonoBehaviour
 		
 	}
 }
+
+#region For Serializing To File
+[Serializable]
+public class CardDTO
+{
+	public CardType CardType;
+	public CardRarity CardRarity;
+	public string CardName;
+	public Sprite CardSprite;
+	public AnimationCurve ScallingConfiguration;
+	public WeaponStats UpgradeStat;
+	public UpgradeAction UpgradeAction;
+	public float UpgradeValue;
+	public string CardCode;
+	public int Ammount;
+}
+#endregion

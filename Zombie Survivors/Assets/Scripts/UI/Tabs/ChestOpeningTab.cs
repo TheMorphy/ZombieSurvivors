@@ -4,12 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Reward
-{
-	public CardSO RewardDetails;
-	public int Ammount;
-}
-
 public class ChestOpeningTab : Tab
 {
 	[Header("Airdrop")]
@@ -25,12 +19,10 @@ public class ChestOpeningTab : Tab
 	[SerializeField] private TextMeshProUGUI rewardAmmount;
 
 	private Slot slotReference;
-	private AirdropDTO airdropDetails;
+	private AirdropDTO airdropDetailsDTO;
 
-	private List<Reward> rewards = new List<Reward>();
-	private int rewardIndex = 0;
-
-	List<CardSO> cardsToSave = new List<CardSO>();
+	private List<CardDTO> cardsDTOs = new List<CardDTO>();
+	private int cardIndex = 0;
 
 	public override void Initialize()
 	{
@@ -44,12 +36,12 @@ public class ChestOpeningTab : Tab
 		});
 
 		slotReference = (Slot)args[0];
-		airdropDetails = slotReference.AirdropDetails;
+		airdropDetailsDTO = slotReference.AirdropDetails;
 
 		AddCards();
-		rewardIndex = rewards.Count;
+		cardIndex = cardsDTOs.Count;
 		cardImage.gameObject.SetActive(true);
-		airdropImage.sprite = airdropDetails.AirdropSprite;
+		airdropImage.sprite = airdropDetailsDTO.AirdropSprite;
 
 		OpenChest();
 	}
@@ -57,23 +49,22 @@ public class ChestOpeningTab : Tab
 
 	public void OpenChest()
 	{
-		rewardIndex--;
+		cardIndex--;
 
-		var cardToShow = rewards[rewardIndex];
+		cardImage.sprite = cardsDTOs[cardIndex].CardSprite;
+		cardName.text = cardsDTOs[cardIndex].CardType.ToString();
+		cardRarity.text = cardsDTOs[cardIndex].CardRarity.ToString();
+		rewardAmmount.text = "x" + cardsDTOs[cardIndex].Ammount.ToString();
+		airopCountText.text = cardIndex.ToString();
 
-		cardImage.sprite = cardToShow.RewardDetails.CardSprite;
-		cardName.text = cardToShow.RewardDetails.CardType.ToString();
-		cardRarity.text = cardToShow.RewardDetails.CardRarity.ToString();
-		rewardAmmount.text = "x" + rewards[rewardIndex].Ammount.ToString();
-		airopCountText.text = rewardIndex.ToString();
-
-		if (rewardIndex == 0)
+		if (cardIndex == 0)
 		{
 			TimeTracker.Instance.ClearTime(slotReference.TrackingKey);
-			PlayerPrefs.DeleteKey(airdropDetails.AirdropType + "_" + slotReference.SlotID);
 
-			SaveManager.SaveToJSON(cardsToSave, Settings.ALL_CARDS_PATH);
-			CanvasManager.Show<AirdropRewardsTab>(false, new object[] { airdropDetails, rewards });
+			SaveManager.SaveToJSON(cardsDTOs, Settings.ALL_CARDS_PATH);
+			SaveManager.DeleteFromJSON(airdropDetailsDTO, Settings.AIRDROPS_PATH);
+
+			CanvasManager.Show<AirdropRewardsTab>(false, new object[] { airdropDetailsDTO, cardsDTOs });
 		}
 	}
 	private void AddCards()
@@ -82,12 +73,12 @@ public class ChestOpeningTab : Tab
 		var rareCards = GameResources.Instance.RareCards;
 		var epicCards = GameResources.Instance.EpicCards;
 
-		for (int i = 0; i < airdropDetails.CardAmmount; i++)
+		for (int i = 0; i < airdropDetailsDTO.CardAmmount; i++)
 		{
 			float randomChance = Random.value;
 			CardSO cardToAdd = null;
 
-			switch (airdropDetails.AirdropType)
+			switch (airdropDetailsDTO.AirdropType)
 			{
 				case AirdropType.Wooden:
 					if (randomChance > 0.0f && randomChance < 0.2f)
@@ -139,7 +130,7 @@ public class ChestOpeningTab : Tab
 
 	private void SaveReward(CardSO cardToAdd)
 	{
-		Reward cardReward = rewards.FirstOrDefault(x => x.RewardDetails.CardCode == cardToAdd.CardCode);
+		CardDTO cardReward = cardsDTOs.FirstOrDefault(x => x.CardCode == cardToAdd.CardCode);
 
 		if (cardReward != null)
 		{
@@ -147,10 +138,17 @@ public class ChestOpeningTab : Tab
 		}
 		else
 		{
-			cardsToSave.Add(cardToAdd);
-			rewards.Add(new Reward()
+			cardsDTOs.Add(new CardDTO()
 			{
-				RewardDetails = cardToAdd,
+				UpgradeAction = cardToAdd.UpgradeAction,
+				ScallingConfiguration = cardToAdd.ScallingConfiguration,
+				CardSprite = cardToAdd.CardSprite,
+				UpgradeStat = cardToAdd.UpgradeStat,
+				CardCode = cardToAdd.CardCode,
+				CardName = cardToAdd.CardName,
+				CardRarity = cardToAdd.CardRarity,
+				CardType = cardToAdd.CardType,
+				UpgradeValue = cardToAdd.UpgradeValue,
 				Ammount = 1
 			});
 		}

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,8 +23,8 @@ public class AirdropRewardsTab : Tab
 
 	public override void InitializeWithArgs(object[] args)
 	{
-		AirdropDetails airdropDetails = (AirdropDetails)args[0];
-		List<Reward> rewards = (List<Reward>)args[1];
+		AirdropDTO airdropDetails = (AirdropDTO)args[0];
+		List<CardDTO> rewards = (List<CardDTO>)args[1];
 
 		openedAirdropImage.sprite = airdropDetails.AirdropSprite;
 
@@ -33,7 +32,7 @@ public class AirdropRewardsTab : Tab
 		{
 			RewardCard rewardCard = Instantiate(rewardCardReference, rewardsGrid.transform).GetComponent<RewardCard>();
 			rewardCard.gameObject.SetActive(true);
-			rewardCard.InitializeRewardCard(rewards[i]);
+			rewardCard.DisplayRewardCard(rewards[i]);
 		}
 	}
 }

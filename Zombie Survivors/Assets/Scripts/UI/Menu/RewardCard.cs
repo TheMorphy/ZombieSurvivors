@@ -7,9 +7,9 @@ public class RewardCard : MonoBehaviour
     [SerializeField] private Image cardImage;
     [SerializeField] private TextMeshProUGUI cardAmmountText;
 
-    public void InitializeRewardCard(Reward reward)
+    public void DisplayRewardCard(CardDTO reward)
     {
-        cardImage.sprite = reward.RewardDetails.CardSprite;
+        cardImage.sprite = reward.CardSprite;
 		cardAmmountText.text = reward.Ammount.ToString();
 	}
 }

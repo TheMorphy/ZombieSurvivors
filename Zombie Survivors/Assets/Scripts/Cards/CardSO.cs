@@ -42,8 +42,8 @@ public class CardSO : ScriptableObject
 	[SerializeField] UpgradeAction upgradeAction;
 	public UpgradeAction UpgradeAction { get { return upgradeAction; } }
 
-	[SerializeField] private float upgradeAmmount;
-	public float UpgradeAmmount { get { return upgradeAmmount; } }
+	[SerializeField] private float upgradeValue;
+	public float UpgradeValue { get { return upgradeValue; } }
 
 	[HideInInspector] public string CardCode => CardName + "_" + CardRarity.ToString();
 }
