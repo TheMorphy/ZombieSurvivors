@@ -7,8 +7,9 @@ using UnityEngine;
 [System.Serializable]
 public class Trackable
 {
-	public string TrackingCode;
+	public string TrackingCode = string.Empty;
 	public float RemainingSeconds;
+	public string TimerText;
 	public DateTime SaveDate;
 	public MonoBehaviour monoBehaviour;
 
@@ -17,10 +18,8 @@ public class Trackable
 		this.monoBehaviour = monoBehaviour;
 	}
 
-	public IEnumerator StartTimer(Slot slot)
+	public IEnumerator StartTimer()
 	{
-		SlotView slotView = slot.GetSlotView();
-
 		WaitForSeconds wait = new WaitForSeconds(1f);
 		while (RemainingSeconds > 0)
 		{
@@ -29,12 +28,12 @@ public class Trackable
 			int minutes = (int)(RemainingSeconds / 60) % 60;
 			int seconds = (int)(RemainingSeconds % 60);
 
-			slotView.unlockTimeText.text = "";
+			TimerText = "";
 
-			if (days > 0) { slotView.unlockTimeText.text += days + "d "; }
-			if (hours > 0) { slotView.unlockTimeText.text += hours + "h "; }
-			if (minutes > 0) { slotView.unlockTimeText.text += minutes + "m "; }
-			if (seconds > 0) { slotView.unlockTimeText.text += seconds + "s "; }
+			if (days > 0) { TimerText += days + "d "; }
+			if (hours > 0) { TimerText += hours + "h "; }
+			if (minutes > 0) { TimerText += minutes + "m "; }
+			if (seconds > 0) { TimerText += seconds + "s "; }
 
 			RemainingSeconds -= 1;
 			yield return wait;
@@ -46,7 +45,6 @@ public class TimeTracker : MonoBehaviour
 {
 	public static TimeTracker Instance;
 	public List<Trackable> Trackables = new List<Trackable>();
-	public event Action<bool> OnGamePaused;
 
 	private void Awake()
 	{
@@ -65,47 +63,71 @@ public class TimeTracker : MonoBehaviour
 		if(pause)
 		{
 			StopAllCoroutines();
-		}
 
-		OnGamePaused?.Invoke(pause);
+			Trackables.ForEach(trackable => {
+				if (string.IsNullOrEmpty(trackable.TrackingCode) == false)
+				{
+					SaveTime(trackable.TrackingCode);
+				}
+			});
+		}
+		else
+		{
+			Trackables.ForEach(trackable => {
+				if (string.IsNullOrEmpty(trackable.TrackingCode) == false)
+				{
+					ContinueTimer(trackable);
+				}
+			});
+		}
+	}
+
+	public Trackable? GetTrackable(string trackingCode)
+	{
+		return Trackables.FirstOrDefault(x => x.TrackingCode == trackingCode);
 	}
 
 	/// <summary>
 	/// When player presses Open collected airdrop, it stores the slot tracking key,
 	/// which is used to keep tarck of time during the gameplay and after the game is closed.
 	/// </summary>
-	public void SetNewStrackable(Slot slot)
+	public void SetNewStrackable(string trackingCode, int unlockTimer)
 	{
-		PlayerPrefs.SetString(slot.TrackingKey, slot.TrackingKey);
-
 		Trackable trackable = new Trackable(this)
 		{
-			TrackingCode = slot.TrackingKey,
-			RemainingSeconds = slot.UnlockTimer
+			TrackingCode = trackingCode,
+			RemainingSeconds = unlockTimer
 		};
 
 		Trackables.Add(trackable);
-
-		StartCoroutine(trackable.StartTimer(slot));
+		StartCoroutine(trackable.StartTimer());
 	}
 
-	public float GetSlotTime(string slotKey)
+	/// <summary>
+	/// Stops tracking the time
+	/// </summary>
+	private void StopTrackingTime(string trackingCode)
 	{
-		var trackable = Trackables.First(x => x.TrackingCode.Equals(slotKey));
-
-		return trackable.RemainingSeconds;
+		Trackable trackableToDelete = GetTrackable(trackingCode);
+		StopCoroutine(trackableToDelete.StartTimer());
 	}
 
-	public void ClearTime(string trackingKey)
+	public void ClearTime(string trackingCode)
 	{
-		Trackable trackableToDelete = Trackables.Find(x => x.TrackingCode.Equals(trackingKey));
+		Trackable trackableToDelete = GetTrackable(trackingCode);
+		StopTrackingTime(trackingCode);
+
+		Trackables.Remove(trackableToDelete);
 
 		SaveManager.DeleteFromJSON(trackableToDelete, Settings.TRACKABLES);
 	}
 
+	/// <summary>
+	/// Save time on application pause or close
+	/// </summary>
 	public void SaveTime(string trackingKey)
 	{
-		var trackabaleToSave = Trackables.FirstOrDefault(x => x.TrackingCode == trackingKey);
+		var trackabaleToSave = GetTrackable(trackingKey);
 
 		if (trackabaleToSave != null)
 		{
@@ -113,32 +135,37 @@ public class TimeTracker : MonoBehaviour
 
 			if(SaveManager.GetNumSavedItems<Trackable>(Settings.TRACKABLES) > 0)
 			{
-				SaveManager.UpdateInJSON(trackabaleToSave, trackingKey, Settings.TRACKABLES);
+				SaveManager.UpdateTrackingInJSON(trackabaleToSave, trackingKey, Settings.TRACKABLES);
 			}
 			else
 			{
 				SaveManager.SaveToJSON(trackabaleToSave, Settings.TRACKABLES);
 			}
-			
 		}
 	}
 
 	public float GetRemainingSeconds(string trackingCode)
 	{
-		Trackable trackable = Trackables.FirstOrDefault(x => x.TrackingCode == trackingCode);
-
+		Trackable trackable = GetTrackable(trackingCode);
 		TimeSpan timeSpan = DateTime.Now - trackable.SaveDate;
-
-		trackable.RemainingSeconds = (float)timeSpan.TotalSeconds;
+		trackable.RemainingSeconds -= (float)timeSpan.TotalSeconds;
 
 		return trackable.RemainingSeconds;
 	}
 
-	public void ContinueTimer(Slot slot)
+	public void ContinueTimer(Trackable trackable)
 	{
-		var trackable = Trackables.First(x => x.TrackingCode == slot.TrackingKey);
+		trackable.RemainingSeconds = GetRemainingSeconds(trackable.TrackingCode);
+		StartCoroutine(trackable.StartTimer());
+	}
 
-		trackable.RemainingSeconds = GetRemainingSeconds(slot.TrackingKey);
-		StartCoroutine(trackable.StartTimer(slot));
+	public void DecreaseTime(string trackingCode, int decreaseAmmount)
+	{
+		Trackable trackable = GetTrackable(trackingCode);
+
+		if(trackable != null)
+		{
+			trackable.RemainingSeconds -= decreaseAmmount;
+		}
 	}
 }

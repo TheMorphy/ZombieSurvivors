@@ -2,16 +2,23 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public static class SaveManager
 {
-	public static void InsertToJSON<T>(List<T> toSave, string fileName)
+	/// <summary>
+	/// This will override any data saved inside a file.
+	/// </summary>
+	public static void SaveToJSON<T>(List<T> toSave, string fileName)
 	{
 		string content = JsonHelper.ToJson(toSave.ToArray(), true);
 		WriteFile(GetPath(fileName), content);
 	}
 
+	/// <summary>
+	/// This will override any data saved inside a file.
+	/// </summary>
 	public static void SaveToJSON<T>(T toSave, string fileName)
 	{
 		T[] array = { toSave };
@@ -19,7 +26,81 @@ public static class SaveManager
 		WriteFile(GetPath(fileName), content);
 	}
 
-	public static void UpdateInJSON<T>(T item, string trackingKey, string fileName)
+	/// <summary>
+	/// This will add a new list of items to the file
+	/// </summary>
+	public static void AppendToJSON<T>(List<T> toSave, string fileName)
+	{
+		// Load the existing JSON data into a list
+		List<T> existingData = ReadFromJSON<T>(fileName);
+
+		// Add the new items to the list
+		existingData.AddRange(toSave);
+
+		// Save the updated list back to the file
+		string content = JsonHelper.ToJson(existingData.ToArray());
+		WriteFile(GetPath(fileName), content);
+	}
+
+	/// <summary>
+	/// This will add a new item to the file
+	/// </summary>
+	public static void AppendToJSON<T>(T toSave, string fileName)
+	{
+		string filePath = GetPath(fileName);
+
+		// Check if the file already exists
+		if (File.Exists(filePath))
+		{
+			// Read the existing contents of the file into a list
+			List<T> existingItems = ReadFromJSON<T>(fileName);
+
+			// Add the new item to the list
+			existingItems.Add(toSave);
+
+			// Serialize the updated list to the file
+			SaveToJSON(existingItems, fileName);
+		}
+		else
+		{
+			// If the file doesn't exist, create a new list with the item and serialize it to the file
+			T[] array = { toSave };
+			string content = JsonHelper.ToJson<T>(array);
+			WriteFile(filePath, content);
+		}
+	}
+
+	public static async Task AppendToJsonAsync<T>(T toSave, string fileName)
+	{
+		string filePath = GetPath(fileName);
+
+		await Task.Run(() => {
+			// Check if the file already exists
+			if (File.Exists(filePath))
+			{
+				// Read the existing contents of the file into a list
+				List<T> existingItems = ReadFromJSON<T>(fileName);
+
+				// Add the new item to the list
+				existingItems.Add(toSave);
+
+				// Serialize the updated list to the file
+				SaveToJSON(existingItems, fileName);
+			}
+			else
+			{
+				// If the file doesn't exist, create a new list with the item and serialize it to the file
+				T[] array = { toSave };
+				string content = JsonHelper.ToJson<T>(array);
+				WriteFile(filePath, content);
+			}
+		});
+	}
+
+	/// <summary>
+	/// This will append new item, but only works for Trackable objects
+	/// </summary>
+	public static void UpdateTrackingInJSON<T>(T item, string trackingKey, string fileName)
 	{
 		string path = GetPath(fileName);
 		if (File.Exists(path))
@@ -41,7 +122,7 @@ public static class SaveManager
 						var newValue = property.GetValue(item);
 						property.SetValue(currentItem, newValue);
 					}
-					SaveToJSON(itemsList, fileName);
+					SaveToJSON<List<T>>(itemsList, fileName);
 					return;
 				}
 			}
@@ -61,7 +142,7 @@ public static class SaveManager
 			itemsList.Remove(item);
 
 			// Save the updated list to the JSON file
-			InsertToJSON(itemsList, fileName);
+			SaveToJSON(itemsList, fileName);
 		}
 	}
 

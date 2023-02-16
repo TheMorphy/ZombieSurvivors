@@ -40,8 +40,7 @@ public class SkipWaitingTab : MonoBehaviour, IPointerClickHandler
 		if (giveReward)
 		{
 			CanvasManager.GetTab<PlayTab>().Show();
-			slot.RemoveTime(airdropDetails.RemoveTime);
-			slot.GetSlotView().ChestButton.enabled = true;
+			TimeTracker.Instance.DecreaseTime(slot.TrackingKey, airdropDetails.RemoveTime);
 			Hide();
 		}
 	}
@@ -55,7 +54,7 @@ public class SkipWaitingTab : MonoBehaviour, IPointerClickHandler
 		gemsCost.text = airdropDetails.UnlockCost.ToString();
 
 		useGemsButton.onClick.AddListener(() => {
-			slot.GetSlotView().OpenChest();
+			slot.OpenChest();
 			Hide();
 		});
 	}

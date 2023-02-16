@@ -52,6 +52,6 @@ public class EquipmentTab : Tab
 
 	private void OnDisable()
 	{
-		SaveManager.InsertToJSON(ActiveCardsController.ActiveDeck, Settings.ACTIVE_UPGRADES);
+		SaveManager.SaveToJSON(ActiveCardsController.ActiveDeck, Settings.ACTIVE_UPGRADES);
 	}
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Airdrop : Collectable
@@ -29,6 +30,13 @@ public class Airdrop : Collectable
 		}
 	}
 
+	protected override void OnCollected()
+	{
+		SaveAirdrop();
+		StaticEvents.CallCollectedEvent(startPos);
+		Destroy(gameObject);
+	}
+
 	public void InitializeAirdrop(AirdropDetails airdrop)
 	{
 		this.airdropDetails = Instantiate(airdrop);
@@ -46,7 +54,7 @@ public class Airdrop : Collectable
 		crashmark.SetActive(false);
 	}
 
-	protected override void OnCollected()
+	private void SaveAirdrop()
 	{
 		AirdropDTO collectedAirrop = new AirdropDTO
 		{
@@ -63,18 +71,15 @@ public class Airdrop : Collectable
 			UnlockDuration = airdropDetails.UnlockDuration,
 		};
 
+
 		if (SaveManager.GetNumSavedItems<AirdropDTO>(Settings.AIRDROPS) < Settings.AVAILABLE_AIRDROP_SLOTS_COUNT)
 		{
-			SaveManager.SaveToJSON(collectedAirrop, Settings.AIRDROPS);
+			SaveManager.AppendToJSON(collectedAirrop, Settings.AIRDROPS);
 		}
 		else
 		{
 			// TODO: Gib money
 		}
-
-		StaticEvents.CallCollectedEvent(startPos);
-
-		Destroy(gameObject);
 	}
 }
 

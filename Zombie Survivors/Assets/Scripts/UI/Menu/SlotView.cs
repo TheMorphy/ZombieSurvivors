@@ -16,7 +16,6 @@ public class SlotView : MonoBehaviour
 	public TextMeshProUGUI gemsTxt;
 
 	public Button ChestButton;
-
 	private ChestState currentState;
 
 	private void Start()
@@ -26,16 +25,25 @@ public class SlotView : MonoBehaviour
 			switch(currentState)
 			{
 				case ChestState.Locked:
-					StartUnlockingAirdrop();
+					SlotReference.StartTracking();
 					break;
 				case ChestState.Unlocking:
-					SkipWaitingTime();
+					SlotReference.SkipWaitingTime();
 					break;
 				case ChestState.Unlocked:
-					OpenChest();
+					SlotReference.OpenChest();
 					break;
 			}
 		});
+	}
+
+	private void Update()
+	{
+		if (SlotReference.TimerStarted == true)
+		{
+			unlockTimeText.text = SlotReference.TrackableReference.TimerText;
+			print("Timer text: " + SlotReference.TrackableReference.TimerText);
+		}
 	}
 
 	public void InitializeEmptyChestView()
@@ -94,25 +102,6 @@ public class SlotView : MonoBehaviour
 		gemsTxt.gameObject.SetActive(false);
 		ChestButton.enabled = true;
 		currentState = ChestState.Unlocked;
-	}
-
-	public void StartUnlockingAirdrop()
-	{
-		TimeTracker.Instance.SetNewStrackable(SlotReference);
-		InitialiseViewUIForUnlockingChest();
-	}
-
-	public void SkipWaitingTime()
-	{
-		CanvasManager.GetTab<PlayTab>().GetSkipWaitingTab().InitializeWindow(SlotReference);
-	}
-
-	public void OpenChest()
-	{
-		StopAllCoroutines();
-		InitializeEmptyChestView();
-
-		CanvasManager.Show<ChestOpeningTab>(true, new object[] { SlotReference });
 	}
 }
 

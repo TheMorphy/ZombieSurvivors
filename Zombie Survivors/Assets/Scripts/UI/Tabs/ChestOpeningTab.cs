@@ -61,9 +61,6 @@ public class ChestOpeningTab : Tab
 		{
 			TimeTracker.Instance.ClearTime(slotReference.TrackingKey);
 
-			SaveManager.InsertToJSON(cardsDTOs, Settings.ALL_CARDS);
-			SaveManager.DeleteFromJSON(airdropDetailsDTO, Settings.AIRDROPS);
-
 			CanvasManager.Show<AirdropRewardsTab>(false, new object[] { airdropDetailsDTO, cardsDTOs });
 		}
 	}
