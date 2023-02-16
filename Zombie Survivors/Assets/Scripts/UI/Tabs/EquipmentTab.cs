@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class EquipmentTab : Tab
@@ -7,12 +6,12 @@ public class EquipmentTab : Tab
 	[SerializeField] private ActiveCardsController activeCardsController;
 	[SerializeField] private InventoryController inventoryController;
 
-	[SerializeField] private List<CardSO> AllGear;
-	[SerializeField] private List<CardSO> ActiveDeck;
+	[SerializeField] private List<CardDTO> AllCards;
+	[SerializeField] private List<CardDTO> ActiveDeck;
 
 	public override void Initialize()
 	{
-		GetAllGear();
+		GetAllCards();
 		InitializeInventory();
 		InitializeActiveDeck();
 	}
@@ -24,23 +23,19 @@ public class EquipmentTab : Tab
 
 	private void InitializeInventory()
 	{
-		if (AllGear.Count == 0)
+		if (AllCards.Count == 0)
 		{
 			inventoryController.InitializeEmptyInventory();
-		}
-		else
-		{
-			
 		}
 	}
 
 	private void InitializeActiveDeck()
 	{
-		ActiveDeck = SaveManager.ReadFromJSON<CardSO>(Settings.ACTIVE_UPGRADES);
+		ActiveDeck = SaveManager.ReadFromJSON<CardDTO>(Settings.ACTIVE_UPGRADES);
 
 		if(ActiveDeck.Count == 0)
 		{
-			activeCardsController.InitializeActiveDeck(AllGear);
+			activeCardsController.InitializeActiveDeck(AllCards);
 		}
 		else
 		{
@@ -48,9 +43,9 @@ public class EquipmentTab : Tab
 		}	
 	}
 
-	private void GetAllGear()
+	private void GetAllCards()
 	{
-		AllGear = SaveManager.ReadFromJSON<CardSO>(Settings.ALL_CARDS);
+		AllCards = SaveManager.ReadFromJSON<CardDTO>(Settings.ALL_CARDS);
 	}
 
 	public InventoryController GetInventory()
@@ -60,6 +55,17 @@ public class EquipmentTab : Tab
 
 	private void OnDisable()
 	{
-		SaveManager.SaveToJSON(ActiveCardsController.ActiveDeck, Settings.ACTIVE_UPGRADES);
+		// Allows Player to not use any upgrades and removes all cards from Active deck.
+		if (SaveManager.GetNumSavedItems<CardDTO>(Settings.ACTIVE_UPGRADES) == 0)
+		{
+			foreach (var activeCard in ActiveCardsController.ActiveDeck)
+			{
+				SaveManager.DeleteFromJSON<CardDTO>(activeCard.CardDetails.ID, Settings.ACTIVE_UPGRADES);
+			}
+		}
+		else
+		{
+			SaveManager.SaveToJSON(ActiveCardsController.ActiveDeck, Settings.ACTIVE_UPGRADES);
+		}
 	}
 }

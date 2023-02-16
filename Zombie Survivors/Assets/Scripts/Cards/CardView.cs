@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class CardView : MonoBehaviour
 {
-	private Card cardReference;
+	[HideInInspector] public Card CardReference;
 
 	[Space]
 	[Header("Options Menu")]
@@ -26,14 +26,6 @@ public class CardView : MonoBehaviour
 
 	private CardView _selectedCardView; // Keep track of the currently selected card
 
-	private void Awake()
-	{
-		cardReference = GetComponent<Card>();
-
-		InitializeEmptyView();
-		HideOptions();
-	}
-
 	private void Start()
 	{
 		cardButton.onClick.AddListener(() => {
@@ -41,7 +33,7 @@ public class CardView : MonoBehaviour
 		});
 	}
 
-	private void InitializeEmptyView()
+	public void InitializeEmptyView()
 	{
 		cardSlotImage.sprite = emptySlotSprite;
 		cardType.text = "";
@@ -50,19 +42,18 @@ public class CardView : MonoBehaviour
 		cardLevelBar.transform.parent.gameObject.SetActive(false);
 	}
 
-	public void UpdateCardView(CardSO cardDetails)
+	public void UpdateCardView(CardDTO cardDetails)
 	{
 		cardButton.enabled = true;
 		cardLevelBar.transform.parent.gameObject.SetActive(true);
 		cardType.text = cardDetails.CardType.ToString();
-		cardLevel.text = cardReference.CurrentCardLevel.ToString();
-		cardRemainingLevel.text = cardReference.CardsInside.ToString() + " / " + cardReference.CardsRequiredToNextLevel.ToString();
+		cardLevel.text = CardReference.CardDetails.CurrentCardLevel.ToString();
+		cardRemainingLevel.text = CardReference.CardDetails.Ammount.ToString() + " / " + CardReference.CardDetails.CardsRequiredToNextLevel.ToString();
 		cardSlotImage.sprite = cardDetails.CardSprite;
-
-		SetExpFillAmmount();
+		cardLevelBar.fillAmount = (float)CardReference.CardDetails.Ammount / CardReference.CardDetails.CardsRequiredToNextLevel;
 	}
 
-	private void SelectCard(CardView clickedCardView)
+	public void SelectCard(CardView clickedCardView)
 	{
 		if (_selectedCardView == clickedCardView)
 		{
@@ -73,18 +64,18 @@ public class CardView : MonoBehaviour
 		else
 		{
 			// Display options for the clicked card and hide options for all others
-			//foreach (CardView cardView in ActiveCardsController.ActiveDeck.Select(card => card.ca))
-			//{
-			//	if (cardView == clickedCardView)
-			//	{
-			//		cardView.DisplayOptions();
-			//		_selectedCardView = cardView;
-			//	}
-			//	else
-			//	{
-			//		cardView.HideOptions();
-			//	}
-			//}
+			foreach (CardView cardView in ActiveCardsController.ActiveDeck.Select(card => card.CardView))
+			{
+				if (cardView == clickedCardView)
+				{
+					cardView.DisplayOptions();
+					_selectedCardView = cardView;
+				}
+				else
+				{
+					cardView.HideOptions();
+				}
+			}
 		}
 	}
 
@@ -102,11 +93,6 @@ public class CardView : MonoBehaviour
 		optionsMenu.gameObject.SetActive(false);
 	}
 
-	private void SetExpFillAmmount()
-	{
-		cardLevelBar.fillAmount = (float)cardReference.CardsInside / cardReference.CardsRequiredToNextLevel;
-	}
-
 	/// <summary>
 	/// This just basically sets options menu button text values like in Clash Royale.
 	/// </summary>
@@ -114,19 +100,22 @@ public class CardView : MonoBehaviour
 	{
 		topActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Info";
 
-		if (cardReference.IsReadyToUpgrade == true)
+		if (CardReference.IsReadyToUpgrade == true)
 		{
 			bottomActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Upgrade";
+			CardReference.UpdateGearStats();
 		}
 		else
 		{
-			if (ActiveCardsController.ActiveDeck.Contains(cardReference.CardDetails)) // If this card is part of the Active deck set
+			if (ActiveCardsController.ActiveDeck.Contains(CardReference)) // If this card is part of the Active deck set
 			{
 				bottomActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Remove";
+				CardReference.RemoveFromActiveDeck();
 			}
 			else
 			{
 				bottomActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Use";
+				CardReference.UseInActiveDeck();
 			}
 		}
 	}

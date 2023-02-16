@@ -66,6 +66,8 @@ public class ChestOpeningTab : Tab
 	}
 	private void AddCards()
 	{
+		cardsDTOs = SaveManager.ReadFromJSON<CardDTO>(Settings.ALL_CARDS);
+
 		var commonCards = GameResources.Instance.CommonCards;
 		var rareCards = GameResources.Instance.RareCards;
 		var epicCards = GameResources.Instance.EpicCards;
@@ -73,6 +75,7 @@ public class ChestOpeningTab : Tab
 		for (int i = 0; i < airdropDetailsDTO.CardAmmount; i++)
 		{
 			float randomChance = Random.value;
+			
 			CardSO cardToAdd = null;
 
 			switch (airdropDetailsDTO.AirdropType)
@@ -127,11 +130,11 @@ public class ChestOpeningTab : Tab
 
 	private void SaveReward(CardSO cardToAdd)
 	{
-		CardDTO cardReward = cardsDTOs.FirstOrDefault(x => x.CardCode == cardToAdd.CardCode);
+		var savedCard = cardsDTOs.FirstOrDefault(x => x.CardCode == cardToAdd.CardCode);
 
-		if (cardReward != null)
+		if (savedCard != null)
 		{
-			cardReward.Ammount++;
+			savedCard.Ammount++;
 		}
 		else
 		{
@@ -140,14 +143,16 @@ public class ChestOpeningTab : Tab
 			{
 				ID = cardIndex,
 				UpgradeAction = cardToAdd.UpgradeAction,
-				ScallingConfiguration = cardToAdd.ScallingConfiguration,
 				CardSprite = cardToAdd.CardSprite,
 				UpgradeStat = cardToAdd.UpgradeStat,
 				CardCode = cardToAdd.CardCode,
 				CardName = cardToAdd.CardName,
 				CardRarity = cardToAdd.CardRarity,
 				CardType = cardToAdd.CardType,
-				UpgradeValue = cardToAdd.UpgradeValue,
+
+				UpgradeValue = cardToAdd.ScallingConfiguration.keys.First().value,
+				CurrentCardLevel = 1,
+				CardsRequiredToNextLevel = 2,
 				Ammount = 1
 			});
 		}

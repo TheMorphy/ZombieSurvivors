@@ -1,49 +1,44 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ActiveCardsController : MonoBehaviour
 {
 	[SerializeField] private Card[] CardsSlots;
 
-	[HideInInspector] public static List<CardSO> ActiveDeck = new List<CardSO>();
+	[HideInInspector] public static List<Card> ActiveDeck = new List<Card>();
 
-	public void InitializeActiveDeck(List<CardSO> deck)
+	public void InitializeActiveDeck(List<CardDTO> deck)
 	{
-		if(ActiveDeck.Count > 0)
+		if (deck.Count > 0)
 		{
-			for (int i = 0; i < CardsSlots.Length; i++)
+			foreach (var card in deck)
 			{
-				if (CardsSlots[i].IsEmpty)
-				{
-					CardsSlots[i].InitializeCard(deck[i]);
-					ActiveDeck.Add(deck[i]);
-					deck.Remove(deck[i]);
-				}
-			}
-		}
+				int index = GetEmptySlotIndex();
 
-		if(deck.Count > ActiveDeck.Count)
-		{
-			var inventory = CanvasManager.GetTab<EquipmentTab>().GetInventory();
-			for (int i = 0; i < deck.Count; i++)
-			{
-				inventory.AddToInventory(deck[i]);	
+				CardsSlots[index].InitializeCard(card);
+				ActiveDeck.Add(CardsSlots[index]);
 			}
+
+			CardsSlots.ToList().ForEach((slot) =>
+			{
+				if (slot.IsEmpty)
+				{
+					slot.InitializeEmptyCard();
+				}
+			});
 		}
 	}
 
-	public List<Card> GetOccupiedSlots()
+	private int GetEmptySlotIndex()
 	{
-		List<Card> slots = new List<Card>();
-
-		foreach (var slot in CardsSlots)
+		for (int i = 0; i < CardsSlots.Length; i++)
 		{
-			if (slot.IsEmpty == false)
+			if (CardsSlots[i].IsEmpty)
 			{
-				slots.Add(slot);
+				return i;
 			}
 		}
-
-		return slots;
+		return -1;
 	}
 }

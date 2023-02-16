@@ -15,7 +15,7 @@ public class InventoryController : MonoBehaviour
 		});
 	}
 
-    public void AddToInventory(CardSO cardDetails)
+    public void AddToInventory(CardDTO cardDetails)
     {
         for (int i = 0; i < transform.childCount; i++)
 		{

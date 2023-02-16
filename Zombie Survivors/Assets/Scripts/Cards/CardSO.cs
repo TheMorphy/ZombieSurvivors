@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum CardType
@@ -42,9 +43,6 @@ public class CardSO : ScriptableObject
 
 	[SerializeField] UpgradeAction upgradeAction;
 	public UpgradeAction UpgradeAction { get { return upgradeAction; } }
-
-	[SerializeField] private float upgradeValue;
-	public float UpgradeValue { get { return upgradeValue; } }
 
 	[HideInInspector] public string CardCode => CardName + "_" + CardRarity.ToString();
 }

@@ -10,32 +10,39 @@ public enum CardSlot
 [RequireComponent(typeof(CardView))]
 public class Card : MonoBehaviour
 {
-	[HideInInspector] public CardView CardView;
-
-    [HideInInspector] public int CurrentCardLevel = 0;
-    [HideInInspector] public int CardsRequiredToNextLevel = 2;
-    [HideInInspector] public int CardsInside = 0;
+	public CardView CardView;
 
 	public bool IsEmpty = true;
 	public bool IsReadyToUpgrade = false;
 
-	[HideInInspector] public CardSO CardDetails;
+	[HideInInspector] public CardDTO CardDetails;
 
-	private void Awake()
+	public void InitializeCard(CardDTO cardDetails)
 	{
-		CardView = GetComponent<CardView>();
-	}
-
-	public void InitializeCard(CardSO cardDetails)
-	{
+		IsEmpty = false;
 		CardDetails = cardDetails;
-
-		UpdateGearStats();
-
+		CardView.CardReference = this;
 		CardView.UpdateCardView(cardDetails);
 	}
 
-	private void UpdateGearStats()
+	public void InitializeEmptyCard()
+	{
+		IsEmpty = true;
+		CardDetails = null;
+		CardView.InitializeEmptyView();
+	}
+
+	public void UpdateGearStats()
+	{
+		
+	}
+
+	public void RemoveFromActiveDeck()
+	{
+		
+	}
+
+	public void UseInActiveDeck()
 	{
 		
 	}
@@ -50,11 +57,12 @@ public class CardDTO
 	public CardRarity CardRarity;
 	public string CardName;
 	public Sprite CardSprite;
-	public AnimationCurve ScallingConfiguration;
+	public int CurrentCardLevel;
+	public int CardsRequiredToNextLevel;
+	public int Ammount;
+	public float UpgradeValue;
 	public WeaponStats UpgradeStat;
 	public UpgradeAction UpgradeAction;
-	public float UpgradeValue;
 	public string CardCode;
-	public int Ammount;
 }
 #endregion

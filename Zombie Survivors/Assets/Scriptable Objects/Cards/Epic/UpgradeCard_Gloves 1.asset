@@ -16,6 +16,30 @@ MonoBehaviour:
   cardRarity: 2
   cardName: Devils
   cardSprite: {fileID: 21300000, guid: f8c9467a892580344bb697526dac0d13, type: 3}
+  scallingConfiguration:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 2
+      inSlope: 0.38529715
+      outSlope: 0.38529715
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.18654433
+    - serializedVersion: 3
+      time: 10
+      value: 25
+      inSlope: 5.0622096
+      outSlope: 5.0622096
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.11926603
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   upgradeStat: 1
   upgradeAction: 3
-  upgradeAmmount: 0
+  upgradeValue: 0

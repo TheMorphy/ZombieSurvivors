@@ -4605,10 +4605,10 @@ RectTransform:
   m_Father: {fileID: 828529143}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 450, y: -160}
-  m_SizeDelta: {x: 220, y: 320}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &434507820
 MonoBehaviour:
@@ -4622,6 +4622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 997540019c7184f478a4919b5494a835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CardReference: {fileID: 0}
   optionsMenu: {fileID: 1334938153}
   topActionButton: {fileID: 236417229}
   bottomActionButton: {fileID: 1620006331}
@@ -4644,13 +4645,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 0}
-  CurrentCardLevel: 0
-  CardsRequiredToNextLevel: 2
-  CardsInside: 2
+  CardView: {fileID: 434507820}
   IsEmpty: 1
   IsReadyToUpgrade: 0
-  CardDetails: {fileID: 0}
+  CardDetails:
+    ID: 0
+    CardType: 0
+    CardRarity: 0
+    CardName: 
+    CardSprite: {fileID: 0}
+    CurrentCardLevel: 0
+    CardsRequiredToNextLevel: 0
+    Ammount: 0
+    UpgradeValue: 0
+    UpgradeStat: 0
+    UpgradeAction: 0
+    CardCode: 
 --- !u!114 &434507822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5062,10 +5072,10 @@ RectTransform:
   m_Father: {fileID: 828529143}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 180, y: -160}
-  m_SizeDelta: {x: 220, y: 320}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &526401241
 MonoBehaviour:
@@ -5117,6 +5127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 997540019c7184f478a4919b5494a835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CardReference: {fileID: 0}
   optionsMenu: {fileID: 415209335}
   topActionButton: {fileID: 1325691833}
   bottomActionButton: {fileID: 1351413559}
@@ -5139,13 +5150,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 0}
-  CurrentCardLevel: 0
-  CardsRequiredToNextLevel: 2
-  CardsInside: 2
+  CardView: {fileID: 526401243}
   IsEmpty: 1
   IsReadyToUpgrade: 0
-  CardDetails: {fileID: 0}
+  CardDetails:
+    ID: 0
+    CardType: 0
+    CardRarity: 0
+    CardName: 
+    CardSprite: {fileID: 0}
+    CurrentCardLevel: 0
+    CardsRequiredToNextLevel: 0
+    Ammount: 0
+    UpgradeValue: 0
+    UpgradeStat: 0
+    UpgradeAction: 0
+    CardCode: 
 --- !u!1 &539098378
 GameObject:
   m_ObjectHideFlags: 0
@@ -7308,10 +7328,10 @@ RectTransform:
   m_Father: {fileID: 828529143}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1260, y: -160}
-  m_SizeDelta: {x: 220, y: 320}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &858260178
 MonoBehaviour:
@@ -7325,6 +7345,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 997540019c7184f478a4919b5494a835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CardReference: {fileID: 0}
   optionsMenu: {fileID: 1313286667}
   topActionButton: {fileID: 1282054747}
   bottomActionButton: {fileID: 588554540}
@@ -7347,13 +7368,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 0}
-  CurrentCardLevel: 0
-  CardsRequiredToNextLevel: 2
-  CardsInside: 2
+  CardView: {fileID: 858260178}
   IsEmpty: 1
   IsReadyToUpgrade: 0
-  CardDetails: {fileID: 0}
+  CardDetails:
+    ID: 0
+    CardType: 0
+    CardRarity: 0
+    CardName: 
+    CardSprite: {fileID: 0}
+    CurrentCardLevel: 0
+    CardsRequiredToNextLevel: 0
+    Ammount: 0
+    UpgradeValue: 0
+    UpgradeStat: 0
+    UpgradeAction: 0
+    CardCode: 
 --- !u!114 &858260180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12433,10 +12463,10 @@ RectTransform:
   m_Father: {fileID: 828529143}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 990, y: -160}
-  m_SizeDelta: {x: 220, y: 320}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1485012333
 MonoBehaviour:
@@ -12450,6 +12480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 997540019c7184f478a4919b5494a835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CardReference: {fileID: 0}
   optionsMenu: {fileID: 431887147}
   topActionButton: {fileID: 1281910332}
   bottomActionButton: {fileID: 1208213764}
@@ -12472,13 +12503,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 0}
-  CurrentCardLevel: 0
-  CardsRequiredToNextLevel: 2
-  CardsInside: 2
+  CardView: {fileID: 1485012333}
   IsEmpty: 1
   IsReadyToUpgrade: 0
-  CardDetails: {fileID: 0}
+  CardDetails:
+    ID: 0
+    CardType: 0
+    CardRarity: 0
+    CardName: 
+    CardSprite: {fileID: 0}
+    CurrentCardLevel: 0
+    CardsRequiredToNextLevel: 0
+    Ammount: 0
+    UpgradeValue: 0
+    UpgradeStat: 0
+    UpgradeAction: 0
+    CardCode: 
 --- !u!114 &1485012335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14317,10 +14357,10 @@ RectTransform:
   m_Father: {fileID: 828529143}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 720, y: -160}
-  m_SizeDelta: {x: 220, y: 320}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1783886110
 MonoBehaviour:
@@ -14334,6 +14374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 997540019c7184f478a4919b5494a835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CardReference: {fileID: 0}
   optionsMenu: {fileID: 101728761}
   topActionButton: {fileID: 1426917537}
   bottomActionButton: {fileID: 1683062384}
@@ -14356,13 +14397,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 0}
-  CurrentCardLevel: 0
-  CardsRequiredToNextLevel: 2
-  CardsInside: 2
+  CardView: {fileID: 1783886110}
   IsEmpty: 1
   IsReadyToUpgrade: 0
-  CardDetails: {fileID: 0}
+  CardDetails:
+    ID: 0
+    CardType: 0
+    CardRarity: 0
+    CardName: 
+    CardSprite: {fileID: 0}
+    CurrentCardLevel: 0
+    CardsRequiredToNextLevel: 0
+    Ammount: 0
+    UpgradeValue: 0
+    UpgradeStat: 0
+    UpgradeAction: 0
+    CardCode: 
 --- !u!114 &1783886112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15336,7 +15386,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1857224598
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15376,7 +15426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeCardsController: {fileID: 828529146}
   inventoryController: {fileID: 350073977}
-  AllGear: []
+  AllCards: []
   ActiveDeck: []
 --- !u!1 &1864598787
 GameObject:
