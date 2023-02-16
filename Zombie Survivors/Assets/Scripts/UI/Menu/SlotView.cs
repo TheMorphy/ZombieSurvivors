@@ -1,4 +1,3 @@
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -55,15 +54,15 @@ public class SlotView : MonoBehaviour
 	public void InitialiseViewUIForLockedChest()
 	{
 		unlockTimeText.gameObject.SetActive(false);
-		airdropSlotSprite.sprite = SlotReference.AirdropDetails.AirdropSprite;
+		airdropSlotSprite.sprite = SlotReference.AirdropDetailsDTO.AirdropSprite;
 		airdropTypeTxt.gameObject.SetActive(true);
-		airdropTypeTxt.text = SlotReference.AirdropDetails.AirdropType.ToString();
+		airdropTypeTxt.text = SlotReference.AirdropDetailsDTO.AirdropType.ToString();
 		coinImage.gameObject.SetActive(true);
 		coinsTxt.gameObject.SetActive(true);
-		coinsTxt.text = SlotReference.AirdropDetails.UnlockCost.ToString();
+		coinsTxt.text = SlotReference.AirdropDetailsDTO.UnlockCost.ToString();
 		gemImage.gameObject.SetActive(true);
 		gemsTxt.gameObject.SetActive(true);
-		gemsTxt.text = SlotReference.AirdropDetails.UnlockCost.ToString();
+		gemsTxt.text = SlotReference.AirdropDetailsDTO.UnlockCost.ToString();
 		ChestButton.enabled = true;
 		currentState = ChestState.Locked;
 	}
@@ -71,9 +70,9 @@ public class SlotView : MonoBehaviour
 	public void InitialiseViewUIForUnlockingChest()
 	{
 		unlockTimeText.gameObject.SetActive(true);
-		airdropSlotSprite.sprite = SlotReference.AirdropDetails.AirdropSprite;
+		airdropSlotSprite.sprite = SlotReference.AirdropDetailsDTO.AirdropSprite;
 		airdropTypeTxt.gameObject.SetActive(true);
-		airdropTypeTxt.text = SlotReference.AirdropDetails.AirdropType.ToString();
+		airdropTypeTxt.text = SlotReference.AirdropDetailsDTO.AirdropType.ToString();
 		coinImage.gameObject.SetActive(false);
 		coinsTxt.gameObject.SetActive(false);
 		gemImage.gameObject.SetActive(false);
@@ -86,9 +85,9 @@ public class SlotView : MonoBehaviour
 	{
 		unlockTimeText.gameObject.SetActive(true);
 		unlockTimeText.text = "OPEN!";
-		airdropSlotSprite.sprite = SlotReference.AirdropDetails.AirdropSprite;
+		airdropSlotSprite.sprite = SlotReference.AirdropDetailsDTO.AirdropSprite;
 		airdropTypeTxt.gameObject.SetActive(true);
-		airdropTypeTxt.text = SlotReference.AirdropDetails.AirdropType.ToString();
+		airdropTypeTxt.text = SlotReference.AirdropDetailsDTO.AirdropType.ToString();
 		coinImage.gameObject.SetActive(false);
 		coinsTxt.gameObject.SetActive(false);
 		gemImage.gameObject.SetActive(false);
@@ -99,12 +98,8 @@ public class SlotView : MonoBehaviour
 
 	public void StartUnlockingAirdrop()
 	{
-		if (SlotReference.TimerStarted == false)
-			TimeTracker.Instance.StartTrackingTime(SlotReference);
-
+		TimeTracker.Instance.SetNewStrackable(SlotReference);
 		InitialiseViewUIForUnlockingChest();
-
-		StartCoroutine(DisplayRemainingTime());
 	}
 
 	public void SkipWaitingTime()
@@ -114,35 +109,10 @@ public class SlotView : MonoBehaviour
 
 	public void OpenChest()
 	{
-		StopCoroutine(DisplayRemainingTime());
+		StopAllCoroutines();
 		InitializeEmptyChestView();
 
 		CanvasManager.Show<ChestOpeningTab>(true, new object[] { SlotReference });
-	}
-
-	public IEnumerator DisplayRemainingTime()
-	{
-		print("DisplayRemainingTime");
-		WaitForSeconds wait = new WaitForSeconds(1f);
-
-		while(SlotReference.UnlockTimer > 0)
-		{
-			int days = (int)(SlotReference.UnlockTimer / 86400) % 365;
-			int hours = (int)(SlotReference.UnlockTimer / 3600) % 24;
-			int minutes = (int)(SlotReference.UnlockTimer / 60) % 60;
-			int seconds = (int)(SlotReference.UnlockTimer % 60);
-
-			unlockTimeText.text = "";
-
-			if (days > 0) { unlockTimeText.text += days + "d "; }
-			if (hours > 0) { unlockTimeText.text += hours + "h "; }
-			if (minutes > 0) { unlockTimeText.text += minutes + "m "; }
-			if (seconds > 0) { unlockTimeText.text += seconds + "s "; }
-
-			SlotReference.UnlockTimer -= 1;
-			yield return wait;
-		}
-		InitialiseViewUIForUnlockedChest();
 	}
 }
 

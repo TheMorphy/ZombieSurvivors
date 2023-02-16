@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotView: {fileID: 38738498}
-  AirdropDetails:
+  AirdropDetailsDTO:
     AirdropType: 0
     AirdropSprite: {fileID: 0}
     AirdropPackage: {fileID: 0}
@@ -3150,7 +3150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotView: {fileID: 319803106}
-  AirdropDetails:
+  AirdropDetailsDTO:
     AirdropType: 0
     AirdropSprite: {fileID: 0}
     AirdropPackage: {fileID: 0}
@@ -6586,7 +6586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71d71915c92956478bb2e87051a5e6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trackables: []
+  Trackables: []
 --- !u!4 &801166679
 Transform:
   m_ObjectHideFlags: 0
@@ -13814,7 +13814,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotView: {fileID: 1731335800}
-  AirdropDetails:
+  AirdropDetailsDTO:
     AirdropType: 0
     AirdropSprite: {fileID: 0}
     AirdropPackage: {fileID: 0}
@@ -14405,7 +14405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotView: {fileID: 1802344716}
-  AirdropDetails:
+  AirdropDetailsDTO:
     AirdropType: 0
     AirdropSprite: {fileID: 0}
     AirdropPackage: {fileID: 0}

@@ -36,13 +36,13 @@ public class EquipmentTab : Tab
 
 	private void InitializeActiveDeck()
 	{
-		ActiveDeck = SaveManager.ReadFromJSON<CardSO>(Settings.ACTIVE_UPGRADES_PATH);
+		ActiveDeck = SaveManager.ReadFromJSON<CardSO>(Settings.ACTIVE_UPGRADES);
 		activeCardsController.InitializeActiveDeck(ActiveDeck);
 	}
 
 	private void GetAllGear()
 	{
-		AllGear = SaveManager.ReadFromJSON<CardSO>(Settings.ALL_CARDS_PATH);
+		AllGear = SaveManager.ReadFromJSON<CardSO>(Settings.ALL_CARDS);
 	}
 
 	public InventoryController GetInventory()
@@ -52,6 +52,6 @@ public class EquipmentTab : Tab
 
 	private void OnDisable()
 	{
-		SaveManager.SaveToJSON(ActiveCardsController.ActiveDeck, Settings.ACTIVE_UPGRADES_PATH);
+		SaveManager.InsertToJSON(ActiveCardsController.ActiveDeck, Settings.ACTIVE_UPGRADES);
 	}
 }

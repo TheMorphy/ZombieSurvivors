@@ -63,9 +63,9 @@ public class Airdrop : Collectable
 			UnlockDuration = airdropDetails.UnlockDuration,
 		};
 
-		if (SaveManager.GetNumSavedItems<AirdropDTO>(Settings.AIRDROPS_PATH) < Settings.AVAILABLE_AIRDROP_SLOTS_COUNT)
+		if (SaveManager.GetNumSavedItems<AirdropDTO>(Settings.AIRDROPS) < Settings.AVAILABLE_AIRDROP_SLOTS_COUNT)
 		{
-			SaveManager.SaveToJSON(collectedAirrop, Settings.AIRDROPS_PATH);
+			SaveManager.SaveToJSON(collectedAirrop, Settings.AIRDROPS);
 		}
 		else
 		{

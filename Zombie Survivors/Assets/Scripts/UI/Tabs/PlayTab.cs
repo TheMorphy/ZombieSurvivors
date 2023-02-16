@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -23,7 +22,7 @@ public class PlayTab : Tab
 
 	private void InitializeCollectedAirdropSlots()
 	{
-		List<AirdropDTO> collectedAirdrops = SaveManager.ReadFromJSON<AirdropDTO>(Settings.AIRDROPS_PATH);
+		List<AirdropDTO> collectedAirdrops = SaveManager.ReadFromJSON<AirdropDTO>(Settings.AIRDROPS);
 
 		if(collectedAirdrops.Count > 0 ) 
 		{
@@ -60,17 +59,5 @@ public class PlayTab : Tab
 	public SkipWaitingTab GetSkipWaitingTab()
 	{
 		return skipWaitingTab;
-	}
-
-	private void OnDisable()
-	{
-		for (int i = 0; i < slotsController.GetSlots().Count; i++)
-		{
-			Slot slot = slotsController.GetSlot(i);
-			if (slot.IsEmpty == false && slot.TimerStarted)
-			{
-				//TimeTracker.Instance.StartTrackingTime(slot);
-			}
-		}
 	}
 }

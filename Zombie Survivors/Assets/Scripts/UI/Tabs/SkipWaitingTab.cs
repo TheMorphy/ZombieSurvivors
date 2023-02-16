@@ -51,7 +51,7 @@ public class SkipWaitingTab : MonoBehaviour, IPointerClickHandler
 		Show();
 
 		this.slot = slot;
-		airdropDetails = slot.AirdropDetails;
+		airdropDetails = slot.AirdropDetailsDTO;
 		gemsCost.text = airdropDetails.UnlockCost.ToString();
 
 		useGemsButton.onClick.AddListener(() => {

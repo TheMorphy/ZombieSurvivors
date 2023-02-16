@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
 	{
 		this.playerDetails = Instantiate(playerDetails);
 
-		ActiveUpgrades = SaveManager.ReadFromJSON<ActiveUpgrades>(Settings.ACTIVE_UPGRADES_PATH);
+		ActiveUpgrades = SaveManager.ReadFromJSON<ActiveUpgrades>(Settings.ACTIVE_UPGRADES);
 
 		this.playerDetails.ActiveUpgrades = ActiveUpgrades;
 

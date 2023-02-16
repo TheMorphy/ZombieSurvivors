@@ -36,7 +36,7 @@ public class ChestOpeningTab : Tab
 		});
 
 		slotReference = (Slot)args[0];
-		airdropDetailsDTO = slotReference.AirdropDetails;
+		airdropDetailsDTO = slotReference.AirdropDetailsDTO;
 
 		AddCards();
 		cardIndex = cardsDTOs.Count;
@@ -61,8 +61,8 @@ public class ChestOpeningTab : Tab
 		{
 			TimeTracker.Instance.ClearTime(slotReference.TrackingKey);
 
-			SaveManager.SaveToJSON(cardsDTOs, Settings.ALL_CARDS_PATH);
-			SaveManager.DeleteFromJSON(airdropDetailsDTO, Settings.AIRDROPS_PATH);
+			SaveManager.InsertToJSON(cardsDTOs, Settings.ALL_CARDS);
+			SaveManager.DeleteFromJSON(airdropDetailsDTO, Settings.AIRDROPS);
 
 			CanvasManager.Show<AirdropRewardsTab>(false, new object[] { airdropDetailsDTO, cardsDTOs });
 		}

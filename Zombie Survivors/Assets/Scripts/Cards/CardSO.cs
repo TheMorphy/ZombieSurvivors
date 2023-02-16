@@ -32,6 +32,7 @@ public class CardSO : ScriptableObject
 	[SerializeField] private Sprite cardSprite;
 	public Sprite CardSprite { get { return cardSprite; } }
 
+	[Tooltip("Used for setting a gradually increasing value with each level. Time = level, Value = upgrade value")]
 	[SerializeField] private AnimationCurve scallingConfiguration;
 	public AnimationCurve ScallingConfiguration { get { return scallingConfiguration; } }
 

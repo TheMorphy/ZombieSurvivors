@@ -1,52 +1,41 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(SlotView))]
+[System.Serializable]
 public class Slot : MonoBehaviour
 {
 	[SerializeField] private SlotView slotView;
 
-	[HideInInspector] public AirdropDTO AirdropDetails;
+	[HideInInspector] public AirdropDTO AirdropDetailsDTO;
 	public bool IsEmpty = true;
 	public bool TimerStarted = false;
 	public float UnlockTimer;
 	public string TrackingKey = "";
 	public int SlotID;
 
-	public void InitializeAirdropSlot(AirdropDTO airdropDetails, int slotIndex)
+	public void InitializeAirdropSlot(AirdropDTO airdropDetailsDTO, int slotIndex)
 	{
+		AirdropDetailsDTO = airdropDetailsDTO;
+		TrackingKey = $"{airdropDetailsDTO.AirdropType.ToString() + "_" + slotIndex}";
 		IsEmpty = false;
-		AirdropDetails = airdropDetails;
-
 		SetSlotReference();
-		TrackingKey = $"{airdropDetails.AirdropType.ToString() + "_" + slotIndex}";
 
-		TimeTracker.Instance.InitializeTrackable(this);
-
-		if (PlayerPrefs.HasKey(TrackingKey))
+		if (TimeTracker.Instance.Trackables.Any(x => x.TrackingCode == TrackingKey))
 		{
-			print("Timer was started");
 			TimerStarted = true;
-			UnlockTimer = TimeTracker.Instance.GetSavedTime(TrackingKey);
-
-			if (UnlockTimer <= 0)
-			{
-				print("Chest is finished opening");
-				slotView.InitialiseViewUIForUnlockedChest();
-			}
-			else
-			{
-				print("Chest is waiting for time to finish");
-				slotView.StartUnlockingAirdrop();
-			}
+			TimeTracker.Instance.ContinueTimer(this);
+			slotView.InitialiseViewUIForUnlockingChest();
 		}
 		else
 		{
-			print("Chest is waiting to be opened");
-			UnlockTimer = airdropDetails.UnlockDuration;
+			UnlockTimer = airdropDetailsDTO.RemoveTime;
 			slotView.InitialiseViewUIForLockedChest();
 		}
+
+		TimeTracker.Instance.OnGamePaused += Instance_OnGamePaused;
 	}
 
 	public void SetEmptySlot()
@@ -74,5 +63,23 @@ public class Slot : MonoBehaviour
 	public SlotView GetSlotView() 
 	{
 		return slotView;
+	}
+
+	private void OnDestroy()
+	{
+		print("OnDestroy");
+		//	TimeTracker.Instance.OnGamePaused -= Instance_OnGamePaused;
+	}
+
+	private void Instance_OnGamePaused(bool IsPaused)
+	{
+		if(IsPaused)
+		{
+			TimeTracker.Instance.SaveTime(TrackingKey);
+		}
+		else
+		{
+			TimeTracker.Instance.ContinueTimer(this);
+		}
 	}
 }
