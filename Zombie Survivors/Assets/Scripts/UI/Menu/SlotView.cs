@@ -37,15 +37,6 @@ public class SlotView : MonoBehaviour
 		});
 	}
 
-	private void Update()
-	{
-		if (SlotReference.TimerStarted == true)
-		{
-			unlockTimeText.text = SlotReference.TrackableReference.TimerText;
-			print("Timer text: " + SlotReference.TrackableReference.TimerText);
-		}
-	}
-
 	public void InitializeEmptyChestView()
 	{
 		unlockTimeText.gameObject.SetActive(false);

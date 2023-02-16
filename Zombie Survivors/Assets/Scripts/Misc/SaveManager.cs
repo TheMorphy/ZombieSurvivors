@@ -38,7 +38,7 @@ public static class SaveManager
 		existingData.AddRange(toSave);
 
 		// Save the updated list back to the file
-		string content = JsonHelper.ToJson(existingData.ToArray());
+		string content = JsonHelper.ToJson(existingData.ToArray(), true);
 		WriteFile(GetPath(fileName), content);
 	}
 
@@ -65,8 +65,26 @@ public static class SaveManager
 		{
 			// If the file doesn't exist, create a new list with the item and serialize it to the file
 			T[] array = { toSave };
-			string content = JsonHelper.ToJson<T>(array);
+			string content = JsonHelper.ToJson<T>(array, true);
 			WriteFile(filePath, content);
+		}
+	}
+
+	public static void CreateEmptyJSONFiles(List<string> fileNames)
+	{
+		for (int i = 0; i < fileNames.Count; i++)
+		{
+			string filePath = GetPath(fileNames[i]);
+
+			if (File.Exists(filePath))
+			{
+				continue;
+			}
+			else
+			{
+				string emptyContent = "{}";
+				WriteFile(filePath, emptyContent);
+			}
 		}
 	}
 
@@ -91,7 +109,7 @@ public static class SaveManager
 			{
 				// If the file doesn't exist, create a new list with the item and serialize it to the file
 				T[] array = { toSave };
-				string content = JsonHelper.ToJson<T>(array);
+				string content = JsonHelper.ToJson<T>(array, true);
 				WriteFile(filePath, content);
 			}
 		});

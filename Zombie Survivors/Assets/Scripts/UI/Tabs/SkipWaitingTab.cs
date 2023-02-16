@@ -54,7 +54,7 @@ public class SkipWaitingTab : MonoBehaviour, IPointerClickHandler
 		gemsCost.text = airdropDetails.UnlockCost.ToString();
 
 		useGemsButton.onClick.AddListener(() => {
-			slot.OpenChest();
+			slot.UnlockChest();
 			Hide();
 		});
 	}

@@ -8,7 +8,7 @@ using UnityEngine.AI;
 [DisallowMultipleComponent]
 public class EnemyController : MonoBehaviour
 {
-	private NavMeshAgent _agent;
+	private NavMeshAgent agent;
 	private Enemy enemy;
 	private Vector3 startPos;
 	private Transform target;
@@ -16,17 +16,17 @@ public class EnemyController : MonoBehaviour
 	[HideInInspector] public bool ExpDropped = false;
 	public bool Attacking;
 
-	[HideInInspector] public List<Collider> hitColliders;
-	[HideInInspector] public List<DealContactDamage> damageDealers;
+	[HideInInspector] public List<Collider> HitColliders;
+	[HideInInspector] public List<DealContactDamage> DamageDealers;
 	[HideInInspector] public Limb LimbsHit;
 
 	private void Awake()
 	{
 		enemy = GetComponent<Enemy>();
-		_agent = GetComponent<NavMeshAgent>();
+		agent = GetComponent<NavMeshAgent>();
 
-		damageDealers = GetComponentsInChildren<DealContactDamage>().Skip(1).ToList();
-		damageDealers.ForEach(x => hitColliders.Add(x.GetComponent<Collider>()));
+		DamageDealers = GetComponentsInChildren<DealContactDamage>().Skip(1).ToList();
+		DamageDealers.ForEach(x => HitColliders.Add(x.GetComponent<Collider>()));
 	}
 
 	private void Start()
@@ -34,14 +34,14 @@ public class EnemyController : MonoBehaviour
 		SetContactDamage();
 		DisableHitboxes();
 
-		_agent.enabled = true;
+		agent.enabled = true;
 
 		startPos = transform.position;
 	}
 
 	private void Update()
 	{
-		if(_agent.enabled)
+		if(agent.enabled)
 		{
 			if (SquadControl.ComradesTransforms.Count > 0)
 			{
@@ -49,14 +49,14 @@ public class EnemyController : MonoBehaviour
 
 				if (Attacking == false)
 				{
-					_agent.destination = target.position;
+					agent.destination = target.position;
 				}
 				
 				transform.LookAt(target);
 			}
 			else
 			{
-				_agent.destination = startPos;
+				agent.destination = startPos;
 			}
 		}
 	}
@@ -87,7 +87,7 @@ public class EnemyController : MonoBehaviour
 
 	public void DisableEnemy()
 	{
-		_agent.enabled = false;
+		agent.enabled = false;
 
 		enabled = false;
 	}
@@ -118,26 +118,26 @@ public class EnemyController : MonoBehaviour
 
 	public NavMeshAgent GetAgent()
 	{
-		return _agent;
+		return agent;
 	}
 
 	public float GetMoveSpeed()
 	{
-		return _agent.velocity.magnitude;
+		return agent.velocity.magnitude;
 	}
 
 	private void SetContactDamage()
 	{
-		damageDealers.ForEach(x => x.SetContactDamage(enemy.enemyDetails.Damage));
+		DamageDealers.ForEach(x => x.SetContactDamage(enemy.enemyDetails.Damage));
 		
 	}
 	public void EnableHitboxes()
 	{
-		hitColliders.ForEach(x => x.enabled = true);
+		HitColliders.ForEach(x => x.enabled = true);
 	}
 
 	public void DisableHitboxes()
 	{
-		hitColliders.ForEach(x => x.enabled = false);
+		HitColliders.ForEach(x => x.enabled = false);
 	}
 }

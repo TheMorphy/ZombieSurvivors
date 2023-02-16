@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [RequireComponent(typeof(SlotView))]
 [System.Serializable]
@@ -13,18 +10,27 @@ public class Slot : MonoBehaviour
 	[HideInInspector] public AirdropDTO AirdropDetailsDTO;
 
 	public bool IsEmpty = true;
-	public int UnlockTimer;
 	public bool TimerStarted = false;
 	public string TrackingKey = "";
-	public int SlotID;
 
-	private void Awake()
+	private void Update()
 	{
-		slotView.SlotReference = this;
+		if(TrackableReference != null && TimerStarted)
+		{
+			if (TrackableReference.RemainingSeconds <= 0)
+			{
+				UnlockChest();
+			}
+			else
+			{
+				slotView.unlockTimeText.text = TrackableReference.TimerText;
+			}
+		}
 	}
 
 	public void InitializeAirdropSlot(AirdropDTO airdropDetailsDTO, int slotIndex)
 	{
+		slotView.SlotReference = this;
 		AirdropDetailsDTO = airdropDetailsDTO;
 		TrackingKey = $"{airdropDetailsDTO.AirdropType.ToString() + "_" + slotIndex}";
 		IsEmpty = false;
@@ -33,21 +39,20 @@ public class Slot : MonoBehaviour
 
 		if (TrackableReference != null)
 		{
-			print("Continue Timer: " + TrackableReference.TrackingCode);
 			TimerStarted = true;
 			slotView.InitialiseViewUIForUnlockingChest();
 		}
 		else
 		{
 			TimerStarted = false;
-			UnlockTimer = airdropDetailsDTO.RemoveTime;
 			slotView.InitialiseViewUIForLockedChest();
 		}
 	}
 
 	public void StartTracking()
 	{
-		TimeTracker.Instance.SetNewStrackable(TrackingKey, UnlockTimer);
+		TimerStarted = true;
+		TrackableReference = TimeTracker.Instance.SetNewStrackable(TrackingKey, AirdropDetailsDTO.UnlockDuration);
 		slotView.InitialiseViewUIForUnlockingChest();
 	}
 
@@ -56,22 +61,24 @@ public class Slot : MonoBehaviour
 		CanvasManager.GetTab<PlayTab>().GetSkipWaitingTab().InitializeWindow(this);
 	}
 
+	public void UnlockChest()
+	{
+		slotView.InitialiseViewUIForUnlockedChest();
+		TimerStarted = false;
+	}
+
 	public void OpenChest()
 	{
 		CanvasManager.Show<ChestOpeningTab>(true, new object[] { this });
-		SetEmptySlot();
 	}
 
 	public void SetEmptySlot()
 	{
 		IsEmpty = true;
 		TimerStarted = false;
-		UnlockTimer = 0;
+		TrackingKey = "";
+		TrackableReference = null;
+		AirdropDetailsDTO = null;
 		slotView.InitializeEmptyChestView();
-	}
-
-	public SlotView GetSlotView() 
-	{
-		return slotView;
 	}
 }

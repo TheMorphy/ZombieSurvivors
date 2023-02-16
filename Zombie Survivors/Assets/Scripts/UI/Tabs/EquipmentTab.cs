@@ -37,7 +37,15 @@ public class EquipmentTab : Tab
 	private void InitializeActiveDeck()
 	{
 		ActiveDeck = SaveManager.ReadFromJSON<CardSO>(Settings.ACTIVE_UPGRADES);
-		activeCardsController.InitializeActiveDeck(ActiveDeck);
+
+		if(ActiveDeck.Count == 0)
+		{
+			activeCardsController.InitializeActiveDeck(AllGear);
+		}
+		else
+		{
+			activeCardsController.InitializeActiveDeck(ActiveDeck);
+		}	
 	}
 
 	private void GetAllGear()

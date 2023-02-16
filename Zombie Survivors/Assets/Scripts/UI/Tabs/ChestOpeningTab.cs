@@ -60,6 +60,7 @@ public class ChestOpeningTab : Tab
 		if (cardIndex == 0)
 		{
 			TimeTracker.Instance.ClearTime(slotReference.TrackingKey);
+			slotReference.SetEmptySlot();
 
 			CanvasManager.Show<AirdropRewardsTab>(false, new object[] { airdropDetailsDTO, cardsDTOs });
 		}

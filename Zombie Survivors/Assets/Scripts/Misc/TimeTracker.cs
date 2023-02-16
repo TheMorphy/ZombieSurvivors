@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+#region Trackable Object
 [System.Serializable]
 public class Trackable
 {
@@ -40,10 +41,13 @@ public class Trackable
 		}
 	}
 }
+#endregion
 
 public class TimeTracker : MonoBehaviour
 {
 	public static TimeTracker Instance;
+
+	[Header("READONLY")]
 	public List<Trackable> Trackables = new List<Trackable>();
 
 	private void Awake()
@@ -82,16 +86,15 @@ public class TimeTracker : MonoBehaviour
 		}
 	}
 
-	public Trackable? GetTrackable(string trackingCode)
+	public Trackable GetTrackable(string trackingCode)
 	{
 		return Trackables.FirstOrDefault(x => x.TrackingCode == trackingCode);
 	}
-
 	/// <summary>
 	/// When player presses Open collected airdrop, it stores the slot tracking key,
 	/// which is used to keep tarck of time during the gameplay and after the game is closed.
 	/// </summary>
-	public void SetNewStrackable(string trackingCode, int unlockTimer)
+	public Trackable SetNewStrackable(string trackingCode, int unlockTimer)
 	{
 		Trackable trackable = new Trackable(this)
 		{
@@ -101,21 +104,14 @@ public class TimeTracker : MonoBehaviour
 
 		Trackables.Add(trackable);
 		StartCoroutine(trackable.StartTimer());
-	}
 
-	/// <summary>
-	/// Stops tracking the time
-	/// </summary>
-	private void StopTrackingTime(string trackingCode)
-	{
-		Trackable trackableToDelete = GetTrackable(trackingCode);
-		StopCoroutine(trackableToDelete.StartTimer());
+		return trackable;
 	}
 
 	public void ClearTime(string trackingCode)
 	{
 		Trackable trackableToDelete = GetTrackable(trackingCode);
-		StopTrackingTime(trackingCode);
+		StopCoroutine(trackableToDelete.StartTimer());
 
 		Trackables.Remove(trackableToDelete);
 
@@ -135,16 +131,18 @@ public class TimeTracker : MonoBehaviour
 
 			if(SaveManager.GetNumSavedItems<Trackable>(Settings.TRACKABLES) > 0)
 			{
+				print($"Update trackable to current file: {trackabaleToSave.TrackingCode}");
 				SaveManager.UpdateTrackingInJSON(trackabaleToSave, trackingKey, Settings.TRACKABLES);
 			}
 			else
 			{
+				print($"Insert first trackable to file: {trackabaleToSave.TrackingCode}");
 				SaveManager.SaveToJSON(trackabaleToSave, Settings.TRACKABLES);
 			}
 		}
 	}
 
-	public float GetRemainingSeconds(string trackingCode)
+	public float GetSavedRemainingSeconds(string trackingCode)
 	{
 		Trackable trackable = GetTrackable(trackingCode);
 		TimeSpan timeSpan = DateTime.Now - trackable.SaveDate;
@@ -155,7 +153,7 @@ public class TimeTracker : MonoBehaviour
 
 	public void ContinueTimer(Trackable trackable)
 	{
-		trackable.RemainingSeconds = GetRemainingSeconds(trackable.TrackingCode);
+		trackable.RemainingSeconds = GetSavedRemainingSeconds(trackable.TrackingCode);
 		StartCoroutine(trackable.StartTimer());
 	}
 

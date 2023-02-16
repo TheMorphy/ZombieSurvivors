@@ -7,7 +7,7 @@ public class ActiveCardsController : MonoBehaviour
 
 	[HideInInspector] public static List<CardSO> ActiveDeck = new List<CardSO>();
 
-	public void InitializeActiveDeck(List<CardSO> activeDeck)
+	public void InitializeActiveDeck(List<CardSO> deck)
 	{
 		if(ActiveDeck.Count > 0)
 		{
@@ -15,9 +15,19 @@ public class ActiveCardsController : MonoBehaviour
 			{
 				if (CardsSlots[i].IsEmpty)
 				{
-					CardsSlots[i].InitializeCard(activeDeck[i]);
-					ActiveDeck.Add(activeDeck[i]);
+					CardsSlots[i].InitializeCard(deck[i]);
+					ActiveDeck.Add(deck[i]);
+					deck.Remove(deck[i]);
 				}
+			}
+		}
+
+		if(deck.Count > ActiveDeck.Count)
+		{
+			var inventory = CanvasManager.GetTab<EquipmentTab>().GetInventory();
+			for (int i = 0; i < deck.Count; i++)
+			{
+				inventory.AddToInventory(deck[i]);	
 			}
 		}
 	}

@@ -304,6 +304,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotView: {fileID: 38738498}
+  TrackableReference:
+    TrackingCode: 
+    RemainingSeconds: 0
+    TimerText: 
+    monoBehaviour: {fileID: 0}
   AirdropDetailsDTO:
     AirdropType: 0
     AirdropSprite: {fileID: 0}
@@ -318,9 +323,7 @@ MonoBehaviour:
     RemoveTime: 0
   IsEmpty: 1
   TimerStarted: 0
-  UnlockTimer: 0
   TrackingKey: 
-  SlotID: 0
 --- !u!114 &38738498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3150,6 +3153,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotView: {fileID: 319803106}
+  TrackableReference:
+    TrackingCode: 
+    RemainingSeconds: 0
+    TimerText: 
+    monoBehaviour: {fileID: 0}
   AirdropDetailsDTO:
     AirdropType: 0
     AirdropSprite: {fileID: 0}
@@ -3164,9 +3172,7 @@ MonoBehaviour:
     RemoveTime: 0
   IsEmpty: 1
   TimerStarted: 0
-  UnlockTimer: 0
   TrackingKey: 
-  SlotID: 0
 --- !u!114 &319803106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6557,6 +6563,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 759953498}
   m_CullTransparentMesh: 1
+--- !u!1 &796486821
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 796486823}
+  - component: {fileID: 796486822}
+  m_Layer: 0
+  m_Name: Files Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &796486822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796486821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bbe35a54330b30499ed63efbaea78ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &796486823
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796486821}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.576841, y: 0.61693907, z: 1.3719196}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &801166677
 GameObject:
   m_ObjectHideFlags: 0
@@ -13814,6 +13864,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotView: {fileID: 1731335800}
+  TrackableReference:
+    TrackingCode: 
+    RemainingSeconds: 0
+    TimerText: 
+    monoBehaviour: {fileID: 0}
   AirdropDetailsDTO:
     AirdropType: 0
     AirdropSprite: {fileID: 0}
@@ -13828,9 +13883,7 @@ MonoBehaviour:
     RemoveTime: 0
   IsEmpty: 1
   TimerStarted: 0
-  UnlockTimer: 0
   TrackingKey: 
-  SlotID: 0
 --- !u!114 &1731335800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14405,6 +14458,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotView: {fileID: 1802344716}
+  TrackableReference:
+    TrackingCode: 
+    RemainingSeconds: 0
+    TimerText: 
+    monoBehaviour: {fileID: 0}
   AirdropDetailsDTO:
     AirdropType: 0
     AirdropSprite: {fileID: 0}
@@ -14419,9 +14477,7 @@ MonoBehaviour:
     RemoveTime: 0
   IsEmpty: 1
   TimerStarted: 0
-  UnlockTimer: 0
   TrackingKey: 
-  SlotID: 0
 --- !u!114 &1802344716
 MonoBehaviour:
   m_ObjectHideFlags: 0
