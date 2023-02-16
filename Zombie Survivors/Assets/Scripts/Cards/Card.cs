@@ -45,6 +45,7 @@ public class Card : MonoBehaviour
 [Serializable]
 public class CardDTO
 {
+	public int ID;
 	public CardType CardType;
 	public CardRarity CardRarity;
 	public string CardName;

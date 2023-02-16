@@ -28,9 +28,8 @@ public class AirdropRewardsTab : Tab
 
 		openedAirdropImage.sprite = airdropDetailsDTO.AirdropSprite;
 
-
-		SaveManager.SaveToJSON(cardsDTOs, Settings.ALL_CARDS);
-		SaveManager.DeleteFromJSON(airdropDetailsDTO, Settings.AIRDROPS);
+		SaveManager.SaveToJSON<CardDTO>(cardsDTOs, Settings.ALL_CARDS);
+		SaveManager.DeleteFromJSON<AirdropDTO>(airdropDetailsDTO.ID, Settings.AIRDROPS);
 
 
 		for (int i = 0; i < cardsDTOs.Count; i++)

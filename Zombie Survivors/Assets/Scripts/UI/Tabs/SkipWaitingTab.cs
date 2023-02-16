@@ -40,7 +40,7 @@ public class SkipWaitingTab : MonoBehaviour, IPointerClickHandler
 		if (giveReward)
 		{
 			CanvasManager.GetTab<PlayTab>().Show();
-			TimeTracker.Instance.DecreaseTime(slot.TrackingKey, airdropDetails.RemoveTime);
+			TimeTracker.Instance.DecreaseTime(slot.SlotID, airdropDetails.RemoveTime);
 			Hide();
 		}
 	}

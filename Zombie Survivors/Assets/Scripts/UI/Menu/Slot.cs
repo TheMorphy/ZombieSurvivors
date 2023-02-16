@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(SlotView))]
@@ -11,7 +10,7 @@ public class Slot : MonoBehaviour
 
 	public bool IsEmpty = true;
 	public bool TimerStarted = false;
-	public string TrackingKey = "";
+	public int SlotID;
 
 	private void Update()
 	{
@@ -32,10 +31,10 @@ public class Slot : MonoBehaviour
 	{
 		slotView.SlotReference = this;
 		AirdropDetailsDTO = airdropDetailsDTO;
-		TrackingKey = $"{airdropDetailsDTO.AirdropType.ToString() + "_" + slotIndex}";
 		IsEmpty = false;
+		SlotID = slotIndex;
 
-		TrackableReference = TimeTracker.Instance.GetTrackable(TrackingKey);
+		TrackableReference = TimeTracker.Instance.GetTrackable(SlotID);
 
 		if (TrackableReference != null)
 		{
@@ -52,7 +51,7 @@ public class Slot : MonoBehaviour
 	public void StartTracking()
 	{
 		TimerStarted = true;
-		TrackableReference = TimeTracker.Instance.SetNewStrackable(TrackingKey, AirdropDetailsDTO.UnlockDuration);
+		TrackableReference = TimeTracker.Instance.SetNewStrackable(SlotID, AirdropDetailsDTO.UnlockDuration);
 		slotView.InitialiseViewUIForUnlockingChest();
 	}
 
@@ -76,7 +75,7 @@ public class Slot : MonoBehaviour
 	{
 		IsEmpty = true;
 		TimerStarted = false;
-		TrackingKey = "";
+		SlotID = 0;
 		TrackableReference = null;
 		AirdropDetailsDTO = null;
 		slotView.InitializeEmptyChestView();

@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class FilesManager : MonoBehaviour
 {
+	private static FilesManager instace;
+
 	private void Awake()
 	{
+		if (instace == null)
+			instace = this;
+		else
+			Destroy(gameObject);
+
 		DontDestroyOnLoad(this);
 
 		CreateFiles();
@@ -13,7 +20,7 @@ public class FilesManager : MonoBehaviour
 
 	private void CreateFiles()
 	{
-		SaveManager.CreateEmptyJSONFiles(new List<string>()
+		SaveManager.CreateJsonFiles(new List<string>()
 		{
 			Settings.TRACKABLES,
 			Settings.ACTIVE_UPGRADES,

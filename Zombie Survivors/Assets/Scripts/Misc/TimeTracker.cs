@@ -8,7 +8,7 @@ using UnityEngine;
 [System.Serializable]
 public class Trackable
 {
-	public string TrackingCode = string.Empty;
+	public int ID;
 	public float RemainingSeconds;
 	public string TimerText;
 	public DateTime SaveDate;
@@ -67,38 +67,27 @@ public class TimeTracker : MonoBehaviour
 		if(pause)
 		{
 			StopAllCoroutines();
-
-			Trackables.ForEach(trackable => {
-				if (string.IsNullOrEmpty(trackable.TrackingCode) == false)
-				{
-					SaveTime(trackable.TrackingCode);
-				}
-			});
+			SaveTime();
 		}
 		else
 		{
-			Trackables.ForEach(trackable => {
-				if (string.IsNullOrEmpty(trackable.TrackingCode) == false)
-				{
-					ContinueTimer(trackable);
-				}
-			});
+			ContinueTimers();
 		}
 	}
 
-	public Trackable GetTrackable(string trackingCode)
+	public Trackable GetTrackable(int trackingCode)
 	{
-		return Trackables.FirstOrDefault(x => x.TrackingCode == trackingCode);
+		return Trackables.FirstOrDefault(x => x.ID == trackingCode);
 	}
 	/// <summary>
 	/// When player presses Open collected airdrop, it stores the slot tracking key,
 	/// which is used to keep tarck of time during the gameplay and after the game is closed.
 	/// </summary>
-	public Trackable SetNewStrackable(string trackingCode, int unlockTimer)
+	public Trackable SetNewStrackable(int trackingID, int unlockTimer)
 	{
 		Trackable trackable = new Trackable(this)
 		{
-			TrackingCode = trackingCode,
+			ID = trackingID,
 			RemainingSeconds = unlockTimer
 		};
 
@@ -108,58 +97,45 @@ public class TimeTracker : MonoBehaviour
 		return trackable;
 	}
 
-	public void ClearTime(string trackingCode)
+	public void ClearTime(int ID)
 	{
-		Trackable trackableToDelete = GetTrackable(trackingCode);
+		Trackable trackableToDelete = GetTrackable(ID);
 		StopCoroutine(trackableToDelete.StartTimer());
-
+		SaveManager.DeleteFromJSON<Trackable>(ID, Settings.TRACKABLES);
 		Trackables.Remove(trackableToDelete);
-
-		SaveManager.DeleteFromJSON(trackableToDelete, Settings.TRACKABLES);
 	}
+
 
 	/// <summary>
 	/// Save time on application pause or close
 	/// </summary>
-	public void SaveTime(string trackingKey)
+	public void SaveTime()
 	{
-		var trackabaleToSave = GetTrackable(trackingKey);
-
-		if (trackabaleToSave != null)
-		{
-			trackabaleToSave.SaveDate = DateTime.Now;
-
-			if(SaveManager.GetNumSavedItems<Trackable>(Settings.TRACKABLES) > 0)
-			{
-				print($"Update trackable to current file: {trackabaleToSave.TrackingCode}");
-				SaveManager.UpdateTrackingInJSON(trackabaleToSave, trackingKey, Settings.TRACKABLES);
-			}
-			else
-			{
-				print($"Insert first trackable to file: {trackabaleToSave.TrackingCode}");
-				SaveManager.SaveToJSON(trackabaleToSave, Settings.TRACKABLES);
-			}
-		}
+		Trackables.ForEach(x => x.SaveDate = DateTime.Now);
+		SaveManager.SaveToJSON<Trackable>(Trackables, Settings.TRACKABLES);
 	}
 
-	public float GetSavedRemainingSeconds(string trackingCode)
+	public float GetSavedRemainingSeconds(int ID)
 	{
-		Trackable trackable = GetTrackable(trackingCode);
+		Trackable trackable = GetTrackable(ID);
 		TimeSpan timeSpan = DateTime.Now - trackable.SaveDate;
 		trackable.RemainingSeconds -= (float)timeSpan.TotalSeconds;
 
 		return trackable.RemainingSeconds;
 	}
 
-	public void ContinueTimer(Trackable trackable)
+	public void ContinueTimers()
 	{
-		trackable.RemainingSeconds = GetSavedRemainingSeconds(trackable.TrackingCode);
-		StartCoroutine(trackable.StartTimer());
+		foreach (var trackable in Trackables)
+		{
+			trackable.RemainingSeconds = GetSavedRemainingSeconds(trackable.ID);
+			StartCoroutine(trackable.StartTimer());
+		}
 	}
 
-	public void DecreaseTime(string trackingCode, int decreaseAmmount)
+	public void DecreaseTime(int ID, int decreaseAmmount)
 	{
-		Trackable trackable = GetTrackable(trackingCode);
+		Trackable trackable = GetTrackable(ID);
 
 		if(trackable != null)
 		{

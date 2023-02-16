@@ -56,25 +56,27 @@ public class Airdrop : Collectable
 
 	private void SaveAirdrop()
 	{
-		AirdropDTO collectedAirrop = new AirdropDTO
-		{
-			AirdropSprite = airdropDetails.AirdropSprite,
-			AirdropPackage = airdropDetails.AirdropPackage,
-			AirdropType = airdropDetails.AirdropType,
-			CardAmmount = airdropDetails.CardAmmount,
-			MaxGemsAmmount = airdropDetails.MaxGemsAmmount,
-			MaxGoldAmmount = airdropDetails.MaxGoldAmmount,
-			MinGemsAmmount = airdropDetails.MinGemsAmmount,
-			MinGoldAmmount = airdropDetails.MinGoldAmmount,
-			RemoveTime = airdropDetails.RemoveTime,
-			UnlockCost = airdropDetails.UnlockCost,
-			UnlockDuration = airdropDetails.UnlockDuration,
-		};
+		int savedObjectsCount = SaveManager.GetNumSavedItems<AirdropDTO>(Settings.AIRDROPS);
 
-
-		if (SaveManager.GetNumSavedItems<AirdropDTO>(Settings.AIRDROPS) < Settings.AVAILABLE_AIRDROP_SLOTS_COUNT)
+		if (savedObjectsCount < Settings.AVAILABLE_AIRDROP_SLOTS_COUNT)
 		{
-			SaveManager.AppendToJSON(collectedAirrop, Settings.AIRDROPS);
+			AirdropDTO collectedAirrop = new AirdropDTO
+			{
+				ID = savedObjectsCount + 1,
+				AirdropSprite = airdropDetails.AirdropSprite,
+				AirdropPackage = airdropDetails.AirdropPackage,
+				AirdropType = airdropDetails.AirdropType,
+				CardAmmount = airdropDetails.CardAmmount,
+				MaxGemsAmmount = airdropDetails.MaxGemsAmmount,
+				MaxGoldAmmount = airdropDetails.MaxGoldAmmount,
+				MinGemsAmmount = airdropDetails.MinGemsAmmount,
+				MinGoldAmmount = airdropDetails.MinGoldAmmount,
+				RemoveTime = airdropDetails.RemoveTime,
+				UnlockCost = airdropDetails.UnlockCost,
+				UnlockDuration = airdropDetails.UnlockDuration,
+			};
+
+			SaveManager.SaveToJSON(collectedAirrop, Settings.AIRDROPS);
 		}
 		else
 		{
@@ -87,6 +89,7 @@ public class Airdrop : Collectable
 [Serializable]
 public class AirdropDTO
 {
+	public int ID;
 	public AirdropType AirdropType;
 	public Sprite AirdropSprite;
 	public GameObject AirdropPackage;

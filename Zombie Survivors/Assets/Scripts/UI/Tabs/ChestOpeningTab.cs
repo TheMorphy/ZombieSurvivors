@@ -39,7 +39,6 @@ public class ChestOpeningTab : Tab
 		airdropDetailsDTO = slotReference.AirdropDetailsDTO;
 
 		AddCards();
-		cardIndex = cardsDTOs.Count;
 		cardImage.gameObject.SetActive(true);
 		airdropImage.sprite = airdropDetailsDTO.AirdropSprite;
 
@@ -59,7 +58,7 @@ public class ChestOpeningTab : Tab
 
 		if (cardIndex == 0)
 		{
-			TimeTracker.Instance.ClearTime(slotReference.TrackingKey);
+			TimeTracker.Instance.ClearTime(slotReference.SlotID);
 			slotReference.SetEmptySlot();
 
 			CanvasManager.Show<AirdropRewardsTab>(false, new object[] { airdropDetailsDTO, cardsDTOs });
@@ -136,8 +135,10 @@ public class ChestOpeningTab : Tab
 		}
 		else
 		{
+			cardIndex++;
 			cardsDTOs.Add(new CardDTO()
 			{
+				ID = cardIndex,
 				UpgradeAction = cardToAdd.UpgradeAction,
 				ScallingConfiguration = cardToAdd.ScallingConfiguration,
 				CardSprite = cardToAdd.CardSprite,

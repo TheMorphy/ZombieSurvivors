@@ -305,11 +305,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotView: {fileID: 38738498}
   TrackableReference:
-    TrackingCode: 
+    ID: 0
     RemainingSeconds: 0
     TimerText: 
     monoBehaviour: {fileID: 0}
   AirdropDetailsDTO:
+    ID: 0
     AirdropType: 0
     AirdropSprite: {fileID: 0}
     AirdropPackage: {fileID: 0}
@@ -323,7 +324,7 @@ MonoBehaviour:
     RemoveTime: 0
   IsEmpty: 1
   TimerStarted: 0
-  TrackingKey: 
+  SlotID: 0
 --- !u!114 &38738498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3154,11 +3155,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotView: {fileID: 319803106}
   TrackableReference:
-    TrackingCode: 
+    ID: 0
     RemainingSeconds: 0
     TimerText: 
     monoBehaviour: {fileID: 0}
   AirdropDetailsDTO:
+    ID: 0
     AirdropType: 0
     AirdropSprite: {fileID: 0}
     AirdropPackage: {fileID: 0}
@@ -3172,7 +3174,7 @@ MonoBehaviour:
     RemoveTime: 0
   IsEmpty: 1
   TimerStarted: 0
-  TrackingKey: 
+  SlotID: 0
 --- !u!114 &319803106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13865,11 +13867,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotView: {fileID: 1731335800}
   TrackableReference:
-    TrackingCode: 
+    ID: 0
     RemainingSeconds: 0
     TimerText: 
     monoBehaviour: {fileID: 0}
   AirdropDetailsDTO:
+    ID: 0
     AirdropType: 0
     AirdropSprite: {fileID: 0}
     AirdropPackage: {fileID: 0}
@@ -13883,7 +13886,7 @@ MonoBehaviour:
     RemoveTime: 0
   IsEmpty: 1
   TimerStarted: 0
-  TrackingKey: 
+  SlotID: 0
 --- !u!114 &1731335800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14459,11 +14462,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slotView: {fileID: 1802344716}
   TrackableReference:
-    TrackingCode: 
+    ID: 0
     RemainingSeconds: 0
     TimerText: 
     monoBehaviour: {fileID: 0}
   AirdropDetailsDTO:
+    ID: 0
     AirdropType: 0
     AirdropSprite: {fileID: 0}
     AirdropPackage: {fileID: 0}
@@ -14477,7 +14481,7 @@ MonoBehaviour:
     RemoveTime: 0
   IsEmpty: 1
   TimerStarted: 0
-  TrackingKey: 
+  SlotID: 0
 --- !u!114 &1802344716
 MonoBehaviour:
   m_ObjectHideFlags: 0
