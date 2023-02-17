@@ -16,12 +16,7 @@ public class AirdropRewardsTab : Tab
 		}
 	}
 
-	public override void Initialize()
-	{
-		
-	}
-
-	public override void InitializeWithArgs(object[] args)
+	public override void Initialize(object[] args)
 	{
 		AirdropDTO airdropDetailsDTO = (AirdropDTO)args[0];
 		List<CardDTO> cardsDTOs = (List<CardDTO>)args[1];

@@ -2,9 +2,7 @@ using UnityEngine;
 
 public abstract class Tab : MonoBehaviour
 {
-    public abstract void Initialize();
-
-	public abstract void InitializeWithArgs(object[] args);
+    public abstract void Initialize(object[] args);
 
 	public virtual void Hide() => gameObject.SetActive(false);
 

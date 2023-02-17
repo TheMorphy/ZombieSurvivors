@@ -7,7 +7,7 @@ public class NavigationTab : Tab
 	[SerializeField] private Button shopBtn; 
 	[SerializeField] private Button playBtn; 
 
-	public override void Initialize()
+	public override void Initialize(object[] args)
 	{
 		equipmentBtn.onClick.AddListener(() => {
 			CanvasManager.Show<EquipmentTab>();
@@ -20,10 +20,5 @@ public class NavigationTab : Tab
 		playBtn.onClick.AddListener(() => {
 			CanvasManager.Show<PlayTab>();
 		});
-	}
-
-	public override void InitializeWithArgs(object[] args)
-	{
-		
 	}
 }

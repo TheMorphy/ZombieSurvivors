@@ -28,7 +28,7 @@ public class GameplayTab : Tab
 		upgradesController = GetComponentInChildren<UpgradesTab>();
 	}
 
-	public override void Initialize()
+	public override void Initialize(object[] args)
 	{
 		upgradesController.SetLevelSystem(GameManager.Instance.GetLevelSystem());
 
@@ -39,11 +39,6 @@ public class GameplayTab : Tab
 		backToMainMenu.onClick.AddListener(() => {
 			CanvasManager.ReturnToMainMenu();
 		});
-	}
-
-	public override void InitializeWithArgs(object[] args)
-	{
-		
 	}
 
 	private void Update()

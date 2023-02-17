@@ -26,15 +26,14 @@ public class CanvasManager : MonoBehaviour
 	{
 		for (int i = 0; i < tabs.Length; i++)
 		{
-			tabs[i].Initialize();
+			tabs[i].Initialize(null);
 
 			if (tabs[i].GetType() == typeof(NavigationTab))
 			{
 				tabs[i].Show();
 				continue;
 			}
-				
-			
+
 			tabs[i].Hide();
 		}
 
@@ -76,7 +75,7 @@ public class CanvasManager : MonoBehaviour
 
 				if (args != null)
 				{
-					instance.tabs[i].InitializeWithArgs(args);
+					instance.tabs[i].Initialize(args);
 				}
 
 				instance.currentTab = instance.tabs[i];
