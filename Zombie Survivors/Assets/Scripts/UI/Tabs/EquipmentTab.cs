@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EquipmentTab : Tab
@@ -7,7 +8,7 @@ public class EquipmentTab : Tab
 	[SerializeField] private ActiveCardsController activeCardsController;
 	[SerializeField] private InventoryController inventoryController;
 
-	[HideInInspector] public static List<Card> Cards = new List<Card>();
+	[HideInInspector] public static HashSet<Card> Cards = new HashSet<Card>();
 
 	public override void Initialize(object[] args)
 	{
@@ -20,8 +21,8 @@ public class EquipmentTab : Tab
 		var activeDeck = SaveManager.ReadFromJSON<CardDTO>(Settings.ACTIVE_CARDS);
 		var inventoryCards = Utilities.GetUniqueItems(allCards, activeDeck);
 
-		activeCardsController.InitializeSlots(activeDeck);
-		inventoryController.InitializeSlots(inventoryCards);
+		activeCardsController.InitializeSlots(activeDeck, CardSlot.Active);
+		inventoryController.InitializeSlots(inventoryCards, CardSlot.Inventory);
 	}
 
 	public InventoryController GetInventory()
@@ -36,25 +37,19 @@ public class EquipmentTab : Tab
 
 	private void OnDisable()
 	{
+		var activeDeck = Cards.Where(x => x.CardSlot == CardSlot.Active);
+
 		// Allows Player to not use any upgrades and removes all cards from Active deck.
 		if (SaveManager.GetNumSavedItems<CardDTO>(Settings.ACTIVE_CARDS) == 0)
 		{
-			foreach (var activeCard in ActiveCardsController.ActiveDeck)
+			foreach (var activeCard in activeDeck)
 			{
 				SaveManager.DeleteFromJSON<CardDTO>(activeCard.Details.ID, Settings.ACTIVE_CARDS);
 			}
 		}
 		else
 		{
-			SaveManager.SaveToJSON(ActiveCardsController.ActiveDeck, Settings.ACTIVE_CARDS);
-		}
-	}
-
-	public static void Add(Card card)
-	{
-		if (!Cards.Contains(card))
-		{
-			Cards.Add(card);
+			SaveManager.SaveToJSON(activeDeck, Settings.ACTIVE_CARDS);
 		}
 	}
 }

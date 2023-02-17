@@ -9,12 +9,13 @@ public class Card : Slot<CardDTO>
 
 	public bool IsReadyToUpgrade = false;
 	public int CardIndex;
+	public CardSlot CardSlot;
 
-	public override void Initialize(CardDTO slotDetails, int slotIndex)
+	public override void Initialize(CardDTO slotDetails, int slotIndex, CardSlot cardSlot)
 	{
 		CardIndex = slotIndex;
 		CardView.CardReference = this;
-
+		CardSlot = cardSlot;
 		IsEmpty = false;
 		Details = slotDetails;
 		CardView.InitializeCardView();
@@ -24,7 +25,7 @@ public class Card : Slot<CardDTO>
 			IsReadyToUpgrade = true;
 		}
 
-		EquipmentTab.Add(this);
+		EquipmentTab.Cards.Add(this);
 	}
 
 	public override void SetEmpty()
@@ -33,29 +34,31 @@ public class Card : Slot<CardDTO>
 		Details = default;
 		CardView.CardReference = this;
 		CardView.InitializeEmptyView();
+
+		EquipmentTab.Cards.Add(this);
 	}
 
 	public void Upgrade()
 	{
-		Details.LevelUpCard();
+		Details.LevelUp();
+
+		if (Details.CanLevelUpCard() == false)
+		{
+			IsReadyToUpgrade = false;
+		}
 		CardView.RefreshView();
 	}
 
 	public void RemoveFromActiveDeck()
 	{
-		ActiveCardsController.ActiveDeck.Remove(this);
-		CanvasManager.GetTab<EquipmentTab>().GetInventory().InitializeSlot(Details);
+		CanvasManager.GetTab<EquipmentTab>().GetInventory().InitializeSlot(Details, CardSlot.Inventory);
 		SetEmpty();
 	}
 
 	public void UseInActiveDeck()
 	{
-		if(!ActiveCardsController.ActiveDeck.Contains(this)) 
-		{
-			var freeSlot = CanvasManager.GetTab<EquipmentTab>().GetActiveCardsController().GetSlots().First(x => x.IsEmpty);
-			CanvasManager.GetTab<EquipmentTab>().GetActiveCardsController().InitializeSlot(Details);
-			SetEmpty();
-		}
+		CanvasManager.GetTab<EquipmentTab>().GetActiveCardsController().InitializeSlot(Details, CardSlot.Active);
+		SetEmpty();
 	}
 
 	public void DisplayCardInfo()

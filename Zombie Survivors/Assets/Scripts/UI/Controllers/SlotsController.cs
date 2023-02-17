@@ -17,7 +17,7 @@ public class SlotsController<T> : MonoBehaviour
 		}
 	}
 
-	public void InitializeSlot(T slotDetails)
+	public virtual void InitializeSlot(T slotDetails, CardSlot cardSlots)
 	{
 		int slotIndex = GetEmptySlotIndex();
 
@@ -27,11 +27,11 @@ public class SlotsController<T> : MonoBehaviour
 		}
 		else
 		{
-			slots[slotIndex].Initialize(slotDetails, slotIndex);
+			slots[slotIndex].Initialize(slotDetails, slotIndex, cardSlots);
 		}
 	}
 
-	public void InitializeSlots(List<T> itemDetails)
+	public virtual void InitializeSlots(List<T> itemDetails, CardSlot cardSlot)
 	{
 		foreach (var item in itemDetails)
 		{
@@ -43,7 +43,7 @@ public class SlotsController<T> : MonoBehaviour
 			}
 			else
 			{
-				slots[slotIndex].Initialize(item, slotIndex);
+				slots[slotIndex].Initialize(item, slotIndex, cardSlot);
 			}
 		}
 

@@ -23,6 +23,8 @@ public class CardView : MonoBehaviour
 	[SerializeField] private Button bottomActionButton;
 	private Options topOption = Options.Use;
 	private Options botOption = Options.Remove;
+	private TextMeshProUGUI topActionButtontext;
+	private TextMeshProUGUI bottomActionButtontext;
 
 	[Space(5)]
 	[Header("View Parameters")]
@@ -38,6 +40,7 @@ public class CardView : MonoBehaviour
 
 	public void InitializeEmptyView()
 	{
+		InitializeOptionsMenu();
 		cardSlotImage.sprite = emptySlotSprite;
 		cardType.text = "";
 		cardLevel.text = "";
@@ -47,6 +50,7 @@ public class CardView : MonoBehaviour
 
 	public void RefreshView()
 	{
+		RefreshOptionsMenu();
 		cardType.text = CardReference.Details.CardType.ToString();
 		cardLevel.text = CardReference.Details.CurrentCardLevel.ToString();
 		cardRemainingLevel.text = CardReference.Details.Ammount.ToString() + " / " + CardReference.Details.CardsRequiredToNextLevel.ToString();
@@ -56,6 +60,7 @@ public class CardView : MonoBehaviour
 
 	public void InitializeCardView()
 	{
+		InitializeOptionsMenu();
 		cardButton.enabled = true;
 		cardLevelBar.transform.parent.gameObject.SetActive(true);
 		cardType.text = CardReference.Details.CardType.ToString();
@@ -77,6 +82,15 @@ public class CardView : MonoBehaviour
 		});
 	}
 
+	private void InitializeOptionsMenu()
+	{
+		optionsMenu.SetActive(true);
+		topActionButtontext = topActionButton.GetComponentInChildren<TextMeshProUGUI>();
+		bottomActionButtontext = bottomActionButton.GetComponentInChildren<TextMeshProUGUI>();
+		RefreshOptionsMenu();
+		optionsMenu.SetActive(false);
+	}
+
 	public void SelectCard(CardView clickedCardView)
 	{
 		if (_selectedCardView == clickedCardView)
@@ -88,7 +102,7 @@ public class CardView : MonoBehaviour
 		else
 		{
 			// Display options for the clicked card and hide options for all others
-			foreach (CardView cardView in EquipmentTab.Cards.Select(card => card.CardView))
+			foreach (CardView cardView in EquipmentTab.Cards.Where(x => !x.IsEmpty).Select(card => card.CardView))
 			{
 				if (cardView == clickedCardView)
 				{
@@ -106,7 +120,7 @@ public class CardView : MonoBehaviour
 	private void DisplayOptions()
 	{
 		optionsMenu.gameObject.SetActive(true);
-		ShowToggleOptions();
+		RefreshOptionsMenu();
 	}
 
 	private void HideOptions()
@@ -136,43 +150,47 @@ public class CardView : MonoBehaviour
 	/// <summary>
 	/// This just basically sets options menu button text values like in Clash Royale.
 	/// </summary>
-	private void ShowToggleOptions()
+	private void RefreshOptionsMenu()
 	{
 		// If is in Active deck and is ready to upgrade
-		if (CardReference.IsReadyToUpgrade == true && ActiveCardsController.ActiveDeck.Contains(CardReference))
+		if (CardReference.IsReadyToUpgrade == true && CardReference.CardSlot == CardSlot.Active)
 		{
+			print("1");
 			topOption = Options.Upgrade;
 			botOption = Options.Remove;
 
-			topActionButton.GetComponentInChildren<TextMeshProUGUI>().text = topOption.ToString();
-			bottomActionButton.GetComponentInChildren<TextMeshProUGUI>().text = botOption.ToString();
+			topActionButtontext.text = topOption.ToString();
+			bottomActionButtontext.text = botOption.ToString();
 		}
 		// If is in Active deck and is not ready to upgrade
-		else if (CardReference.IsReadyToUpgrade == false && ActiveCardsController.ActiveDeck.Contains(CardReference))
+		else if (CardReference.IsReadyToUpgrade == false && CardReference.CardSlot == CardSlot.Active)
 		{
+			print("2");
 			topOption = Options.Info;
 			botOption = Options.Remove;
 
-			topActionButton.GetComponentInChildren<TextMeshProUGUI>().text = topOption.ToString();
-			bottomActionButton.GetComponentInChildren<TextMeshProUGUI>().text = botOption.ToString();
+			topActionButtontext.text = topOption.ToString();
+			bottomActionButtontext.text = botOption.ToString();
 		}
 		// If is in Inventory deck and is ready to upgrade
-		else if(CardReference.IsReadyToUpgrade == true && ActiveCardsController.ActiveDeck.Contains(CardReference) == false)
+		else if(CardReference.IsReadyToUpgrade == true && CardReference.CardSlot == CardSlot.Inventory)
 		{
+			print("3");
 			topOption = Options.Use;
 			botOption = Options.Upgrade;
 
-			topActionButton.GetComponentInChildren<TextMeshProUGUI>().text = topOption.ToString();
-			bottomActionButton.GetComponentInChildren<TextMeshProUGUI>().text = botOption.ToString();
+			topActionButtontext.text = topOption.ToString();
+			bottomActionButtontext.text = botOption.ToString();
 		}
 		// If is in Inventory deck and is not ready to upgrade
-		else
+		else if (CardReference.IsReadyToUpgrade == false && CardReference.CardSlot == CardSlot.Inventory)
 		{
+			print("4");
 			topOption = Options.Info;
 			botOption = Options.Use;
 
-			topActionButton.GetComponentInChildren<TextMeshProUGUI>().text = topOption.ToString();
-			bottomActionButton.GetComponentInChildren<TextMeshProUGUI>().text = botOption.ToString();
+			topActionButtontext.text = topOption.ToString();
+			bottomActionButtontext.text = botOption.ToString();
 		}
 	}
 }

@@ -86,7 +86,7 @@ public class CardDTO
 	public UpgradeAction UpgradeAction;
 	public string CardCode;
 
-	public void LevelUpCard()
+	public void LevelUp()
 	{
 		if (Ammount >= CardsRequiredToNextLevel)
 		{
@@ -95,6 +95,14 @@ public class CardDTO
 			CurrentCardLevel++;
 		}
 	}
+
+	public bool CanLevelUpCard()
+	{
+		int cardsRequiredForNextLevel = CardsRequiredToNextLevel;
+		int cardsNeededForUpgrade = cardsRequiredForNextLevel - Ammount;
+		return cardsNeededForUpgrade <= Ammount;
+	}
+
 
 	public void Upgrade<T>(ref T stat, UpgradeAction action)
 	{

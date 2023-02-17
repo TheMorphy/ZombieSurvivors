@@ -19,7 +19,7 @@ public class PlayTab : Tab
 	{
 		List<AirdropDTO> collectedAirdrops = SaveManager.ReadFromJSON<AirdropDTO>(Settings.AIRDROPS);
 
-		slotsController.InitializeSlots(collectedAirdrops);
+		slotsController.InitializeSlots(collectedAirdrops, CardSlot.None);
 	}
 
 	public void StartGame()

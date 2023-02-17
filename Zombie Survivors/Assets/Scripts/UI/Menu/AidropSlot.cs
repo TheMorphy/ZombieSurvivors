@@ -23,7 +23,7 @@ public class AidropSlot : Slot<AirdropDTO>
 		}
 	}
 
-	public override void Initialize(AirdropDTO airdropDetailsDTO, int slotIndex)
+	public override void Initialize(AirdropDTO airdropDetailsDTO, int slotIndex, CardSlot cardSlot)
 	{
 		slotView.AirdropSlot = this;
 		SlotID = slotIndex;
