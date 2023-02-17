@@ -28,6 +28,7 @@ public class AirdropRewardsTab : Tab
 			SaveManager.SaveToJSON<CardDTO>(cardsDTOs, Settings.ALL_CARDS);
 			SaveManager.DeleteFromJSON<AirdropDTO>(airdropDetailsDTO.ID, Settings.AIRDROPS);
 
+			CanvasManager.GetTab<EquipmentTab>().Initialize(null);
 
 			for (int i = 0; i < cardsDTOs.Count; i++)
 			{

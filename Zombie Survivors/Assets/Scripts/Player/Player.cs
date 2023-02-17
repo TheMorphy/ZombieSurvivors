@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SetActiveWeaponEvent))]
@@ -9,19 +8,17 @@ public class Player : MonoBehaviour
 	[HideInInspector] public PlayerController playerController;
 	[HideInInspector] public SetActiveWeaponEvent setActiveWeaponEvent;
 	[HideInInspector] public SquadControl squadControl;
-	[HideInInspector] public CameraController cameraController;
 	[HideInInspector] public Weapon playerWeapon;
 
 	[Space]
-	[Header("Readonly! (initialized during runtime)")]
-	public List<CardDTO> ActiveUpgrades;
+	[Header("Readonly")]
+	public Equipment PlayerEquipment;
 
 	private void Awake()
 	{
 		playerController = GetComponent<PlayerController>();
 		setActiveWeaponEvent = GetComponent<SetActiveWeaponEvent>();
 		squadControl = GetComponent<SquadControl>();
-		cameraController = GetComponent<CameraController>();
 	}
 
 	private void Start()
@@ -51,6 +48,8 @@ public class Player : MonoBehaviour
 		UpgradesManager.OnAmmoUpgrade -= UpgradesManager_OnAmmoUpgrade;
 
 		squadControl.OnSquadAmmountChanged -= PlayerController_OnSquadIncrease;
+
+		PlayerEquipment.OnUpgraded -= PlayerEquipment_OnUpgraded;
 	}
 
 	private void UpgradesManager_OnAmmoUpgrade(AmmoUpgradeEventArgs ammoUpgradeEventArgs)
@@ -99,12 +98,11 @@ public class Player : MonoBehaviour
 	{
 		this.playerDetails = Instantiate(playerDetails);
 
-		ActiveUpgrades = SaveManager.ReadFromJSON<CardDTO>(Settings.ACTIVE_CARDS);
-
-		this.playerDetails.ActiveUpgrades = ActiveUpgrades;
-
+		playerController.enabled = false;
 		//Create player starting weapons
 		CreatePlayerStartingWeapons();
+
+		ApplyUpgrades();
 	}
 
 	private void CreatePlayerStartingWeapons()
@@ -127,5 +125,22 @@ public class Player : MonoBehaviour
 		};
 
 		playerWeapon.weaponDetails.AmmoDetails = Instantiate(weaponWeaponDetails.AmmoDetails);
+	}
+
+	private void ApplyUpgrades()
+	{
+		PlayerEquipment = new Equipment(playerWeapon, playerDetails);
+
+		PlayerEquipment.OnUpgraded += PlayerEquipment_OnUpgraded;
+
+		var UpgradeCards = SaveManager.ReadFromJSON<CardDTO>(Settings.ACTIVE_CARDS);
+
+		PlayerEquipment.SetUpgrades(UpgradeCards);
+	}
+
+	private void PlayerEquipment_OnUpgraded()
+	{
+		playerController.enabled = true;
+		squadControl.CreateFirstComrade();
 	}
 }

@@ -36,13 +36,6 @@ public class CardView : MonoBehaviour
 
 	private CardView _selectedCardView; // Keep track of the currently selected card
 
-	private void Start()
-	{
-		cardButton.onClick.AddListener(() => {
-			SelectCard(this);
-		});
-	}
-
 	public void InitializeEmptyView()
 	{
 		cardSlotImage.sprite = emptySlotSprite;
@@ -52,7 +45,16 @@ public class CardView : MonoBehaviour
 		cardLevelBar.transform.parent.gameObject.SetActive(false);
 	}
 
-	public void UpdateCardView()
+	public void RefreshView()
+	{
+		cardType.text = CardReference.Details.CardType.ToString();
+		cardLevel.text = CardReference.Details.CurrentCardLevel.ToString();
+		cardRemainingLevel.text = CardReference.Details.Ammount.ToString() + " / " + CardReference.Details.CardsRequiredToNextLevel.ToString();
+		cardSlotImage.sprite = CardReference.Details.CardSprite;
+		cardLevelBar.fillAmount = (float)CardReference.Details.Ammount / CardReference.Details.CardsRequiredToNextLevel;
+	}
+
+	public void InitializeCardView()
 	{
 		cardButton.enabled = true;
 		cardLevelBar.transform.parent.gameObject.SetActive(true);
@@ -61,6 +63,18 @@ public class CardView : MonoBehaviour
 		cardRemainingLevel.text = CardReference.Details.Ammount.ToString() + " / " + CardReference.Details.CardsRequiredToNextLevel.ToString();
 		cardSlotImage.sprite = CardReference.Details.CardSprite;
 		cardLevelBar.fillAmount = (float)CardReference.Details.Ammount / CardReference.Details.CardsRequiredToNextLevel;
+
+		topActionButton.onClick.AddListener(() => {
+			DoAction(topOption);
+		});
+
+		bottomActionButton.onClick.AddListener(() => {
+			DoAction(botOption);
+		});
+
+		cardButton.onClick.AddListener(() => {
+			SelectCard(this);
+		});
 	}
 
 	public void SelectCard(CardView clickedCardView)
@@ -74,7 +88,7 @@ public class CardView : MonoBehaviour
 		else
 		{
 			// Display options for the clicked card and hide options for all others
-			foreach (CardView cardView in ActiveCardsController.ActiveDeck.Select(card => card.CardView))
+			foreach (CardView cardView in EquipmentTab.Cards.Select(card => card.CardView))
 			{
 				if (cardView == clickedCardView)
 				{
@@ -89,20 +103,13 @@ public class CardView : MonoBehaviour
 		}
 	}
 
-	public void DisplayOptions()
+	private void DisplayOptions()
 	{
 		optionsMenu.gameObject.SetActive(true);
 		ShowToggleOptions();
-
-		topActionButton.onClick.AddListener(() => {
-			DoAction(topOption);
-		});
-		bottomActionButton.onClick.AddListener(() => {
-			DoAction(botOption);
-		});
 	}
 
-	public void HideOptions()
+	private void HideOptions()
 	{
 		optionsMenu.gameObject.SetActive(false);
 	}
@@ -134,13 +141,11 @@ public class CardView : MonoBehaviour
 		// If is in Active deck and is ready to upgrade
 		if (CardReference.IsReadyToUpgrade == true && ActiveCardsController.ActiveDeck.Contains(CardReference))
 		{
-			topOption = Options.Info;
-			botOption = Options.Upgrade;
+			topOption = Options.Upgrade;
+			botOption = Options.Remove;
 
 			topActionButton.GetComponentInChildren<TextMeshProUGUI>().text = topOption.ToString();
 			bottomActionButton.GetComponentInChildren<TextMeshProUGUI>().text = botOption.ToString();
-			
-
 		}
 		// If is in Active deck and is not ready to upgrade
 		else if (CardReference.IsReadyToUpgrade == false && ActiveCardsController.ActiveDeck.Contains(CardReference))

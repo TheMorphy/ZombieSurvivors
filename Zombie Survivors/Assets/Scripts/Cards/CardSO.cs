@@ -7,7 +7,8 @@ public enum CardType
 	Gloves,
 	Helmet,
 	Armor,
-	Boots
+	Boots,
+	Ammo
 }
 
 public enum CardRarity
@@ -34,17 +35,36 @@ public class CardSO : ScriptableObject
 	public Sprite CardSprite { get { return cardSprite; } }
 
 	[Tooltip("Used for setting a gradually increasing value with each level. Time = level, Value = upgrade value")]
-	[SerializeField] private AnimationCurve scallingConfiguration;
-	public AnimationCurve ScallingConfiguration { get { return scallingConfiguration; } }
+	[SerializeField]
+	private SerializableAnimationCurve scalingConfigurationCurve = new SerializableAnimationCurve();
+
+	public AnimationCurve ScallingConfiguration
+	{
+		get { return scalingConfigurationCurve.curve; }
+		set { scalingConfigurationCurve.curve = value; }
+	}
 
 	[Space]
-	[SerializeField] WeaponStats upgradeStat;
-	public WeaponStats UpgradeStat { get { return upgradeStat; } }
+	[SerializeField] PlayerStats playerStats;
+	public PlayerStats PlayerStat { get { return playerStats; } }
 
+	[SerializeField] WeaponStats weaponStats;
+	public WeaponStats WeaponStat { get { return weaponStats; } }
+
+	[SerializeField] AmmoStats ammoStats;
+	public AmmoStats AmmoStat { get { return ammoStats; } }
+
+	[Space]
 	[SerializeField] UpgradeAction upgradeAction;
 	public UpgradeAction UpgradeAction { get { return upgradeAction; } }
 
 	[HideInInspector] public string CardCode => CardName + "_" + CardRarity.ToString();
+}
+
+[Serializable]
+public class SerializableAnimationCurve
+{
+	public AnimationCurve curve;
 }
 
 #region For Serializing To File
@@ -59,15 +79,57 @@ public class CardDTO
 	public int CurrentCardLevel;
 	public int CardsRequiredToNextLevel;
 	public int Ammount;
-	public float UpgradeValue;
-	public WeaponStats UpgradeStat;
+	public AnimationCurve ScallingConfiguration;
+	public WeaponStats WeaponStat;
+	public PlayerStats PlayerStat;
+	public AmmoStats AmmoStat;
 	public UpgradeAction UpgradeAction;
 	public string CardCode;
 
-	public void UpgradeCard()
+	public void LevelUpCard()
 	{
-		Ammount -= CardsRequiredToNextLevel;
-		CurrentCardLevel++;
+		if (Ammount >= CardsRequiredToNextLevel)
+		{
+			Ammount -= CardsRequiredToNextLevel;
+			CardsRequiredToNextLevel *= 2;
+			CurrentCardLevel++;
+		}
+	}
+
+	public void Upgrade<T>(ref T stat, UpgradeAction action)
+	{
+		if (typeof(T) == typeof(int))
+		{
+			int intValue = (int)(object)stat;
+			switch (action)
+			{
+				case UpgradeAction.Add:
+					intValue = Mathf.FloorToInt(intValue + ScallingConfiguration.Evaluate(CurrentCardLevel));
+					break;
+				case UpgradeAction.Multiply:
+					intValue = Mathf.FloorToInt(intValue * ScallingConfiguration.Evaluate(CurrentCardLevel));
+					break;
+			}
+			stat = (T)(object)intValue;
+		}
+		else if (typeof(T) == typeof(float))
+		{
+			float floatValue = (float)(object)stat;
+			switch (action)
+			{
+				case UpgradeAction.Add:
+					floatValue += ScallingConfiguration.Evaluate(CurrentCardLevel);
+					break;
+				case UpgradeAction.Multiply:
+					floatValue *= ScallingConfiguration.Evaluate(CurrentCardLevel);
+					break;
+			}
+			stat = (T)(object)floatValue;
+		}
+		else
+		{
+			throw new NotSupportedException("Type " + typeof(T).Name + " is not supported.");
+		}
 	}
 }
 #endregion

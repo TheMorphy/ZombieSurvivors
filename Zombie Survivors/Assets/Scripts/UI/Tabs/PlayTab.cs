@@ -19,22 +19,7 @@ public class PlayTab : Tab
 	{
 		List<AirdropDTO> collectedAirdrops = SaveManager.ReadFromJSON<AirdropDTO>(Settings.AIRDROPS);
 
-		if(collectedAirdrops.Count > 0)
-		{
-			foreach (var item in collectedAirdrops)
-			{
-				slotsController.InitializeSlot(item);
-			}
-	
-		}
-
-		slotsController.GetSlots().ForEach((slot) =>
-		{
-			if (slot.IsEmpty)
-			{
-				slot.SetEmpty();
-			}
-		});
+		slotsController.InitializeSlots(collectedAirdrops);
 	}
 
 	public void StartGame()

@@ -22,7 +22,7 @@ public class SkipWaitingTab : Tab, IPointerClickHandler
 
 	public override void Initialize(object[] args)
 	{
-		adsInitializer.InitializeAd();
+		
 	}
 
 	private void OnEnable()

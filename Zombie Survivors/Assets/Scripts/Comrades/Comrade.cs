@@ -45,7 +45,6 @@ public class Comrade : MonoBehaviour
 		SetActiveWeaponEvent.CallSetActiveWeaponEvent(Player.playerWeapon);
 
 		Health.SetStartingHealth(Player.playerDetails.Health);
-
 	}
 
 	private void OnEnable()

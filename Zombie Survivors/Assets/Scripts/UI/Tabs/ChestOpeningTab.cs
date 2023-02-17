@@ -150,13 +150,15 @@ public class ChestOpeningTab : Tab
 				ID = newIndex + 1,
 				UpgradeAction = cardToAdd.UpgradeAction,
 				CardSprite = cardToAdd.CardSprite,
-				UpgradeStat = cardToAdd.UpgradeStat,
+				WeaponStat = cardToAdd.WeaponStat,
+				AmmoStat = cardToAdd.AmmoStat,
+				PlayerStat = cardToAdd.PlayerStat,
 				CardCode = cardToAdd.CardCode,
 				CardName = cardToAdd.CardName,
 				CardRarity = cardToAdd.CardRarity,
 				CardType = cardToAdd.CardType,
 
-				UpgradeValue = cardToAdd.ScallingConfiguration.keys.First().value,
+				ScallingConfiguration = cardToAdd.ScallingConfiguration,
 				CurrentCardLevel = 1,
 				CardsRequiredToNextLevel = 2,
 				Ammount = 1

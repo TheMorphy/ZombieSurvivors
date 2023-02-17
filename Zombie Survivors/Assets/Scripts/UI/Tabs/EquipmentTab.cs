@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +7,7 @@ public class EquipmentTab : Tab
 	[SerializeField] private ActiveCardsController activeCardsController;
 	[SerializeField] private InventoryController inventoryController;
 
-	[SerializeField] private List<CardDTO> allCards;
-	[SerializeField] private List<CardDTO> activeDeck;
+	[HideInInspector] public static List<Card> Cards = new List<Card>();
 
 	public override void Initialize(object[] args)
 	{
@@ -17,32 +17,11 @@ public class EquipmentTab : Tab
 	private void InitializeSlots()
 	{
 		var allCards = SaveManager.ReadFromJSON<CardDTO>(Settings.ALL_CARDS);
-		var savedActiveDeck = SaveManager.ReadFromJSON<CardDTO>(Settings.ACTIVE_CARDS);
+		var activeDeck = SaveManager.ReadFromJSON<CardDTO>(Settings.ACTIVE_CARDS);
 		var inventoryCards = Utilities.GetUniqueItems(allCards, activeDeck);
 
-		if (inventoryCards.Count > 0)
-		{
-			foreach (var card in inventoryCards)
-			{
-				inventoryController.InitializeSlot(card);
-			}
-		}
-
-		if (savedActiveDeck.Count > 0)
-		{
-			foreach (var card in savedActiveDeck)
-			{
-				activeCardsController.InitializeSlot(card);
-			}
-		}
-
-		if(savedActiveDeck.Count == 0)
-		{
-			for (int i = 0; i < activeCardsController.GetSlots().Count; i++)
-			{
-				activeCardsController.GetSlots()[i].SetEmpty();
-			}
-		}
+		activeCardsController.InitializeSlots(activeDeck);
+		inventoryController.InitializeSlots(inventoryCards);
 	}
 
 	public InventoryController GetInventory()
@@ -68,6 +47,14 @@ public class EquipmentTab : Tab
 		else
 		{
 			SaveManager.SaveToJSON(ActiveCardsController.ActiveDeck, Settings.ACTIVE_CARDS);
+		}
+	}
+
+	public static void Add(Card card)
+	{
+		if (!Cards.Contains(card))
+		{
+			Cards.Add(card);
 		}
 	}
 }

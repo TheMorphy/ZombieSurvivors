@@ -12,7 +12,7 @@ public class SquadControl : MonoBehaviour
 	[Range(0f, 1f)]
 	[SerializeField] private float DistanceFactor, Radius;
 
-	[SerializeField] private int squadAmmount;
+	[SerializeField] private int squadAmmount = 0;
 
 	public event Action<SquadControl, SquadControlEventArgs> OnSquadAmmountChanged;
 
@@ -40,6 +40,11 @@ public class SquadControl : MonoBehaviour
 			UpdateColliderSize();
 			timer = 0;
 		}
+	}
+
+	public void CreateFirstComrade()
+	{
+		Instantiate(comradePrefab, transform.position, Quaternion.identity, transform);
 	}
 
 	public static Bounds GetChildrenBounds(Transform transform)
