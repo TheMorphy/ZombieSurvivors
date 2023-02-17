@@ -18,20 +18,23 @@ public class AirdropRewardsTab : Tab
 
 	public override void Initialize(object[] args)
 	{
-		AirdropDTO airdropDetailsDTO = (AirdropDTO)args[0];
-		List<CardDTO> cardsDTOs = (List<CardDTO>)args[1];
-
-		openedAirdropImage.sprite = airdropDetailsDTO.AirdropSprite;
-
-		SaveManager.SaveToJSON<CardDTO>(cardsDTOs, Settings.ALL_CARDS);
-		SaveManager.DeleteFromJSON<AirdropDTO>(airdropDetailsDTO.ID, Settings.AIRDROPS);
-
-
-		for (int i = 0; i < cardsDTOs.Count; i++)
+		if(args != null)
 		{
-			RewardCard rewardCard = Instantiate(rewardCardReference, rewardsGrid.transform).GetComponent<RewardCard>();
-			rewardCard.gameObject.SetActive(true);
-			rewardCard.DisplayRewardCard(cardsDTOs[i]);
+			AirdropDTO airdropDetailsDTO = (AirdropDTO)args[0];
+			List<CardDTO> cardsDTOs = (List<CardDTO>)args[1];
+
+			openedAirdropImage.sprite = airdropDetailsDTO.AirdropSprite;
+
+			SaveManager.SaveToJSON<CardDTO>(cardsDTOs, Settings.ALL_CARDS);
+			SaveManager.DeleteFromJSON<AirdropDTO>(airdropDetailsDTO.ID, Settings.AIRDROPS);
+
+
+			for (int i = 0; i < cardsDTOs.Count; i++)
+			{
+				RewardCard rewardCard = Instantiate(rewardCardReference, rewardsGrid.transform).GetComponent<RewardCard>();
+				rewardCard.gameObject.SetActive(true);
+				rewardCard.DisplayRewardCard(cardsDTOs[i]);
+			}
 		}
 	}
 }

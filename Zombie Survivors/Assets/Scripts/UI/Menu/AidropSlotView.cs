@@ -53,15 +53,15 @@ public class AidropSlotView : MonoBehaviour
 	public void InitialiseViewUIForLockedChest()
 	{
 		unlockTimeText.gameObject.SetActive(false);
-		airdropSlotSprite.sprite = AirdropSlot.AirdropDetailsDTO.AirdropSprite;
+		airdropSlotSprite.sprite = AirdropSlot.Details.AirdropSprite;
 		airdropTypeTxt.gameObject.SetActive(true);
-		airdropTypeTxt.text = AirdropSlot.AirdropDetailsDTO.AirdropType.ToString();
+		airdropTypeTxt.text = AirdropSlot.Details.AirdropType.ToString();
 		coinImage.gameObject.SetActive(true);
 		coinsTxt.gameObject.SetActive(true);
-		coinsTxt.text = AirdropSlot.AirdropDetailsDTO.UnlockCost.ToString();
+		coinsTxt.text = AirdropSlot.Details.UnlockCost.ToString();
 		gemImage.gameObject.SetActive(true);
 		gemsTxt.gameObject.SetActive(true);
-		gemsTxt.text = AirdropSlot.AirdropDetailsDTO.UnlockCost.ToString();
+		gemsTxt.text = AirdropSlot.Details.UnlockCost.ToString();
 		ChestButton.enabled = true;
 		currentState = ChestState.Locked;
 	}
@@ -69,9 +69,9 @@ public class AidropSlotView : MonoBehaviour
 	public void InitialiseViewUIForUnlockingChest()
 	{
 		unlockTimeText.gameObject.SetActive(true);
-		airdropSlotSprite.sprite = AirdropSlot.AirdropDetailsDTO.AirdropSprite;
+		airdropSlotSprite.sprite = AirdropSlot.Details.AirdropSprite;
 		airdropTypeTxt.gameObject.SetActive(true);
-		airdropTypeTxt.text = AirdropSlot.AirdropDetailsDTO.AirdropType.ToString();
+		airdropTypeTxt.text = AirdropSlot.Details.AirdropType.ToString();
 		coinImage.gameObject.SetActive(false);
 		coinsTxt.gameObject.SetActive(false);
 		gemImage.gameObject.SetActive(false);
@@ -84,9 +84,9 @@ public class AidropSlotView : MonoBehaviour
 	{
 		unlockTimeText.gameObject.SetActive(true);
 		unlockTimeText.text = "OPEN!";
-		airdropSlotSprite.sprite = AirdropSlot.AirdropDetailsDTO.AirdropSprite;
+		airdropSlotSprite.sprite = AirdropSlot.Details.AirdropSprite;
 		airdropTypeTxt.gameObject.SetActive(true);
-		airdropTypeTxt.text = AirdropSlot.AirdropDetailsDTO.AirdropType.ToString();
+		airdropTypeTxt.text = AirdropSlot.Details.AirdropType.ToString();
 		coinImage.gameObject.SetActive(false);
 		coinsTxt.gameObject.SetActive(false);
 		gemImage.gameObject.SetActive(false);

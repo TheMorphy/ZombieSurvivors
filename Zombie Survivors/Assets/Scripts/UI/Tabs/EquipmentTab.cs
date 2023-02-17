@@ -62,7 +62,7 @@ public class EquipmentTab : Tab
 		{
 			foreach (var activeCard in ActiveCardsController.ActiveDeck)
 			{
-				SaveManager.DeleteFromJSON<CardDTO>(activeCard.CardDetails.ID, Settings.ACTIVE_CARDS);
+				SaveManager.DeleteFromJSON<CardDTO>(activeCard.Details.ID, Settings.ACTIVE_CARDS);
 			}
 		}
 		else

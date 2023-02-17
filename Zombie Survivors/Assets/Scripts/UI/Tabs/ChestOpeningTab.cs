@@ -26,19 +26,23 @@ public class ChestOpeningTab : Tab
 
 	public override void Initialize(object[] args)
 	{
-		airdropBtn.onClick.AddListener(() =>
+		if(args != null)
 		{
+			slotReference = (Slot<AirdropDTO>)args[0];
+
+			airdropBtn.onClick.AddListener(() =>
+			{
+				OpenChest();
+			});
+
+			airdropDetailsDTO = slotReference.Details;
+
+			AddCards();
+			cardImage.gameObject.SetActive(true);
+			airdropImage.sprite = airdropDetailsDTO.AirdropSprite;
+
 			OpenChest();
-		});
-
-		slotReference = (Slot<AirdropDTO>)args[0];
-		airdropDetailsDTO = slotReference.Details;
-
-		AddCards();
-		cardImage.gameObject.SetActive(true);
-		airdropImage.sprite = airdropDetailsDTO.AirdropSprite;
-
-		OpenChest();
+		}
 	}
 
 	public void OpenChest()

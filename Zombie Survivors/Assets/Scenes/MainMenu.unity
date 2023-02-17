@@ -425,13 +425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5fba87bb04c2e4eab9d726ecd2331f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotView: {fileID: 38738498}
-  TrackableReference:
-    ID: 0
-    RemainingSeconds: 0
-    TimerText: 
-    monoBehaviour: {fileID: 0}
-  AirdropDetailsDTO:
+  Details:
     ID: 0
     AirdropType: 0
     AirdropSprite: {fileID: 0}
@@ -445,8 +439,14 @@ MonoBehaviour:
     UnlockCost: 0
     RemoveTime: 0
   IsEmpty: 1
-  TimerStarted: 0
   SlotID: 0
+  slotView: {fileID: 38738498}
+  TrackableReference:
+    ID: 0
+    RemainingSeconds: 0
+    TimerText: 
+    monoBehaviour: {fileID: 0}
+  TimerStarted: 0
 --- !u!114 &38738498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -459,7 +459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4aab04f3e1c8aa439ddb04725db47ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SlotReference: {fileID: 0}
+  AirdropSlot: {fileID: 0}
   EmptySlotSprite: {fileID: 21300000, guid: 8ffa05afb387c564eb009a485adad76b, type: 3}
   unlockTimeText: {fileID: 1299368984}
   airdropSlotSprite: {fileID: 38738499}
@@ -4982,13 +4982,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5fba87bb04c2e4eab9d726ecd2331f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotView: {fileID: 319803106}
-  TrackableReference:
-    ID: 0
-    RemainingSeconds: 0
-    TimerText: 
-    monoBehaviour: {fileID: 0}
-  AirdropDetailsDTO:
+  Details:
     ID: 0
     AirdropType: 0
     AirdropSprite: {fileID: 0}
@@ -5002,8 +4996,14 @@ MonoBehaviour:
     UnlockCost: 0
     RemoveTime: 0
   IsEmpty: 1
-  TimerStarted: 0
   SlotID: 0
+  slotView: {fileID: 319803106}
+  TrackableReference:
+    ID: 0
+    RemainingSeconds: 0
+    TimerText: 
+    monoBehaviour: {fileID: 0}
+  TimerStarted: 0
 --- !u!114 &319803106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5016,7 +5016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4aab04f3e1c8aa439ddb04725db47ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SlotReference: {fileID: 0}
+  AirdropSlot: {fileID: 0}
   EmptySlotSprite: {fileID: 21300000, guid: 8ffa05afb387c564eb009a485adad76b, type: 3}
   unlockTimeText: {fileID: 122786181}
   airdropSlotSprite: {fileID: 319803107}
@@ -5360,10 +5360,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a261f209027f1a045831a203472ae8df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slots:
+  - {fileID: 411152464}
+  - {fileID: 1474706849}
+  - {fileID: 584850616}
+  - {fileID: 842357436}
+  - {fileID: 1171174312}
+  - {fileID: 1877245769}
+  - {fileID: 989818411}
+  - {fileID: 537477902}
+  - {fileID: 2050350401}
+  - {fileID: 933270067}
   sortByRarityBtn: {fileID: 521436574}
   cardReference: {fileID: 3029056897755982625, guid: 6ba3fcd3784422840bbfa4d092478fa8, type: 3}
   inventorySize: 10
-  Inventory: []
 --- !u!1 &353205905
 GameObject:
   m_ObjectHideFlags: 0
@@ -6787,11 +6797,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 411152463}
-  IsEmpty: 1
-  IsReadyToUpgrade: 0
-  CardIndex: 0
-  CardDetails:
+  Details:
     ID: 0
     CardType: 0
     CardRarity: 0
@@ -6804,6 +6810,11 @@ MonoBehaviour:
     UpgradeStat: 0
     UpgradeAction: 0
     CardCode: 
+  IsEmpty: 1
+  SlotID: 0
+  CardView: {fileID: 411152463}
+  IsReadyToUpgrade: 0
+  CardIndex: 0
 --- !u!114 &411152465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7369,11 +7380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 434507820}
-  IsEmpty: 1
-  IsReadyToUpgrade: 0
-  CardIndex: 0
-  CardDetails:
+  Details:
     ID: 0
     CardType: 0
     CardRarity: 0
@@ -7386,6 +7393,11 @@ MonoBehaviour:
     UpgradeStat: 0
     UpgradeAction: 0
     CardCode: 
+  IsEmpty: 1
+  SlotID: 0
+  CardView: {fileID: 434507820}
+  IsReadyToUpgrade: 0
+  CardIndex: 0
 --- !u!114 &434507822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8048,11 +8060,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 526401243}
-  IsEmpty: 1
-  IsReadyToUpgrade: 0
-  CardIndex: 0
-  CardDetails:
+  Details:
     ID: 0
     CardType: 0
     CardRarity: 0
@@ -8065,6 +8073,11 @@ MonoBehaviour:
     UpgradeStat: 0
     UpgradeAction: 0
     CardCode: 
+  IsEmpty: 1
+  SlotID: 0
+  CardView: {fileID: 526401243}
+  IsReadyToUpgrade: 0
+  CardIndex: 0
 --- !u!1 &537477899
 GameObject:
   m_ObjectHideFlags: 0
@@ -8145,11 +8158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 537477901}
-  IsEmpty: 1
-  IsReadyToUpgrade: 0
-  CardIndex: 0
-  CardDetails:
+  Details:
     ID: 0
     CardType: 0
     CardRarity: 0
@@ -8162,6 +8171,11 @@ MonoBehaviour:
     UpgradeStat: 0
     UpgradeAction: 0
     CardCode: 
+  IsEmpty: 1
+  SlotID: 0
+  CardView: {fileID: 537477901}
+  IsReadyToUpgrade: 0
+  CardIndex: 0
 --- !u!114 &537477903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9019,11 +9033,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 584850615}
-  IsEmpty: 1
-  IsReadyToUpgrade: 0
-  CardIndex: 0
-  CardDetails:
+  Details:
     ID: 0
     CardType: 0
     CardRarity: 0
@@ -9036,6 +9046,11 @@ MonoBehaviour:
     UpgradeStat: 0
     UpgradeAction: 0
     CardCode: 
+  IsEmpty: 1
+  SlotID: 0
+  CardView: {fileID: 584850615}
+  IsReadyToUpgrade: 0
+  CardIndex: 0
 --- !u!114 &584850617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12337,11 +12352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 842357435}
-  IsEmpty: 1
-  IsReadyToUpgrade: 0
-  CardIndex: 0
-  CardDetails:
+  Details:
     ID: 0
     CardType: 0
     CardRarity: 0
@@ -12354,6 +12365,11 @@ MonoBehaviour:
     UpgradeStat: 0
     UpgradeAction: 0
     CardCode: 
+  IsEmpty: 1
+  SlotID: 0
+  CardView: {fileID: 842357435}
+  IsReadyToUpgrade: 0
+  CardIndex: 0
 --- !u!114 &842357437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12818,11 +12834,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 858260178}
-  IsEmpty: 1
-  IsReadyToUpgrade: 0
-  CardIndex: 0
-  CardDetails:
+  Details:
     ID: 0
     CardType: 0
     CardRarity: 0
@@ -12835,6 +12847,11 @@ MonoBehaviour:
     UpgradeStat: 0
     UpgradeAction: 0
     CardCode: 
+  IsEmpty: 1
+  SlotID: 0
+  CardView: {fileID: 858260178}
+  IsReadyToUpgrade: 0
+  CardIndex: 0
 --- !u!114 &858260180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13557,11 +13574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 933270066}
-  IsEmpty: 1
-  IsReadyToUpgrade: 0
-  CardIndex: 0
-  CardDetails:
+  Details:
     ID: 0
     CardType: 0
     CardRarity: 0
@@ -13574,6 +13587,11 @@ MonoBehaviour:
     UpgradeStat: 0
     UpgradeAction: 0
     CardCode: 
+  IsEmpty: 1
+  SlotID: 0
+  CardView: {fileID: 933270066}
+  IsReadyToUpgrade: 0
+  CardIndex: 0
 --- !u!114 &933270068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14881,11 +14899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 989818410}
-  IsEmpty: 1
-  IsReadyToUpgrade: 0
-  CardIndex: 0
-  CardDetails:
+  Details:
     ID: 0
     CardType: 0
     CardRarity: 0
@@ -14898,6 +14912,11 @@ MonoBehaviour:
     UpgradeStat: 0
     UpgradeAction: 0
     CardCode: 
+  IsEmpty: 1
+  SlotID: 0
+  CardView: {fileID: 989818410}
+  IsReadyToUpgrade: 0
+  CardIndex: 0
 --- !u!114 &989818412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17245,11 +17264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 1171174311}
-  IsEmpty: 1
-  IsReadyToUpgrade: 0
-  CardIndex: 0
-  CardDetails:
+  Details:
     ID: 0
     CardType: 0
     CardRarity: 0
@@ -17262,6 +17277,11 @@ MonoBehaviour:
     UpgradeStat: 0
     UpgradeAction: 0
     CardCode: 
+  IsEmpty: 1
+  SlotID: 0
+  CardView: {fileID: 1171174311}
+  IsReadyToUpgrade: 0
+  CardIndex: 0
 --- !u!114 &1171174313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17591,12 +17611,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1195659754}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -862.9705, y: -1451.1057, z: -1409.0253}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2126999626}
-  m_RootOrder: 2
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1206846078
 GameObject:
@@ -22069,11 +22089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 1474706848}
-  IsEmpty: 1
-  IsReadyToUpgrade: 0
-  CardIndex: 0
-  CardDetails:
+  Details:
     ID: 0
     CardType: 0
     CardRarity: 0
@@ -22086,6 +22102,11 @@ MonoBehaviour:
     UpgradeStat: 0
     UpgradeAction: 0
     CardCode: 
+  IsEmpty: 1
+  SlotID: 0
+  CardView: {fileID: 1474706848}
+  IsReadyToUpgrade: 0
+  CardIndex: 0
 --- !u!114 &1474706850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22287,11 +22308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 1485012333}
-  IsEmpty: 1
-  IsReadyToUpgrade: 0
-  CardIndex: 0
-  CardDetails:
+  Details:
     ID: 0
     CardType: 0
     CardRarity: 0
@@ -22304,6 +22321,11 @@ MonoBehaviour:
     UpgradeStat: 0
     UpgradeAction: 0
     CardCode: 
+  IsEmpty: 1
+  SlotID: 0
+  CardView: {fileID: 1485012333}
+  IsReadyToUpgrade: 0
+  CardIndex: 0
 --- !u!114 &1485012335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25571,13 +25593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5fba87bb04c2e4eab9d726ecd2331f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotView: {fileID: 1731335800}
-  TrackableReference:
-    ID: 0
-    RemainingSeconds: 0
-    TimerText: 
-    monoBehaviour: {fileID: 0}
-  AirdropDetailsDTO:
+  Details:
     ID: 0
     AirdropType: 0
     AirdropSprite: {fileID: 0}
@@ -25591,8 +25607,14 @@ MonoBehaviour:
     UnlockCost: 0
     RemoveTime: 0
   IsEmpty: 1
-  TimerStarted: 0
   SlotID: 0
+  slotView: {fileID: 1731335800}
+  TrackableReference:
+    ID: 0
+    RemainingSeconds: 0
+    TimerText: 
+    monoBehaviour: {fileID: 0}
+  TimerStarted: 0
 --- !u!114 &1731335800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25605,7 +25627,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4aab04f3e1c8aa439ddb04725db47ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SlotReference: {fileID: 0}
+  AirdropSlot: {fileID: 0}
   EmptySlotSprite: {fileID: 21300000, guid: 8ffa05afb387c564eb009a485adad76b, type: 3}
   unlockTimeText: {fileID: 265663752}
   airdropSlotSprite: {fileID: 1731335801}
@@ -26396,11 +26418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 1783886110}
-  IsEmpty: 1
-  IsReadyToUpgrade: 0
-  CardIndex: 0
-  CardDetails:
+  Details:
     ID: 0
     CardType: 0
     CardRarity: 0
@@ -26413,6 +26431,11 @@ MonoBehaviour:
     UpgradeStat: 0
     UpgradeAction: 0
     CardCode: 
+  IsEmpty: 1
+  SlotID: 0
+  CardView: {fileID: 1783886110}
+  IsReadyToUpgrade: 0
+  CardIndex: 0
 --- !u!114 &1783886112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26645,13 +26668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5fba87bb04c2e4eab9d726ecd2331f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotView: {fileID: 1802344716}
-  TrackableReference:
-    ID: 0
-    RemainingSeconds: 0
-    TimerText: 
-    monoBehaviour: {fileID: 0}
-  AirdropDetailsDTO:
+  Details:
     ID: 0
     AirdropType: 0
     AirdropSprite: {fileID: 0}
@@ -26665,8 +26682,14 @@ MonoBehaviour:
     UnlockCost: 0
     RemoveTime: 0
   IsEmpty: 1
-  TimerStarted: 0
   SlotID: 0
+  slotView: {fileID: 1802344716}
+  TrackableReference:
+    ID: 0
+    RemainingSeconds: 0
+    TimerText: 
+    monoBehaviour: {fileID: 0}
+  TimerStarted: 0
 --- !u!114 &1802344716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26679,7 +26702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4aab04f3e1c8aa439ddb04725db47ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SlotReference: {fileID: 0}
+  AirdropSlot: {fileID: 0}
   EmptySlotSprite: {fileID: 21300000, guid: 8ffa05afb387c564eb009a485adad76b, type: 3}
   unlockTimeText: {fileID: 54376167}
   airdropSlotSprite: {fileID: 1802344717}
@@ -28143,11 +28166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 1877245768}
-  IsEmpty: 1
-  IsReadyToUpgrade: 0
-  CardIndex: 0
-  CardDetails:
+  Details:
     ID: 0
     CardType: 0
     CardRarity: 0
@@ -28160,6 +28179,11 @@ MonoBehaviour:
     UpgradeStat: 0
     UpgradeAction: 0
     CardCode: 
+  IsEmpty: 1
+  SlotID: 0
+  CardView: {fileID: 1877245768}
+  IsReadyToUpgrade: 0
+  CardIndex: 0
 --- !u!114 &1877245770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30417,11 +30441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 2050350400}
-  IsEmpty: 1
-  IsReadyToUpgrade: 0
-  CardIndex: 0
-  CardDetails:
+  Details:
     ID: 0
     CardType: 0
     CardRarity: 0
@@ -30434,6 +30454,11 @@ MonoBehaviour:
     UpgradeStat: 0
     UpgradeAction: 0
     CardCode: 
+  IsEmpty: 1
+  SlotID: 0
+  CardView: {fileID: 2050350400}
+  IsReadyToUpgrade: 0
+  CardIndex: 0
 --- !u!114 &2050350402
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30925,7 +30950,6 @@ Transform:
   m_Children:
   - {fileID: 2141219702}
   - {fileID: 1389173829}
-  - {fileID: 1195659756}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -31445,7 +31469,8 @@ MonoBehaviour:
   startingTab: {fileID: 1121030978}
   tabs:
   - {fileID: 1121030978}
-  - {fileID: 563529035}
+  - {fileID: 1238700339}
   - {fileID: 1738560687}
+  - {fileID: 563529035}
   - {fileID: 1857224599}
   - {fileID: 1828617584}

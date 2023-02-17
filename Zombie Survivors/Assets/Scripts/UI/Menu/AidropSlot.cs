@@ -5,7 +5,6 @@ public class AidropSlot : Slot<AirdropDTO>
 {
 	[SerializeField] private AidropSlotView slotView;
 	[HideInInspector] public Trackable TrackableReference;
-	[HideInInspector] public AirdropDTO AirdropDetailsDTO;
 
 	public bool TimerStarted;
 
@@ -29,7 +28,7 @@ public class AidropSlot : Slot<AirdropDTO>
 		slotView.AirdropSlot = this;
 		SlotID = slotIndex;
 
-		AirdropDetailsDTO = airdropDetailsDTO;
+		Details = airdropDetailsDTO;
 		IsEmpty = false;
 
 		TrackableReference = TimeTracker.Instance.GetTrackable(SlotID);
@@ -54,7 +53,7 @@ public class AidropSlot : Slot<AirdropDTO>
 	public void StartTracking()
 	{
 		TimerStarted = true;
-		TrackableReference = TimeTracker.Instance.SetNewStrackable(SlotID, AirdropDetailsDTO.UnlockDuration);
+		TrackableReference = TimeTracker.Instance.SetNewStrackable(SlotID, Details.UnlockDuration);
 		slotView.InitialiseViewUIForUnlockingChest();
 	}
 
@@ -74,7 +73,7 @@ public class AidropSlot : Slot<AirdropDTO>
 		IsEmpty = true;
 		TimerStarted = false;
 		TrackableReference = null;
-		AirdropDetailsDTO = null;
+		Details = null;
 		slotView.InitializeEmptyChestView();
 	}
 }

@@ -56,11 +56,11 @@ public class CardView : MonoBehaviour
 	{
 		cardButton.enabled = true;
 		cardLevelBar.transform.parent.gameObject.SetActive(true);
-		cardType.text = CardReference.CardDetails.CardType.ToString();
-		cardLevel.text = CardReference.CardDetails.CurrentCardLevel.ToString();
-		cardRemainingLevel.text = CardReference.CardDetails.Ammount.ToString() + " / " + CardReference.CardDetails.CardsRequiredToNextLevel.ToString();
-		cardSlotImage.sprite = CardReference.CardDetails.CardSprite;
-		cardLevelBar.fillAmount = (float)CardReference.CardDetails.Ammount / CardReference.CardDetails.CardsRequiredToNextLevel;
+		cardType.text = CardReference.Details.CardType.ToString();
+		cardLevel.text = CardReference.Details.CurrentCardLevel.ToString();
+		cardRemainingLevel.text = CardReference.Details.Ammount.ToString() + " / " + CardReference.Details.CardsRequiredToNextLevel.ToString();
+		cardSlotImage.sprite = CardReference.Details.CardSprite;
+		cardLevelBar.fillAmount = (float)CardReference.Details.Ammount / CardReference.Details.CardsRequiredToNextLevel;
 	}
 
 	public void SelectCard(CardView clickedCardView)
