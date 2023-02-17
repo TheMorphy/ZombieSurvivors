@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
 
 	[Space]
 	[Header("Readonly! (initialized during runtime)")]
-	public List<ActiveUpgrades> ActiveUpgrades;
+	public List<CardDTO> ActiveUpgrades;
 
 	private void Awake()
 	{
@@ -99,7 +99,7 @@ public class Player : MonoBehaviour
 	{
 		this.playerDetails = Instantiate(playerDetails);
 
-		ActiveUpgrades = SaveManager.ReadFromJSON<ActiveUpgrades>(Settings.ACTIVE_UPGRADES);
+		ActiveUpgrades = SaveManager.ReadFromJSON<CardDTO>(Settings.ACTIVE_CARDS);
 
 		this.playerDetails.ActiveUpgrades = ActiveUpgrades;
 

@@ -1,16 +1,13 @@
 using UnityEngine;
 
-[RequireComponent(typeof(SlotView))]
-[System.Serializable]
-public class Slot : MonoBehaviour
+[RequireComponent(typeof(AidropSlotView))]
+public class AidropSlot : Slot<AirdropDTO>
 {
-	[SerializeField] private SlotView slotView;
+	[SerializeField] private AidropSlotView slotView;
 	[HideInInspector] public Trackable TrackableReference;
 	[HideInInspector] public AirdropDTO AirdropDetailsDTO;
 
-	public bool IsEmpty = true;
-	public bool TimerStarted = false;
-	public int SlotID;
+	public bool TimerStarted;
 
 	private void Update()
 	{
@@ -27,12 +24,13 @@ public class Slot : MonoBehaviour
 		}
 	}
 
-	public void InitializeAirdropSlot(AirdropDTO airdropDetailsDTO, int slotIndex)
+	public override void Initialize(AirdropDTO airdropDetailsDTO, int slotIndex)
 	{
-		slotView.SlotReference = this;
+		slotView.AirdropSlot = this;
+		SlotID = slotIndex;
+
 		AirdropDetailsDTO = airdropDetailsDTO;
 		IsEmpty = false;
-		SlotID = slotIndex;
 
 		TrackableReference = TimeTracker.Instance.GetTrackable(SlotID);
 
@@ -46,6 +44,11 @@ public class Slot : MonoBehaviour
 			TimerStarted = false;
 			slotView.InitialiseViewUIForLockedChest();
 		}
+	}
+
+	public override void Open()
+	{
+		CanvasManager.Show<ChestOpeningTab>(true, new object[] { this });
 	}
 
 	public void StartTracking()
@@ -66,16 +69,10 @@ public class Slot : MonoBehaviour
 		TimerStarted = false;
 	}
 
-	public void OpenChest()
-	{
-		CanvasManager.Show<ChestOpeningTab>(true, new object[] { this });
-	}
-
-	public void SetEmptySlot()
+	public override void SetEmpty()
 	{
 		IsEmpty = true;
 		TimerStarted = false;
-		SlotID = 0;
 		TrackableReference = null;
 		AirdropDetailsDTO = null;
 		slotView.InitializeEmptyChestView();

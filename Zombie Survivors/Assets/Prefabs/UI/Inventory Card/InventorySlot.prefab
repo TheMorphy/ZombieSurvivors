@@ -519,13 +519,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f606c485dd777f479cce69b8d6aee0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardView: {fileID: 0}
-  cardSlot: 0
-  CurrentCardLevel: 0
-  CardsRequiredToNextLevel: 2
-  CardsInside: 2
+  CardView: {fileID: 3029056897755982627}
   IsEmpty: 1
   IsReadyToUpgrade: 0
+  CardDetails:
+    ID: 0
+    CardType: 0
+    CardRarity: 0
+    CardName: 
+    CardSprite: {fileID: 0}
+    CurrentCardLevel: 0
+    CardsRequiredToNextLevel: 0
+    Ammount: 0
+    UpgradeValue: 0
+    UpgradeStat: 0
+    UpgradeAction: 0
+    CardCode: 
 --- !u!114 &3029056897755982627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,6 +547,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 997540019c7184f478a4919b5494a835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CardReference: {fileID: 0}
   optionsMenu: {fileID: 3029056898753122023}
   topActionButton: {fileID: 3029056899087333574}
   bottomActionButton: {fileID: 3029056899038264607}

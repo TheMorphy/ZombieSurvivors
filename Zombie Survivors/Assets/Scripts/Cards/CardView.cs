@@ -4,6 +4,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum Options
+{
+	Upgrade,
+	Use,
+	Remove,
+	Info
+}
+
 public class CardView : MonoBehaviour
 {
 	[HideInInspector] public Card CardReference;
@@ -13,6 +21,8 @@ public class CardView : MonoBehaviour
 	[SerializeField] private GameObject optionsMenu;
 	[SerializeField] private Button topActionButton;
 	[SerializeField] private Button bottomActionButton;
+	private Options topOption = Options.Use;
+	private Options botOption = Options.Remove;
 
 	[Space(5)]
 	[Header("View Parameters")]
@@ -42,14 +52,14 @@ public class CardView : MonoBehaviour
 		cardLevelBar.transform.parent.gameObject.SetActive(false);
 	}
 
-	public void UpdateCardView(CardDTO cardDetails)
+	public void UpdateCardView()
 	{
 		cardButton.enabled = true;
 		cardLevelBar.transform.parent.gameObject.SetActive(true);
-		cardType.text = cardDetails.CardType.ToString();
+		cardType.text = CardReference.CardDetails.CardType.ToString();
 		cardLevel.text = CardReference.CardDetails.CurrentCardLevel.ToString();
 		cardRemainingLevel.text = CardReference.CardDetails.Ammount.ToString() + " / " + CardReference.CardDetails.CardsRequiredToNextLevel.ToString();
-		cardSlotImage.sprite = cardDetails.CardSprite;
+		cardSlotImage.sprite = CardReference.CardDetails.CardSprite;
 		cardLevelBar.fillAmount = (float)CardReference.CardDetails.Ammount / CardReference.CardDetails.CardsRequiredToNextLevel;
 	}
 
@@ -82,9 +92,13 @@ public class CardView : MonoBehaviour
 	public void DisplayOptions()
 	{
 		optionsMenu.gameObject.SetActive(true);
+		ShowToggleOptions();
 
 		topActionButton.onClick.AddListener(() => {
-			ToggleOptions();
+			DoAction(topOption);
+		});
+		bottomActionButton.onClick.AddListener(() => {
+			DoAction(botOption);
 		});
 	}
 
@@ -93,30 +107,67 @@ public class CardView : MonoBehaviour
 		optionsMenu.gameObject.SetActive(false);
 	}
 
+	private void DoAction(Options currentOption)
+	{
+		switch (currentOption)
+		{
+			case Options.Upgrade:
+				CardReference.Upgrade();
+				break;
+			case Options.Use:
+				CardReference.UseInActiveDeck();
+				break;
+			case Options.Remove:
+				CardReference.RemoveFromActiveDeck();
+				break;
+			case Options.Info:
+				CardReference.DisplayCardInfo();
+				break;
+		}
+	}
+
 	/// <summary>
 	/// This just basically sets options menu button text values like in Clash Royale.
 	/// </summary>
-	private void ToggleOptions()
+	private void ShowToggleOptions()
 	{
-		topActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Info";
-
-		if (CardReference.IsReadyToUpgrade == true)
+		// If is in Active deck and is ready to upgrade
+		if (CardReference.IsReadyToUpgrade == true && ActiveCardsController.ActiveDeck.Contains(CardReference))
 		{
-			bottomActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Upgrade";
-			CardReference.UpdateGearStats();
+			topOption = Options.Info;
+			botOption = Options.Upgrade;
+
+			topActionButton.GetComponentInChildren<TextMeshProUGUI>().text = topOption.ToString();
+			bottomActionButton.GetComponentInChildren<TextMeshProUGUI>().text = botOption.ToString();
+			
+
 		}
+		// If is in Active deck and is not ready to upgrade
+		else if (CardReference.IsReadyToUpgrade == false && ActiveCardsController.ActiveDeck.Contains(CardReference))
+		{
+			topOption = Options.Info;
+			botOption = Options.Remove;
+
+			topActionButton.GetComponentInChildren<TextMeshProUGUI>().text = topOption.ToString();
+			bottomActionButton.GetComponentInChildren<TextMeshProUGUI>().text = botOption.ToString();
+		}
+		// If is in Inventory deck and is ready to upgrade
+		else if(CardReference.IsReadyToUpgrade == true && ActiveCardsController.ActiveDeck.Contains(CardReference) == false)
+		{
+			topOption = Options.Use;
+			botOption = Options.Upgrade;
+
+			topActionButton.GetComponentInChildren<TextMeshProUGUI>().text = topOption.ToString();
+			bottomActionButton.GetComponentInChildren<TextMeshProUGUI>().text = botOption.ToString();
+		}
+		// If is in Inventory deck and is not ready to upgrade
 		else
 		{
-			if (ActiveCardsController.ActiveDeck.Contains(CardReference)) // If this card is part of the Active deck set
-			{
-				bottomActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Remove";
-				CardReference.RemoveFromActiveDeck();
-			}
-			else
-			{
-				bottomActionButton.transform.GetComponentInChildren<TextMeshProUGUI>().text = "Use";
-				CardReference.UseInActiveDeck();
-			}
+			topOption = Options.Info;
+			botOption = Options.Use;
+
+			topActionButton.GetComponentInChildren<TextMeshProUGUI>().text = topOption.ToString();
+			bottomActionButton.GetComponentInChildren<TextMeshProUGUI>().text = botOption.ToString();
 		}
 	}
 }

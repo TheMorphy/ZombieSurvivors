@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SkipWaitingTab : MonoBehaviour, IPointerClickHandler
+public class SkipWaitingTab : Tab, IPointerClickHandler
 {
 	[SerializeField] private AdsInitializer adsInitializer;
 
@@ -18,9 +18,9 @@ public class SkipWaitingTab : MonoBehaviour, IPointerClickHandler
 	[SerializeField] private Button watchAdButton;
 
 	private AirdropDTO airdropDetails;
-	private Slot slot;
+	private Slot<AirdropDTO> airdropSlot;
 
-	private void Start()
+	public override void Initialize(object[] args)
 	{
 		adsInitializer.InitializeAd();
 	}
@@ -40,21 +40,22 @@ public class SkipWaitingTab : MonoBehaviour, IPointerClickHandler
 		if (giveReward)
 		{
 			CanvasManager.GetTab<PlayTab>().Show();
-			TimeTracker.Instance.DecreaseTime(slot.SlotID, airdropDetails.RemoveTime);
+			TimeTracker.Instance.DecreaseTime(airdropSlot.SlotID, airdropDetails.RemoveTime);
 			Hide();
 		}
 	}
 
-	public void InitializeWindow(Slot slot)
+	public void InitializeWindow(Slot<AirdropDTO> airdropSlot)
 	{
 		Show();
 
-		this.slot = slot;
-		airdropDetails = slot.AirdropDetailsDTO;
+		this.airdropSlot = airdropSlot;
+		airdropDetails = airdropSlot.Details;
 		gemsCost.text = airdropDetails.UnlockCost.ToString();
 
-		useGemsButton.onClick.AddListener(() => {
-			slot.UnlockChest();
+		useGemsButton.onClick.AddListener(() =>
+		{
+			airdropSlot.Open();
 			Hide();
 		});
 	}
@@ -62,15 +63,5 @@ public class SkipWaitingTab : MonoBehaviour, IPointerClickHandler
 	public void OnPointerClick(PointerEventData eventData)
 	{
 		Hide();
-	}
-
-	public void Hide()
-	{
-		gameObject.SetActive(false);
-	}
-
-	public void Show()
-	{
-		gameObject.SetActive(true);
 	}
 }

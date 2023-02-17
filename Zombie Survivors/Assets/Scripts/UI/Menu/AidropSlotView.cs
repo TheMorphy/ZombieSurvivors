@@ -2,9 +2,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SlotView : MonoBehaviour
+public class AidropSlotView : MonoBehaviour
 {
-	[HideInInspector] public Slot SlotReference;
+	[HideInInspector] public AidropSlot AirdropSlot;
 
 	public Sprite EmptySlotSprite;
 	public TextMeshProUGUI unlockTimeText;
@@ -25,13 +25,13 @@ public class SlotView : MonoBehaviour
 			switch(currentState)
 			{
 				case ChestState.Locked:
-					SlotReference.StartTracking();
+					AirdropSlot.StartTracking();
 					break;
 				case ChestState.Unlocking:
-					SlotReference.SkipWaitingTime();
+					AirdropSlot.SkipWaitingTime();
 					break;
 				case ChestState.Unlocked:
-					SlotReference.OpenChest();
+					AirdropSlot.Open();
 					break;
 			}
 		});
@@ -53,15 +53,15 @@ public class SlotView : MonoBehaviour
 	public void InitialiseViewUIForLockedChest()
 	{
 		unlockTimeText.gameObject.SetActive(false);
-		airdropSlotSprite.sprite = SlotReference.AirdropDetailsDTO.AirdropSprite;
+		airdropSlotSprite.sprite = AirdropSlot.AirdropDetailsDTO.AirdropSprite;
 		airdropTypeTxt.gameObject.SetActive(true);
-		airdropTypeTxt.text = SlotReference.AirdropDetailsDTO.AirdropType.ToString();
+		airdropTypeTxt.text = AirdropSlot.AirdropDetailsDTO.AirdropType.ToString();
 		coinImage.gameObject.SetActive(true);
 		coinsTxt.gameObject.SetActive(true);
-		coinsTxt.text = SlotReference.AirdropDetailsDTO.UnlockCost.ToString();
+		coinsTxt.text = AirdropSlot.AirdropDetailsDTO.UnlockCost.ToString();
 		gemImage.gameObject.SetActive(true);
 		gemsTxt.gameObject.SetActive(true);
-		gemsTxt.text = SlotReference.AirdropDetailsDTO.UnlockCost.ToString();
+		gemsTxt.text = AirdropSlot.AirdropDetailsDTO.UnlockCost.ToString();
 		ChestButton.enabled = true;
 		currentState = ChestState.Locked;
 	}
@@ -69,9 +69,9 @@ public class SlotView : MonoBehaviour
 	public void InitialiseViewUIForUnlockingChest()
 	{
 		unlockTimeText.gameObject.SetActive(true);
-		airdropSlotSprite.sprite = SlotReference.AirdropDetailsDTO.AirdropSprite;
+		airdropSlotSprite.sprite = AirdropSlot.AirdropDetailsDTO.AirdropSprite;
 		airdropTypeTxt.gameObject.SetActive(true);
-		airdropTypeTxt.text = SlotReference.AirdropDetailsDTO.AirdropType.ToString();
+		airdropTypeTxt.text = AirdropSlot.AirdropDetailsDTO.AirdropType.ToString();
 		coinImage.gameObject.SetActive(false);
 		coinsTxt.gameObject.SetActive(false);
 		gemImage.gameObject.SetActive(false);
@@ -84,9 +84,9 @@ public class SlotView : MonoBehaviour
 	{
 		unlockTimeText.gameObject.SetActive(true);
 		unlockTimeText.text = "OPEN!";
-		airdropSlotSprite.sprite = SlotReference.AirdropDetailsDTO.AirdropSprite;
+		airdropSlotSprite.sprite = AirdropSlot.AirdropDetailsDTO.AirdropSprite;
 		airdropTypeTxt.gameObject.SetActive(true);
-		airdropTypeTxt.text = SlotReference.AirdropDetailsDTO.AirdropType.ToString();
+		airdropTypeTxt.text = AirdropSlot.AirdropDetailsDTO.AirdropType.ToString();
 		coinImage.gameObject.SetActive(false);
 		coinsTxt.gameObject.SetActive(false);
 		gemImage.gameObject.SetActive(false);

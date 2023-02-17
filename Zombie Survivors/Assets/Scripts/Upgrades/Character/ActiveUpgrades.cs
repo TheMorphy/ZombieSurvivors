@@ -10,7 +10,7 @@ public class ActiveUpgrades
     public float ExtraAmmoSpread;
     public float ExtraFireRate;
 
-    public void SetUpgrades(List<CardSO> upgradeCardsDetails) 
+    public void SetUpgrades(List<CardDTO> upgradeCardsDetails) 
     {
         foreach (var upgradeCardDetails in upgradeCardsDetails)
         {
@@ -35,7 +35,7 @@ public class ActiveUpgrades
         }
     }
 
-    private void AddUpgrade(CardSO upgradeCardDetails)
+    private void AddUpgrade(CardDTO upgradeCardDetails)
     {
 
     }

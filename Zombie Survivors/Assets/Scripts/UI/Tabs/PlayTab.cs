@@ -9,34 +9,30 @@ public class PlayTab : Tab
 	[Header("Controllers")]
 	[SerializeField] private CollectedAirdropsController slotsController;
 
-	public override void Initialize()
+	public override void Initialize(object[] args)
 	{
 		skipWaitingTab.Hide();
 		InitializeCollectedAirdropSlots();
-	}
-
-	public override void InitializeWithArgs(object[] args)
-	{
-
 	}
 
 	private void InitializeCollectedAirdropSlots()
 	{
 		List<AirdropDTO> collectedAirdrops = SaveManager.ReadFromJSON<AirdropDTO>(Settings.AIRDROPS);
 
-		if(collectedAirdrops.Count > 0 ) 
+		if(collectedAirdrops.Count > 0)
 		{
-			foreach (var collectedAirdrop in collectedAirdrops)
+			foreach (var item in collectedAirdrops)
 			{
-				slotsController.InitializeAirdropSlotIfEmpty(collectedAirdrop);
+				slotsController.InitializeSlot(item);
 			}
+	
 		}
 
 		slotsController.GetSlots().ForEach((slot) =>
 		{
 			if (slot.IsEmpty)
 			{
-				slot.SetEmptySlot();
+				slot.SetEmpty();
 			}
 		});
 	}

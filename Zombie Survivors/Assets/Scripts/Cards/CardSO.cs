@@ -46,3 +46,28 @@ public class CardSO : ScriptableObject
 
 	[HideInInspector] public string CardCode => CardName + "_" + CardRarity.ToString();
 }
+
+#region For Serializing To File
+[Serializable]
+public class CardDTO
+{
+	public int ID;
+	public CardType CardType;
+	public CardRarity CardRarity;
+	public string CardName;
+	public Sprite CardSprite;
+	public int CurrentCardLevel;
+	public int CardsRequiredToNextLevel;
+	public int Ammount;
+	public float UpgradeValue;
+	public WeaponStats UpgradeStat;
+	public UpgradeAction UpgradeAction;
+	public string CardCode;
+
+	public void UpgradeCard()
+	{
+		Ammount -= CardsRequiredToNextLevel;
+		CurrentCardLevel++;
+	}
+}
+#endregion

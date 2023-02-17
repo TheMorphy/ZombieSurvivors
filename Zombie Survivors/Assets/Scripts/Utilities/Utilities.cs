@@ -1,23 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
 public static class Utilities
 {
-	public static string GetRandomEnumName<T>() where T : Enum
-	{
-		// Get an array of the names of the values in the enum
-		string[] names = Enum.GetNames(typeof(T));
-
-		// Get a random index
-		int index = UnityEngine.Random.Range(0, names.Length);
-
-		// Return the name at the random index
-		return names[index];
-	}
-
 	public static T GetRandomEnumValue<T>() where T : Enum
 	{
 		// Get an array of the values in the enum
@@ -51,6 +40,11 @@ public static class Utilities
 		FieldInfo field = value.GetType().GetField(value.ToString());
 		T attribute = Attribute.GetCustomAttribute(field, typeof(T)) as T;
 		return attribute;
+	}
+
+	public static List<T> GetUniqueItems<T>(List<T> list1, List<T> list2)
+	{
+		return list1.Where(item => !list2.Contains(item)).ToList();
 	}
 
 	public static string GetDescription<T>(string name)
@@ -102,13 +96,5 @@ public static class Utilities
 		if (n < 0) n += 360;
 
 		return n;
-	}
-	 
-	public static void DeletePrefs(string[] prefsKeysToDelete)
-	{
-		for (int i = 0; i < prefsKeysToDelete.Length; i++)
-		{
-			PlayerPrefs.DeleteKey(prefsKeysToDelete[i]);
-		}
 	}
 }

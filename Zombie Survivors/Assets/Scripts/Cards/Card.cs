@@ -1,68 +1,61 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
-public enum CardSlot
-{
-    Active,
-    Inventory
-}
-
 [RequireComponent(typeof(CardView))]
-public class Card : MonoBehaviour
+public class Card : Slot<CardDTO>
 {
 	public CardView CardView;
 
-	public bool IsEmpty = true;
 	public bool IsReadyToUpgrade = false;
+	public int CardIndex;
 
+	
 	[HideInInspector] public CardDTO CardDetails;
 
-	public void InitializeCard(CardDTO cardDetails)
+	public override void Initialize(CardDTO slotDetails, int slotIndex)
 	{
-		IsEmpty = false;
-		CardDetails = cardDetails;
+		CardIndex = slotIndex;
 		CardView.CardReference = this;
-		CardView.UpdateCardView(cardDetails);
+
+		IsEmpty = false;
+		CardDetails = slotDetails;
+		CardView.UpdateCardView();
+
+		if (slotDetails.Ammount >= CardDetails.CardsRequiredToNextLevel)
+		{
+			IsReadyToUpgrade = true;
+		}
 	}
 
-	public void InitializeEmptyCard()
+	public override void SetEmpty()
 	{
 		IsEmpty = true;
-		CardDetails = null;
+		CardView.CardReference = this;
 		CardView.InitializeEmptyView();
 	}
 
-	public void UpdateGearStats()
+	public void Upgrade()
 	{
-		
+		CardDetails.UpgradeCard();
+		CardView.UpdateCardView();
 	}
 
 	public void RemoveFromActiveDeck()
 	{
-		
+		ActiveCardsController.ActiveDeck.Remove(this);
+		CanvasManager.GetTab<EquipmentTab>().GetInventory().InitializeSlot(CardDetails);
 	}
 
 	public void UseInActiveDeck()
 	{
-		
+		var freeSlot = CanvasManager.GetTab<EquipmentTab>().GetActiveCardsController().GetSlots().First(x => x.IsEmpty);
+
+		CanvasManager.GetTab<EquipmentTab>().GetActiveCardsController().InitializeSlot(CardDetails);
+	}
+
+	public void DisplayCardInfo()
+	{
+		// TODO: Card info window
 	}
 }
-
-#region For Serializing To File
-[Serializable]
-public class CardDTO
-{
-	public int ID;
-	public CardType CardType;
-	public CardRarity CardRarity;
-	public string CardName;
-	public Sprite CardSprite;
-	public int CurrentCardLevel;
-	public int CardsRequiredToNextLevel;
-	public int Ammount;
-	public float UpgradeValue;
-	public WeaponStats UpgradeStat;
-	public UpgradeAction UpgradeAction;
-	public string CardCode;
-}
-#endregion

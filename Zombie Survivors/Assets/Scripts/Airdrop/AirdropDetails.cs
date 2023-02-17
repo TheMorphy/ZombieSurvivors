@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum AirdropType
@@ -50,3 +51,22 @@ public class AirdropDetails : ScriptableObject
 		return (int)Mathf.Ceil((unlockTimer * 3600 ) / 2);
 	}
 }
+
+#region For Serializing Airdrop Scriptable Object To File
+[Serializable]
+public class AirdropDTO
+{
+	public int ID;
+	public AirdropType AirdropType;
+	public Sprite AirdropSprite;
+	public GameObject AirdropPackage;
+	public int MaxGemsAmmount;
+	public int MinGemsAmmount;
+	public int MinGoldAmmount;
+	public int MaxGoldAmmount;
+	public int UnlockDuration;
+	public int CardAmmount;
+	public int UnlockCost;
+	public int RemoveTime;
+}
+#endregion

@@ -45,7 +45,7 @@ public class PlayerDetailsSO : ScriptableObject
 	private List<PlayerStatsUpgradeDetails> playerStatsUpgrades;
 	public List<PlayerStatsUpgradeDetails> PlayerStatsUpgrades { get { return playerStatsUpgrades; } }
 
-	[HideInInspector] public List<ActiveUpgrades> ActiveUpgrades;
+	[HideInInspector] public List<CardDTO> ActiveUpgrades;
 }
 
 public enum PlayerClass

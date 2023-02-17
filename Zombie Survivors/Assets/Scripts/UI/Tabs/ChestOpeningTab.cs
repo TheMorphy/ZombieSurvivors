@@ -18,25 +18,21 @@ public class ChestOpeningTab : Tab
 	[SerializeField] private TextMeshProUGUI cardRarity;
 	[SerializeField] private TextMeshProUGUI rewardAmmount;
 
-	private Slot slotReference;
+	private Slot<AirdropDTO> slotReference;
 	private AirdropDTO airdropDetailsDTO;
 
 	private List<CardDTO> cardsDTOs = new List<CardDTO>();
 	private int cardIndex = 0;
 
-	public override void Initialize()
+	public override void Initialize(object[] args)
 	{
-		
-	}
-
-	public override void InitializeWithArgs(object[] args)
-	{
-		airdropBtn.onClick.AddListener(() => {
+		airdropBtn.onClick.AddListener(() =>
+		{
 			OpenChest();
 		});
 
-		slotReference = (Slot)args[0];
-		airdropDetailsDTO = slotReference.AirdropDetailsDTO;
+		slotReference = (Slot<AirdropDTO>)args[0];
+		airdropDetailsDTO = slotReference.Details;
 
 		AddCards();
 		cardImage.gameObject.SetActive(true);
@@ -44,7 +40,6 @@ public class ChestOpeningTab : Tab
 
 		OpenChest();
 	}
-
 
 	public void OpenChest()
 	{
@@ -59,7 +54,7 @@ public class ChestOpeningTab : Tab
 		if (cardIndex == 0)
 		{
 			TimeTracker.Instance.ClearTime(slotReference.SlotID);
-			slotReference.SetEmptySlot();
+			slotReference.SetEmpty();
 
 			CanvasManager.Show<AirdropRewardsTab>(false, new object[] { airdropDetailsDTO, cardsDTOs });
 		}
@@ -139,9 +134,16 @@ public class ChestOpeningTab : Tab
 		else
 		{
 			cardIndex++;
+
+			int newIndex = 0;
+			if (cardsDTOs.Count > 1)
+			{
+				newIndex = cardsDTOs.Last().ID;
+			}
+
 			cardsDTOs.Add(new CardDTO()
 			{
-				ID = cardIndex,
+				ID = newIndex + 1,
 				UpgradeAction = cardToAdd.UpgradeAction,
 				CardSprite = cardToAdd.CardSprite,
 				UpgradeStat = cardToAdd.UpgradeStat,

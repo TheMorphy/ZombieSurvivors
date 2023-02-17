@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -58,11 +59,17 @@ public class Airdrop : Collectable
 	{
 		int savedObjectsCount = SaveManager.GetNumSavedItems<AirdropDTO>(Settings.AIRDROPS);
 
-		if (savedObjectsCount < Settings.AVAILABLE_AIRDROP_SLOTS_COUNT)
+		if (savedObjectsCount < CollectedAirdropsController.MAX_SLOT_COUNT)
 		{
+			int newIndex = 0;
+			if(savedObjectsCount > 1)
+			{
+				newIndex = SaveManager.ReadFromJSON<AirdropDTO>(Settings.AIRDROPS).Last().ID;
+			}
+
 			AirdropDTO collectedAirrop = new AirdropDTO
 			{
-				ID = savedObjectsCount + 1,
+				ID = newIndex + 1,
 				AirdropSprite = airdropDetails.AirdropSprite,
 				AirdropPackage = airdropDetails.AirdropPackage,
 				AirdropType = airdropDetails.AirdropType,
@@ -84,22 +91,3 @@ public class Airdrop : Collectable
 		}
 	}
 }
-
-#region For Serializing Airdrop Scriptable Object To File
-[Serializable]
-public class AirdropDTO
-{
-	public int ID;
-	public AirdropType AirdropType;
-	public Sprite AirdropSprite;
-	public GameObject AirdropPackage;
-	public int MaxGemsAmmount;
-	public int MinGemsAmmount;
-	public int MinGoldAmmount;
-	public int MaxGoldAmmount;
-	public int UnlockDuration;
-	public int CardAmmount;
-	public int UnlockCost;
-	public int RemoveTime;
-}
-#endregion

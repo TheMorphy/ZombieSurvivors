@@ -6,46 +6,43 @@ public class EquipmentTab : Tab
 	[SerializeField] private ActiveCardsController activeCardsController;
 	[SerializeField] private InventoryController inventoryController;
 
-	[SerializeField] private List<CardDTO> AllCards;
-	[SerializeField] private List<CardDTO> ActiveDeck;
+	[SerializeField] private List<CardDTO> allCards;
+	[SerializeField] private List<CardDTO> activeDeck;
 
-	public override void Initialize()
+	public override void Initialize(object[] args)
 	{
-		GetAllCards();
-		InitializeInventory();
-		InitializeActiveDeck();
+		InitializeSlots();
 	}
 
-	public override void InitializeWithArgs(object[] args)
+	private void InitializeSlots()
 	{
-		
-	}
+		var allCards = SaveManager.ReadFromJSON<CardDTO>(Settings.ALL_CARDS);
+		var savedActiveDeck = SaveManager.ReadFromJSON<CardDTO>(Settings.ACTIVE_CARDS);
+		var inventoryCards = Utilities.GetUniqueItems(allCards, activeDeck);
 
-	private void InitializeInventory()
-	{
-		if (AllCards.Count == 0)
+		if (inventoryCards.Count > 0)
 		{
-			inventoryController.InitializeEmptyInventory();
+			foreach (var card in inventoryCards)
+			{
+				inventoryController.InitializeSlot(card);
+			}
 		}
-	}
 
-	private void InitializeActiveDeck()
-	{
-		ActiveDeck = SaveManager.ReadFromJSON<CardDTO>(Settings.ACTIVE_UPGRADES);
-
-		if(ActiveDeck.Count == 0)
+		if (savedActiveDeck.Count > 0)
 		{
-			activeCardsController.InitializeActiveDeck(AllCards);
+			foreach (var card in savedActiveDeck)
+			{
+				activeCardsController.InitializeSlot(card);
+			}
 		}
-		else
-		{
-			activeCardsController.InitializeActiveDeck(ActiveDeck);
-		}	
-	}
 
-	private void GetAllCards()
-	{
-		AllCards = SaveManager.ReadFromJSON<CardDTO>(Settings.ALL_CARDS);
+		if(savedActiveDeck.Count == 0)
+		{
+			for (int i = 0; i < activeCardsController.GetSlots().Count; i++)
+			{
+				activeCardsController.GetSlots()[i].SetEmpty();
+			}
+		}
 	}
 
 	public InventoryController GetInventory()
@@ -53,19 +50,24 @@ public class EquipmentTab : Tab
 		return inventoryController;
 	}
 
+	public ActiveCardsController GetActiveCardsController()
+	{
+		return activeCardsController;
+	}
+
 	private void OnDisable()
 	{
 		// Allows Player to not use any upgrades and removes all cards from Active deck.
-		if (SaveManager.GetNumSavedItems<CardDTO>(Settings.ACTIVE_UPGRADES) == 0)
+		if (SaveManager.GetNumSavedItems<CardDTO>(Settings.ACTIVE_CARDS) == 0)
 		{
 			foreach (var activeCard in ActiveCardsController.ActiveDeck)
 			{
-				SaveManager.DeleteFromJSON<CardDTO>(activeCard.CardDetails.ID, Settings.ACTIVE_UPGRADES);
+				SaveManager.DeleteFromJSON<CardDTO>(activeCard.CardDetails.ID, Settings.ACTIVE_CARDS);
 			}
 		}
 		else
 		{
-			SaveManager.SaveToJSON(ActiveCardsController.ActiveDeck, Settings.ACTIVE_UPGRADES);
+			SaveManager.SaveToJSON(ActiveCardsController.ActiveDeck, Settings.ACTIVE_CARDS);
 		}
 	}
 }

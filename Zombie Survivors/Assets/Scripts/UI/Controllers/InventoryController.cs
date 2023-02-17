@@ -1,12 +1,16 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryController : MonoBehaviour
+public class InventoryController : SlotsController<CardDTO>
 {
     [SerializeField] private Button sortByRarityBtn;
     [SerializeField] private GameObject cardReference;
 
 	[SerializeField] private int inventorySize = 10;
+
+	[HideInInspector] public static List<Card> Inventory = new List<Card>();
 
 	private void Start()
 	{
@@ -14,28 +18,4 @@ public class InventoryController : MonoBehaviour
 			//TODO: Sort
 		});
 	}
-
-    public void AddToInventory(CardDTO cardDetails)
-    {
-        for (int i = 0; i < transform.childCount; i++)
-		{
-			Card cardSlot = transform.GetChild(i).GetComponent<Card>();
-			if (cardSlot.IsEmpty)
-            {
-                cardSlot.InitializeCard(cardDetails);
-			}
-        }
-    }
-
-    public void InitializeEmptyInventory()
-    {
-		if (inventorySize == transform.childCount)
-			return;
-
-        for (int i = 0; i < inventorySize; i++)
-        {
-			GameObject cardObj = Instantiate(cardReference, transform);
-			cardObj.SetActive(true);
-		}
-    }
 }
