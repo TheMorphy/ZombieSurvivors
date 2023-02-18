@@ -44,7 +44,8 @@ public class SquadControl : MonoBehaviour
 
 	public void CreateFirstComrade()
 	{
-		Instantiate(comradePrefab, transform.position, Quaternion.identity, transform);
+		Comrade comrade = Instantiate(comradePrefab, transform.position, Quaternion.identity, transform).GetComponent<Comrade>();
+		comrade.InitializeComrade();
 	}
 
 	public static Bounds GetChildrenBounds(Transform transform)
@@ -105,8 +106,9 @@ public class SquadControl : MonoBehaviour
 	{
 		for (int i = squadAmmount; i < number; i++)
 		{
-			var obj = Instantiate(comradePrefab, transform.position, Quaternion.identity, transform);
-			obj.name = $"Comrade_{i}";
+			Comrade comrade = Instantiate(comradePrefab, transform.position, Quaternion.identity, transform).GetComponent<Comrade>();
+			comrade.InitializeComrade();
+			comrade.name = $"Comrade_{i}";
 		}
 		
 		squadAmmount = transform.childCount - 1;

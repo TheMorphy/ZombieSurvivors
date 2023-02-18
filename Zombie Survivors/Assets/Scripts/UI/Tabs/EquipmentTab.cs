@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,13 +8,6 @@ public class EquipmentTab : Tab
 	[SerializeField] private InventoryController inventoryController;
 
 	[HideInInspector] public static List<Card> Cards;
-
-	public List<Card> Cardss;
-
-	private void Update()
-	{
-		Cardss = Cards.ToList();
-	}
 
 	public override void Initialize(object[] args)
 	{
@@ -46,18 +38,15 @@ public class EquipmentTab : Tab
 
 	private void OnDisable()
 	{
-		var activeDeck = Cards.Where(x => x.CardSlot == CardSlot.Active);
+		var activeDeck = Cards.Where(x => x.CardSlot == CardSlot.Active).Select(x => x.Details).ToList();
+		SaveManager.SaveToJSON(activeDeck, Settings.ACTIVE_CARDS);
+	}
 
-		// Allows Player to not use any upgrades and removes all cards from Active deck.
-		if (SaveManager.GetNumSavedItems<CardDTO>(Settings.ACTIVE_CARDS) == 0)
+	private void OnApplicationPause(bool pause)
+	{
+		if (pause)
 		{
-			foreach (var activeCard in activeDeck)
-			{
-				SaveManager.DeleteFromJSON<CardDTO>(activeCard.Details.ID, Settings.ACTIVE_CARDS);
-			}
-		}
-		else
-		{
+			var activeDeck = Cards.Where(x => x.CardSlot == CardSlot.Active).Select(x => x.Details).ToList();
 			SaveManager.SaveToJSON(activeDeck, Settings.ACTIVE_CARDS);
 		}
 	}

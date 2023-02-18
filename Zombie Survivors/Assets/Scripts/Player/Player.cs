@@ -25,11 +25,6 @@ public class Player : MonoBehaviour
 		squadControl = GetComponent<SquadControl>();
 	}
 
-	private void Start()
-	{
-		CameraController.Instance.SetInitialTarget(transform);
-	}
-
 	private void OnEnable()
 	{
 		StaticEvents.CallPlayerInitializedEvent(transform);
@@ -146,5 +141,7 @@ public class Player : MonoBehaviour
 	{
 		playerController.enabled = true;
 		squadControl.CreateFirstComrade();
+
+		CameraController.Instance.SetInitialTarget(transform);
 	}
 }

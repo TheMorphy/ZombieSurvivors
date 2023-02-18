@@ -38,7 +38,7 @@ public class Comrade : MonoBehaviour
 		Health = GetComponent<Health>();
 	}
 
-	private void Start()
+	public void InitializeComrade()
 	{
 		SquadControl.ComradesTransforms.Add(transform);
 

@@ -44,14 +44,18 @@ public class CameraController : MonoBehaviour
 		_initialOffset = transposer.m_FollowOffset;
 		
 		// Temporary method to get access to the squad controller. We might want to make this more robust.
-		_squad = FindObjectOfType<SquadControl>();
-		if(!_squad) Debug.LogWarning("The camera controller could not find the squad!");
+		//_squad = FindObjectOfType<SquadControl>();
+		//if(!_squad) Debug.LogWarning("The camera controller could not find the squad!");
 	}
 
 	void LateUpdate()
 	{
 		// Ensure squad was found, resize the camera to the squad.
-		if (_squad) ResizeCameraToSquad();
+		if (_squad != null)
+		{
+			ResizeCameraToSquad();
+		}
+		
 	}
 
 	/// <summary>
@@ -109,6 +113,9 @@ public class CameraController : MonoBehaviour
 
 	public void SetInitialTarget(Transform target)
 	{
+		if (target.TryGetComponent(out SquadControl squadControl))
+			_squad = squadControl;
+
 		virtualCamera.LookAt = target;
 		virtualCamera.Follow = target;
 		this.target = target;

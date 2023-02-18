@@ -1,9 +1,7 @@
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 
 public static class SaveManager
@@ -20,22 +18,19 @@ public static class SaveManager
 			itemsList = ReadFromJSON<T>(fileName);
 		}
 
-		// Replace existing items with new ones
+		// Check each item in the toSave list against the existing items
 		foreach (var item in toSave)
 		{
-			int id = (int)item.GetType().GetField("ID").GetValue(item);
-			int index = itemsList.FindIndex(i =>
-			{
-				var property = i.GetType().GetField("ID");
-				return property != null && (int)property.GetValue(i) == id;
-			});
+			int index = itemsList.FindIndex(i => i.Equals(item));
 
 			if (index >= 0)
 			{
+				// Replace the existing item with the new item
 				itemsList[index] = item;
 			}
 			else
 			{
+				// Add the new item to the list
 				itemsList.Add(item);
 			}
 		}
@@ -45,32 +40,69 @@ public static class SaveManager
 		WriteFile(GetPath(fileName), content);
 	}
 
+
 	/// <summary>
 	/// This will override any data saved inside a file.
 	/// </summary>
 	public static void SaveToJSON<T>(T toSave, string fileName)
 	{
-		List<T> savedItems = ReadFromJSON<T>(fileName);
+		List<T> itemsList = ReadFromJSON<T>(fileName);
 
-		if (savedItems != null && savedItems.Count > 0)
+		// Search for an existing item that matches the input object
+		int index = itemsList.FindIndex(item => item.Equals(toSave));
+
+		if (index >= 0)
 		{
-			savedItems.Add(toSave);
-			string content = JsonHelper.ToJson(savedItems.ToArray(), true);
-			WriteFile(GetPath(fileName), content);
+			// Update the existing item
+			itemsList[index] = toSave;
 		}
 		else
 		{
-			T[] array = { toSave };
-			string content = JsonHelper.ToJson<T>(array, true);
-			WriteFile(GetPath(fileName), content);
+			// Add the input object to the list
+			itemsList.Add(toSave);
 		}
+
+		string content = JsonHelper.ToJson(itemsList.ToArray(), true);
+		WriteFile(GetPath(fileName), content);
 	}
 
-	public static void DeleteFromJSON<T>(int id, string fileName)
+	// Overload the SaveToJSON method for the CardDTO type
+	public static void SaveToJSON(List<CardDTO> toSave, string fileName)
+	{
+		// Load the existing items from the file, if it exists
+		List<CardDTO> itemsList = new List<CardDTO>();
+		if (File.Exists(GetPath(fileName)))
+		{
+			itemsList = ReadFromJSON<CardDTO>(fileName);
+		}
+
+		// Check each item in the toSave list against the existing items
+		foreach (var item in toSave)
+		{
+			int index = itemsList.FindIndex(i => i.Equals(item));
+
+			if (index >= 0)
+			{
+				// Replace the existing item with the new item
+				itemsList[index].Ammount += item.Ammount;
+			}
+			else
+			{
+				// Add the new item to the list
+				itemsList.Add(item);
+			}
+		}
+
+		// Save the updated list to the JSON file
+		string content = JsonHelper.ToJson(itemsList.ToArray(), true);
+		WriteFile(GetPath(fileName), content);
+	}
+
+	public static void DeleteFromJSON<T>(T toDelete, string fileName)
 	{
 		List<T> itemsList = ReadFromJSON<T>(fileName);
 
-		int index = itemsList.FindIndex(item => (int)item.GetType().GetField("ID").GetValue(item) == id);
+		int index = itemsList.FindIndex(item => item.Equals(toDelete));
 		if (index >= 0)
 		{
 			itemsList.RemoveAt(index);
@@ -78,6 +110,7 @@ public static class SaveManager
 			WriteFile(GetPath(fileName), content);
 		}
 	}
+
 
 	public static void CreateJsonFiles(List<string> fileNames)
 	{

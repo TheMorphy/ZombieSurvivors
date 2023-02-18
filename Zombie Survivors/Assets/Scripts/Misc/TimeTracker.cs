@@ -101,7 +101,7 @@ public class TimeTracker : MonoBehaviour
 	{
 		Trackable trackableToDelete = GetTrackable(ID);
 		StopCoroutine(trackableToDelete.StartTimer());
-		SaveManager.DeleteFromJSON<Trackable>(ID, Settings.TRACKABLES);
+		SaveManager.DeleteFromJSON<Trackable>(trackableToDelete, Settings.TRACKABLES);
 		Trackables.Remove(trackableToDelete);
 	}
 

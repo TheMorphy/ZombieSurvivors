@@ -53,19 +53,22 @@ public class ChestOpeningTab : Tab
 	{
 		newCardIndex--;
 
+		if (newCardIndex == -1)
+		{
+			TimeTracker.Instance.ClearTime(slotReference.SlotID);
+			slotReference.SetEmpty(slotReference.SlotID);
+
+			CanvasManager.Show<AirdropRewardsTab>(false, new object[] { airdropDetailsDTO, newCards });
+			return;
+		}
+
 		cardImage.sprite = newCards[newCardIndex].CardSprite;
 		cardName.text = newCards[newCardIndex].CardType.ToString();
 		cardRarity.text = newCards[newCardIndex].CardRarity.ToString();
 		rewardAmmount.text = "x" + newCards[newCardIndex].Ammount.ToString();
 		airopCountText.text = newCardIndex.ToString();
 
-		if (newCardIndex == 0)
-		{
-			TimeTracker.Instance.ClearTime(slotReference.SlotID);
-			slotReference.SetEmpty(slotReference.SlotID);
-
-			CanvasManager.Show<AirdropRewardsTab>(false, new object[] { airdropDetailsDTO, newCards });
-		}
+		
 	}
 	private void AddCards()
 	{
@@ -131,7 +134,7 @@ public class ChestOpeningTab : Tab
 
 	private void SaveReward(CardSO cardToAdd)
 	{
-		CardDTO newCard = newCards.FirstOrDefault(x => x.CardCode == cardToAdd.CardCode);
+		CardDTO newCard = newCards.FirstOrDefault(x => x.Code == cardToAdd.CardCode);
 
 		if (newCard != null)
 		{
@@ -146,11 +149,10 @@ public class ChestOpeningTab : Tab
 				WeaponStat = cardToAdd.WeaponStat,
 				AmmoStat = cardToAdd.AmmoStat,
 				PlayerStat = cardToAdd.PlayerStat,
-				CardCode = cardToAdd.CardCode,
 				CardName = cardToAdd.CardName,
 				CardRarity = cardToAdd.CardRarity,
 				CardType = cardToAdd.CardType,
-
+				Code = cardToAdd.CardCode,
 				ScallingConfiguration = cardToAdd.ScallingConfiguration,
 				CurrentCardLevel = 1,
 				CardsRequiredToNextLevel = 2,

@@ -61,11 +61,9 @@ public class Airdrop : Collectable
 
 		if (savedAirdrops.Count < CollectedAirdropsController.MAX_SLOT_COUNT)
 		{
-			int newIndex = savedAirdrops.Count > 0 ? savedAirdrops.Last().ID : 0;
-
-			AirdropDTO collectedAirrop = new AirdropDTO
+			AirdropDTO collectedAirrop = new AirdropDTO()
 			{
-				ID = newIndex + 1,
+				Code = Guid.NewGuid().ToString(),
 				AirdropSprite = airdropDetails.AirdropSprite,
 				AirdropPackage = airdropDetails.AirdropPackage,
 				AirdropType = airdropDetails.AirdropType,

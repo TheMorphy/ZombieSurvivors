@@ -22,29 +22,14 @@ public class AirdropRewardsTab : Tab
 		if(args != null)
 		{
 			AirdropDTO airdropDetailsDTO = (AirdropDTO)args[0];
+			SaveManager.DeleteFromJSON(airdropDetailsDTO, Settings.AIRDROPS);
+
 			List<CardDTO> newCards = (List<CardDTO>)args[1];
 
 			openedAirdropImage.sprite = airdropDetailsDTO.AirdropSprite;
 
-			var savedCards = SaveManager.ReadFromJSON<CardDTO>(Settings.ALL_CARDS);
-
-			foreach(CardDTO newCard in newCards)
-			{
-				var savedCard = savedCards.FirstOrDefault(savedCard => savedCard.CardCode == newCard.CardCode);
-
-				if (savedCard == null)
-				{
-					SaveManager.SaveToJSON(newCard, Settings.ALL_CARDS);
-				}
-				else
-				{
-					newCard.ID = SaveManager.GetNumSavedItems<CardDTO>(Settings.ALL_CARDS) + 1;
-					savedCard.Ammount += newCard.Ammount;
-					SaveManager.SaveToJSON(savedCard, Settings.ALL_CARDS);
-				}
-			}
+			SaveManager.SaveToJSON(newCards, Settings.ALL_CARDS);
 			
-			SaveManager.DeleteFromJSON<AirdropDTO>(airdropDetailsDTO.ID, Settings.AIRDROPS);
 
 			CanvasManager.GetTab<EquipmentTab>().Initialize(null);
 

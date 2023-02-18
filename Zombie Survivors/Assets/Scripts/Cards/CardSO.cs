@@ -71,7 +71,6 @@ public class SerializableAnimationCurve
 [Serializable]
 public class CardDTO
 {
-	public int ID;
 	public CardType CardType;
 	public CardRarity CardRarity;
 	public string CardName;
@@ -84,7 +83,23 @@ public class CardDTO
 	public PlayerStats PlayerStat;
 	public AmmoStats AmmoStat;
 	public UpgradeAction UpgradeAction;
-	public string CardCode;
+	public string Code;
+
+	public override bool Equals(object obj)
+	{
+		if (obj == null || !this.GetType().Equals(obj.GetType()))
+		{
+			return false;
+		}
+
+		CardDTO other = (CardDTO)obj;
+		return this.Code == other.Code;
+	}
+
+	public override int GetHashCode()
+	{
+		return this.Code.GetHashCode();
+	}
 
 	public void LevelUp()
 	{

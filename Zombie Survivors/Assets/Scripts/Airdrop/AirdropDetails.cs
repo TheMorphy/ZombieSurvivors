@@ -56,7 +56,6 @@ public class AirdropDetails : ScriptableObject
 [Serializable]
 public class AirdropDTO
 {
-	public int ID;
 	public AirdropType AirdropType;
 	public Sprite AirdropSprite;
 	public GameObject AirdropPackage;
@@ -68,5 +67,23 @@ public class AirdropDTO
 	public int CardAmmount;
 	public int UnlockCost;
 	public int RemoveTime;
+	public string Code;
+
+	public override bool Equals(object obj)
+	{
+		if (obj == null || !this.GetType().Equals(obj.GetType()))
+		{
+			return false;
+		}
+
+		AirdropDTO other = (AirdropDTO)obj;
+		return this.Code == other.Code;
+	}
+
+	public override int GetHashCode()
+	{
+		return this.Code.GetHashCode();
+	}
+
 }
 #endregion
