@@ -6,11 +6,14 @@ public class EquipmentTab : Tab
 {
 	[SerializeField] private ActiveCardsController activeCardsController;
 	[SerializeField] private InventoryController inventoryController;
+	[SerializeField] private CharacterSelector characterSelector;
 
 	[HideInInspector] public static List<Card> Cards;
 
 	public override void Initialize(object[] args)
 	{
+		characterSelector.InitializeChatacter();
+
 		InitializeSlots();
 	}
 

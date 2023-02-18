@@ -18,4 +18,6 @@ public static class Settings
 	public const string ALL_CARDS = "AllCards.json";
 	public const string AIRDROPS = "Ardrops.json";
 	public const string TRACKABLES = "Trackables.json";
+
+	public const string CHARACTER_NAME = "CharactarName";
 }

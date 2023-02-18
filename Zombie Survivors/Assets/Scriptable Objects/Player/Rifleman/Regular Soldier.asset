@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af0c14dfc1c1d164e95376a00d739ed7, type: 3}
-  m_Name: Juggernaut_Player
+  m_Name: Regular Soldier
   m_EditorClassIdentifier: 
-  playerClass: 1
-  playerPicture: {fileID: 21300000, guid: d24e7e0b75e1a244bb9687d6fd4315ef, type: 3}
+  playerClass: 0
+  playerPicture: {fileID: 21300000, guid: 56e456ab0f7f79a4dbabcc9079c49a94, type: 3}
   playerPrefab: {fileID: 4671845748811816023, guid: a0025366462d3ea42825d23edb32a677, type: 3}
-  playerWeaponDetails: {fileID: 11400000, guid: ad6f46bf3caf16b41b8e58023bab0892, type: 2}
-  Health: 300
-  MoveSpeed: 2.2
+  playerWeaponDetails: {fileID: 11400000, guid: dc0a170a879472b4ba356155fd9ab732, type: 2}
+  Health: 100
+  MoveSpeed: 2.5
   playerStatsUpgrades:
   - {fileID: 11400000, guid: d8c9503f35aad534b8db745dc7253496, type: 2}
   - {fileID: 11400000, guid: e6e4129fd1dbef14282fe9ca492eadd1, type: 2}
+  ActiveUpgrades: []

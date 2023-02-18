@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1aa7a980108b9449adfaac376f29a02, type: 3}
-  m_Name: Rifleman
+  m_Name: Jerry
   m_EditorClassIdentifier: 
-  playerName: Rifleman
+  playerName: Jerry
   playerDetails: {fileID: 11400000, guid: 7934ca44781819c4c9c5e67b8a1732fc, type: 2}

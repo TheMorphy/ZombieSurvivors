@@ -9,8 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1aa7a980108b9449adfaac376f29a02, type: 3}
+  m_Script: {fileID: 11500000, guid: af0c14dfc1c1d164e95376a00d739ed7, type: 3}
   m_Name: Juggernaut
   m_EditorClassIdentifier: 
-  playerName: Tony
-  playerDetails: {fileID: 11400000, guid: a28a35380f884424a9c1e2a93552097b, type: 2}
+  playerClass: 1
+  playerPicture: {fileID: 21300000, guid: e92527f6d0fe45342ab542b47346d45f, type: 3}
+  playerPrefab: {fileID: 3737252268984434869, guid: 1c26d3f6f2bb8ff4aa63c74a6ccaec3c, type: 3}
+  playerWeaponDetails: {fileID: 11400000, guid: ad6f46bf3caf16b41b8e58023bab0892, type: 2}
+  Health: 300
+  MoveSpeed: 2.2
+  playerStatsUpgrades:
+  - {fileID: 11400000, guid: d8c9503f35aad534b8db745dc7253496, type: 2}
+  - {fileID: 11400000, guid: e6e4129fd1dbef14282fe9ca492eadd1, type: 2}
+  ActiveUpgrades: []
