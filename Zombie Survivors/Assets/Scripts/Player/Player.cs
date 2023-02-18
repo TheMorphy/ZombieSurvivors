@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(SetActiveWeaponEvent))]
@@ -12,7 +14,9 @@ public class Player : MonoBehaviour
 
 	[Space]
 	[Header("Readonly")]
-	public Equipment PlayerEquipment;
+	public List<CardDTO> activeUpgrades;
+
+	[HideInInspector] public Equipment PlayerEquipment;
 
 	private void Awake()
 	{
@@ -133,9 +137,9 @@ public class Player : MonoBehaviour
 
 		PlayerEquipment.OnUpgraded += PlayerEquipment_OnUpgraded;
 
-		var UpgradeCards = SaveManager.ReadFromJSON<CardDTO>(Settings.ACTIVE_CARDS);
+		activeUpgrades = SaveManager.ReadFromJSON<CardDTO>(Settings.ACTIVE_CARDS);
 
-		PlayerEquipment.SetUpgrades(UpgradeCards);
+		PlayerEquipment.SetUpgrades(activeUpgrades);
 	}
 
 	private void PlayerEquipment_OnUpgraded()

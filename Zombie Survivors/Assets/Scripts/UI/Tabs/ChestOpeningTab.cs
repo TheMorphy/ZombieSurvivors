@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,13 +22,15 @@ public class ChestOpeningTab : Tab
 	private Slot<AirdropDTO> slotReference;
 	private AirdropDTO airdropDetailsDTO;
 
-	private List<CardDTO> cardsDTOs = new List<CardDTO>();
-	private int cardIndex = 0;
+	public List<CardDTO> newCards;
+	private int newCardIndex = 0;
 
 	public override void Initialize(object[] args)
 	{
 		if(args != null)
 		{
+			newCards = new List<CardDTO>();
+
 			slotReference = (Slot<AirdropDTO>)args[0];
 
 			airdropBtn.onClick.AddListener(() =>
@@ -41,32 +44,31 @@ public class ChestOpeningTab : Tab
 			cardImage.gameObject.SetActive(true);
 			airdropImage.sprite = airdropDetailsDTO.AirdropSprite;
 
+			newCardIndex = newCards.Count;
 			OpenChest();
 		}
 	}
 
 	public void OpenChest()
 	{
-		cardIndex--;
+		newCardIndex--;
 
-		cardImage.sprite = cardsDTOs[cardIndex].CardSprite;
-		cardName.text = cardsDTOs[cardIndex].CardType.ToString();
-		cardRarity.text = cardsDTOs[cardIndex].CardRarity.ToString();
-		rewardAmmount.text = "x" + cardsDTOs[cardIndex].Ammount.ToString();
-		airopCountText.text = cardIndex.ToString();
+		cardImage.sprite = newCards[newCardIndex].CardSprite;
+		cardName.text = newCards[newCardIndex].CardType.ToString();
+		cardRarity.text = newCards[newCardIndex].CardRarity.ToString();
+		rewardAmmount.text = "x" + newCards[newCardIndex].Ammount.ToString();
+		airopCountText.text = newCardIndex.ToString();
 
-		if (cardIndex == 0)
+		if (newCardIndex == 0)
 		{
 			TimeTracker.Instance.ClearTime(slotReference.SlotID);
 			slotReference.SetEmpty(slotReference.SlotID);
 
-			CanvasManager.Show<AirdropRewardsTab>(false, new object[] { airdropDetailsDTO, cardsDTOs });
+			CanvasManager.Show<AirdropRewardsTab>(false, new object[] { airdropDetailsDTO, newCards });
 		}
 	}
 	private void AddCards()
 	{
-		cardsDTOs = SaveManager.ReadFromJSON<CardDTO>(Settings.ALL_CARDS);
-
 		var commonCards = GameResources.Instance.CommonCards;
 		var rareCards = GameResources.Instance.RareCards;
 		var epicCards = GameResources.Instance.EpicCards;
@@ -129,25 +131,16 @@ public class ChestOpeningTab : Tab
 
 	private void SaveReward(CardSO cardToAdd)
 	{
-		var savedCard = cardsDTOs.FirstOrDefault(x => x.CardCode == cardToAdd.CardCode);
+		CardDTO newCard = newCards.FirstOrDefault(x => x.CardCode == cardToAdd.CardCode);
 
-		if (savedCard != null)
+		if (newCard != null)
 		{
-			savedCard.Ammount++;
+			newCard.Ammount++;
 		}
 		else
 		{
-			cardIndex++;
-
-			int newIndex = 0;
-			if (cardsDTOs.Count > 1)
+			newCards.Add(new CardDTO()
 			{
-				newIndex = cardsDTOs.Last().ID;
-			}
-
-			cardsDTOs.Add(new CardDTO()
-			{
-				ID = newIndex + 1,
 				UpgradeAction = cardToAdd.UpgradeAction,
 				CardSprite = cardToAdd.CardSprite,
 				WeaponStat = cardToAdd.WeaponStat,

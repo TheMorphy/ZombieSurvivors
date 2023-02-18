@@ -57,15 +57,11 @@ public class Airdrop : Collectable
 
 	private void SaveAirdrop()
 	{
-		int savedObjectsCount = SaveManager.GetNumSavedItems<AirdropDTO>(Settings.AIRDROPS);
+		var savedAirdrops = SaveManager.ReadFromJSON<AirdropDTO>(Settings.AIRDROPS);
 
-		if (savedObjectsCount < CollectedAirdropsController.MAX_SLOT_COUNT)
+		if (savedAirdrops.Count < CollectedAirdropsController.MAX_SLOT_COUNT)
 		{
-			int newIndex = 0;
-			if(savedObjectsCount > 1)
-			{
-				newIndex = SaveManager.ReadFromJSON<AirdropDTO>(Settings.AIRDROPS).Last().ID;
-			}
+			int newIndex = savedAirdrops.Count > 0 ? savedAirdrops.Last().ID : 0;
 
 			AirdropDTO collectedAirrop = new AirdropDTO
 			{
