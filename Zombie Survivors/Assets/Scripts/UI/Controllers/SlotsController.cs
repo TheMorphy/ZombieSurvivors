@@ -6,17 +6,6 @@ public class SlotsController<T> : MonoBehaviour
 {
 	[SerializeField] private Slot<T>[] slots;
 
-	private void Awake()
-	{
-		if(slots.Length != transform.childCount)
-		{
-			for (int i = 0; i < transform.childCount; i++)
-			{
-				slots[i] = transform.GetChild(i).GetComponent<Slot<T>>();
-			}
-		}
-	}
-
 	public virtual void InitializeSlot(T slotDetails, CardSlot cardSlots)
 	{
 		int slotIndex = GetEmptySlotIndex();
@@ -33,6 +22,14 @@ public class SlotsController<T> : MonoBehaviour
 
 	public virtual void InitializeSlots(List<T> itemDetails, CardSlot cardSlot)
 	{
+		for (int i = 0; i < slots.Length; i++)
+		{
+			if (slots[i].IsEmpty)
+			{
+				slots[i].SlotID = i;
+			}
+		}
+
 		foreach (var item in itemDetails)
 		{
 			int slotIndex = GetEmptySlotIndex();
@@ -52,11 +49,12 @@ public class SlotsController<T> : MonoBehaviour
 			GetSlots().ForEach(x => {
 				if (x.IsEmpty)
 				{
-					x.SetEmpty();
+					x.SetEmpty(x.SlotID);
 				}
 			});
 		}
 	}
+
 
 	private int GetEmptySlotIndex()
 	{

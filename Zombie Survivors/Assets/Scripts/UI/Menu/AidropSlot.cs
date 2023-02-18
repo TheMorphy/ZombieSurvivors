@@ -68,9 +68,10 @@ public class AidropSlot : Slot<AirdropDTO>
 		TimerStarted = false;
 	}
 
-	public override void SetEmpty()
+	public override void SetEmpty(int index)
 	{
 		IsEmpty = true;
+		SlotID = index;
 		TimerStarted = false;
 		TrackableReference = null;
 		Details = null;
