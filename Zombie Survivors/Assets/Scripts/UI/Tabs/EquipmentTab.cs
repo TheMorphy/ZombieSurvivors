@@ -8,7 +8,14 @@ public class EquipmentTab : Tab
 	[SerializeField] private ActiveCardsController activeCardsController;
 	[SerializeField] private InventoryController inventoryController;
 
-	[HideInInspector] public static HashSet<Card> Cards = new HashSet<Card>();
+	[HideInInspector] public static List<Card> Cards;
+
+	public List<Card> Cardss;
+
+	private void Update()
+	{
+		Cardss = Cards.ToList();
+	}
 
 	public override void Initialize(object[] args)
 	{
@@ -17,6 +24,8 @@ public class EquipmentTab : Tab
 
 	private void InitializeSlots()
 	{
+		Cards = new List<Card>();
+
 		var allCards = SaveManager.ReadFromJSON<CardDTO>(Settings.ALL_CARDS);
 		var activeDeck = SaveManager.ReadFromJSON<CardDTO>(Settings.ACTIVE_CARDS);
 		var inventoryCards = Utilities.GetUniqueItems(allCards, activeDeck);

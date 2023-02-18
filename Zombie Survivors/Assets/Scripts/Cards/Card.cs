@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(CardView))]
@@ -7,9 +5,9 @@ public class Card : Slot<CardDTO>
 {
 	public CardView CardView;
 
-	public bool IsReadyToUpgrade = false;
-	public int CardIndex;
-	public CardSlot CardSlot;
+	[HideInInspector] public bool IsReadyToUpgrade = false;
+	[HideInInspector] public int CardIndex;
+	[HideInInspector] public CardSlot CardSlot;
 
 	public override void Initialize(CardDTO slotDetails, int slotIndex, CardSlot cardSlot)
 	{
@@ -28,15 +26,17 @@ public class Card : Slot<CardDTO>
 		EquipmentTab.Cards.Add(this);
 	}
 
-	public override void SetEmpty()
+	public override void SetEmpty(int index)
 	{
-		IsEmpty = true;
-		Details = default;
-		CardView.CardReference = this;
+		EquipmentTab.Cards.Remove(this);
 		CardView.InitializeEmptyView();
-
-		EquipmentTab.Cards.Add(this);
+		SlotID = index;
+		IsEmpty = true;
+		CardSlot = CardSlot.None;
+		CardView.CardReference = null;
+		Details = null;
 	}
+
 
 	public void Upgrade()
 	{
@@ -49,17 +49,26 @@ public class Card : Slot<CardDTO>
 		CardView.RefreshView();
 	}
 
-	public void RemoveFromActiveDeck()
+	public void UseInInventory()
 	{
-		CanvasManager.GetTab<EquipmentTab>().GetInventory().InitializeSlot(Details, CardSlot.Inventory);
-		SetEmpty();
+		var inventory = CanvasManager.GetTab<EquipmentTab>().GetInventory();
+		if (inventory != null)
+		{
+			inventory.InitializeSlot(Details, CardSlot.Inventory);
+		}
+		SetEmpty(SlotID);
 	}
 
 	public void UseInActiveDeck()
 	{
-		CanvasManager.GetTab<EquipmentTab>().GetActiveCardsController().InitializeSlot(Details, CardSlot.Active);
-		SetEmpty();
+		var activeCardsController = CanvasManager.GetTab<EquipmentTab>().GetActiveCardsController();
+		if (activeCardsController != null)
+		{
+			activeCardsController.InitializeSlot(Details, CardSlot.Active);
+		}
+		SetEmpty(SlotID);
 	}
+
 
 	public void DisplayCardInfo()
 	{

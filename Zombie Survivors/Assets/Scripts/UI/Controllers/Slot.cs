@@ -7,7 +7,7 @@ public abstract class Slot<T> : MonoBehaviour
 	public int SlotID;
 
 	public abstract void Initialize(T slotDetails, int slotIndex, CardSlot cardSlot);
-	public abstract void SetEmpty();
+	public abstract void SetEmpty(int slotIndex);
 	public virtual void Open() { }
 	public virtual void Select() { }
 }
