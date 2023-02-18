@@ -69,6 +69,13 @@ public class SquadControl : MonoBehaviour
 		collider.size = new Vector3(boundingWidthX, collider.size.y, boundingWidthZ);
 	}
 
+	public Vector3 FurthestMemberPosition()
+	{
+		if (ComradesTransforms.Count > 0)
+			return ComradesTransforms.OrderByDescending(t => Vector3.Distance(transform.position, t.position)).FirstOrDefault().position;
+		return transform.position;
+	}
+
 	public void IncreaseSquadSize(int randomValue, bool multiply)
 	{
 		if (multiply == false)
