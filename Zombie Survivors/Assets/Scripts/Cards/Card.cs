@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(CardView))]
@@ -64,6 +65,14 @@ public class Card : Slot<CardDTO>
 
 	public void UseInActiveDeck()
 	{
+		// TODO: Add ability to replace
+		if (ActiveCardsController.MAX_SLOT_COUNT == EquipmentTab.Cards.Where(x => x.CardSlot == CardSlot.Active).Count())
+		{
+			print("All active slots are occupied");
+			return;
+		}
+			
+
 		var activeCardsController = CanvasManager.GetTab<EquipmentTab>().GetActiveCardsController();
 		if (activeCardsController != null)
 		{
