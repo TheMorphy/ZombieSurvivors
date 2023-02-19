@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
@@ -18,6 +16,10 @@ public class PlayerDetailsSO : ScriptableObject
 	[SerializeField]
 	private PlayerClass playerClass;
 	public PlayerClass PlayerClass { get { return playerClass; } }
+
+	[SerializeField]
+	private string playerName;
+	public string Name { get { return playerName; } }
 
 	[SerializeField]
 	private Sprite playerPicture;

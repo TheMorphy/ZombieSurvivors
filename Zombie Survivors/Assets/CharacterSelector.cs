@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,19 +12,18 @@ public class CharacterSelector : MonoBehaviour
 
 	private int currentCharacterIndex = 0;
 
-	private List<PlayerDetailsSO> playerDetails;
+	private List<PlayerDetailsSO> availablePlayerDetails;
 	private CurrentPlayerSO currentPlayer;
 
 	public void InitializeChatacter()
 	{
-		playerDetails = GameResources.Instance.PlayerDetailsList;
-		currentPlayer = GameResources.Instance.CurrentPlayer;
+		GetAvailableCharacter();
 
-		characterSprites = new Sprite[playerDetails.Count];
+		characterSprites = new Sprite[availablePlayerDetails.Count];
 
-		for (int i = 0; i < playerDetails.Count; i++)
+		for (int i = 0; i < availablePlayerDetails.Count; i++)
 		{
-			characterSprites[i] = playerDetails[i].PlayerPicture;
+			characterSprites[i] = availablePlayerDetails[i].PlayerPicture;
 		}
 
 		characterPortrait.sprite = currentPlayer.playerDetails.PlayerPicture;
@@ -39,7 +37,7 @@ public class CharacterSelector : MonoBehaviour
 			currentCharacterIndex = 0;
 		}
 
-		currentPlayer.playerDetails = playerDetails[currentCharacterIndex];
+		SaveCharacter(availablePlayerDetails[currentCharacterIndex]);
 		characterPortrait.sprite = characterSprites[currentCharacterIndex];
 	}
 
@@ -51,17 +49,29 @@ public class CharacterSelector : MonoBehaviour
 			currentCharacterIndex = characterSprites.Length - 1;
 		}
 
-		currentPlayer.playerDetails = playerDetails[currentCharacterIndex];
+		SaveCharacter(availablePlayerDetails[currentCharacterIndex]);
 		characterPortrait.sprite = characterSprites[currentCharacterIndex];
 	}
 
-
-
-	private void OnDisable()
+	private void SaveCharacter(PlayerDetailsSO selectedDetails)
 	{
-		GameResources.Instance.CurrentPlayer = currentPlayer;
+		PlayerPrefs.SetString(Settings.SAVED_CHARACTER, selectedDetails.Name);
+		GameResources.Instance.CurrentPlayer.playerDetails = selectedDetails;
+	}
 
-		PlayerPrefs.SetString(Settings.CHARACTER_NAME, currentPlayer.playerName);
+	private void GetAvailableCharacter()
+	{
+		availablePlayerDetails = GameResources.Instance.PlayerDetailsList;
+		currentPlayer = GameResources.Instance.CurrentPlayer;
 
+		if (PlayerPrefs.HasKey(Settings.SAVED_CHARACTER) == false)
+		{
+			PlayerPrefs.SetString(Settings.SAVED_CHARACTER, availablePlayerDetails[0].Name);
+		}
+		else
+		{
+			currentPlayer.playerDetails = 
+				availablePlayerDetails.First(x => x.Name.Equals(PlayerPrefs.GetString(Settings.SAVED_CHARACTER)));
+		}
 	}
 }

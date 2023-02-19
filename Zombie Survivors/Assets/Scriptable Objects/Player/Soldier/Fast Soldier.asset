@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af0c14dfc1c1d164e95376a00d739ed7, type: 3}
   m_Name: Fast Soldier
   m_EditorClassIdentifier: 
-  playerClass: 0
-  playerPicture: {fileID: 21300000, guid: e92527f6d0fe45342ab542b47346d45f, type: 3}
+  playerClass: 2
+  playerName: Bary
+  playerPicture: {fileID: 21300000, guid: 08c91a7677e66844281a99aaf6ea36f1, type: 3}
   playerPrefab: {fileID: 3737252268984434869, guid: 411e1c08243d31e43bd7872a1335696d, type: 3}
   playerWeaponDetails: {fileID: 11400000, guid: 1b31a7be997a7f54192c7801bede86ef, type: 2}
   Health: 120

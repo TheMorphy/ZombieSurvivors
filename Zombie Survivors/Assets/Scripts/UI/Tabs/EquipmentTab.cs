@@ -12,8 +12,6 @@ public class EquipmentTab : Tab
 
 	public override void Initialize(object[] args)
 	{
-		characterSelector.InitializeChatacter();
-
 		// Checks if any new cards were opened from opening airdrop. If so, add those to inventory
 		// the rest ignore, since it would cause duplication
 		if(args != null)
@@ -32,6 +30,8 @@ public class EquipmentTab : Tab
 
 		activeCardsController.InitializeSlots(activeCards, CardSlot.Active);
 		inventoryController.InitializeSlots(inventoryCards, CardSlot.Inventory);
+		characterSelector.InitializeChatacter();
+
 	}
 
 	public static void Add(Card card)

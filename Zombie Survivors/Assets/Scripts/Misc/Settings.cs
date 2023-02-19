@@ -18,5 +18,5 @@ public static class Settings
 	public const string AIRDROPS = "Ardrops.json";
 	public const string TRACKABLES = "Trackables.json";
 
-	public const string CHARACTER_NAME = "CharactarName";
+	public const string SAVED_CHARACTER = "SavedCharacterName";
 }

@@ -19,7 +19,6 @@ public class Card : Slot<CardDTO>
 		Details = slotDetails;
 
 		slotDetails.CardSlot = CardSlot;
-		CardView.InitializeCardView();
 
 		if (slotDetails.Ammount >= Details.CardsRequiredToNextLevel)
 		{
@@ -28,6 +27,8 @@ public class Card : Slot<CardDTO>
 
 		SaveManager.SaveToJSON(slotDetails, Settings.CARDS);
 		EquipmentTab.Add(this);
+
+		CardView.InitializeCardView();
 	}
 
 	public override void SetEmpty(int index)

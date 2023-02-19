@@ -12,7 +12,7 @@ public class Trackable
 	public bool IsTracking = false;
 	public int RemainingSeconds;
 	public string TimerText;
-	public DateTime SaveDate;
+	public string SaveDate;
 	public MonoBehaviour monoBehaviour;
 
 	public override bool Equals(object obj)
@@ -55,6 +55,8 @@ public class Trackable
 			if (seconds > 0) { TimerText += seconds + "s "; }
 
 			RemainingSeconds -= 1;
+			SaveDate = DateTime.Now.ToString();
+			SaveManager.SaveToJSON(this, Settings.TRACKABLES);
 			yield return wait;
 		}
 	}
@@ -79,10 +81,10 @@ public class TimeTracker : MonoBehaviour
 
 		Trackables = SaveManager.ReadFromJSON<Trackable>(Settings.TRACKABLES);
 	}
-	
+
 	private void OnApplicationPause(bool pause)
 	{
-		if(pause)
+		if (pause)
 		{
 			StopAllCoroutines();
 			SaveTime();
@@ -119,6 +121,7 @@ public class TimeTracker : MonoBehaviour
 		Trackable trackableToReset = GetTrackable(ID);
 		trackableToReset.IsTracking = false;
 		trackableToReset.TimerText = "";
+		trackableToReset.SaveDate = "";
 		trackableToReset.RemainingSeconds = 0;
 		StopCoroutine(trackableToReset.StartTimer());
 		SaveManager.SaveToJSON(trackableToReset, Settings.TRACKABLES);
@@ -131,18 +134,17 @@ public class TimeTracker : MonoBehaviour
 	{
 		foreach (var trackable in Trackables.Where(x => x.IsTracking))
 		{
-			trackable.SaveDate = DateTime.Now;
-			SaveManager.SaveToJSON(Trackables, Settings.TRACKABLES);
+			SaveManager.SaveToJSON(trackable, Settings.TRACKABLES);
 		}
 	}
 
 	public int GetSavedRemainingSeconds(int ID)
 	{
 		Trackable trackable = GetTrackable(ID);
-		TimeSpan timeSpan = DateTime.Now - trackable.SaveDate;
-		trackable.RemainingSeconds = (int)(trackable.RemainingSeconds  - timeSpan.TotalSeconds);
+		TimeSpan timeSpan = DateTime.Now - DateTime.Parse(trackable.SaveDate);
+		int difference = (int)(trackable.RemainingSeconds - timeSpan.TotalSeconds);
 
-		return trackable.RemainingSeconds;
+		return difference;
 	}
 
 	private void ContinueTimers()

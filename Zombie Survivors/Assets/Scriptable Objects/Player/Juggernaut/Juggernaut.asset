@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Juggernaut
   m_EditorClassIdentifier: 
   playerClass: 1
+  playerName: Tony
   playerPicture: {fileID: 21300000, guid: e92527f6d0fe45342ab542b47346d45f, type: 3}
   playerPrefab: {fileID: 3737252268984434869, guid: 1c26d3f6f2bb8ff4aa63c74a6ccaec3c, type: 3}
   playerWeaponDetails: {fileID: 11400000, guid: ad6f46bf3caf16b41b8e58023bab0892, type: 2}
