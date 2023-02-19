@@ -22,7 +22,14 @@ public class SkipWaitingTab : Tab, IPointerClickHandler
 
 	public override void Initialize(object[] args)
 	{
-		
+		if(args != null)
+		{
+			airdropSlot = (Slot<AirdropDTO>)args[0];
+
+			Show();
+			airdropDetails = airdropSlot.Details;
+			gemsCost.text = airdropDetails.UnlockCost.ToString();
+		}
 	}
 
 	private void OnEnable()
@@ -35,6 +42,12 @@ public class SkipWaitingTab : Tab, IPointerClickHandler
 		adsInitializer.OnAdClosed -= AdsInitializer_OnAdClosed;
 	}
 
+	public void UseGems()
+	{
+		airdropSlot.Open();
+		Hide();
+	}
+
 	private void AdsInitializer_OnAdClosed(bool giveReward)
 	{
 		if (giveReward)
@@ -43,21 +56,6 @@ public class SkipWaitingTab : Tab, IPointerClickHandler
 			TimeTracker.Instance.DecreaseTime(airdropSlot.SlotID, airdropDetails.RemoveTime);
 			Hide();
 		}
-	}
-
-	public void InitializeWindow(Slot<AirdropDTO> airdropSlot)
-	{
-		Show();
-
-		this.airdropSlot = airdropSlot;
-		airdropDetails = airdropSlot.Details;
-		gemsCost.text = airdropDetails.UnlockCost.ToString();
-
-		useGemsButton.onClick.AddListener(() =>
-		{
-			airdropSlot.Open();
-			Hide();
-		});
 	}
 
 	public void OnPointerClick(PointerEventData eventData)

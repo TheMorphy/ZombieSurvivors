@@ -5,14 +5,32 @@ using System.Linq;
 using UnityEngine;
 
 #region Trackable Object
-[System.Serializable]
+[Serializable]
 public class Trackable
 {
 	public int ID;
-	public float RemainingSeconds;
+	public bool IsTracking = false;
+	public int RemainingSeconds;
 	public string TimerText;
 	public DateTime SaveDate;
 	public MonoBehaviour monoBehaviour;
+
+	public override bool Equals(object obj)
+	{
+		if (obj == null || !this.GetType().Equals(obj.GetType()))
+		{
+			return false;
+		}
+
+		Trackable other = (Trackable)obj;
+		return this.ID == other.ID;
+	}
+
+	public override int GetHashCode()
+	{
+		return this.ID.GetHashCode();
+	}
+
 
 	public Trackable(MonoBehaviour monoBehaviour)
 	{
@@ -24,10 +42,10 @@ public class Trackable
 		WaitForSeconds wait = new WaitForSeconds(1f);
 		while (RemainingSeconds > 0)
 		{
-			int days = (int)(RemainingSeconds / 86400) % 365;
-			int hours = (int)(RemainingSeconds / 3600) % 24;
-			int minutes = (int)(RemainingSeconds / 60) % 60;
-			int seconds = (int)(RemainingSeconds % 60);
+			int days = (RemainingSeconds / 86400) % 365;
+			int hours = (RemainingSeconds / 3600) % 24;
+			int minutes = (RemainingSeconds / 60) % 60;
+			int seconds = (RemainingSeconds % 60);
 
 			TimerText = "";
 
@@ -52,14 +70,14 @@ public class TimeTracker : MonoBehaviour
 
 	private void Awake()
 	{
-		Trackables = SaveManager.ReadFromJSON<Trackable>(Settings.TRACKABLES);
-
 		if (Instance == null)
 			Instance = this;
 		else
 			Destroy(gameObject);
 
 		DontDestroyOnLoad(this);
+
+		Trackables = SaveManager.ReadFromJSON<Trackable>(Settings.TRACKABLES);
 	}
 	
 	private void OnApplicationPause(bool pause)
@@ -83,50 +101,53 @@ public class TimeTracker : MonoBehaviour
 	/// When player presses Open collected airdrop, it stores the slot tracking key,
 	/// which is used to keep tarck of time during the gameplay and after the game is closed.
 	/// </summary>
-	public Trackable SetNewStrackable(int trackingID, int unlockTimer)
+	public void InitializeTrackable(int trackingID)
 	{
 		Trackable trackable = new Trackable(this)
 		{
 			ID = trackingID,
-			RemainingSeconds = unlockTimer
+			RemainingSeconds = 0,
+			IsTracking = false
 		};
 
 		Trackables.Add(trackable);
-		StartCoroutine(trackable.StartTimer());
-
-		return trackable;
+		SaveManager.SaveToJSON(trackable, Settings.TRACKABLES);
 	}
 
 	public void ClearTime(int ID)
 	{
-		Trackable trackableToDelete = GetTrackable(ID);
-		StopCoroutine(trackableToDelete.StartTimer());
-		SaveManager.DeleteFromJSON<Trackable>(trackableToDelete, Settings.TRACKABLES);
-		Trackables.Remove(trackableToDelete);
+		Trackable trackableToReset = GetTrackable(ID);
+		trackableToReset.IsTracking = false;
+		trackableToReset.TimerText = "";
+		trackableToReset.RemainingSeconds = 0;
+		StopCoroutine(trackableToReset.StartTimer());
+		SaveManager.SaveToJSON(trackableToReset, Settings.TRACKABLES);
 	}
-
 
 	/// <summary>
 	/// Save time on application pause or close
 	/// </summary>
-	public void SaveTime()
+	private void SaveTime()
 	{
-		Trackables.ForEach(x => x.SaveDate = DateTime.Now);
-		SaveManager.SaveToJSON<Trackable>(Trackables, Settings.TRACKABLES);
+		foreach (var trackable in Trackables.Where(x => x.IsTracking))
+		{
+			trackable.SaveDate = DateTime.Now;
+			SaveManager.SaveToJSON(Trackables, Settings.TRACKABLES);
+		}
 	}
 
-	public float GetSavedRemainingSeconds(int ID)
+	public int GetSavedRemainingSeconds(int ID)
 	{
 		Trackable trackable = GetTrackable(ID);
 		TimeSpan timeSpan = DateTime.Now - trackable.SaveDate;
-		trackable.RemainingSeconds -= (float)timeSpan.TotalSeconds;
+		trackable.RemainingSeconds = (int)(trackable.RemainingSeconds  - timeSpan.TotalSeconds);
 
 		return trackable.RemainingSeconds;
 	}
 
-	public void ContinueTimers()
+	private void ContinueTimers()
 	{
-		foreach (var trackable in Trackables)
+		foreach (var trackable in Trackables.Where(x => x.IsTracking))
 		{
 			trackable.RemainingSeconds = GetSavedRemainingSeconds(trackable.ID);
 			StartCoroutine(trackable.StartTimer());
@@ -141,5 +162,13 @@ public class TimeTracker : MonoBehaviour
 		{
 			trackable.RemainingSeconds -= decreaseAmmount;
 		}
+	}
+
+	public void StartTrackingTime(int slotID, int unlockDuration)
+	{
+		Trackable toTrack = GetTrackable(slotID);
+		toTrack.IsTracking = true;
+		toTrack.RemainingSeconds = unlockDuration;
+		StartCoroutine(toTrack.StartTimer());
 	}
 }

@@ -21,11 +21,9 @@ public class AdsInitializer : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSho
 
 		//Disable the button until the ad is ready to show:
 		_showAdButton.interactable = false;
-
-		InitializeAd();
 	}
 
-	public void InitializeAd()
+	private void Start()
 	{
 		Advertisement.Initialize(_adUnitId, isTesting, this);
 	}

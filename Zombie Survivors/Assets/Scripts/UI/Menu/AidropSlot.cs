@@ -33,7 +33,7 @@ public class AidropSlot : Slot<AirdropDTO>
 
 		TrackableReference = TimeTracker.Instance.GetTrackable(SlotID);
 
-		if (TrackableReference != null)
+		if (TrackableReference != null && TrackableReference.IsTracking)
 		{
 			TimerStarted = true;
 			slotView.InitialiseViewUIForUnlockingChest();
@@ -53,13 +53,13 @@ public class AidropSlot : Slot<AirdropDTO>
 	public void StartTracking()
 	{
 		TimerStarted = true;
-		TrackableReference = TimeTracker.Instance.SetNewStrackable(SlotID, Details.UnlockDuration);
+		TimeTracker.Instance.StartTrackingTime(SlotID ,Details.UnlockDuration);
 		slotView.InitialiseViewUIForUnlockingChest();
 	}
 
 	public void SkipWaitingTime()
 	{
-		CanvasManager.GetTab<PlayTab>().GetSkipWaitingTab().InitializeWindow(this);
+		CanvasManager.GetTab<PlayTab>().GetSkipWaitingTab().Initialize(new object[] { this });
 	}
 
 	public void UnlockChest()

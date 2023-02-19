@@ -18,15 +18,6 @@ public class GameResources : MonoBehaviour
 		}
 	}
 
-	//#region PLAYER SELECTION
-	//[Space(10)]
-	//[Header("PLAYER SELECTION")]
-	//#endregion PLAYER SELECTION
-	//#region Tooltip
-	//[Tooltip("The PlayerSelection prefab")]
-	//#endregion Tooltip
-	//public GameObject playerSelectionPrefab;
-
 	#region Header PLAYER
 	[Space(5)]
 	[Header("PLAYER")]

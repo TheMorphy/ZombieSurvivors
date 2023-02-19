@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,17 +20,20 @@ public class AirdropRewardsTab : Tab
 	{
 		if(args != null)
 		{
+			for (int i = 0; i < rewardsGrid.transform.childCount; i++)
+			{
+				Destroy(rewardsGrid.transform.GetChild(i).gameObject);
+			}
+
 			AirdropDTO airdropDetailsDTO = (AirdropDTO)args[0];
 			SaveManager.DeleteFromJSON(airdropDetailsDTO, Settings.AIRDROPS);
 
 			List<CardDTO> newCards = (List<CardDTO>)args[1];
+			SaveManager.SaveToJSON(newCards, Settings.CARDS);
 
 			openedAirdropImage.sprite = airdropDetailsDTO.AirdropSprite;
 
-			SaveManager.SaveToJSON(newCards, Settings.ALL_CARDS);
-			
-
-			CanvasManager.GetTab<EquipmentTab>().Initialize(null);
+			CanvasManager.GetTab<EquipmentTab>().Initialize(new object[] { newCards });
 
 			for (int i = 0; i < newCards.Count; i++)
 			{

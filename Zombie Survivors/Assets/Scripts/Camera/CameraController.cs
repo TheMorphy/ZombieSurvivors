@@ -43,6 +43,8 @@ public class CameraController : MonoBehaviour
 		// Cache the initial desired camera offset.
 		_initialOffset = transposer.m_FollowOffset;
 		
+		// NOTE: I moved to set the reference to squadControl, after the upgrades have been set up: Player -> line 145
+
 		// Temporary method to get access to the squad controller. We might want to make this more robust.
 		//_squad = FindObjectOfType<SquadControl>();
 		//if(!_squad) Debug.LogWarning("The camera controller could not find the squad!");

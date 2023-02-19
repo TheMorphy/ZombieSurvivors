@@ -7,19 +7,33 @@ public class PlayTab : Tab
 	[SerializeField] private SkipWaitingTab skipWaitingTab;
 
 	[Header("Controllers")]
-	[SerializeField] private CollectedAirdropsController slotsController;
+	[SerializeField] private CollectedAirdropsController airdropsSlotsController;
 
 	public override void Initialize(object[] args)
 	{
 		skipWaitingTab.Hide();
 		InitializeCollectedAirdropSlots();
+
+		// Initializes time tracker for each slot if not already set up
+		CreateSlotsTimeTrackers();
 	}
 
 	private void InitializeCollectedAirdropSlots()
 	{
 		List<AirdropDTO> collectedAirdrops = SaveManager.ReadFromJSON<AirdropDTO>(Settings.AIRDROPS);
 
-		slotsController.InitializeSlots(collectedAirdrops, CardSlot.None);
+		airdropsSlotsController.InitializeSlots(collectedAirdrops, CardSlot.None);
+	}
+
+	private void CreateSlotsTimeTrackers()
+	{
+		if (TimeTracker.Instance.Trackables.Count != CollectedAirdropsController.MAX_SLOT_COUNT)
+		{
+			airdropsSlotsController.GetSlots().ForEach(slot => {
+				TimeTracker.Instance.InitializeTrackable(slot.SlotID);
+			});
+
+		}
 	}
 
 	public void StartGame()
@@ -34,7 +48,7 @@ public class PlayTab : Tab
 
 	public CollectedAirdropsController GetSlotsController()
 	{
-		return slotsController;
+		return airdropsSlotsController;
 	}
 
 	public SkipWaitingTab GetSkipWaitingTab()

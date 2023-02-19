@@ -23,9 +23,8 @@ public class FilesManager : MonoBehaviour
 		SaveManager.CreateJsonFiles(new List<string>()
 		{
 			Settings.TRACKABLES,
-			Settings.ACTIVE_CARDS,
 			Settings.AIRDROPS,
-			Settings.ALL_CARDS
+			Settings.CARDS
 		});
 	}
 }

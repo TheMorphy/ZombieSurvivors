@@ -83,6 +83,7 @@ public class CardDTO
 	public PlayerStats PlayerStat;
 	public AmmoStats AmmoStat;
 	public UpgradeAction UpgradeAction;
+	public CardSlot CardSlot;
 	public string Code;
 
 	public override bool Equals(object obj)
@@ -108,6 +109,7 @@ public class CardDTO
 			Ammount -= CardsRequiredToNextLevel;
 			CardsRequiredToNextLevel *= 2;
 			CurrentCardLevel++;
+			SaveManager.SaveToJSON(this, Settings.CARDS);
 		}
 	}
 

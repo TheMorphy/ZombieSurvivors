@@ -19,8 +19,8 @@ public class ChestOpeningTab : Tab
 	[SerializeField] private TextMeshProUGUI cardRarity;
 	[SerializeField] private TextMeshProUGUI rewardAmmount;
 
-	private Slot<AirdropDTO> slotReference;
-	private AirdropDTO airdropDetailsDTO;
+	public Slot<AirdropDTO> slotReference;
+	public AirdropDTO airdropDetailsDTO;
 
 	public List<CardDTO> newCards;
 	private int newCardIndex = 0;
@@ -32,11 +32,6 @@ public class ChestOpeningTab : Tab
 			newCards = new List<CardDTO>();
 
 			slotReference = (Slot<AirdropDTO>)args[0];
-
-			airdropBtn.onClick.AddListener(() =>
-			{
-				OpenChest();
-			});
 
 			airdropDetailsDTO = slotReference.Details;
 
@@ -79,7 +74,6 @@ public class ChestOpeningTab : Tab
 		for (int i = 0; i < airdropDetailsDTO.CardAmmount; i++)
 		{
 			float randomChance = Random.value;
-			
 			CardSO cardToAdd = null;
 
 			switch (airdropDetailsDTO.AirdropType)
@@ -87,44 +81,44 @@ public class ChestOpeningTab : Tab
 				case AirdropType.Wooden:
 					if (randomChance > 0.0f && randomChance < 0.2f)
 					{
-						cardToAdd = GameResources.Instance.CommonCards[Random.Range(0, commonCards.Count)];
+						cardToAdd = commonCards[Random.Range(0, commonCards.Count)];
 					}
 					else if (randomChance > 0.2f && randomChance < 0.4f)
 					{
-						cardToAdd = GameResources.Instance.RareCards[Random.Range(0, rareCards.Count)];
+						cardToAdd = rareCards[Random.Range(0, rareCards.Count)];
 					}
 					else
 					{
-						cardToAdd = GameResources.Instance.EpicCards[Random.Range(0, epicCards.Count)];
+						cardToAdd = epicCards[Random.Range(0, epicCards.Count)];
 					}
 					break;
 				case AirdropType.Iron:
 					if (randomChance > 0.0f && randomChance < 0.4f)
 					{
-						cardToAdd = GameResources.Instance.CommonCards[Random.Range(0, commonCards.Count)];
+						cardToAdd = commonCards[Random.Range(0, commonCards.Count)];
 					}
 					else if (randomChance > 0.4f && randomChance < 0.5f)
 					{
-						cardToAdd = GameResources.Instance.RareCards[Random.Range(0, rareCards.Count)];
+						cardToAdd = rareCards[Random.Range(0, rareCards.Count)];
 					}
 					else
 					{
-						cardToAdd = GameResources.Instance.EpicCards[Random.Range(0, epicCards.Count)];
+						cardToAdd = epicCards[Random.Range(0, epicCards.Count)];
 					}
 					break;
 
 				case AirdropType.Gold:
 					if (randomChance > 0.0f && randomChance < 0.7f)
 					{
-						cardToAdd = GameResources.Instance.CommonCards[Random.Range(0, commonCards.Count)];
+						cardToAdd = commonCards[Random.Range(0, commonCards.Count)];
 					}
 					else if (randomChance > 0.7f && randomChance < 0.9f)
 					{
-						cardToAdd = GameResources.Instance.RareCards[Random.Range(0, rareCards.Count)];
+						cardToAdd = rareCards[Random.Range(0, rareCards.Count)];
 					}
 					else
 					{
-						cardToAdd = GameResources.Instance.EpicCards[Random.Range(0, epicCards.Count)];
+						cardToAdd = epicCards[Random.Range(0, epicCards.Count)];
 					}
 					break;
 			}
@@ -152,6 +146,7 @@ public class ChestOpeningTab : Tab
 				CardName = cardToAdd.CardName,
 				CardRarity = cardToAdd.CardRarity,
 				CardType = cardToAdd.CardType,
+				CardSlot = CardSlot.Inventory,
 				Code = cardToAdd.CardCode,
 				ScallingConfiguration = cardToAdd.ScallingConfiguration,
 				CurrentCardLevel = 1,

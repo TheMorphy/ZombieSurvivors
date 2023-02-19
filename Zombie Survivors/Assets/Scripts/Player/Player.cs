@@ -132,7 +132,7 @@ public class Player : MonoBehaviour
 
 		PlayerEquipment.OnUpgraded += PlayerEquipment_OnUpgraded;
 
-		activeUpgrades = SaveManager.ReadFromJSON<CardDTO>(Settings.ACTIVE_CARDS);
+		activeUpgrades = SaveManager.ReadFromJSON<CardDTO>(Settings.CARDS).Where(x => x.CardSlot == CardSlot.Active).ToList();
 
 		PlayerEquipment.SetUpgrades(activeUpgrades);
 	}

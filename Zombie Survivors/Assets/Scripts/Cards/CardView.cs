@@ -54,6 +54,7 @@ public class CardView : MonoBehaviour
 		cardButton.onClick.AddListener(() => {
 			SelectCard(this);
 		});
+		RefreshView();
 	}
 
 	public void SelectCard(CardView clickedCardView)

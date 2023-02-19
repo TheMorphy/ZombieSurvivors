@@ -16,6 +16,8 @@ public class Card : Slot<CardDTO>
 		CardSlot = cardSlot;
 		IsEmpty = false;
 		Details = slotDetails;
+
+		slotDetails.CardSlot = CardSlot;
 		CardView.InitializeCardView();
 
 		if (slotDetails.Ammount >= Details.CardsRequiredToNextLevel)
@@ -23,7 +25,8 @@ public class Card : Slot<CardDTO>
 			IsReadyToUpgrade = true;
 		}
 
-		EquipmentTab.Cards.Add(this);
+		SaveManager.SaveToJSON(slotDetails, Settings.CARDS);
+		EquipmentTab.Add(this);
 	}
 
 	public override void SetEmpty(int index)

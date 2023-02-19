@@ -8,25 +8,38 @@ public class EquipmentTab : Tab
 	[SerializeField] private InventoryController inventoryController;
 	[SerializeField] private CharacterSelector characterSelector;
 
-	[HideInInspector] public static List<Card> Cards;
+	[HideInInspector] public static List<Card> Cards = new List<Card>();
 
 	public override void Initialize(object[] args)
 	{
 		characterSelector.InitializeChatacter();
 
-		InitializeSlots();
+		// Checks if any new cards were opened from opening airdrop. If so, add those to inventory
+		// the rest ignore, since it would cause duplication
+		if(args != null)
+		{
+			var cardsObtained = (List<CardDTO>)args[0];
+
+			var uniqueCards = Utilities.GetUniqueItems(cardsObtained, Cards.Select(x => x.Details).ToList());
+			inventoryController.InitializeSlots(uniqueCards, CardSlot.Inventory);
+			return;
+		}
+
+		var allCards = SaveManager.ReadFromJSON<CardDTO>(Settings.CARDS);
+
+		var activeCards = allCards.Where(x => x.CardSlot == CardSlot.Active).ToList();
+		var inventoryCards = allCards.Where(x => x.CardSlot == CardSlot.Inventory).ToList();
+
+		activeCardsController.InitializeSlots(activeCards, CardSlot.Active);
+		inventoryController.InitializeSlots(inventoryCards, CardSlot.Inventory);
 	}
 
-	private void InitializeSlots()
+	public static void Add(Card card)
 	{
-		Cards = new List<Card>();
-
-		var allCards = SaveManager.ReadFromJSON<CardDTO>(Settings.ALL_CARDS);
-		var activeDeck = SaveManager.ReadFromJSON<CardDTO>(Settings.ACTIVE_CARDS);
-		var inventoryCards = Utilities.GetUniqueItems(allCards, activeDeck);
-
-		activeCardsController.InitializeSlots(activeDeck, CardSlot.Active);
-		inventoryController.InitializeSlots(inventoryCards, CardSlot.Inventory);
+		if (!Cards.Contains(card))
+		{
+			Cards.Add(card);
+		}
 	}
 
 	public InventoryController GetInventory()
@@ -37,20 +50,5 @@ public class EquipmentTab : Tab
 	public ActiveCardsController GetActiveCardsController()
 	{
 		return activeCardsController;
-	}
-
-	private void OnDisable()
-	{
-		var activeDeck = Cards.Where(x => x.CardSlot == CardSlot.Active).Select(x => x.Details).ToList();
-		SaveManager.SaveToJSON(activeDeck, Settings.ACTIVE_CARDS);
-	}
-
-	private void OnApplicationPause(bool pause)
-	{
-		if (pause)
-		{
-			var activeDeck = Cards.Where(x => x.CardSlot == CardSlot.Active).Select(x => x.Details).ToList();
-			SaveManager.SaveToJSON(activeDeck, Settings.ACTIVE_CARDS);
-		}
 	}
 }

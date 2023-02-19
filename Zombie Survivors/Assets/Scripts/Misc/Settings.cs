@@ -14,8 +14,7 @@ public static class Settings
 	public const string CardsRequiredToLevelUp = "RequiredCardsAmmount";
 	public const string CardAmmount = "CardsAmmount";
 
-	public const string ACTIVE_CARDS = "ActiveCards.json";
-	public const string ALL_CARDS = "AllCards.json";
+	public const string CARDS = "Cards.json";
 	public const string AIRDROPS = "Ardrops.json";
 	public const string TRACKABLES = "Trackables.json";
 

@@ -6,9 +6,6 @@ using UnityEngine;
 
 public static class SaveManager
 {
-	/// <summary>
-	/// This will override any data saved inside a file.
-	/// </summary>
 	public static void SaveToJSON<T>(List<T> toSave, string fileName)
 	{
 		// Load the existing items from the file, if it exists
@@ -40,10 +37,6 @@ public static class SaveManager
 		WriteFile(GetPath(fileName), content);
 	}
 
-
-	/// <summary>
-	/// This will override any data saved inside a file.
-	/// </summary>
 	public static void SaveToJSON<T>(T toSave, string fileName)
 	{
 		List<T> itemsList = ReadFromJSON<T>(fileName);
