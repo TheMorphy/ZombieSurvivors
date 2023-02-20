@@ -16,7 +16,7 @@ public class SquadControl : MonoBehaviour
 
 	public event Action<SquadControl, SquadControlEventArgs> OnSquadAmmountChanged;
 
-	public static List<Transform> ComradesTransforms = new List<Transform>();
+	public static List<Transform> ComradesTransforms;
 
 	BoxCollider collider;
 	float timer;
@@ -44,6 +44,8 @@ public class SquadControl : MonoBehaviour
 
 	public void CreateFirstComrade()
 	{
+		ComradesTransforms = new List<Transform>();
+
 		Comrade comrade = Instantiate(comradePrefab, transform.position, Quaternion.identity, transform).GetComponent<Comrade>();
 		comrade.InitializeComrade();
 	}
