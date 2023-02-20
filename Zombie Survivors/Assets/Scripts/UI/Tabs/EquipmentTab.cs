@@ -10,13 +10,6 @@ public class EquipmentTab : Tab
 
 	[HideInInspector] public static List<Card> Cards;
 
-	public List<Card> lsls;
-
-	private void Update()
-	{
-		lsls = Cards;
-	}
-
 	public override void Initialize(object[] args)
 	{
 		Cards = new List<Card>();

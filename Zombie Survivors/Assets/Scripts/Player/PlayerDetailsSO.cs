@@ -46,8 +46,6 @@ public class PlayerDetailsSO : ScriptableObject
 	[SerializeField]
 	private List<PlayerStatsUpgradeDetails> playerStatsUpgrades;
 	public List<PlayerStatsUpgradeDetails> PlayerStatsUpgrades { get { return playerStatsUpgrades; } }
-
-	[HideInInspector] public List<CardDTO> ActiveUpgrades;
 }
 
 public enum PlayerClass

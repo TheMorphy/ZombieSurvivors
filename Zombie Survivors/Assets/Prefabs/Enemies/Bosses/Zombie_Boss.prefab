@@ -937,7 +937,7 @@ NavMeshAgent:
   m_Acceleration: 3
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 1.5
+  m_StoppingDistance: 2
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -993,8 +993,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ExpDropped: 0
   Attacking: 0
-  hitColliders: []
-  damageDealers: []
+  HitColliders: []
+  DamageDealers: []
   LimbsHit: {fileID: 0}
 --- !u!114 &1988776847793509328
 MonoBehaviour:

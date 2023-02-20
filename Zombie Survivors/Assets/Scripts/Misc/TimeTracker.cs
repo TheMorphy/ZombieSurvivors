@@ -86,8 +86,8 @@ public class TimeTracker : MonoBehaviour
 	{
 		if (pause)
 		{
-			StopAllCoroutines();
 			SaveTime();
+			StopAllCoroutines();
 		}
 		else
 		{
@@ -142,7 +142,7 @@ public class TimeTracker : MonoBehaviour
 	{
 		Trackable trackable = GetTrackable(ID);
 		TimeSpan timeSpan = DateTime.Now - DateTime.Parse(trackable.SaveDate);
-		int difference = (int)(trackable.RemainingSeconds - timeSpan.TotalSeconds);
+		int difference = trackable.RemainingSeconds - (int)timeSpan.TotalSeconds;
 
 		return difference;
 	}

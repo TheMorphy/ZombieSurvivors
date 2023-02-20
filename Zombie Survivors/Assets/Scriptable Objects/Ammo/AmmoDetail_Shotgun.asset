@@ -15,9 +15,9 @@ MonoBehaviour:
   ammoPicture: {fileID: 21300000, guid: e5600378dd761e64d9423790c482bf36, type: 3}
   ammoDamage: 10
   ammoPerShot: 4
-  ammoRange: 9
-  ammoSpeed: 20
-  ammoShootAngle: 40
+  ammoRange: 6
+  ammoSpeed: 10
+  ammoSpread: 2
   isAmmoTrail: 1
   ammoTrailTime: 0.04
   ammoTrailMaterial: {fileID: 2100000, guid: 9366e3f8f4b04134da1b7b6a53898087, type: 2}
