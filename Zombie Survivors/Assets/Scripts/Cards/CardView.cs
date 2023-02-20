@@ -40,6 +40,11 @@ public class CardView : MonoBehaviour
 		cardRemainingLevel.text = CardReference.Details.Ammount.ToString() + " / " + CardReference.Details.CardsRequiredToNextLevel.ToString();
 		cardSlotImage.sprite = CardReference.Details.CardSprite;
 		cardLevelBar.fillAmount = (float)CardReference.Details.Ammount / CardReference.Details.CardsRequiredToNextLevel;
+		if (CardReference.Details.Ammount >= CardReference.Details.CardsRequiredToNextLevel)
+		{
+			CardReference.IsReadyToUpgrade = true;
+		}
+		cardOptions.RefreshOptionsMenu();
 	}
 
 	public void InitializeCardView()
