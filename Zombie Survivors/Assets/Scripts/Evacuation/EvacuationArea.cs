@@ -10,12 +10,19 @@ public class EvacuationArea : MonoBehaviour
 
 	private void Awake()
 	{
-		StaticEvents.OnComradeBoarded += StaticEvents_OnComradeBoarded;
-
 		areaCollider = transform.GetComponent<Collider>();
 		areaCollider.enabled = false;
 	}
-	
+	private void OnEnable()
+	{
+		StaticEvents.OnComradeBoarded += StaticEvents_OnComradeBoarded;
+	}
+
+	private void OnDisable()
+	{
+		StaticEvents.OnComradeBoarded -= StaticEvents_OnComradeBoarded;
+	}
+
 	private void StaticEvents_OnComradeBoarded()
 	{
 		StartCoroutine(AnimateHelicopterScale());

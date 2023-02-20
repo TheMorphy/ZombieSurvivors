@@ -44,6 +44,10 @@ public class CardView : MonoBehaviour
 		{
 			CardReference.IsReadyToUpgrade = true;
 		}
+		else
+		{
+			CardReference.IsReadyToUpgrade = false;
+		}
 		cardOptions.RefreshOptionsMenu();
 	}
 

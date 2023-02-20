@@ -747,7 +747,7 @@ MonoBehaviour:
   pools:
   - name: Ammo
     prefab: {fileID: 1993615782416687002, guid: 4c8179aaa3a189243ad2decfd582c084, type: 3}
-    size: 500
+    size: 2000
 --- !u!1 &384481127
 GameObject:
   m_ObjectHideFlags: 0
@@ -1272,7 +1272,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -258.00003}
+  m_AnchoredPosition: {x: 0, y: -258}
   m_SizeDelta: {x: 0, y: -0.000030517578}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &626146288
