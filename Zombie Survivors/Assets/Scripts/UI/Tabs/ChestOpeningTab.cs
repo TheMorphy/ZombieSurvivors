@@ -146,7 +146,7 @@ public class ChestOpeningTab : Tab
 				CardName = cardToAdd.CardName,
 				CardRarity = cardToAdd.CardRarity,
 				CardType = cardToAdd.CardType,
-				CardSlot = CardSlot.Inventory,
+				CardSlot = CardSlot.None,
 				Code = cardToAdd.CardCode,
 				ScallingConfiguration = cardToAdd.ScallingConfiguration,
 				CurrentCardLevel = 1,

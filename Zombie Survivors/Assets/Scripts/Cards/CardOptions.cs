@@ -32,22 +32,11 @@ public class CardOptions : MonoBehaviour
 
 		topActionButtontext = topActionButton.GetComponentInChildren<TextMeshProUGUI>();
 		bottomActionButtontext = bottomActionButton.GetComponentInChildren<TextMeshProUGUI>();
-
-		topActionButton.onClick.AddListener(() => {
-			DoAction(topOption);
-		});
-
-		bottomActionButton.onClick.AddListener(() => {
-			DoAction(botOption);
-		});
-
 		RefreshOptionsMenu();
 	}
 
 	public void ClearReference()
 	{
-		topActionButton.onClick.RemoveAllListeners();
-		bottomActionButton.onClick.RemoveAllListeners();
 		CardReference = null;
 	}
 
@@ -94,9 +83,9 @@ public class CardOptions : MonoBehaviour
 		}
 	}
 	
-	private void DoAction(Options currentOption)
+	public void TopButtonAction()
 	{
-		switch (currentOption)
+		switch (topOption)
 		{
 			case Options.Upgrade:
 				CardReference.Upgrade();
@@ -113,6 +102,26 @@ public class CardOptions : MonoBehaviour
 		}
 		Hide();
 	}
+	public void BotButtonAction()
+	{
+		switch (botOption)
+		{
+			case Options.Upgrade:
+				CardReference.Upgrade();
+				break;
+			case Options.Use:
+				CardReference.UseInActiveDeck();
+				break;
+			case Options.Remove:
+				CardReference.UseInInventory();
+				break;
+			case Options.Info:
+				CardReference.DisplayCardInfo();
+				break;
+		}
+		Hide();
+	}
+
 
 	public void Hide()
 	{

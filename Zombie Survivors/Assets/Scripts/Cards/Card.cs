@@ -6,9 +6,9 @@ public class Card : Slot<CardDTO>
 {
 	public CardView CardView;
 
-	[HideInInspector] public bool IsReadyToUpgrade = false;
-	[HideInInspector] public int CardIndex;
-	[HideInInspector] public CardSlot CardSlot;
+	public bool IsReadyToUpgrade = false;
+	public int CardIndex;
+	public CardSlot CardSlot;
 
 	public override void Initialize(CardDTO slotDetails, int slotIndex, CardSlot cardSlot)
 	{
@@ -17,9 +17,8 @@ public class Card : Slot<CardDTO>
 		CardSlot = cardSlot;
 		IsEmpty = false;
 		Details = slotDetails;
-
 		slotDetails.CardSlot = CardSlot;
-
+		CardView.InitializeCardView();
 		if (slotDetails.Ammount >= Details.CardsRequiredToNextLevel)
 		{
 			IsReadyToUpgrade = true;
@@ -27,8 +26,6 @@ public class Card : Slot<CardDTO>
 
 		SaveManager.SaveToJSON(slotDetails, Settings.CARDS);
 		EquipmentTab.Add(this);
-
-		CardView.InitializeCardView();
 	}
 
 	public override void SetEmpty(int index)
@@ -38,7 +35,6 @@ public class Card : Slot<CardDTO>
 		SlotID = index;
 		IsEmpty = true;
 		CardSlot = CardSlot.None;
-		CardView.CardReference = null;
 		Details = null;
 	}
 
@@ -60,26 +56,25 @@ public class Card : Slot<CardDTO>
 		if (inventory != null)
 		{
 			inventory.InitializeSlot(Details, CardSlot.Inventory);
+			SetEmpty(SlotID);
 		}
-		SetEmpty(SlotID);
 	}
 
 	public void UseInActiveDeck()
 	{
+		var activeCardsController = CanvasManager.GetTab<EquipmentTab>().GetActiveCardsController();
 		// TODO: Add ability to replace
-		if (ActiveCardsController.MAX_SLOT_COUNT == EquipmentTab.Cards.Where(x => x.CardSlot == CardSlot.Active).Count())
+		if (activeCardsController.GetSlots().Where(x => !x.IsEmpty).Count().Equals(ActiveCardsController.MAX_SLOT_COUNT))
 		{
 			print("All active slots are occupied");
 			return;
 		}
-			
 
-		var activeCardsController = CanvasManager.GetTab<EquipmentTab>().GetActiveCardsController();
 		if (activeCardsController != null)
 		{
 			activeCardsController.InitializeSlot(Details, CardSlot.Active);
+			SetEmpty(SlotID);
 		}
-		SetEmpty(SlotID);
 	}
 
 

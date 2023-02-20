@@ -33,7 +33,7 @@ public class AirdropRewardsTab : Tab
 
 			openedAirdropImage.sprite = airdropDetailsDTO.AirdropSprite;
 
-			CanvasManager.GetTab<EquipmentTab>().Initialize(new object[] { newCards });
+			CanvasManager.GetTab<EquipmentTab>().UpdateInventory();
 
 			for (int i = 0; i < newCards.Count; i++)
 			{

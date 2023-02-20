@@ -8,20 +8,18 @@ public class EquipmentTab : Tab
 	[SerializeField] private InventoryController inventoryController;
 	[SerializeField] private CharacterSelector characterSelector;
 
-	[HideInInspector] public static List<Card> Cards = new List<Card>();
+	[HideInInspector] public static List<Card> Cards;
+
+	public List<Card> lsls;
+
+	private void Update()
+	{
+		lsls = Cards;
+	}
 
 	public override void Initialize(object[] args)
 	{
-		// Checks if any new cards were opened from opening airdrop. If so, add those to inventory
-		// the rest ignore, since it would cause duplication
-		if(args != null)
-		{
-			var cardsObtained = (List<CardDTO>)args[0];
-
-			var uniqueCards = Utilities.GetUniqueItems(cardsObtained, Cards.Select(x => x.Details).ToList());
-			inventoryController.InitializeSlots(uniqueCards, CardSlot.Inventory);
-			return;
-		}
+		Cards = new List<Card>();
 
 		var allCards = SaveManager.ReadFromJSON<CardDTO>(Settings.CARDS);
 
@@ -39,6 +37,26 @@ public class EquipmentTab : Tab
 		if (!Cards.Contains(card))
 		{
 			Cards.Add(card);
+		}
+	}
+
+	public void UpdateInventory()
+	{
+		var allCards = SaveManager.ReadFromJSON<CardDTO>(Settings.CARDS);
+
+		foreach (var card in allCards)
+		{
+			var cardInList = Cards.FirstOrDefault(x => x.Details.Code.Equals(card.Code));
+
+			if (cardInList == null)
+			{
+				inventoryController.InitializeSlot(card, CardSlot.Inventory);
+			}
+			else
+			{
+				cardInList.Details = card;
+				cardInList.CardView.RefreshView();
+			}
 		}
 	}
 

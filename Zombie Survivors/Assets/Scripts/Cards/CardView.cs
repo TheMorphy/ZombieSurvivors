@@ -19,13 +19,14 @@ public class CardView : MonoBehaviour
     [SerializeField] private Image cardLevelBar;
     [SerializeField] private Button cardButton;
 
-	private CardView _selectedCardView; // Keep track of the currently selected card
+	public CardView _selectedCardView; // Keep track of the currently selected card
 
 	public void InitializeEmptyView()
 	{
 		cardOptions.ClearReference();
+		_selectedCardView = null;
+		CardReference = null;
 		cardSlotImage.sprite = emptySlotSprite;
-		cardButton.onClick.RemoveAllListeners();
 		cardType.text = "";
 		cardLevel.text = "";
 		cardButton.enabled = false;
@@ -51,9 +52,6 @@ public class CardView : MonoBehaviour
 		cardRemainingLevel.text = CardReference.Details.Ammount.ToString() + " / " + CardReference.Details.CardsRequiredToNextLevel.ToString();
 		cardSlotImage.sprite = CardReference.Details.CardSprite;
 		cardLevelBar.fillAmount = (float)CardReference.Details.Ammount / CardReference.Details.CardsRequiredToNextLevel;
-		cardButton.onClick.AddListener(() => {
-			SelectCard(this);
-		});
 		RefreshView();
 	}
 
