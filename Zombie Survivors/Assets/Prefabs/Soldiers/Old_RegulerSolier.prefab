@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 2383282630050494456}
   - component: {fileID: 6449630924684632337}
   m_Layer: 10
-  m_Name: Comrade
+  m_Name: Old_RegulerSolier
   m_TagString: Comrade
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

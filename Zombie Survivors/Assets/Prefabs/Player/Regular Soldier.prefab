@@ -284,9 +284,9 @@ MonoBehaviour:
   playerController: {fileID: 0}
   setActiveWeaponEvent: {fileID: 0}
   squadControl: {fileID: 0}
+  activeUpgrades: []
   PlayerEquipment:
     playerDetails: {fileID: 0}
-    EquipmentUpgraded: 0
 --- !u!114 &8648394057788579890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,7 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9329091d831375c44a40785c2630b7c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  comradePrefab: {fileID: 321057240856242775, guid: 3dba209ac090101498332cd7b4d18bff, type: 3}
+  comradePrefab: {fileID: 6458076772525050590, guid: 9bc0360dfc042444ebe14c4c5d5fed78, type: 3}
   DistanceFactor: 0.75
   Radius: 1
   squadAmmount: 0

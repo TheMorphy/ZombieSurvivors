@@ -51,9 +51,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4671845748811816022, guid: a0025366462d3ea42825d23edb32a677, type: 3}
+      propertyPath: comradePrefab
+      value: 
+      objectReference: {fileID: 321057240856242775, guid: a95997ee04a7f79479bd81384bee7814, type: 3}
     - target: {fileID: 4671845748811816023, guid: a0025366462d3ea42825d23edb32a677, type: 3}
       propertyPath: m_Name
-      value: Player
+      value: Fast Soldier
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0025366462d3ea42825d23edb32a677, type: 3}
