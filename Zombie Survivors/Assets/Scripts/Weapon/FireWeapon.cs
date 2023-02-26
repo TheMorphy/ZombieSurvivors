@@ -2,17 +2,10 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(ActiveWeapon))]
-[RequireComponent(typeof(FireWeaponEvent))]
-[RequireComponent(typeof(ReloadWeaponEvent))]
-[RequireComponent(typeof(WeaponFiredEvent))]
 [DisallowMultipleComponent]
 public class FireWeapon : MonoBehaviour
 {
 	private Comrade comrade;
-	//private ActiveWeapon activeWeapon;
-	////private FireWeaponEvent fireWeaponEvent;
-	//private WeaponFiredEvent weaponFiredEvent;
-	//private ReloadWeaponEvent reloadWeaponEvent;
 
 	private float timeSinceFired = 0;
 
@@ -23,11 +16,6 @@ public class FireWeapon : MonoBehaviour
 	private void Awake()
 	{
 		comrade = GetComponent<Comrade>();
-		// Load components.
-		//activeWeapon = GetComponent<ActiveWeapon>();
-		////fireWeaponEvent = GetComponent<FireWeaponEvent>();
-		//reloadWeaponEvent = GetComponent<ReloadWeaponEvent>();
-		//weaponFiredEvent = GetComponent<WeaponFiredEvent>();
 	}
 
 	/// <summary>
@@ -112,7 +100,7 @@ public class FireWeapon : MonoBehaviour
 		}
 
 		// Call weapon fired event
-		//comrade.ActiveWeapon.CallWeaponFiredEvent(comrade.ActiveWeapon.GetCurrentWeapon());
+		comrade.WeaponFiredEvent.CallWeaponFiredEvent(comrade.ActiveWeapon.GetCurrentWeapon());
 
 		IsFiring = false;
 

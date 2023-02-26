@@ -19,4 +19,7 @@ public static class Settings
 	public const string TRACKABLES = "Trackables.json";
 
 	public const string SAVED_CHARACTER = "SavedCharacterName";
+
+	public static string GOLD_AMMOUNT = "Gold";
+	public static string GEM_AMMOUNT = "Gems";
 }

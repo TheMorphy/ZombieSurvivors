@@ -46,13 +46,13 @@ public class UpgradesTab : MonoBehaviour
 			{
 				case UpgradeType.WeaponUpgrade:
 					
-					var weaponStatsUpgradesList = GameManager.Instance.GetPlayer().playerWeapon.weaponDetails.WeaponUpgrades;
+					var weaponStatsUpgradesList = GameManager.Instance.GetPlayer().PlayerWeapon.weaponDetails.WeaponUpgrades;
 					int randomWeaponStatsUpgradesListIndex = UnityEngine.Random.Range(0, weaponStatsUpgradesList.Count);
 
 					statName = weaponStatsUpgradesList[randomWeaponStatsUpgradesListIndex].WeaponStats.ToString();
 					tempText = Utilities.GetDescription<WeaponStats>(statName);
 
-					tempImg = GameManager.Instance.GetPlayer().playerWeapon.weaponDetails.WeaponPicture;
+					tempImg = GameManager.Instance.GetPlayer().PlayerWeapon.weaponDetails.WeaponPicture;
 
 					toggleValue = weaponStatsUpgradesList[randomWeaponStatsUpgradesListIndex].Toggle;
 					upgradeAction = weaponStatsUpgradesList[randomWeaponStatsUpgradesListIndex].UpgradeAction;
@@ -61,10 +61,10 @@ public class UpgradesTab : MonoBehaviour
 
 				case UpgradeType.AmmoUpgrade:
 
-					var ammoUpgradesList = GameManager.Instance.GetPlayer().playerWeapon.weaponDetails.AmmoDetails.AmmoUpgrades;
+					var ammoUpgradesList = GameManager.Instance.GetPlayer().PlayerWeapon.weaponDetails.AmmoDetails.AmmoUpgrades;
 					int randomAmmoUpgradesListIndex = UnityEngine.Random.Range(0, ammoUpgradesList.Count);
 
-					tempImg = GameManager.Instance.GetPlayer().playerWeapon.weaponDetails.AmmoDetails.AmmoPicture;
+					tempImg = GameManager.Instance.GetPlayer().PlayerWeapon.weaponDetails.AmmoDetails.AmmoPicture;
 
 					statName = ammoUpgradesList[randomAmmoUpgradesListIndex].AmmoStats.ToString();
 					tempText = Utilities.GetDescription<AmmoStats>(statName);
@@ -76,13 +76,13 @@ public class UpgradesTab : MonoBehaviour
 
 				case UpgradeType.PlayerStatUpgrade:
 
-					var playerStatsUpgradesList = GameManager.Instance.GetPlayer().playerDetails.PlayerStatsUpgrades;
+					var playerStatsUpgradesList = GameManager.Instance.GetPlayer().PlayerDetails.PlayerStatsUpgrades;
 					int randomplayerStatsUpgradesListIndex = UnityEngine.Random.Range(0, playerStatsUpgradesList.Count);
 
 					statName = playerStatsUpgradesList[randomplayerStatsUpgradesListIndex].PlayerStats.ToString();
 					tempText = Utilities.GetDescription<PlayerStats>(statName);
 
-					tempImg = GameManager.Instance.GetPlayer().playerWeapon.weaponDetails.AmmoDetails.AmmoPicture;
+					tempImg = GameManager.Instance.GetPlayer().PlayerWeapon.weaponDetails.AmmoDetails.AmmoPicture;
 
 					toggleValue = playerStatsUpgradesList[randomplayerStatsUpgradesListIndex].Toggle;
 					upgradeAction = playerStatsUpgradesList[randomplayerStatsUpgradesListIndex].UpgradeAction;

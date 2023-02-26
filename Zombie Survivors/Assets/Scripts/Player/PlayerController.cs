@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
 	private void HandleMovement()
 	{
-		moveDirection = new Vector3(joystick.Horizontal * player.playerDetails.MoveSpeed, 0, joystick.Vertical * player.playerDetails.MoveSpeed);
+		moveDirection = new Vector3(joystick.Horizontal * player.PlayerDetails.MoveSpeed, 0, joystick.Vertical * player.PlayerDetails.MoveSpeed);
 		rb.MovePosition(transform.position + moveDirection * Time.deltaTime * GetMoveSpeed());
 	}
 
@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
 		joystick.gameObject.SetActive(false);
 
-		player.playerController.enabled = false;
+		player.PlayerController.enabled = false;
 
 		moveDirection = Vector3.zero;
 	}
@@ -93,15 +93,15 @@ public class PlayerController : MonoBehaviour
 	{
 		if (upgradeAction == UpgradeAction.Add)
 		{
-			player.playerDetails.MoveSpeed += value;
+			player.PlayerDetails.MoveSpeed += value;
 		}
 		else if (upgradeAction == UpgradeAction.Multiply)
 		{
-			player.playerDetails.MoveSpeed *= value;
+			player.PlayerDetails.MoveSpeed *= value;
 		}
 		else if (upgradeAction == UpgradeAction.Increase_Percentage)
 		{
-			player.playerDetails.MoveSpeed = Utilities.ApplyPercentage(value, player.playerDetails.MoveSpeed);
+			player.PlayerDetails.MoveSpeed = Utilities.ApplyPercentage(value, player.PlayerDetails.MoveSpeed);
 		}
 	}
 

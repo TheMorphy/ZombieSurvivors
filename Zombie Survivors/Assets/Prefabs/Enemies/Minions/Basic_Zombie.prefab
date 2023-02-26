@@ -1008,7 +1008,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 1
-  m_ObstacleAvoidanceType: 2
+  m_ObstacleAvoidanceType: 1
 --- !u!136 &3373127689159597604
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1057,8 +1057,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ExpDropped: 0
   Attacking: 0
-  hitColliders: []
-  damageDealers: []
+  HitColliders: []
+  DamageDealers: []
   LimbsHit: {fileID: 0}
 --- !u!114 &1988776847793509328
 MonoBehaviour:

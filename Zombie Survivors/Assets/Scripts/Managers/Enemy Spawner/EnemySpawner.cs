@@ -135,6 +135,8 @@ public class EnemySpawner : MonoBehaviour
 
 	public void SpawnBoss(int levelIndex)
 	{
+		AudioManager.Instance.PlayMusicWithCrossFade(SoundTitle.BossFight_Theme);
+
 		GameManager.Instance.CallGameStateChangedEvent(GameState.bossFight);
 
 		Vector3 bossSpawnPosition = GameManager.Instance.GetRandomSpawnPositionGround();

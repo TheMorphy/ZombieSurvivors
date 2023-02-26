@@ -13,13 +13,12 @@ public class CardView : MonoBehaviour
 	[Header("View Parameters")]
 	[SerializeField] private Image cardSlotImage;
 	[SerializeField] private Sprite emptySlotSprite;
-	[SerializeField] private TextMeshProUGUI cardType;
     [SerializeField] private TextMeshProUGUI cardLevel;
     [SerializeField] private TextMeshProUGUI cardRemainingLevel;
     [SerializeField] private Image cardLevelBar;
     [SerializeField] private Button cardButton;
 
-	public CardView _selectedCardView; // Keep track of the currently selected card
+	private CardView _selectedCardView; // Keep track of the currently selected card
 
 	public void InitializeEmptyView()
 	{
@@ -27,7 +26,6 @@ public class CardView : MonoBehaviour
 		_selectedCardView = null;
 		CardReference = null;
 		cardSlotImage.sprite = emptySlotSprite;
-		cardType.text = "";
 		cardLevel.text = "";
 		cardButton.enabled = false;
 		cardLevelBar.transform.parent.gameObject.SetActive(false);
@@ -35,7 +33,6 @@ public class CardView : MonoBehaviour
 
 	public void RefreshView()
 	{
-		cardType.text = CardReference.Details.CardName;
 		cardLevel.text = CardReference.Details.CurrentCardLevel.ToString();
 		cardRemainingLevel.text = CardReference.Details.Ammount.ToString() + " / " + CardReference.Details.CardsRequiredToNextLevel.ToString();
 		cardSlotImage.sprite = CardReference.Details.CardSprite;
@@ -56,7 +53,6 @@ public class CardView : MonoBehaviour
 		cardOptions.InitializeOptions(CardReference);
 		cardButton.enabled = true;
 		cardLevelBar.transform.parent.gameObject.SetActive(true);
-		cardType.text = CardReference.Details.CardName;
 		cardLevel.text = CardReference.Details.CurrentCardLevel.ToString();
 		cardRemainingLevel.text = CardReference.Details.Ammount.ToString() + " / " + CardReference.Details.CardsRequiredToNextLevel.ToString();
 		cardSlotImage.sprite = CardReference.Details.CardSprite;
@@ -80,6 +76,8 @@ public class CardView : MonoBehaviour
 				if (cardView == clickedCardView)
 				{
 					cardView.cardOptions.Show();
+					AudioManager.Instance.PlaySFX(SoundTitle.Card_Select);
+					CardReference.CardAnimation.PlayAnimation();
 					_selectedCardView = cardView;
 				}
 				else

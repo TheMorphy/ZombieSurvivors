@@ -67,6 +67,7 @@ public class Enemy : MonoBehaviour
 
 		if (healthEventArgs.healthAmount <= 0)
 		{
+			AudioManager.Instance.PlaySFX(SoundTitle.Zombie_Death);
 			health.DisableHealthbar();
 
 			enemyController.DisableEnemy();
@@ -74,6 +75,10 @@ public class Enemy : MonoBehaviour
 			EnemySpawner.activeEnemies.Remove(transform);
 
 			animateEnemy.TurnOnRagdoll();
+		}
+		else
+		{
+			AudioManager.Instance.PlaySFX(SoundTitle.Zombie_Hit);
 		}
 	}
 

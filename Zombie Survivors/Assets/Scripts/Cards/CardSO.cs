@@ -110,6 +110,7 @@ public class CardDTO
 			CardsRequiredToNextLevel *= 2;
 			CurrentCardLevel++;
 			SaveManager.SaveToJSON(this, Settings.CARDS);
+			AudioManager.Instance.PlaySFX(SoundTitle.Card_Upgrade);
 		}
 	}
 

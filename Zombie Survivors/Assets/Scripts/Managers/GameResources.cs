@@ -46,6 +46,7 @@ public class GameResources : MonoBehaviour
 	public List<CardSO> CommonCards;
 	public List<CardSO> RareCards;
 	public List<CardSO> EpicCards;
+	public List<CardSO> LegendaryCards;
 
 	[Space(5)]
 	[Header("END GAME")]

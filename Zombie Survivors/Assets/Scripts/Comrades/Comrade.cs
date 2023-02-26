@@ -3,6 +3,7 @@ using UnityEngine;
 #region Required Components
 [RequireComponent(typeof(ComradeMovement))]
 [RequireComponent(typeof(AnimatePlayer))]
+[RequireComponent(typeof(WeaponFiredEvent))]
 [RequireComponent(typeof(FireWeapon))]
 [RequireComponent(typeof(ActiveWeapon))]
 [RequireComponent(typeof(SetActiveWeaponEvent))]
@@ -22,6 +23,7 @@ public class Comrade : MonoBehaviour
 	[HideInInspector] public Health Health;
 	[HideInInspector] public FireWeapon FireWeapon;
 	[HideInInspector] public ActiveWeapon ActiveWeapon;
+	[HideInInspector] public WeaponFiredEvent WeaponFiredEvent;
 	[HideInInspector] public SetActiveWeaponEvent SetActiveWeaponEvent;
 	[HideInInspector] public HealthEvent HealthEvent;
 
@@ -33,6 +35,7 @@ public class Comrade : MonoBehaviour
 		AnimatePlayer = GetComponent<AnimatePlayer>();
 		HealthEvent = GetComponent<HealthEvent>();
 		ActiveWeapon = GetComponent<ActiveWeapon>();
+		WeaponFiredEvent = GetComponent<WeaponFiredEvent>();
 		SetActiveWeaponEvent = GetComponent<SetActiveWeaponEvent>();
 		FireWeapon = GetComponent<FireWeapon>();
 		Health = GetComponent<Health>();
@@ -42,9 +45,9 @@ public class Comrade : MonoBehaviour
 	{
 		SquadControl.ComradesTransforms.Add(transform);
 
-		SetActiveWeaponEvent.CallSetActiveWeaponEvent(Player.playerWeapon);
+		SetActiveWeaponEvent.CallSetActiveWeaponEvent(Player.PlayerWeapon);
 
-		Health.SetStartingHealth(Player.playerDetails.Health);
+		Health.SetStartingHealth(Player.PlayerDetails.Health);
 	}
 
 	private void OnEnable()
@@ -64,7 +67,7 @@ public class Comrade : MonoBehaviour
 
 		if (healthEventArgs.healthAmount <= 0f)
 		{
-			Player.squadControl.RemoveFromSquad(transform);
+			Player.SquadControl.RemoveFromSquad(transform);
 
 			AnimatePlayer.TurnOnRagdoll();		
 		}

@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 8007784321064922907}
   - component: {fileID: 8648394057788579890}
   - component: {fileID: 4671845748811816022}
-  - component: {fileID: 4876029905887684312}
+  - component: {fileID: 8870882704012075253}
   m_Layer: 3
   m_Name: Regular Soldier
   m_TagString: Player
@@ -282,7 +282,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerDetails: {fileID: 0}
   playerController: {fileID: 0}
-  setActiveWeaponEvent: {fileID: 0}
   squadControl: {fileID: 0}
   activeUpgrades: []
   PlayerEquipment:
@@ -315,7 +314,7 @@ MonoBehaviour:
   DistanceFactor: 0.75
   Radius: 1
   squadAmmount: 0
---- !u!114 &4876029905887684312
+--- !u!114 &8870882704012075253
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -324,7 +323,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4671845748811816023}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e41de86de934a6f4fb6236e41c11504e, type: 3}
+  m_Script: {fileID: 11500000, guid: 824aa974f21a38f44b96eedb94d38ab8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &5343840494751932419

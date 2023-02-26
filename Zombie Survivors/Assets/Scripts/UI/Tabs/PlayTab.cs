@@ -38,6 +38,8 @@ public class PlayTab : Tab
 
 	public void StartGame()
 	{
+		AudioManager.Instance.PlayMusicWithFade(SoundTitle.Gameplay_Theme, 0.8f);
+
 		SceneManager.LoadScene(1);
 	}
 

@@ -63,6 +63,8 @@ public class MultiplicationCircleManager : MonoBehaviour
 	{
 		if (other.CompareTag("Player"))
 		{
+			AudioManager.Instance.PlaySFX(SoundTitle.Squad_Multiplier);
+
 			StaticEvents.CallCollectedEvent(transform.position);
 
 			SquadControl squadControl = other.GetComponentInParent<SquadControl>();

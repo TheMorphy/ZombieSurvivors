@@ -26,6 +26,7 @@ public class Airdrop : Collectable
 	{
 		if (other.transform.CompareTag("Player"))
 		{
+			SaveAirdrop();
 			DisableCrashmark();
 			StartCoroutine(Collect(other.transform, absorbTime));
 		}
@@ -33,14 +34,13 @@ public class Airdrop : Collectable
 
 	protected override void OnCollected()
 	{
-		SaveAirdrop();
 		StaticEvents.CallCollectedEvent(startPos);
 		Destroy(gameObject);
 	}
 
 	public void InitializeAirdrop(AirdropDetails airdrop)
 	{
-		this.airdropDetails = Instantiate(airdrop);
+		airdropDetails = Instantiate(airdrop);
 	}
 
 	public void OnPackageLanded()
@@ -61,6 +61,8 @@ public class Airdrop : Collectable
 
 		if (savedAirdrops.Count < CollectedAirdropsController.MAX_SLOT_COUNT)
 		{
+			AudioManager.Instance.PlaySFX(SoundTitle.Airdrop_Pickup);
+
 			AirdropDTO collectedAirrop = new AirdropDTO()
 			{
 				Code = Guid.NewGuid().ToString(),
@@ -81,7 +83,13 @@ public class Airdrop : Collectable
 		}
 		else
 		{
+			AudioManager.Instance.PlaySFX(SoundTitle.Money_Pickup);
+
 			// TODO: Gib money
+			int currentAmmount = PlayerPrefs.GetInt(Settings.GOLD_AMMOUNT, 100);
+			currentAmmount += UnityEngine.Random.Range(50, 300);
+
+			PlayerPrefs.SetInt(Settings.GOLD_AMMOUNT, currentAmmount);
 		}
 	}
 }

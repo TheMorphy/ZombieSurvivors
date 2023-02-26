@@ -15,6 +15,8 @@ public class EvacuationArea : MonoBehaviour
 	}
 	private void OnEnable()
 	{
+		AudioManager.Instance.PlayMusicWithFade(SoundTitle.Helicopter_Arrive);
+
 		StaticEvents.OnComradeBoarded += StaticEvents_OnComradeBoarded;
 	}
 

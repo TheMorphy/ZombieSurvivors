@@ -48,6 +48,13 @@ public class SquadControl : MonoBehaviour
 
 		Comrade comrade = Instantiate(comradePrefab, transform.position, Quaternion.identity, transform).GetComponent<Comrade>();
 		comrade.InitializeComrade();
+
+		comrade.WeaponFiredEvent.OnWeaponFired += WeaponFiredEvent_OnWeaponFired;
+	}
+
+	private void WeaponFiredEvent_OnWeaponFired(WeaponFiredEvent arg1, WeaponFiredEventArgs arg2)
+	{
+		AudioManager.Instance.PlaySFX(SoundTitle.Gun_Shoot);
 	}
 
 	public static Bounds GetChildrenBounds(Transform transform)

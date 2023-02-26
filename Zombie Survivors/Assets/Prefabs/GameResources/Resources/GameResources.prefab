@@ -56,12 +56,27 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b79f6456d47022f4d83bec814c7f03ee, type: 2}
   - {fileID: 11400000, guid: d11e18cf5fa814443b9e9520c1c707f1, type: 2}
   CommonCards:
+  - {fileID: 11400000, guid: a31799d359168ca44989da191102d142, type: 2}
+  - {fileID: 11400000, guid: 28dd35b6ddf7230498b07e07648dd913, type: 2}
   - {fileID: 11400000, guid: f1e0b3d1921727c419ef30c7bc585014, type: 2}
+  - {fileID: 11400000, guid: 3b7e99d73128ba442a3069fddde2d2ac, type: 2}
   - {fileID: 11400000, guid: 136d840a0baa73b4681819ee038bacfc, type: 2}
   RareCards:
   - {fileID: 11400000, guid: 46c65fbd658dc214ea94406bd2f41781, type: 2}
+  - {fileID: 11400000, guid: fb69c61af8257c148a9dbea1b38a315a, type: 2}
   - {fileID: 11400000, guid: 330ad9503ea8db94f9a0393b983d686b, type: 2}
+  - {fileID: 11400000, guid: bcf29807c3743c649b92818d11853230, type: 2}
+  - {fileID: 11400000, guid: e753d1a25929a4142b2a60a551d2b328, type: 2}
   EpicCards:
+  - {fileID: 11400000, guid: fe3b350c5d5a6ff468c826f52be3e98a, type: 2}
+  - {fileID: 11400000, guid: f67c62b5b7c005c4d9268b990d6d036b, type: 2}
   - {fileID: 11400000, guid: 3d9966fb66b9542409a0599396bf1f41, type: 2}
+  - {fileID: 11400000, guid: 4b852b04fd7d21746ab35533bc73a848, type: 2}
   - {fileID: 11400000, guid: b22352223a379574f92ddf3818c30ec7, type: 2}
+  LegendaryCards:
+  - {fileID: 11400000, guid: 17300203e9b47a04996dd82a821a979f, type: 2}
+  - {fileID: 11400000, guid: b520d7c68d3e883458bef5237c068deb, type: 2}
+  - {fileID: 11400000, guid: 3adfc607aedc91243b62b362ceb7e7b8, type: 2}
+  - {fileID: 11400000, guid: 9770bdf8c3e656e45af9798b53316f64, type: 2}
+  - {fileID: 11400000, guid: 7018fdb7ccf0c8948951514b7283ef53, type: 2}
   EvacuationArea: {fileID: 8920200563324837378, guid: df7183e9a6f26f84b8079681930e9407, type: 3}

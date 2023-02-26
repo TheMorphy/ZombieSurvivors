@@ -2,15 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(SetActiveWeaponEvent))]
 [DisallowMultipleComponent]
 public class Player : MonoBehaviour
 {
-	[HideInInspector] public PlayerDetailsSO playerDetails;
-	[HideInInspector] public PlayerController playerController;
-	[HideInInspector] public SetActiveWeaponEvent setActiveWeaponEvent;
-	[HideInInspector] public SquadControl squadControl;
-	[HideInInspector] public Weapon playerWeapon;
+	[HideInInspector] public PlayerDetailsSO PlayerDetails;
+	[HideInInspector] public PlayerController PlayerController;
+	[HideInInspector] public SquadControl SquadControl;
+	[HideInInspector] public Weapon PlayerWeapon;
 
 	[Space]
 	[Header("Readonly")]
@@ -20,9 +18,8 @@ public class Player : MonoBehaviour
 
 	private void Awake()
 	{
-		playerController = GetComponent<PlayerController>();
-		setActiveWeaponEvent = GetComponent<SetActiveWeaponEvent>();
-		squadControl = GetComponent<SquadControl>();
+		PlayerController = GetComponent<PlayerController>();
+		SquadControl = GetComponent<SquadControl>();
 	}
 
 	private void OnEnable()
@@ -35,7 +32,7 @@ public class Player : MonoBehaviour
 
 		UpgradesManager.OnAmmoUpgrade += UpgradesManager_OnAmmoUpgrade;
 
-		squadControl.OnSquadAmmountChanged += PlayerController_OnSquadIncrease;
+		SquadControl.OnSquadAmmountChanged += PlayerController_OnSquadIncrease;
 	}
 
 	private void OnDisable()
@@ -46,14 +43,14 @@ public class Player : MonoBehaviour
 
 		UpgradesManager.OnAmmoUpgrade -= UpgradesManager_OnAmmoUpgrade;
 
-		squadControl.OnSquadAmmountChanged -= PlayerController_OnSquadIncrease;
+		SquadControl.OnSquadAmmountChanged -= PlayerController_OnSquadIncrease;
 
 		PlayerEquipment.OnUpgraded -= PlayerEquipment_OnUpgraded;
 	}
 
 	private void UpgradesManager_OnAmmoUpgrade(AmmoUpgradeEventArgs ammoUpgradeEventArgs)
 	{
-		playerWeapon.UpgradeAmmo(ammoUpgradeEventArgs.ammoStats, ammoUpgradeEventArgs.floatValue, ammoUpgradeEventArgs.upgradeAction);
+		PlayerWeapon.UpgradeAmmo(ammoUpgradeEventArgs.ammoStats, ammoUpgradeEventArgs.floatValue, ammoUpgradeEventArgs.upgradeAction);
 	}
 
 	private void UpgradesManager_OnPlayerStatUpgrade(PlayerStatUpgradeEventArgs playerStatUpgradeEventArgs)
@@ -66,13 +63,13 @@ public class Player : MonoBehaviour
 		}
 		else if (playerStatUpgradeEventArgs.playerStats == PlayerStats.MoveSpeed)
 		{
-			playerController.UpgradeMoveSpeed(playerStatUpgradeEventArgs.floatValue, playerStatUpgradeEventArgs.upgradeAction);
+			PlayerController.UpgradeMoveSpeed(playerStatUpgradeEventArgs.floatValue, playerStatUpgradeEventArgs.upgradeAction);
 		}
 	}
 
 	private void UpgradesManager_OnWeaponUpgrade(WeaponUpgradeEventArgs weaponUpgradeEventArgs)
 	{
-		playerWeapon.UpgradeWeapon(
+		PlayerWeapon.UpgradeWeapon(
 			weaponUpgradeEventArgs.weaponStats, 
 			weaponUpgradeEventArgs.floatValue, 
 			weaponUpgradeEventArgs.boolValue, 
@@ -83,7 +80,7 @@ public class Player : MonoBehaviour
 	{
 		if(squadControlEventArgs.squadSize == 0)
 		{
-			playerController.SetPlayerToDead();
+			PlayerController.SetPlayerToDead();
 		}
 
 		squadControl.FormatSquad();
@@ -95,9 +92,9 @@ public class Player : MonoBehaviour
 	/// </summary>
 	public void Initialize(PlayerDetailsSO playerDetails)
 	{
-		this.playerDetails = Instantiate(playerDetails);
+		this.PlayerDetails = Instantiate(playerDetails);
 
-		playerController.enabled = false;
+		PlayerController.enabled = false;
 		//Create player starting weapons
 		CreatePlayerStartingWeapons();
 
@@ -106,7 +103,7 @@ public class Player : MonoBehaviour
 
 	private void CreatePlayerStartingWeapons()
 	{
-		AddWeaponToPlayer(playerDetails.PlayerWeaponDetails);
+		AddWeaponToPlayer(PlayerDetails.PlayerWeaponDetails);
 	}
 
 	/// <summary>
@@ -114,7 +111,7 @@ public class Player : MonoBehaviour
 	/// </summary>
 	public void AddWeaponToPlayer(WeaponDetailsSO weaponWeaponDetails)
 	{
-		playerWeapon = new Weapon()
+		PlayerWeapon = new Weapon()
 		{
 			weaponDetails = Instantiate(weaponWeaponDetails),
 			weaponReloadTimer = 0f, 
@@ -123,12 +120,12 @@ public class Player : MonoBehaviour
 			isWeaponReloading = false 
 		};
 
-		playerWeapon.weaponDetails.AmmoDetails = Instantiate(weaponWeaponDetails.AmmoDetails);
+		PlayerWeapon.weaponDetails.AmmoDetails = Instantiate(weaponWeaponDetails.AmmoDetails);
 	}
 
 	private void ApplyUpgrades()
 	{
-		PlayerEquipment = new Equipment(playerWeapon, playerDetails);
+		PlayerEquipment = new Equipment(PlayerWeapon, PlayerDetails);
 
 		PlayerEquipment.OnUpgraded += PlayerEquipment_OnUpgraded;
 
@@ -139,8 +136,8 @@ public class Player : MonoBehaviour
 
 	private void PlayerEquipment_OnUpgraded()
 	{
-		playerController.enabled = true;
-		squadControl.CreateFirstComrade();
+		PlayerController.enabled = true;
+		SquadControl.CreateFirstComrade();
 
 		CameraController.Instance.SetInitialTarget(transform);
 	}

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -122,7 +121,7 @@ public class GameManager : MonoBehaviour
 
 	private void LevelSystem_OnLevelUp(object sender, EventArgs e)
 	{
-		player.playerController.DisablePlayerMovement();
+		player.PlayerController.DisablePlayerMovement();
 	}
 
 	private void EnableSpawners()
@@ -203,11 +202,11 @@ public class GameManager : MonoBehaviour
 
 	public void Evacuate(Transform evacuationZonePosition)
 	{
-		player.playerController.StopPlayer();
+		player.PlayerController.StopPlayer();
 
 		CameraController.Instance.SetInitialTarget(evacuationZonePosition);
 
-		StartCoroutine(player.squadControl.MoveTransformsToPosition(evacuationZonePosition.position));
+		StartCoroutine(player.SquadControl.MoveTransformsToPosition(evacuationZonePosition.position));
 	}
 
 	/// <summary>

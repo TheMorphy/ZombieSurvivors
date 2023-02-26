@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -105,10 +104,5 @@ public class CanvasManager : MonoBehaviour
 		{
 			Show(instance.history.Pop(), false);
 		}
-	}
-
-	public static void ReturnToMainMenu()
-	{
-		SceneManager.LoadScene(0);
 	}
 }

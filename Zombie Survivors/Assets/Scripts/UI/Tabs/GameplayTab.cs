@@ -1,6 +1,7 @@
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [DisallowMultipleComponent]
@@ -37,7 +38,7 @@ public class GameplayTab : Tab
 		airdropIncomming.gameObject.SetActive(false);
 
 		backToMainMenu.onClick.AddListener(() => {
-			CanvasManager.ReturnToMainMenu();
+			ReturnToMainMenu();
 		});
 	}
 
@@ -99,7 +100,7 @@ public class GameplayTab : Tab
 	{
 		upgradesController.Hide();
 
-		GameManager.Instance.GetPlayer().playerController.EnablePlayerMovement();
+		GameManager.Instance.GetPlayer().PlayerController.EnablePlayerMovement();
 	}
 
 	private void StaticEvents_OnCircleSpawned(CircleSpawnedEventArgs circleSpawnedEventArgs)
@@ -161,5 +162,11 @@ public class GameplayTab : Tab
 	public void ShowExitButton()
 	{
 		backToMainMenu.gameObject.SetActive(true);
+	}
+
+	private void ReturnToMainMenu()
+	{
+		AudioManager.Instance.PlayMusicWithFade(SoundTitle.MainMenu_Theme, 1f);
+		SceneManager.LoadScene(0);
 	}
 }

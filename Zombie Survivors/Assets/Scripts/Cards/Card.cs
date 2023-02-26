@@ -2,16 +2,20 @@ using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(CardView))]
+[RequireComponent(typeof(CardAnimation))]
 public class Card : Slot<CardDTO>
 {
 	public CardView CardView;
-
+	
 	public bool IsReadyToUpgrade = false;
 	public int CardIndex;
 	public CardSlot CardSlot;
 
+	[HideInInspector] public CardAnimation CardAnimation;
+
 	public override void Initialize(CardDTO slotDetails, int slotIndex, CardSlot cardSlot)
 	{
+		CardAnimation = GetComponent<CardAnimation>();	
 		CardIndex = slotIndex;
 		CardView.CardReference = this;
 		CardSlot = cardSlot;
@@ -19,10 +23,6 @@ public class Card : Slot<CardDTO>
 		Details = slotDetails;
 		slotDetails.CardSlot = CardSlot;
 		CardView.InitializeCardView();
-		if (slotDetails.Ammount >= Details.CardsRequiredToNextLevel)
-		{
-			IsReadyToUpgrade = true;
-		}
 
 		SaveManager.SaveToJSON(slotDetails, Settings.CARDS);
 		EquipmentTab.Add(this);
