@@ -31,7 +31,7 @@ public class AirdropRewardsTab : Tab
 			List<CardDTO> newCards = (List<CardDTO>)args[1];
 			SaveManager.SaveToJSON(newCards, Settings.CARDS);
 
-			openedAirdropImage.sprite = airdropDetailsDTO.AirdropSprite;
+			openedAirdropImage.sprite = Resources.Load<Sprite>(Settings.AIRDROP_SPRITES_PATH + airdropDetailsDTO.AirdropType);
 
 			CanvasManager.GetTab<EquipmentTab>().UpdateInventory();
 

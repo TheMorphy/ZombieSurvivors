@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum AirdropType
 {
-	Gold,
+	Golden,
 	Iron,
 	Wooden
 }
@@ -57,8 +57,6 @@ public class AirdropDetails : ScriptableObject
 public class AirdropDTO
 {
 	public AirdropType AirdropType;
-	public Sprite AirdropSprite;
-	public GameObject AirdropPackage;
 	public int MaxGemsAmmount;
 	public int MinGemsAmmount;
 	public int MinGoldAmmount;

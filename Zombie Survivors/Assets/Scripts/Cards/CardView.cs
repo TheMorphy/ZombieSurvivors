@@ -35,7 +35,7 @@ public class CardView : MonoBehaviour
 	{
 		cardLevel.text = CardReference.Details.CurrentCardLevel.ToString();
 		cardRemainingLevel.text = CardReference.Details.Ammount.ToString() + " / " + CardReference.Details.CardsRequiredToNextLevel.ToString();
-		cardSlotImage.sprite = CardReference.Details.CardSprite;
+		cardSlotImage.sprite = CardReference.CardSprite;
 		cardLevelBar.fillAmount = (float)CardReference.Details.Ammount / CardReference.Details.CardsRequiredToNextLevel;
 		if (CardReference.Details.Ammount >= CardReference.Details.CardsRequiredToNextLevel)
 		{
@@ -55,7 +55,7 @@ public class CardView : MonoBehaviour
 		cardLevelBar.transform.parent.gameObject.SetActive(true);
 		cardLevel.text = CardReference.Details.CurrentCardLevel.ToString();
 		cardRemainingLevel.text = CardReference.Details.Ammount.ToString() + " / " + CardReference.Details.CardsRequiredToNextLevel.ToString();
-		cardSlotImage.sprite = CardReference.Details.CardSprite;
+		cardSlotImage.sprite = CardReference.CardSprite;
 		cardLevelBar.fillAmount = (float)CardReference.Details.Ammount / CardReference.Details.CardsRequiredToNextLevel;
 		RefreshView();
 	}

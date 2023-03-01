@@ -3,17 +3,18 @@ using UnityEngine;
 
 public enum CardType
 {
-	Weapon,
+	Shotgun,
+	Rifle,
+	Pistol,
 	Gloves,
 	Helmet,
 	Armor,
 	Boots,
-	Ammo
 }
 
 public enum CardRarity
 {
-	Commomn,
+	Common,
 	Rare,
 	Epic,
 	Legendary
@@ -74,7 +75,6 @@ public class CardDTO
 	public CardType CardType;
 	public CardRarity CardRarity;
 	public string CardName;
-	public Sprite CardSprite;
 	public int CurrentCardLevel;
 	public int CardsRequiredToNextLevel;
 	public int Ammount;

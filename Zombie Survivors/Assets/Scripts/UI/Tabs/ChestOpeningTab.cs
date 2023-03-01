@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,7 +36,7 @@ public class ChestOpeningTab : Tab
 
 			AddCards();
 			cardImage.gameObject.SetActive(true);
-			airdropImage.sprite = airdropDetailsDTO.AirdropSprite;
+			airdropImage.sprite = Resources.Load<Sprite>(Settings.AIRDROP_SPRITES_PATH + airdropDetailsDTO.AirdropType);
 
 			newCardIndex = newCards.Count;
 			OpenChest();
@@ -57,7 +56,7 @@ public class ChestOpeningTab : Tab
 			return;
 		}
 
-		cardImage.sprite = newCards[newCardIndex].CardSprite;
+		cardImage.sprite = Resources.Load<Sprite>(Settings.CARD_SPRITES_PATH + newCards[newCardIndex].CardType + "_" + newCards[newCardIndex].CardRarity);
 		cardName.text = newCards[newCardIndex].CardType.ToString();
 		cardRarity.text = newCards[newCardIndex].CardRarity.ToString();
 		rewardAmmount.text = "x" + newCards[newCardIndex].Ammount.ToString();
@@ -107,7 +106,7 @@ public class ChestOpeningTab : Tab
 					}
 					break;
 
-				case AirdropType.Gold:
+				case AirdropType.Golden:
 					if (randomChance > 0.0f && randomChance < 0.7f)
 					{
 						cardToAdd = commonCards[Random.Range(0, commonCards.Count)];
@@ -139,7 +138,6 @@ public class ChestOpeningTab : Tab
 			newCards.Add(new CardDTO()
 			{
 				UpgradeAction = cardToAdd.UpgradeAction,
-				CardSprite = cardToAdd.CardSprite,
 				WeaponStat = cardToAdd.WeaponStat,
 				AmmoStat = cardToAdd.AmmoStat,
 				PlayerStat = cardToAdd.PlayerStat,

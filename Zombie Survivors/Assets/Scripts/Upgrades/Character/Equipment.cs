@@ -21,7 +21,9 @@ public class Equipment
 		{
 			switch (card.CardType)
 			{
-				case CardType.Weapon:
+				case CardType.Pistol:
+				case CardType.Rifle:
+				case CardType.Shotgun:
 					UpgradeWeapon(card);
 					break;
 				case CardType.Boots:

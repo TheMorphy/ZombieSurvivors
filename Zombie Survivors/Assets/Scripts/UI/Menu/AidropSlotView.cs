@@ -53,7 +53,7 @@ public class AidropSlotView : MonoBehaviour
 	public void InitialiseViewUIForLockedChest()
 	{
 		unlockTimeText.gameObject.SetActive(false);
-		airdropSlotSprite.sprite = AirdropSlot.Details.AirdropSprite;
+		airdropSlotSprite.sprite = Resources.Load<Sprite>(Settings.AIRDROP_SPRITES_PATH + AirdropSlot.Details.AirdropType);
 		airdropTypeTxt.gameObject.SetActive(true);
 		airdropTypeTxt.text = AirdropSlot.Details.AirdropType.ToString();
 		coinImage.gameObject.SetActive(true);
@@ -69,7 +69,7 @@ public class AidropSlotView : MonoBehaviour
 	public void InitialiseViewUIForUnlockingChest()
 	{
 		unlockTimeText.gameObject.SetActive(true);
-		airdropSlotSprite.sprite = AirdropSlot.Details.AirdropSprite;
+		airdropSlotSprite.sprite = Resources.Load<Sprite>(Settings.AIRDROP_SPRITES_PATH + AirdropSlot.Details.AirdropType);
 		airdropTypeTxt.gameObject.SetActive(true);
 		airdropTypeTxt.text = AirdropSlot.Details.AirdropType.ToString();
 		coinImage.gameObject.SetActive(false);
@@ -84,7 +84,7 @@ public class AidropSlotView : MonoBehaviour
 	{
 		unlockTimeText.gameObject.SetActive(true);
 		unlockTimeText.text = "OPEN!";
-		airdropSlotSprite.sprite = AirdropSlot.Details.AirdropSprite;
+		airdropSlotSprite.sprite = Resources.Load<Sprite>(Settings.AIRDROP_SPRITES_PATH + AirdropSlot.Details.AirdropType);
 		airdropTypeTxt.gameObject.SetActive(true);
 		airdropTypeTxt.text = AirdropSlot.Details.AirdropType.ToString();
 		coinImage.gameObject.SetActive(false);

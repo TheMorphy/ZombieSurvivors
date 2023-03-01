@@ -7,7 +7,6 @@ public class EquipmentTab : Tab
 	[SerializeField] private ActiveCardsController activeCardsController;
 	[SerializeField] private InventoryController inventoryController;
 	[SerializeField] private CharacterSelector characterSelector;
-	[SerializeField] private CurrencyController currencyController;
 
 	[HideInInspector] public static List<Card> Cards;
 
@@ -24,7 +23,6 @@ public class EquipmentTab : Tab
 		inventoryController.InitializeSlots(inventoryCards, CardSlot.Inventory);
 
 		characterSelector.InitializeChatacter();
-		currencyController.InitializeCurrency();
 	}
 
 	public static void Add(Card card)
@@ -63,10 +61,5 @@ public class EquipmentTab : Tab
 	public ActiveCardsController GetActiveCardsController()
 	{
 		return activeCardsController;
-	}
-
-	public CurrencyController GetCurrencyController()
-	{
-		return currencyController;
 	}
 }

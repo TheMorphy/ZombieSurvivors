@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class Airdrop : Collectable
@@ -66,8 +64,6 @@ public class Airdrop : Collectable
 			AirdropDTO collectedAirrop = new AirdropDTO()
 			{
 				Code = Guid.NewGuid().ToString(),
-				AirdropSprite = airdropDetails.AirdropSprite,
-				AirdropPackage = airdropDetails.AirdropPackage,
 				AirdropType = airdropDetails.AirdropType,
 				CardAmmount = airdropDetails.CardAmmount,
 				MaxGemsAmmount = airdropDetails.MaxGemsAmmount,
@@ -86,10 +82,10 @@ public class Airdrop : Collectable
 			AudioManager.Instance.PlaySFX(SoundTitle.Money_Pickup);
 
 			// TODO: Gib money
-			int currentAmmount = PlayerPrefs.GetInt(Settings.GOLD_AMMOUNT, 100);
+			int currentAmmount = PlayerPrefs.GetInt(Settings.MONEY, 100);
 			currentAmmount += UnityEngine.Random.Range(50, 300);
 
-			PlayerPrefs.SetInt(Settings.GOLD_AMMOUNT, currentAmmount);
+			PlayerPrefs.SetInt(Settings.MONEY, currentAmmount);
 		}
 	}
 }

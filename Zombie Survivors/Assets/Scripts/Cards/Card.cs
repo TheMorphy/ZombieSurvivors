@@ -9,19 +9,21 @@ public class Card : Slot<CardDTO>
 	
 	public bool IsReadyToUpgrade = false;
 	public int CardIndex;
+	public Sprite CardSprite;
 	public CardSlot CardSlot;
 
 	[HideInInspector] public CardAnimation CardAnimation;
 
 	public override void Initialize(CardDTO slotDetails, int slotIndex, CardSlot cardSlot)
 	{
-		CardAnimation = GetComponent<CardAnimation>();	
+		CardAnimation = GetComponent<CardAnimation>();
 		CardIndex = slotIndex;
 		CardView.CardReference = this;
 		CardSlot = cardSlot;
 		IsEmpty = false;
 		Details = slotDetails;
 		slotDetails.CardSlot = CardSlot;
+		CardSprite = Resources.Load<Sprite>(Settings.CARD_SPRITES_PATH + Details.CardType + "_" + Details.CardRarity);
 		CardView.InitializeCardView();
 
 		SaveManager.SaveToJSON(slotDetails, Settings.CARDS);

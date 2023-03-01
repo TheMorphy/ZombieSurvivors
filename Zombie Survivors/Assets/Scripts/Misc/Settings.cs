@@ -20,6 +20,9 @@ public static class Settings
 
 	public const string SAVED_CHARACTER = "SavedCharacterName";
 
-	public static string GOLD_AMMOUNT = "Gold";
-	public static string GEM_AMMOUNT = "Gems";
+	public static string MONEY = "Money";
+	public static string GEMS = "Gems";
+
+	public static string AIRDROP_SPRITES_PATH = "Sprites/Airdrops/";
+	public static string CARD_SPRITES_PATH = "Sprites/Cards/";
 }

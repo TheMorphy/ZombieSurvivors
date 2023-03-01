@@ -11,8 +11,8 @@ public class CurrencyController : MonoBehaviour
 
     public void InitializeCurrency()
     {
-        Gems = PlayerPrefs.GetInt(Settings.GEM_AMMOUNT, 20);
-        Gold = PlayerPrefs.GetInt(Settings.GOLD_AMMOUNT, 100);
+        Gems = PlayerPrefs.GetInt(Settings.GEMS, 20);    // If no vlaues have been set, the starting gem ammont is 20
+        Gold = PlayerPrefs.GetInt(Settings.MONEY, 100);  // If no vlaues have been set, the starting gold ammont is 100
 
 		goldAmmount.text = Gold.ToString();
 		gemAmmount.text = Gems.ToString();
