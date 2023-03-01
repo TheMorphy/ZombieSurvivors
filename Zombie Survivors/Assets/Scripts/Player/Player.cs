@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
 
 	[Space]
 	[Header("Readonly")]
+	// For debugging only. Can be deleted
 	public List<CardDTO> activeUpgrades;
 
 	[HideInInspector] public Equipment PlayerEquipment;

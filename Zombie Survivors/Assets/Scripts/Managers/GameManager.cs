@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private int currentLevel = 0;
 	public float SurviveTime = 10;
 	private float timeElapsed = 0;
+	[SerializeField] private float spawnAirdropTime = 0;
 	
 	private LevelSystem levelSystem;
 	private PlayerDetailsSO playerDetails;
@@ -44,6 +45,7 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		SurviveTime *= 60;
+		spawnAirdropTime *= 60;
 
 		InstantiatePlayer();
 	}
@@ -61,8 +63,8 @@ public class GameManager : MonoBehaviour
 
 				timeElapsed += Time.deltaTime;
 
-				// Spawns Airdrop after 8sec
-				if (Mathf.FloorToInt(timeElapsed) == 1 && !airdropDropped)
+				// Spawns Airdrop
+				if (Mathf.FloorToInt(timeElapsed) == spawnAirdropTime && !airdropDropped)
 				{
 					SpawnAirdrop();
 				}

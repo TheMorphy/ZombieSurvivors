@@ -1082,7 +1082,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySpawner: {fileID: 1051503593}
   currentLevel: 0
-  SurviveTime: 0.1
+  SurviveTime: 5
+  spawnAirdropTime: 2
   gameState: 0
 --- !u!1 &534395278
 GameObject:
@@ -2402,8 +2403,8 @@ MonoBehaviour:
   Enemies:
   - {fileID: 11400000, guid: 7083254d1ecc31b4ea5d6a7d92261d7c, type: 2}
   ScalingConfiguration: {fileID: 11400000, guid: f8030d2234778eb418c272a4de52b168, type: 2}
-  StartEnemyCount: 0
-  spawnDelay: 2
+  StartEnemyCount: 12
+  spawnDelay: 1
   Bosses:
   - {fileID: 11400000, guid: a3b934ccb9723d34fbc7b8b7f06a8e7b, type: 2}
 --- !u!1 &1174460875

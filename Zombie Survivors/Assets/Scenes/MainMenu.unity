@@ -3218,22 +3218,22 @@ MonoBehaviour:
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: e6b9208690f19e64b993e99a6b2e5ab7, type: 3}
     soundTitle: 1
-    volume: 0.1
+    volume: 0.2
     loop: 1
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 73224ad2bbd829c49a413e8c2f9c9e0d, type: 3}
     soundTitle: 2
-    volume: 0.1
+    volume: 0.2
     loop: 1
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: f2f79ba9d15cab54d9f256ac74499bf8, type: 3}
     soundTitle: 3
-    volume: 0.7
+    volume: 0.2
     loop: 0
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: d6cc30ae1bf801c4289807c6120a9f46, type: 3}
     soundTitle: 4
-    volume: 0.6
+    volume: 0.2
     loop: 0
     source: {fileID: 0}
   - clip: {fileID: 8300000, guid: 3e8482fa32c693f4098e8c74eb442ade, type: 3}

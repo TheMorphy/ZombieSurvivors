@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Audio;
 
 #region Sound Object
 [Serializable]
@@ -40,18 +39,18 @@ public enum SoundTitle
 	Gun_Shoot
 }
 
-public enum AudioMixMode
-{
-	LinearAudioSourceVolume,
-	LinearMixerVolume,
-	LogrithmicMixerVolume
-}
+//public enum AudioMixMode
+//{
+//	LinearAudioSourceVolume,
+//	LinearMixerVolume,
+//	LogrithmicMixerVolume
+//}
 
 public class AudioManager : MonoBehaviour
 {
-	[Header("MIXER")]
-	[SerializeField] private AudioMixer audioMixer;
-	[SerializeField] private AudioMixMode mixMode;
+	//[Header("MIXER")]
+	//[SerializeField] private AudioMixer audioMixer;
+	//[SerializeField] private AudioMixMode mixMode;
 
 	[Space(2)]
 	[Header("SOUNDS")]
@@ -87,27 +86,27 @@ public class AudioManager : MonoBehaviour
 		PlayMusic(SoundTitle.MainMenu_Theme);
 	}
 
-	public void OnSliderChanged(float value)
-	{
-		switch (mixMode)
-		{
-			case AudioMixMode.LinearAudioSourceVolume:
-				music1.volume = value;
-				music2.volume = value;
-				sfxSource.volume = value;
-				break;
+	//public void OnSliderChanged(float value)
+	//{
+	//	switch (mixMode)
+	//	{
+	//		case AudioMixMode.LinearAudioSourceVolume:
+	//			music1.volume = value;
+	//			music2.volume = value;
+	//			sfxSource.volume = value;
+	//			break;
 
-			case AudioMixMode.LinearMixerVolume:
-				audioMixer.SetFloat("Volume", (-80 + value * 80));
-				break;
+	//		case AudioMixMode.LinearMixerVolume:
+	//			audioMixer.SetFloat("Volume", (-80 + value * 80));
+	//			break;
 
-			case AudioMixMode.LogrithmicMixerVolume:
-				audioMixer.SetFloat("Volume", Mathf.Log10(value) * 20);
-				//PlayerPrefs.SetFloat("GlobalVolume", value);
-				//PlayerPrefs.Save();
-				break;
-		}
-	}
+	//		case AudioMixMode.LogrithmicMixerVolume:
+	//			audioMixer.SetFloat("Volume", Mathf.Log10(value) * 20);
+	//			//PlayerPrefs.SetFloat("GlobalVolume", value);
+	//			//PlayerPrefs.Save();
+	//			break;
+	//	}
+	//}
 
 	public void PlayMusic(SoundTitle musicTitle)
 	{
@@ -131,7 +130,7 @@ public class AudioManager : MonoBehaviour
 	{
 		Sound sfx = Array.Find(sounds, sound => sound.soundTitle == sfxTitle);
 
-		sfxSource.PlayOneShot(sfx.clip, 0.03f);
+		sfxSource.PlayOneShot(sfx.clip, sfx.volume);
 	}
 
 	public void PlayMusicWithFade(SoundTitle songTitle, float transitionTime = 1.0f)

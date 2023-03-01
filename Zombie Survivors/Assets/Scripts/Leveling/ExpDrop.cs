@@ -36,7 +36,6 @@ public class ExpDrop : Collectable
 	{
 		if (other.transform.CompareTag("Player") || other.transform.CompareTag("Comrade"))
 		{
-			AudioManager.Instance.PlaySFX(SoundTitle.EXP_Pickup);
 			StartCoroutine(Collect(other.transform, absorbTime));
 		}
 	}
@@ -53,6 +52,7 @@ public class ExpDrop : Collectable
 
 	protected override void OnCollected()
 	{
+		AudioManager.Instance.PlaySFX(SoundTitle.EXP_Pickup);
 		GameManager.Instance.GetLevelSystem().AddExperience(expAmmount);
 		Destroy(gameObject);
 	}

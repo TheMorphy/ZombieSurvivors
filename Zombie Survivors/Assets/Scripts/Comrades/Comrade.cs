@@ -71,6 +71,7 @@ public class Comrade : MonoBehaviour
 
 			AnimatePlayer.TurnOnRagdoll();		
 		}
+		AudioManager.Instance.PlaySFX(SoundTitle.Soldier_Hurt);
 	}
 
 	public void KillComrade()
