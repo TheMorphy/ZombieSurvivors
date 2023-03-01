@@ -59,7 +59,7 @@ public class CardSO : ScriptableObject
 	[SerializeField] UpgradeAction upgradeAction;
 	public UpgradeAction UpgradeAction { get { return upgradeAction; } }
 
-	[HideInInspector] public string CardCode => CardName + "_" + CardRarity.ToString();
+	[HideInInspector] public string CardCode => CardType.ToString() + "_" + CardRarity.ToString();
 }
 
 [Serializable]

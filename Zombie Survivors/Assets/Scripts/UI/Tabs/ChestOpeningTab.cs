@@ -36,7 +36,7 @@ public class ChestOpeningTab : Tab
 
 			AddCards();
 			cardImage.gameObject.SetActive(true);
-			airdropImage.sprite = Resources.Load<Sprite>(Settings.AIRDROP_SPRITES_PATH + airdropDetailsDTO.AirdropType);
+			airdropImage.sprite = GameResources.Instance.GetAirdropSprite(airdropDetailsDTO.AirdropType);
 
 			newCardIndex = newCards.Count;
 			OpenChest();
@@ -56,7 +56,7 @@ public class ChestOpeningTab : Tab
 			return;
 		}
 
-		cardImage.sprite = Resources.Load<Sprite>(Settings.CARD_SPRITES_PATH + newCards[newCardIndex].CardType + "_" + newCards[newCardIndex].CardRarity);
+		cardImage.sprite = GameResources.Instance.GetCardSprite(newCards[newCardIndex].CardType, newCards[newCardIndex].CardRarity);
 		cardName.text = newCards[newCardIndex].CardType.ToString();
 		cardRarity.text = newCards[newCardIndex].CardRarity.ToString();
 		rewardAmmount.text = "x" + newCards[newCardIndex].Ammount.ToString();

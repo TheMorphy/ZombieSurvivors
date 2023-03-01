@@ -5,9 +5,10 @@ public class AidropSlot : Slot<AirdropDTO>
 {
 	[SerializeField] private AidropSlotView slotView;
 	[HideInInspector] public Trackable TrackableReference;
+	[HideInInspector] public Sprite AirdropSprite;
 
 	public bool TimerStarted;
-
+	
 	private void Update()
 	{
 		if(TrackableReference != null && TimerStarted)
@@ -30,6 +31,8 @@ public class AidropSlot : Slot<AirdropDTO>
 
 		Details = airdropDetailsDTO;
 		IsEmpty = false;
+
+		AirdropSprite = GameResources.Instance.GetAirdropSprite(airdropDetailsDTO.AirdropType);
 
 		TrackableReference = TimeTracker.Instance.GetTrackable(SlotID);
 

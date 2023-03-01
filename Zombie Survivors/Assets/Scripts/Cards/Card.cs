@@ -23,7 +23,7 @@ public class Card : Slot<CardDTO>
 		IsEmpty = false;
 		Details = slotDetails;
 		slotDetails.CardSlot = CardSlot;
-		CardSprite = Resources.Load<Sprite>(Settings.CARD_SPRITES_PATH + Details.CardType + "_" + Details.CardRarity);
+		CardSprite = GameResources.Instance.GetCardSprite(slotDetails.CardType, slotDetails.CardRarity); 
 		CardView.InitializeCardView();
 
 		SaveManager.SaveToJSON(slotDetails, Settings.CARDS);
@@ -40,6 +40,7 @@ public class Card : Slot<CardDTO>
 		Details = null;
 	}
 
+	
 
 	public void Upgrade()
 	{

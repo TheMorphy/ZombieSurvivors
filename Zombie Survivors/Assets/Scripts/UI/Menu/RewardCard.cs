@@ -9,7 +9,7 @@ public class RewardCard : MonoBehaviour
 
     public void DisplayRewardCard(CardDTO cardDTO)
     {
-        cardImage.sprite = Resources.Load<Sprite>(Settings.CARD_SPRITES_PATH + cardDTO.CardType + "_" + cardDTO.CardRarity);
+        cardImage.sprite = GameResources.Instance.GetCardSprite(cardDTO.CardType, cardDTO.CardRarity);
 		cardAmmountText.text = cardDTO.Ammount.ToString();
 	}
 }

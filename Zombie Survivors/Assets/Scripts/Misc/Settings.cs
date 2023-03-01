@@ -22,7 +22,4 @@ public static class Settings
 
 	public static string MONEY = "Money";
 	public static string GEMS = "Gems";
-
-	public static string AIRDROP_SPRITES_PATH = "Sprites/Airdrops/";
-	public static string CARD_SPRITES_PATH = "Sprites/Cards/";
 }

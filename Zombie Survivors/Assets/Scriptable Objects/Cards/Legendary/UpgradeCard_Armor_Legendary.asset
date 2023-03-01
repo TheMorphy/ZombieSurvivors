@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0fd154d715f82245b7728774a525db5, type: 3}
   m_Name: UpgradeCard_Armor_Legendary
   m_EditorClassIdentifier: 
-  cardType: 3
+  cardType: 5
   cardRarity: 3
   cardName: Prtego
   cardSprite: {fileID: 21300000, guid: 1ac0da63837415b4e9269ed087e3f70e, type: 3}

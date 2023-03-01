@@ -51,4 +51,32 @@ public class GameResources : MonoBehaviour
 	[Space(5)]
 	[Header("END GAME")]
 	public GameObject EvacuationArea;
+
+	public Sprite GetAirdropSprite(AirdropType airdropType)
+	{
+		return Airdrops.Find(x => x.AirdropType.Equals(airdropType)).AirdropSprite;
+	}
+
+	public Sprite GetCardSprite(CardType cardType, CardRarity cardRarity)
+	{
+		Sprite sprite = null;
+		string code = cardType.ToString() + "_" + cardRarity.ToString();
+
+		switch (cardRarity)
+		{
+			case CardRarity.Common:
+				sprite = CommonCards.Find(x => x.CardCode.Equals(code)).CardSprite;
+				break;
+			case CardRarity.Rare:
+				sprite = RareCards.Find(x => x.CardCode.Equals(code)).CardSprite;
+				break;
+			case CardRarity.Epic:
+				sprite = EpicCards.Find(x => x.CardCode.Equals(code)).CardSprite;
+				break;
+			case CardRarity.Legendary:
+				sprite = Instance.LegendaryCards.Find(x => x.CardCode.Equals(code)).CardSprite;
+				break;
+		}
+		return sprite;
+	}
 }
