@@ -9,6 +9,7 @@ public class AnimateEnemy : MonoBehaviour
 	private Enemy enemy;
 	private Animator animator;
 
+	private Rigidbody[] rigidBodies;
 	public List<Collider> ragdollParts = new List<Collider>();
 
 	private float counter;
@@ -18,8 +19,13 @@ public class AnimateEnemy : MonoBehaviour
 	{
 		enemy = GetComponent<Enemy>();
 		animator = GetComponent<Animator>();
+		rigidBodies = GetComponentsInChildren<Rigidbody>();
+	}
 
+	private void Start()
+	{
 		SetRagdollColliders();
+		DeactivateRagdoll();
 	}
 
 	private void Update()
@@ -27,24 +33,42 @@ public class AnimateEnemy : MonoBehaviour
 		animator.SetFloat(Settings.MoveSpeed, enemy.enemyController.GetMoveSpeed());
 	}
 
-	public IEnumerator Attack()
+	public void StartAttacking()
 	{
-		WaitForSeconds attackDelay = new WaitForSeconds(2f);
+		animator.SetInteger(Settings.AttackIndex, Random.Range(0, Settings.AttacksCount));
+		animator.SetBool("Attacking", true);
+	}
 
-		while (enemy.enemyController.Attacking)
-		{
-			animator.SetBool("Attacking", enemy.enemyController.Attacking);
-			animator.SetInteger(Settings.AttackIndex, Random.Range(0, Settings.AttacksCount));
-			
-			yield return attackDelay;
-		}
+	public void StopAttacking()
+	{
+		animator.SetBool("Attacking", false);
 	}
 
 
-	public void TurnOnRagdoll()
+	private void DeactivateRagdoll()
+	{
+		enemy.animator.enabled = true;
+
+		foreach (var rb in rigidBodies)
+		{
+			rb.isKinematic = true;
+		}
+	}
+	
+	private void ActivateRagdoll()
 	{
 		enemy.animator.enabled = false;
 		enemy.animator.avatar = null;
+
+		foreach (var rb in rigidBodies)
+		{
+			rb.isKinematic = false;
+		}
+	}
+
+	public void TurnOnRagdoll()
+	{
+		ActivateRagdoll();
 
 		gameObject.GetComponent<Collider>().enabled = false;
 

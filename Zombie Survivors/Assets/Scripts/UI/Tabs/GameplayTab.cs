@@ -110,7 +110,7 @@ public class GameplayTab : Tab
 
 	private void StaticEvents_OnCollected(CollectedEventArgs circleDespawnedEventArgs)
 	{
-		pointer.targetPointers.First(x => x.targetPosition == circleDespawnedEventArgs.collectedPosition).DestroySelf();
+		pointer.targetPointers.Find(x => x.targetPosition == circleDespawnedEventArgs.collectedPosition)?.DestroySelf();
 	}
 
 	public Image GetBossHealth()

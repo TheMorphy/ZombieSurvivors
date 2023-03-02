@@ -1082,8 +1082,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySpawner: {fileID: 1051503593}
   currentLevel: 0
-  SurviveTime: 0.1
-  spawnAirdropTime: 0.05
+  SurviveTime: 15
+  spawnAirdropTime: 5
   gameState: 0
 --- !u!1 &534395278
 GameObject:
@@ -1993,7 +1993,7 @@ Camera:
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
-  m_OcclusionCulling: 0
+  m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
 --- !u!1 &875914062
@@ -2403,8 +2403,8 @@ MonoBehaviour:
   Enemies:
   - {fileID: 11400000, guid: 7083254d1ecc31b4ea5d6a7d92261d7c, type: 2}
   ScalingConfiguration: {fileID: 11400000, guid: f8030d2234778eb418c272a4de52b168, type: 2}
-  StartEnemyCount: 0
-  spawnDelay: 1
+  StartEnemyCount: 1
+  spawnDelay: 10000
   Bosses:
   - {fileID: 11400000, guid: a3b934ccb9723d34fbc7b8b7f06a8e7b, type: 2}
 --- !u!1 &1174460875

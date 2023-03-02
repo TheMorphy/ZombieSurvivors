@@ -10,11 +10,14 @@ public class EnemyController : MonoBehaviour
 {
 	private NavMeshAgent agent;
 	private Enemy enemy;
+	[SerializeField] private float maxTime = 1.0f;
+	[SerializeField] private float maxDistance = 1.0f;
+	private float timer = 0;
+	
 	private Vector3 startPos;
 	private Transform target;
-
 	[HideInInspector] public bool ExpDropped = false;
-	public bool Attacking;
+	public bool IsAttacking = false;
 
 	[HideInInspector] public List<Collider> HitColliders;
 	[HideInInspector] public List<DealContactDamage> DamageDealers;
@@ -35,7 +38,7 @@ public class EnemyController : MonoBehaviour
 		DisableHitboxes();
 
 		agent.enabled = true;
-
+		agent.stoppingDistance = maxDistance;
 		startPos = transform.position;
 	}
 
@@ -47,9 +50,24 @@ public class EnemyController : MonoBehaviour
 			{
 				target = GetClosestComrade(SquadControl.ComradesTransforms);
 
-				if (Attacking == false)
+				if (IsAttacking == false)
 				{
-					agent.destination = target.position;
+					timer -= Time.deltaTime;
+					if(timer < 0.0f)
+					{
+						float sqDistance = (target.position - transform.position).sqrMagnitude;
+
+						if(sqDistance > maxDistance * maxDistance)
+						{
+							agent.destination = target.position;
+							timer = maxTime;
+						}
+						else
+						{
+							IsAttacking = true;
+							enemy.animateEnemy.StartAttacking();
+						}	
+					}
 				}
 				
 				transform.LookAt(target);
@@ -61,24 +79,18 @@ public class EnemyController : MonoBehaviour
 		}
 	}
 
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.transform.CompareTag("Comrade"))
-		{
-			Attacking = true;
-			StartCoroutine(enemy.animateEnemy.Attack());
-		}
-	}
-
 	public void DisableAttacking()
 	{
 		DisableHitboxes();
-		Attacking = false;
-		StopCoroutine(enemy.animateEnemy.Attack());
+		IsAttacking = false;
+		enemy.animateEnemy.StopAttacking();
 	}
 
 	public void DropEXP()
 	{
+		if (enemy.enemyDetails.Class == EnemyClass.Boss)
+			return;
+
 		GameObject exp = Instantiate(GameResources.Instance.ExpDrop, transform.position, Quaternion.identity);
 		exp.GetComponent<ExpDrop>().SetExpValue(enemy.enemyDetails.EXP_Increase);
 		ExpDropped = true;
