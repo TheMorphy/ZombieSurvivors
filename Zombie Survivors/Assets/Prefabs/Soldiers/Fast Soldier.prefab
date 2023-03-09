@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 321057240856242774}
-  - component: {fileID: 2065891253324402850}
+  - component: {fileID: 9190634303287354109}
   - component: {fileID: 7754149071419856629}
   - component: {fileID: -8681231679938499642}
   - component: {fileID: 7864186590533768608}
@@ -52,6 +52,7 @@ GameObject:
   - component: {fileID: 5168179770503402359}
   - component: {fileID: 2383282630050494456}
   - component: {fileID: 6449630924684632337}
+  - component: {fileID: 2336914630314905273}
   m_Layer: 10
   m_Name: Fast Soldier
   m_TagString: Comrade
@@ -76,8 +77,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &2065891253324402850
-BoxCollider:
+--- !u!136 &9190634303287354109
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -86,9 +87,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.6, y: 2, z: 0.6}
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Radius: 0.42952088
+  m_Height: 2.6074798
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.3037399, z: 0.0300152}
 --- !u!95 &7754149071419856629
 Animator:
   serializedVersion: 5
@@ -128,6 +130,7 @@ MonoBehaviour:
   Health: {fileID: 0}
   FireWeapon: {fileID: 0}
   ActiveWeapon: {fileID: 0}
+  WeaponFiredEvent: {fileID: 0}
   SetActiveWeaponEvent: {fileID: 0}
   HealthEvent: {fileID: 0}
 --- !u!114 &7864186590533768608
@@ -232,6 +235,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ragdollParts: []
+--- !u!114 &2336914630314905273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321057240856242775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 824aa974f21a38f44b96eedb94d38ab8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &601458712185550799
 GameObject:
   m_ObjectHideFlags: 0

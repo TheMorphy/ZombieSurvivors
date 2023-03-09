@@ -211,9 +211,6 @@ public class GameManager : MonoBehaviour
 		StartCoroutine(player.SquadControl.MoveTransformsToPosition(evacuationZonePosition.position));
 	}
 
-	/// <summary>
-	/// Get the player
-	/// </summary>
 	public Player GetPlayer()
 	{
 		return player;
@@ -222,6 +219,13 @@ public class GameManager : MonoBehaviour
 	public LevelSystem GetLevelSystem()
 	{
 		return levelSystem;
+	}
+
+	public void RevivePlayer()
+	{
+		CallGameStateChangedEvent(GameState.playingLevel);
+		player.SquadControl.CreateFirstComrade();
+		player.PlayerController.SetPlayerToAlive();
 	}
 }
 

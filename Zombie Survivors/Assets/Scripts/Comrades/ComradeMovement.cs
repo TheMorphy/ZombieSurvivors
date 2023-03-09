@@ -27,7 +27,7 @@ public class ComradeMovement : MonoBehaviour
 
 	private void HandleRotations()
 	{
-		var target = GetClosestEnemy(EnemySpawner.activeEnemies);
+		var target = GetClosestEnemy(EnemySpawner.ActiveEnemies);
 
 		if (target != null)
 		{

@@ -20,7 +20,7 @@ public class EnemySpawner : MonoBehaviour
 	public List<EnemyDetailsSO> Bosses = new List<EnemyDetailsSO>();
 
 	NavMeshTriangulation navTriangulation;
-	public static List<Transform> activeEnemies = new List<Transform>();
+	public static List<Transform> ActiveEnemies;
 
 	[Space]
 	[Header("Read At Runtime (Readonly)")]
@@ -36,13 +36,14 @@ public class EnemySpawner : MonoBehaviour
 	private void Awake()
 	{
 		navTriangulation = NavMesh.CalculateTriangulation();
-
 		initialEnemiesToSpawn = StartEnemyCount;
 		InitialSpawnDelay = spawnDelay;
 	}
 
 	private void Start()
 	{
+		ActiveEnemies = new List<Transform>();
+
 		for (int i = 0; i < Enemies.Count; i++)
 		{
 			scaledEnemies.Add(Enemies[i].ScaleUpEnemies(ScalingConfiguration, 0));
@@ -162,7 +163,7 @@ public class EnemySpawner : MonoBehaviour
 
 	private void ClearEnemies()
 	{
-		activeEnemies.ForEach(x => x.GetComponent<Enemy>().animateEnemy.TurnOnRagdoll());
+		ActiveEnemies.ForEach(x => x.GetComponent<Enemy>().animateEnemy.TurnOnRagdoll());
 	}
 
 	public void ScaleUpSpawns()

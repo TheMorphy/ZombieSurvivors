@@ -82,33 +82,31 @@ public class Player : MonoBehaviour
 		if(squadControlEventArgs.squadSize == 0)
 		{
 			PlayerController.SetPlayerToDead();
+			GameManager.Instance.CallGameStateChangedEvent(GameState.gameLost);
+			return;
 		}
 
 		squadControl.FormatSquad();
 	}
-
 
 	/// <summary>
 	/// Initialize the player
 	/// </summary>
 	public void Initialize(PlayerDetailsSO playerDetails)
 	{
+		SquadControl.ComradesTransforms = new List<Transform>();
+
 		this.PlayerDetails = Instantiate(playerDetails);
 
 		PlayerController.enabled = false;
-		//Create player starting weapons
-		CreatePlayerStartingWeapons();
+
+		AddWeaponToPlayer(PlayerDetails.PlayerWeaponDetails);
 
 		ApplyUpgrades();
 	}
 
-	private void CreatePlayerStartingWeapons()
-	{
-		AddWeaponToPlayer(PlayerDetails.PlayerWeaponDetails);
-	}
-
 	/// <summary>
-	/// Add a weapon to the player weapon dictionary
+	/// Add a weapon to the player
 	/// </summary>
 	public void AddWeaponToPlayer(WeaponDetailsSO weaponWeaponDetails)
 	{
@@ -124,6 +122,9 @@ public class Player : MonoBehaviour
 		PlayerWeapon.weaponDetails.AmmoDetails = Instantiate(weaponWeaponDetails.AmmoDetails);
 	}
 
+	/// <summary>
+	/// Apply selected upgrade cards values to the player weapon and base stats
+	/// </summary>
 	private void ApplyUpgrades()
 	{
 		PlayerEquipment = new Equipment(PlayerWeapon, PlayerDetails);
@@ -132,9 +133,15 @@ public class Player : MonoBehaviour
 
 		activeUpgrades = SaveManager.ReadFromJSON<CardDTO>(Settings.CARDS).Where(x => x.CardSlot == CardSlot.Active).ToList();
 
-		PlayerEquipment.SetUpgrades(activeUpgrades);
+		if (activeUpgrades.Count > 0)
+			PlayerEquipment.SetUpgrades(activeUpgrades);
+		else
+			PlayerEquipment_OnUpgraded();
 	}
 
+	/// <summary>
+	/// Call actions after the upgrade cards have been added to the player
+	/// </summary>
 	private void PlayerEquipment_OnUpgraded()
 	{
 		PlayerController.enabled = true;

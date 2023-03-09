@@ -14,7 +14,7 @@ public class NavigationTab : Tab
 		});
 
 		shopBtn.onClick.AddListener(() => {
-			//CanvasManager.Show<ShopTab>();
+			CanvasManager.Show<StoreTab>();
 		});
 
 		playBtn.onClick.AddListener(() => {

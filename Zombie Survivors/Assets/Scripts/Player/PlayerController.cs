@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 	private bool isPlayerMovementDisabled = false;
 	private Quaternion currentRotation;
 
-	[HideInInspector] private FloatingJoystick joystick;
+	private FloatingJoystick joystick;
 
 	Vector3 moveDirection;
 	private bool IsPlayerDead = false;
@@ -110,4 +110,8 @@ public class PlayerController : MonoBehaviour
 		IsPlayerDead = true;
 	}
 
+	public void SetPlayerToAlive()
+	{
+		IsPlayerDead = false;
+	}
 }

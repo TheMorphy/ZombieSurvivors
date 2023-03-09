@@ -95,14 +95,15 @@ public class Ammo : MonoBehaviour
 	{
 		isColliding = true;
 
-		if (collision.TryGetComponent(out Health playerHealth))
-		{
-			playerHealth.TakeDamage(ammoDetails.ammoDamage);
-		}
+		//if (collision.TryGetComponent(out Health playerHealth))
+		//{
+		//	print("Deal Damage To Collider");
+		//	playerHealth.TakeDamage(ammoDetails.ammoDamage);
+		//}
 
 		if (collision.TryGetComponent(out Limb limb))
 		{
-			if(limb.limbShot == false)
+			if (limb.limbShot == false)
 			{
 				limb.RemoveLimb(ammoDetails.ammoDamage, fireDirectionVector, ammoSpeed);
 			}

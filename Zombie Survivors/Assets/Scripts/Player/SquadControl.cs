@@ -16,7 +16,7 @@ public class SquadControl : MonoBehaviour
 
 	public event Action<SquadControl, SquadControlEventArgs> OnSquadAmmountChanged;
 
-	public static List<Transform> ComradesTransforms;
+	public static List<Transform> ComradesTransforms = null;
 
 	BoxCollider collider;
 	float timer;
@@ -24,11 +24,6 @@ public class SquadControl : MonoBehaviour
 	private void Awake()
 	{
 		collider = GetComponent<BoxCollider>();
-	}
-
-	private void Start()
-	{
-		squadAmmount = transform.childCount - 1;
 	}
 
 	private void Update()
@@ -44,14 +39,18 @@ public class SquadControl : MonoBehaviour
 
 	public void CreateFirstComrade()
 	{
-		ComradesTransforms = new List<Transform>();
-
 		Comrade comrade = Instantiate(comradePrefab, transform.position, Quaternion.identity, transform).GetComponent<Comrade>();
 		comrade.InitializeComrade();
+
+		squadAmmount = ComradesTransforms.Count;
 
 		comrade.WeaponFiredEvent.OnWeaponFired += WeaponFiredEvent_OnWeaponFired;
 	}
 
+	/// <summary>
+	/// Play audio only for one comrade weapon, because if we try to play same shooting sound for every comrade,
+	/// it will cause massive volume spike and sound glitching
+	/// </summary>
 	private void WeaponFiredEvent_OnWeaponFired(WeaponFiredEvent arg1, WeaponFiredEventArgs arg2)
 	{
 		AudioManager.Instance.PlaySFX(SoundTitle.Gun_Shoot);
@@ -68,6 +67,10 @@ public class SquadControl : MonoBehaviour
 		return bounds;
 	}
 
+	/// <summary>
+	/// Updates the Player collider, depending on the ammount of comrades.
+	/// I'm using this, instead of individual comrade colllider, to avoid calling events on collision multiple times, for each comrade
+	/// </summary>
 	private void UpdateColliderSize()
 	{
 		Bounds childrenBounds = GetChildrenBounds(transform);
@@ -86,6 +89,9 @@ public class SquadControl : MonoBehaviour
 		return transform.position;
 	}
 
+	/// <summary>
+	/// Called in MultiplicationAreaController, to increase squad size
+	/// </summary>
 	public void IncreaseSquadSize(int randomValue, bool multiply)
 	{
 		if (multiply == false)
@@ -95,7 +101,6 @@ public class SquadControl : MonoBehaviour
 		else
 		{
 			CreateComrades(randomValue * squadAmmount);
-
 		}
 	}
 
@@ -119,8 +124,8 @@ public class SquadControl : MonoBehaviour
 			comrade.InitializeComrade();
 			comrade.name = $"Comrade_{i}";
 		}
-		
-		squadAmmount = transform.childCount - 1;
+
+		squadAmmount = ComradesTransforms.Count;
 
 		FormatSquad();
 

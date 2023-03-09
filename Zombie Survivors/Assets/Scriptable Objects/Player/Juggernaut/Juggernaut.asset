@@ -17,9 +17,8 @@ MonoBehaviour:
   playerPicture: {fileID: 21300000, guid: e92527f6d0fe45342ab542b47346d45f, type: 3}
   playerPrefab: {fileID: 3737252268984434869, guid: 1c26d3f6f2bb8ff4aa63c74a6ccaec3c, type: 3}
   playerWeaponDetails: {fileID: 11400000, guid: ad6f46bf3caf16b41b8e58023bab0892, type: 2}
-  Health: 300
+  Health: 1
   MoveSpeed: 2.2
   playerStatsUpgrades:
   - {fileID: 11400000, guid: d8c9503f35aad534b8db745dc7253496, type: 2}
   - {fileID: 11400000, guid: e6e4129fd1dbef14282fe9ca492eadd1, type: 2}
-  ActiveUpgrades: []

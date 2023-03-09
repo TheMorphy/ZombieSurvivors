@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
 
 	private void OnEnable()
 	{
-		EnemySpawner.activeEnemies.Add(transform);
+		EnemySpawner.ActiveEnemies.Add(transform);
 
 		//subscribe to health event
 		healthEvent.OnHealthChanged += HealthEvent_OnHealthChanged;
@@ -72,7 +72,7 @@ public class Enemy : MonoBehaviour
 
 			enemyController.DisableEnemy();
 
-			EnemySpawner.activeEnemies.Remove(transform);
+			EnemySpawner.ActiveEnemies.Remove(transform);
 
 			animateEnemy.TurnOnRagdoll();
 		}

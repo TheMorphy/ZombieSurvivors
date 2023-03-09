@@ -45,6 +45,8 @@ public class Limb : MonoBehaviour
 
 		enemy.health.TakeDamage(damageAmmount);
 
+		if (enemy.health.CurrentHealth > 0) return;
+
 		transform.localScale = Vector3.zero;
 
 		limbObject = Instantiate(limbPrefab, transform.position, transform.rotation);

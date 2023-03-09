@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -86,7 +87,15 @@ public class GameplayTab : Tab
 			case GameState.gameWon:
 				ShowExitButton();
 				break;
+			case GameState.gameLost:
+				ShowReviveWindow();
+				break;
 		}
+	}
+
+	private void ShowReviveWindow()
+	{
+		CanvasManager.Show<ReviveTab>(false);
 	}
 
 	private void StaticEvents_OnAirdropSpawned(Vector3 airdropSpawnPosition)
@@ -164,7 +173,7 @@ public class GameplayTab : Tab
 		backToMainMenu.gameObject.SetActive(true);
 	}
 
-	private void ReturnToMainMenu()
+	public void ReturnToMainMenu()
 	{
 		AudioManager.Instance.PlayMusicWithFade(SoundTitle.MainMenu_Theme, 1f);
 		SceneManager.LoadScene(0);
