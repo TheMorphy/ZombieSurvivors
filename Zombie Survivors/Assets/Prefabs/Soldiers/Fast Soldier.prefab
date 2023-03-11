@@ -53,6 +53,9 @@ GameObject:
   - component: {fileID: 2383282630050494456}
   - component: {fileID: 6449630924684632337}
   - component: {fileID: 2336914630314905273}
+  - component: {fileID: 2936360214266082727}
+  - component: {fileID: 760652801572926548}
+  - component: {fileID: 2805127414247038034}
   m_Layer: 10
   m_Name: Fast Soldier
   m_TagString: Comrade
@@ -131,6 +134,7 @@ MonoBehaviour:
   FireWeapon: {fileID: 0}
   ActiveWeapon: {fileID: 0}
   WeaponFiredEvent: {fileID: 0}
+  ReloadWeaponEvent: {fileID: 0}
   SetActiveWeaponEvent: {fileID: 0}
   HealthEvent: {fileID: 0}
 --- !u!114 &7864186590533768608
@@ -245,6 +249,42 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 824aa974f21a38f44b96eedb94d38ab8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2936360214266082727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321057240856242775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad1bfa01fffde1e479b4185cf375eeaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &760652801572926548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321057240856242775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a8da49f9886c474085a962bfc30599e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2805127414247038034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 321057240856242775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899eb818c7861fc45a6db9546ab82069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &601458712185550799

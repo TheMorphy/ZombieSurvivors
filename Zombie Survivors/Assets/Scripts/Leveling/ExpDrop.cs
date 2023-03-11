@@ -26,7 +26,7 @@ public class ExpDrop : Collectable
 
 	private void Update()
 	{
-		if(GameManager.Instance.gameState == GameState.evacuating)
+		if(GameManager.Instance.GameState == GameState.Evacuating)
 		{
 			Destroy(gameObject);
 		}
@@ -34,9 +34,12 @@ public class ExpDrop : Collectable
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.transform.CompareTag("Player") || other.transform.CompareTag("Comrade"))
+		if (other.transform.CompareTag("Player"))
 		{
-			StartCoroutine(Collect(other.transform, absorbTime));
+			if (SquadControl.ComradesTransforms.Count > 0)
+			{
+				StartCoroutine(Collect(other.transform, absorbTime));
+			}
 		}
 	}
 

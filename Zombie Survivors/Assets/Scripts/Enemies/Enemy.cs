@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour
 
 	private void Start()
 	{
-		if (GameManager.Instance.gameState == GameState.evacuating)
+		if (GameManager.Instance.GameState == GameState.Evacuating)
 			Destroy(gameObject);
 	}
 

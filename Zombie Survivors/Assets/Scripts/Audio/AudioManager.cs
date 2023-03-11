@@ -80,12 +80,6 @@ public class AudioManager : MonoBehaviour
 		sfxSource = gameObject.AddComponent<AudioSource>();
 	}
 
-	private void Start()
-	{
-		//audioMixer.SetFloat("Volume", Mathf.Log10(PlayerPrefs.GetFloat("GlobalVolume", 1) * 20));
-		PlayMusic(SoundTitle.MainMenu_Theme);
-	}
-
 	//public void OnSliderChanged(float value)
 	//{
 	//	switch (mixMode)

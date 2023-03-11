@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ReloadWeaponEvent))]
@@ -58,13 +57,13 @@ public class ReloadWeapon : MonoBehaviour
 			StopCoroutine(reloadWeaponCoroutine);
 		}
 
-		reloadWeaponCoroutine = StartCoroutine(ReloadWeaponRoutine(reloadWeaponEventArgs.weapon, reloadWeaponEventArgs.topUpAmmoPercent));
+		reloadWeaponCoroutine = StartCoroutine(ReloadWeaponRoutine(reloadWeaponEventArgs.weapon));
 	}
 
 	/// <summary>
 	/// Reload weapon coroutine
 	/// </summary>
-	private IEnumerator ReloadWeaponRoutine(Weapon weapon, int topUpAmmoPercent)
+	private IEnumerator ReloadWeaponRoutine(Weapon weapon)
 	{
 		// Play reload sound if there is one
 		//if (weapon.weaponDetails.weaponReloadingSoundEffect != null)
@@ -82,28 +81,12 @@ public class ReloadWeapon : MonoBehaviour
 			yield return null;
 		}
 
-		// If total ammo is to be increased then update
-		if (topUpAmmoPercent != 0)
-		{
-			int ammoIncrease = Mathf.RoundToInt((weapon.weaponDetails.weaponAmmoCapacity * topUpAmmoPercent) / 100f);
-
-			int totalAmmo = weapon.weaponRemainingAmmo + ammoIncrease;
-
-			if (totalAmmo > weapon.weaponDetails.weaponAmmoCapacity)
-			{
-				weapon.weaponRemainingAmmo = weapon.weaponDetails.weaponAmmoCapacity;
-			}
-			else
-			{
-				weapon.weaponRemainingAmmo = totalAmmo;
-			}
-		}
-
 		// If weapon has infinite ammo then just refil the clip
 		if (weapon.weaponDetails.hasInfiniteAmmo)
 		{
 			weapon.weaponClipRemainingAmmo = weapon.weaponDetails.weaponClipAmmoCapacity;
 		}
+
 		// else if not infinite ammo then if remaining ammo is greater than the amount required to
 		// refill the clip, then fully refill the clip
 		else if (weapon.weaponRemainingAmmo >= weapon.weaponDetails.weaponClipAmmoCapacity)
@@ -139,7 +122,7 @@ public class ReloadWeapon : MonoBehaviour
 				StopCoroutine(reloadWeaponCoroutine);
 			}
 
-			reloadWeaponCoroutine = StartCoroutine(ReloadWeaponRoutine(setActiveWeaponEventArgs.weapon, 0));
+			reloadWeaponCoroutine = StartCoroutine(ReloadWeaponRoutine(setActiveWeaponEventArgs.weapon));
 		}
 	}
 

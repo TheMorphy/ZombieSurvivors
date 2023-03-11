@@ -11,7 +11,6 @@ public class FireWeapon : MonoBehaviour
 
 	private float burstTimer;
 	private int burstCounter;
-	bool IsFiring = false;
 
 	private void Awake()
 	{
@@ -36,26 +35,20 @@ public class FireWeapon : MonoBehaviour
 	/// </summary>
 	private bool IsWeaponReadyToFire()
 	{
-		if (IsFiring == true)
-			return false;
-
 		if(comrade.ActiveWeapon.GetCurrentWeapon().weaponDetails.fireRate - timeSinceFired > 0)
-			return false;
-
-		// if there is no ammo and weapon doesn't have infinite ammo then return false.
-		if (comrade.ActiveWeapon.GetCurrentWeapon().weaponRemainingAmmo <= 0 && !comrade.ActiveWeapon.GetCurrentWeapon().weaponDetails.hasInfiniteAmmo)
 			return false;
 
 		// if the weapon is reloading then return false.
 		if (comrade.ActiveWeapon.GetCurrentWeapon().isWeaponReloading)
 			return false;
 
-		// if no ammo in the clip and the weapon doesn't have infinite clip capacity then return false.
-		if (!comrade.ActiveWeapon.GetCurrentWeapon().weaponDetails.hasInfiniteClipCapacity && comrade.ActiveWeapon.GetCurrentWeapon().weaponClipRemainingAmmo <= 0)
-		{
-			// trigger a reload weapon event.
-			//reloadWeaponEvent.CallReloadWeaponEvent(comrade.ActiveWeapon.GetCurrentWeapon(), 0);
+		if (comrade.ActiveWeapon.GetCurrentWeapon().weaponRemainingAmmo <= 0 && !comrade.ActiveWeapon.GetCurrentWeapon().weaponDetails.hasInfiniteAmmo)
+			return false;
 
+		// if there is no ammo int he clip and weapon doesn't have infinite ammo then return false.
+		if (comrade.ActiveWeapon.GetCurrentWeapon().weaponClipRemainingAmmo < comrade.ActiveWeapon.GetCurrentAmmo().ammoPerShot && !comrade.ActiveWeapon.GetCurrentWeapon().weaponDetails.hasInfiniteClipCapacity)
+		{
+			comrade.ReloadWeaponEvent.CallReloadWeaponEvent(comrade.ActiveWeapon.GetCurrentWeapon(), 0);
 			return false;
 		}
 
@@ -67,8 +60,6 @@ public class FireWeapon : MonoBehaviour
 
 	public void Shoot()
 	{
-		IsFiring = true;
-
 		int ammoPerShot = comrade.ActiveWeapon.GetCurrentAmmo().ammoPerShot;
 		float spreadAngle = comrade.ActiveWeapon.GetCurrentAmmo().ammoSpread;
 
@@ -101,14 +92,6 @@ public class FireWeapon : MonoBehaviour
 
 		// Call weapon fired event
 		comrade.WeaponFiredEvent.CallWeaponFiredEvent(comrade.ActiveWeapon.GetCurrentWeapon());
-
-		IsFiring = false;
-
-		//// Display weapon shoot effect
-		//WeaponShootEffect(aimAngle);
-
-		//// Weapon fired sound effect
-		//WeaponSoundEffect();
 	}
 
 	private void SingleShot(float spreadAngle)

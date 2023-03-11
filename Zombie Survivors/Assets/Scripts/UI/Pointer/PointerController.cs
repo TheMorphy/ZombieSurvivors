@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Pointer : MonoBehaviour
+public class PointerController : MonoBehaviour
 {
 	[SerializeField] private Camera uiCamera;
 	[SerializeField] private Sprite multiplicationAreaArrowSprite;

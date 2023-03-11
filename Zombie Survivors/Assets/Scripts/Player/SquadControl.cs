@@ -18,18 +18,18 @@ public class SquadControl : MonoBehaviour
 
 	public static List<Transform> ComradesTransforms = null;
 
-	BoxCollider collider;
-	float timer;
+	private BoxCollider collider;
+	private float timer;
 
 	private void Awake()
 	{
+		ComradesTransforms = new List<Transform>();
 		collider = GetComponent<BoxCollider>();
 	}
 
 	private void Update()
 	{
 		timer += Time.deltaTime;
-
 		if(timer > 1f)
 		{
 			UpdateColliderSize();
@@ -43,6 +43,7 @@ public class SquadControl : MonoBehaviour
 		comrade.InitializeComrade();
 
 		squadAmmount = ComradesTransforms.Count;
+		CallSquadChangedEvent(squadAmmount);
 
 		comrade.WeaponFiredEvent.OnWeaponFired += WeaponFiredEvent_OnWeaponFired;
 	}
@@ -104,6 +105,9 @@ public class SquadControl : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Forms child objects in spiral formation
+	/// </summary>
 	public void FormatSquad()
 	{
 		for (int i = 1; i < transform.childCount; i++)
@@ -116,6 +120,10 @@ public class SquadControl : MonoBehaviour
 			transform.GetChild(i).DOLocalMove(newPos, 0.7f).SetEase(Ease.OutBack);
 		}
 	}
+
+	/// <summary>
+	/// Spawns new soldiers by specified ammount
+	/// </summary>
 	public void CreateComrades(int number)
 	{
 		for (int i = squadAmmount; i < number; i++)
@@ -159,7 +167,7 @@ public class SquadControl : MonoBehaviour
 			yield return moveTween.WaitForCompletion();
 		}
 
-		GameManager.Instance.CallGameStateChangedEvent(GameState.gameWon);
+		GameManager.Instance.ChangeGameState(GameState.GameWon);
 	}
 
 	public void DisableComrades()

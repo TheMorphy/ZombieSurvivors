@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,8 +6,9 @@ using UnityEngine.UI;
 [DisallowMultipleComponent]
 public class GameplayTab : Tab
 {
-	private UpgradesTab upgradesController;
-	private Pointer pointer;
+	[Space]
+	[Header("CONTROLLERS")]
+	[SerializeField] private PointerController pointerController;
 
 	[Space]
     [Header("BUTTONS")]
@@ -24,16 +23,8 @@ public class GameplayTab : Tab
 	[SerializeField] private TextMeshProUGUI timer;
 	[SerializeField] private TextMeshProUGUI airdropIncomming;
 
-	private void Awake()
-	{
-		pointer = GetComponentInChildren<Pointer>();
-		upgradesController = GetComponentInChildren<UpgradesTab>();
-	}
-
 	public override void Initialize(object[] args)
 	{
-		upgradesController.SetLevelSystem(GameManager.Instance.GetLevelSystem());
-
 		bossHealthbar.transform.parent.gameObject.SetActive(false);
 		backToMainMenu.gameObject.SetActive(false);
 		airdropIncomming.gameObject.SetActive(false);
@@ -50,8 +41,6 @@ public class GameplayTab : Tab
 
 	private void OnEnable()
 	{
-		upgradesController.OnUpgradeSet += UpgradesController_OnUpgradeSet;
-
 		GameManager.OnGameStateChanged += GameManager_OnGameStateChanged;
 
 		StaticEvents.OnAirdropSpawned += StaticEvents_OnAirdropSpawned;
@@ -63,8 +52,6 @@ public class GameplayTab : Tab
 
 	private void OnDisable()
 	{
-		upgradesController.OnUpgradeSet -= UpgradesController_OnUpgradeSet;
-
 		GameManager.OnGameStateChanged -= GameManager_OnGameStateChanged;
 
 		StaticEvents.OnAirdropSpawned -= StaticEvents_OnAirdropSpawned;
@@ -78,16 +65,16 @@ public class GameplayTab : Tab
 	{
 		switch (gameState)
 		{
-			case GameState.bossFight:
+			case GameState.BossFight:
 				ShowBossHealth();
 				break;
-			case GameState.evacuating:
+			case GameState.Evacuating:
 				HideBossHealth();
 				break;
-			case GameState.gameWon:
+			case GameState.GameWon:
 				ShowExitButton();
 				break;
-			case GameState.gameLost:
+			case GameState.GameLost:
 				ShowReviveWindow();
 				break;
 		}
@@ -102,24 +89,17 @@ public class GameplayTab : Tab
 	{
 		DisplayAirdropAlert();
 
-		pointer.CreateAirdropTargetPointer(airdropSpawnPosition);
-	}
-
-	private void UpgradesController_OnUpgradeSet()
-	{
-		upgradesController.Hide();
-
-		GameManager.Instance.GetPlayer().PlayerController.EnablePlayerMovement();
+		pointerController.CreateAirdropTargetPointer(airdropSpawnPosition);
 	}
 
 	private void StaticEvents_OnCircleSpawned(CircleSpawnedEventArgs circleSpawnedEventArgs)
 	{
-		pointer.CreateMultiplicationTargetPointer(circleSpawnedEventArgs.spawnPosition);
+		pointerController.CreateMultiplicationTargetPointer(circleSpawnedEventArgs.spawnPosition);
 	}
 
 	private void StaticEvents_OnCollected(CollectedEventArgs circleDespawnedEventArgs)
 	{
-		pointer.targetPointers.Find(x => x.targetPosition == circleDespawnedEventArgs.collectedPosition)?.DestroySelf();
+		pointerController.targetPointers.Find(x => x.targetPosition == circleDespawnedEventArgs.collectedPosition)?.DestroySelf();
 	}
 
 	public Image GetBossHealth()

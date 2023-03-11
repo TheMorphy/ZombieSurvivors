@@ -70,8 +70,6 @@ public class AnimateEnemy : MonoBehaviour
 	{
 		ActivateRagdoll();
 
-		gameObject.GetComponent<Collider>().enabled = false;
-
 		for (int i = 0; i < ragdollParts.Count; i++)
 		{
 			ragdollParts[i].isTrigger = false;

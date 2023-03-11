@@ -39,7 +39,7 @@ public class Trackable
 
 	public IEnumerator StartTimer()
 	{
-		WaitForSeconds wait = new WaitForSeconds(1f);
+		WaitForSecondsRealtime wait = new WaitForSecondsRealtime(1f);
 		while (RemainingSeconds > 0)
 		{
 			int days = (RemainingSeconds / 86400) % 365;

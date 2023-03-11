@@ -17,7 +17,7 @@ public class ComradeMovement : MonoBehaviour
 
 	private void Update()
 	{
-		if (GameManager.Instance.gameState == GameState.evacuating)
+		if (GameManager.Instance.GameState == GameState.Evacuating)
 			return;
 
 		HandleRotations();

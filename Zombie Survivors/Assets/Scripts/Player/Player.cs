@@ -82,7 +82,6 @@ public class Player : MonoBehaviour
 		if(squadControlEventArgs.squadSize == 0)
 		{
 			PlayerController.SetPlayerToDead();
-			GameManager.Instance.CallGameStateChangedEvent(GameState.gameLost);
 			return;
 		}
 
@@ -94,8 +93,6 @@ public class Player : MonoBehaviour
 	/// </summary>
 	public void Initialize(PlayerDetailsSO playerDetails)
 	{
-		SquadControl.ComradesTransforms = new List<Transform>();
-
 		this.PlayerDetails = Instantiate(playerDetails);
 
 		PlayerController.enabled = false;

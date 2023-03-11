@@ -125,7 +125,7 @@ public class EnemySpawner : MonoBehaviour
 
 			if (enemiesAlive == 0 && enemiesSpawned == StartEnemyCount)
 			{
-				if(GameManager.Instance.gameState == GameState.playingLevel)
+				if(GameManager.Instance.GameState == GameState.PlayingLevel)
 				{
 					ScaleUpSpawns();
 					StartCoroutine(SpawnEnemies());
@@ -138,7 +138,7 @@ public class EnemySpawner : MonoBehaviour
 	{
 		AudioManager.Instance.PlayMusicWithCrossFade(SoundTitle.BossFight_Theme);
 
-		GameManager.Instance.CallGameStateChangedEvent(GameState.bossFight);
+		GameManager.Instance.ChangeGameState(GameState.BossFight);
 
 		Vector3 bossSpawnPosition = GameManager.Instance.GetRandomSpawnPositionGround();
 
@@ -156,7 +156,7 @@ public class EnemySpawner : MonoBehaviour
 
 		ClearEnemies();
 
-		GameManager.Instance.CallGameStateChangedEvent(GameState.evacuating);
+		GameManager.Instance.ChangeGameState(GameState.Evacuating);
 
 		GameManager.Instance.SpawnEvacuationArea();
 	}
@@ -176,5 +176,10 @@ public class EnemySpawner : MonoBehaviour
 	{
 		StartEnemyCount = Mathf.FloorToInt(initialEnemiesToSpawn * ScalingConfiguration.SpawnCountCurve.Evaluate(time));
 		spawnDelay = InitialSpawnDelay * ScalingConfiguration.SpawnRateCurve.Evaluate(time);
+	}
+
+	public NavMeshTriangulation GetNavMeshTriangulation()
+	{
+		return navTriangulation;
 	}
 }

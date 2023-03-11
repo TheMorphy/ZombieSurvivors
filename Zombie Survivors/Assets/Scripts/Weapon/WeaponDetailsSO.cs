@@ -51,13 +51,13 @@ public class WeaponDetailsSO : ScriptableObject
 	[Tooltip("Fires several bullets in single shot. If set TRUE, specify the spread shot bullet ammount")]
 	public bool spreadShot = false;
 
-	[Tooltip("The fire rate of the weapon, in shots per second")]
+	[Tooltip("Reload time in seconds")]
 	public float weaponReloadTime = 0.5f;
 
-	[Tooltip("The total ammount of ammo that fits in a weapon")]
+	[Tooltip("Total ammo capacity")]
 	public int weaponAmmoCapacity = 50;
 
-	[Tooltip("The ammo count in clip")]
+	[Tooltip("Ammo capacity in the clip")]
 	public int weaponClipAmmoCapacity = 50;
 
 	[Min(0.01f)]

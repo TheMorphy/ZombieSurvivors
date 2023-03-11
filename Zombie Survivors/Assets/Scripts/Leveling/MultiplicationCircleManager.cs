@@ -26,7 +26,7 @@ public class MultiplicationCircleManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (GameManager.Instance.gameState == GameState.evacuating)
+		if (GameManager.Instance.GameState == GameState.Evacuating)
 		{
 			StaticEvents.CallCollectedEvent(transform.position);
 			Destroy(gameObject);

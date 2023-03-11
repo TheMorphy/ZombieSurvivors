@@ -17,4 +17,4 @@ MonoBehaviour:
   Health: 100
   MoveSpeed: 3
   Damage: 60
-  EXP_Increase: 0
+  EXP_Increase: 30

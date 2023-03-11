@@ -3,10 +3,8 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 
-public class UpgradesTab : MonoBehaviour
+public class UpgradesTab : Tab
 {
-	public event Action OnUpgradeSet;
-
 	[SerializeField] private GameObject[] upgradeCards;
 	private Image[] cardsImages;
 	private TextMeshProUGUI[] cardsDescriptions;
@@ -24,6 +22,7 @@ public class UpgradesTab : MonoBehaviour
 
 	Sprite tempImg;
 	string tempText;
+
 	private void Awake()
 	{
 		cardsImages = new Image[upgradeCards.Length];
@@ -34,6 +33,11 @@ public class UpgradesTab : MonoBehaviour
 			cardsImages[i] = Utilities.GetComponentInChildrenButNotParent<Image>(upgradeCards[i]);
 			cardsDescriptions[i] = upgradeCards[i].GetComponentInChildren<TextMeshProUGUI>();
 		}
+	}
+
+	public override void Initialize(object[] args = null)
+	{
+		SetLevelSystem(GameManager.Instance.GetLevelSystem());
 	}
 
 	private void InitializeUpgradeCards()
@@ -99,7 +103,8 @@ public class UpgradesTab : MonoBehaviour
 
 	public void CallCardSelectedEvent()
 	{
-		OnUpgradeSet?.Invoke();
+		Hide();
+		GameManager.Instance.GetPlayer().PlayerController.EnablePlayerMovement();
 	}
 
 	private void DisplayCardInfo(Image cardImage, TextMeshProUGUI cardDescription)
@@ -156,24 +161,15 @@ public class UpgradesTab : MonoBehaviour
 
 	private void LevelSystem_OnLevelChanged(object sender, EventArgs eventArgs)
 	{
+		GameManager.Instance.GetPlayer().PlayerController.DisablePlayerMovement();
+
 		Show();
-
 		SetLevelNumber(levelSystem.GetPlayerLevel());
-
 		InitializeUpgradeCards();
 	}
 
 	private void LevelSystem_OnExperienceChanged(object sender, EventArgs eventArgs)
 	{
 		SetExperienceBarSize(levelSystem.GetPlayerExperienceNormalized());
-	}
-
-	public void Hide()
-	{
-		gameObject.SetActive(false);
-	}
-	public void Show()
-	{
-		gameObject.SetActive(true);
 	}
 }

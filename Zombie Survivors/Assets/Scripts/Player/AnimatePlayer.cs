@@ -73,6 +73,12 @@ public class AnimatePlayer : MonoBehaviour
 			yield return null;
 		}
 
+		// Displays Game Over screen if there are no comrades alive and the last one has finished the dying animation
+		if (SquadControl.ComradesTransforms.Count == 0)
+		{
+			GameManager.Instance.ChangeGameState(GameState.GameLost);
+		}
+
 		Destroy(gameObject);
 	}
 }
