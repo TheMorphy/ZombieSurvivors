@@ -2,7 +2,6 @@ using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(CardView))]
-[RequireComponent(typeof(CardAnimation))]
 public class Card : Slot<CardDTO>
 {
 	public CardView CardView;

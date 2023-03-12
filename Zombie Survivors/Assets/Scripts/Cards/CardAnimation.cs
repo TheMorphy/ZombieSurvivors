@@ -1,36 +1,24 @@
 using DG.Tweening;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CardAnimation : MonoBehaviour
 {
-	public float bounceHeight = 0.2f; // The height of the bounce
-	public float bounceDuration = 0.5f; // The duration of the bounce animation
-	public AnimationCurve bounceCurve = AnimationCurve.EaseInOut(0, 0, 1, 1); // The curve of the bounce animation
+	[SerializeField] private float increaseAmmount = 1.05f;
+	[SerializeField] private float animationDuration = 0.2f;
 
-	private Vector3 originalScale; // The original scale of the object
-	private bool isExpanded = false; // Whether the object is currently expanded
-
-	void Start()
+	public void PlayShowAnimation(RectTransform rectTransform, Action actionOnAnimationEnd)
 	{
-		originalScale = transform.localScale;
+		rectTransform.DOScale(rectTransform.localScale * increaseAmmount, animationDuration).SetEase(Ease.Flash).OnComplete(() => {
+			actionOnAnimationEnd();
+		});
 	}
 
-	public void PlayAnimation()
+	public void PlayCloseAnimation(RectTransform rectTransform, Action actionOnAnimationEnd)
 	{
-		if (isExpanded)
-		{
-			// If the object is already expanded, return it to its original scale
-			transform.DOScale(originalScale, bounceDuration)
-				.SetEase(bounceCurve);
-			isExpanded = false;
-		}
-		else
-		{
-			// If the object is not expanded, expand it and set the flag to true
-			transform.DOKill(); // Stop any previous tweens
-			transform.DOPunchScale(new Vector3(bounceHeight, bounceHeight, bounceHeight), bounceDuration, 0, 1f)
-				.SetEase(bounceCurve);
-			isExpanded = true;
-		}
+		rectTransform.DOScale(rectTransform.localScale, animationDuration).SetEase(Ease.InFlash).OnComplete(() => {
+			actionOnAnimationEnd();
+		});
 	}
 }

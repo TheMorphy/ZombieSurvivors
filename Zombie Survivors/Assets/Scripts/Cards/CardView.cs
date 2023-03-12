@@ -77,14 +77,20 @@ public class CardView : MonoBehaviour
 				{
 					cardView.cardOptions.Show();
 					AudioManager.Instance.PlaySFX(SoundTitle.Card_Select);
-					CardReference.CardAnimation.PlayAnimation();
 					_selectedCardView = cardView;
 				}
 				else
 				{
 					cardView.cardOptions.Hide();
+					cardView.ResetSelectedCard();
 				}
 			}
 		}
 	}
+
+	public void ResetSelectedCard()
+	{
+		_selectedCardView = null;
+	}
+
 }
