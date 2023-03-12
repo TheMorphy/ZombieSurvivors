@@ -39,13 +39,9 @@ public class Limb : MonoBehaviour
 		enemy.health.TakeDamage(damageAmmount);
 	}
 
-	public void RemoveLimb(int damageAmmount, Vector3 forceDirection, float force)
+	public void RemoveLimb(Vector3 forceDirection, float force)
 	{
 		limbShot = true;
-
-		enemy.health.TakeDamage(damageAmmount);
-
-		if (enemy.health.CurrentHealth > 0) return;
 
 		transform.localScale = Vector3.zero;
 

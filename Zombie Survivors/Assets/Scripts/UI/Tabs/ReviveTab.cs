@@ -5,17 +5,14 @@ using UnityEngine.UI;
 
 public class ReviveTab : Tab, IPointerClickHandler
 {
-	[SerializeField] private AdsInitializer adsInitializer;
-
 	[Space]
 	[SerializeField] private int reviveCost = 5;
 	[SerializeField] private Button useGems;
+	[SerializeField] private Button watchAd;
 	[SerializeField] private TextMeshProUGUI gemsAmmountText;
 
 	public override void Initialize(object[] args = null)
 	{
-		adsInitializer.OnAdClosed += AdsInitializer_OnAdClosed;
-
 		gemsAmmountText.text = reviveCost.ToString();
 
 		int currentGems = PlayerPrefs.GetInt(Settings.GEMS, 10);
@@ -31,21 +28,29 @@ public class ReviveTab : Tab, IPointerClickHandler
 		{
 			useGems.interactable = false;
 		}
+
+		watchAd.onClick.AddListener(() =>
+		{
+			GoogleAdMobController.Instance.ShowRewardedAd();
+		});
 	}
 
-	private void AdsInitializer_OnAdClosed(bool obj)
+	/// <summary>
+	/// After player has watched ad, revive the player. Set in inspector for google admobcontroller.
+	/// </summary>
+	public void RevivePlayer()
 	{
-		CloseWindow();
+		StartRevive();
 	}
 
 	private void UseGemsToRevive(int currentGems)
 	{
 		currentGems -= reviveCost;
 		PlayerPrefs.SetInt(Settings.GEMS, currentGems);
-		CloseWindow();
+		StartRevive();
 	}
 
-	private void CloseWindow()
+	private void StartRevive()
 	{
 		CanvasManager.Show<GameplayTab>();
 		GameManager.Instance.RevivePlayer();

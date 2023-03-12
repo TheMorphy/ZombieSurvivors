@@ -1,0 +1,41 @@
+{
+    "project_info": {
+      "project_number": "317441415805",
+      "project_id": "funtory-biz",
+      "storage_bucket": "funtory-biz.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:317441415805:android:175024e4a2498f98602f14",
+          "android_client_info": {
+            "package_name": "com.MorphyStudios.ZombieSurvivors"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "317441415805-84srq5col1vdhnpdf3vbbj5v00ffh661.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyCoGR3fyEKbHSmAnRX9YaB6hVpa1nyLgPg"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "317441415805-84srq5col1vdhnpdf3vbbj5v00ffh661.apps.googleusercontent.com",
+                "client_type": 3
+              }
+            ]
+          }
+        }
+      }
+        "admob_app_id": "ca-app-pub-6201798499291567~3446044239"
+      }
+    ],
+    "configuration_version": "1"
+  }

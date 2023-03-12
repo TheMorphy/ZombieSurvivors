@@ -2383,13 +2383,52 @@ MonoBehaviour:
   m_GameObject: {fileID: 1004953189}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da74499dcf59342448e6125d25484b23, type: 3}
+  m_Script: {fileID: 11500000, guid: d17c3c2799709a44ea8494c6e3ca86e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _showAdButton: {fileID: 721879403681755819}
-  _androidAdUnitId: 5159484
-  _iOSAdUnitId: 5159485
-  isTesting: 1
+  BannderAdPosition: 1
+  OnAdLoadedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAdFailedToLoadEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAdOpeningEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnAdFailedToShowEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUserEarnedRewardEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 721879403614110705}
+        m_TargetAssemblyTypeName: ReviveTab, Assembly-CSharp
+        m_MethodName: RevivePlayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnAdClosedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1004953191}
+        m_TargetAssemblyTypeName: GoogleAdMobController, Assembly-CSharp
+        m_MethodName: RequestAndLoadRewardedAd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1046785421
 GameObject:
   m_ObjectHideFlags: 0
@@ -4672,9 +4711,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fe2083e6d50f0349b68a7832ade766e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adsInitializer: {fileID: 1004953191}
   reviveCost: 5
   useGems: {fileID: 721879404088262338}
+  watchAd: {fileID: 721879403681755819}
   gemsAmmountText: {fileID: 721879403796614690}
 --- !u!1 &721879403614110711
 GameObject:

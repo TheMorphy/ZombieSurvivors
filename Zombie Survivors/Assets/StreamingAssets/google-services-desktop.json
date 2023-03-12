@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "103940020069",
+    "project_id": "zombiesurvivors-b4354",
+    "storage_bucket": "zombiesurvivors-b4354.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103940020069:android:f239022acb0d1fd9c2f38c",
+        "android_client_info": {
+          "package_name": "com.MorphyStudio.ZombieSurvivors"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103940020069-9hlo7mg53qd6v03r6m1956rgkrtjsmha.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZlG9qWBzjViLrIzBHYJRA6W-oHZ78gVE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103940020069-9hlo7mg53qd6v03r6m1956rgkrtjsmha.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

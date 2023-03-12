@@ -95,19 +95,27 @@ public class Ammo : MonoBehaviour
 	{
 		isColliding = true;
 
+		if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+		{
+			Health enemyHealth = collision.gameObject.GetComponentInParent<Health>();
+			enemyHealth.TakeDamage(ammoDetails.ammoDamage);
+
+			if(enemyHealth.CurrentHealth <= 0)
+			{
+				if (collision.TryGetComponent(out Limb limb))
+				{
+					if (limb.limbShot == false)
+					{
+						limb.RemoveLimb(fireDirectionVector, ammoSpeed);
+					}
+				}
+			}
+		}
 		//if (collision.TryGetComponent(out Health playerHealth))
 		//{
 		//	print("Deal Damage To Collider");
 		//	playerHealth.TakeDamage(ammoDetails.ammoDamage);
 		//}
-
-		if (collision.TryGetComponent(out Limb limb))
-		{
-			if (limb.limbShot == false)
-			{
-				limb.RemoveLimb(ammoDetails.ammoDamage, fireDirectionVector, ammoSpeed);
-			}
-		}
 	}
 	private void OnDisable()
 	{

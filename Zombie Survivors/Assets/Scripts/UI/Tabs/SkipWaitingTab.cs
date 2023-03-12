@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class SkipWaitingTab : Tab, IPointerClickHandler
 {
-	[SerializeField] private AdsInitializer adsInitializer;
-
 	[Space]
     [Header("Gems")]
     [SerializeField] private TextMeshProUGUI gemsCost;
@@ -22,7 +20,11 @@ public class SkipWaitingTab : Tab, IPointerClickHandler
 
 	public override void Initialize(object[] args)
 	{
-		if(args != null)
+		watchAdButton.onClick.AddListener(() => { 
+			GoogleAdMobController.Instance.ShowRewardedAd();
+		});
+
+		if (args != null)
 		{
 			airdropSlot = (Slot<AirdropDTO>)args[0];
 
@@ -32,30 +34,17 @@ public class SkipWaitingTab : Tab, IPointerClickHandler
 		}
 	}
 
-	private void OnEnable()
-	{
-		adsInitializer.OnAdClosed += AdsInitializer_OnAdClosed;
-	}
-
-	private void OnDisable()
-	{
-		adsInitializer.OnAdClosed -= AdsInitializer_OnAdClosed;
-	}
-
 	public void UseGems()
 	{
 		airdropSlot.Open();
 		Hide();
 	}
 
-	private void AdsInitializer_OnAdClosed(bool giveReward)
+	public void ReduceWaitingTime()
 	{
-		if (giveReward)
-		{
-			CanvasManager.GetTab<PlayTab>().Show();
-			TimeTracker.Instance.DecreaseTime(airdropSlot.SlotID, airdropDetails.RemoveTime);
-			Hide();
-		}
+		CanvasManager.GetTab<PlayTab>().Show();
+		TimeTracker.Instance.DecreaseTime(airdropSlot.SlotID, airdropDetails.RemoveTime);
+		Hide();
 	}
 
 	public void OnPointerClick(PointerEventData eventData)
