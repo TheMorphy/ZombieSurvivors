@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 0d5e387903675d7458b949e52d43b463
   - enabled: 1
+    path: Assets/Scenes/Morphy's Scene.unity
+    guid: 4ede39b4ba13b3846b9d8dff1e0c3604
+  - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects:

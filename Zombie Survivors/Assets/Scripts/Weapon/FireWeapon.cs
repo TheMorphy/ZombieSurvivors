@@ -97,7 +97,7 @@ public class FireWeapon : MonoBehaviour
 	private void SingleShot(float spreadAngle)
 	{
 		float angle = Random.Range(-spreadAngle, spreadAngle);
-		Quaternion rot = Quaternion.Euler(0, angle, 0);
+		Quaternion rot = Quaternion.Euler(angle, angle, 0);
 		Vector3 direction = rot * comrade.ActiveWeapon.GetShootFirePointTransform().forward;
 
 		Ammo ammo = PoolManager.Instance.SpawnFromPool("Ammo", comrade.ActiveWeapon.GetShootPosition(), Quaternion.identity).GetComponent<Ammo>();
@@ -133,7 +133,7 @@ public class FireWeapon : MonoBehaviour
 			while (burstCounter < ammoPerShot)
 			{
 				float angle = Random.Range(-spreadAngle, spreadAngle);
-				Quaternion rot = Quaternion.Euler(0, angle, 0);
+				Quaternion rot = Quaternion.Euler(angle, angle, 0);
 				Vector3 direction = rot * comrade.ActiveWeapon.GetShootFirePointTransform().forward;
 
 				// ... fire a bullet
