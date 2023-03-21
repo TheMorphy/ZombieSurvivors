@@ -143,7 +143,7 @@ public class UpgradesTab : Tab
 
 	private void SetLevelNumber(int levelNumber)
 	{
-		levelNumberText.text = (levelNumber + 1).ToString();
+		levelNumberText.text = levelNumber.ToString();
 	}
 
 	public void SetLevelSystem(LevelSystem levelSystem)

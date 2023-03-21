@@ -8,10 +8,10 @@ public class Card : Slot<CardDTO>
 	public CardType CardType { get { return cardType; } }
 	public CardView CardView;
 
-	public bool IsReadyToUpgrade = false;
-	public int CardIndex;
-	public Sprite CardSprite;
-	public Slot CardSlot;
+	[HideInInspector] public bool IsReadyToUpgrade = false;
+	[HideInInspector] public int CardIndex;
+	[HideInInspector] public Sprite CardSprite;
+	[HideInInspector] public Slot CardSlot;
 
 	public override void Initialize(CardDTO slotDetails, int slotIndex, Slot cardSlot)
 	{

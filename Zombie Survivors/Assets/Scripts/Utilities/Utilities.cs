@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public static class Utilities
@@ -115,5 +117,12 @@ public static class Utilities
 			bounds.Encapsulate(planeCenter - xExtent * cam.transform.right + yExtent * cam.transform.up);
 		}
 		return bounds;
+	}
+
+	public static async Task Wait(int seconds)
+	{
+		await Task.Run(() => {
+			Thread.Sleep(seconds * 1000);
+		});
 	}
 }

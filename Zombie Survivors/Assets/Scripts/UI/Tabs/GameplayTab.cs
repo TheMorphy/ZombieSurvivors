@@ -36,7 +36,7 @@ public class GameplayTab : Tab
 
 	private void Update()
 	{
-		DisplayTime();
+		timer.text = TimeTracker.Instance.GetFormattedGameTime();
 	}
 
 	private void OnEnable()
@@ -60,6 +60,8 @@ public class GameplayTab : Tab
 
 		StaticEvents.OnCollected -= StaticEvents_OnCollected;
 	}
+
+	
 
 	private void GameManager_OnGameStateChanged(GameState gameState)
 	{
@@ -105,26 +107,6 @@ public class GameplayTab : Tab
 	public Image GetBossHealth()
 	{
 		return bossHealthbar;
-	}
-
-	private void DisplayTime()
-	{
-		GameManager.Instance.SurviveTime -= Time.deltaTime;
-
-		float minutes = Mathf.FloorToInt(GameManager.Instance.SurviveTime / 60);
-		float seconds = Mathf.FloorToInt(GameManager.Instance.SurviveTime % 60);
-
-		if (minutes <= 0) minutes = 0;
-		if (seconds <= 0) seconds = 0;
-
-		if (minutes == 0 && seconds == 0)
-		{
-			GameManager.Instance.SurviveTime = 0;
-			timer.gameObject.SetActive(false);
-			return;
-		}
-
-		timer.text = string.Format("{0:00} : {1:00}", minutes, seconds);
 	}
 
 	public void DisplayAirdropAlert()

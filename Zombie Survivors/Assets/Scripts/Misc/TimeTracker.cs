@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 // This approach uses UTCNow time, to hopefully store the universal time,
@@ -74,6 +76,8 @@ public class TimeTracker : MonoBehaviour
 
 	public List<Trackable> Trackables { get; private set; } = new List<Trackable>();
 
+	public float GameTime { get; private set; } = 0;
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -97,6 +101,29 @@ public class TimeTracker : MonoBehaviour
 		{
 			ContinueTimers();
 		}
+	}
+
+	public void TrackGameTime(float time)
+	{
+		GameTime = time;
+		StartCoroutine(Track());
+	}
+
+	private IEnumerator Track()
+	{
+		while(GameTime > 0)
+		{
+			GameTime -= Time.deltaTime;
+			yield return null;
+		}	
+	}
+
+	public string GetFormattedGameTime()
+	{
+		float minutes = Mathf.FloorToInt(GameTime / 60);
+		float seconds = Mathf.FloorToInt(GameTime % 60);
+
+		return string.Format("{0:00} : {1:00}", minutes, seconds);
 	}
 
 	public Trackable GetTrackable(int trackingCode)

@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,18 +18,20 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private int currentLevel = 0;
 	[Tooltip("For how many minutes should the game be played")]
 	public float SurviveTime = 10;
-	private float timeElapsed = 0;
-	[Tooltip("After how many seconds should the airdrop be spawned")]
+	[Tooltip("Delay in seconds, until enemies start spawning")]
+	[SerializeField] private int prepareTime = 10;
+	[Tooltip("After how many minutes should the airdrop be spawned")]
 	[SerializeField] private float spawnAirdropTime = 0;
-	
+	[Tooltip("Every how many seconds should the EXPAND AREA be spawned")]
+	[SerializeField] private float expandAreaDelay = 15f;
+
 	private LevelSystem levelSystem;
 	private PlayerDetailsSO playerDetails;
 	private Player player;
 
 	private const float SPAWN_MARGIN = 5f; // Distance in units from the navmesh edge. To make sure that circle doesn't spawn too close to edge
-	private const float EXPAND_AREA_DELAY = 15f; // Every how many seconds should the EXPAND AREA be spawned
-	
 	private bool airdropDropped = false;
+	private bool bossSpawned = false;
 
 	public static event Action<GameState> OnGameStateChanged;
 	[HideInInspector] public GameState GameState { get; private set; }
@@ -52,7 +56,26 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		switch (GameState)
+		if(Mathf.CeilToInt(SurviveTime - TimeTracker.Instance.GameTime) == spawnAirdropTime && !airdropDropped)
+		{
+			SpawnAirdrop();
+		}
+
+		if(TimeTracker.Instance.GameTime <= 0 && !bossSpawned)
+		{
+			SpawnBoss();
+		}
+	}
+
+	private void SpawnBoss()
+	{
+		enemySpawner.SpawnBoss(currentLevel);
+		bossSpawned = true;
+	}
+
+	public async void ChangeGameState(GameState gameState)
+	{
+		switch (gameState)
 		{
 			case GameState.GameStarted:
 
@@ -61,18 +84,15 @@ public class GameManager : MonoBehaviour
 				break;
 			case GameState.PlayingLevel:
 
-				timeElapsed += Time.deltaTime;
+				TimeTracker.Instance.TrackGameTime(SurviveTime);
 
-				// Spawns Airdrop
-				if (Mathf.FloorToInt(timeElapsed) == spawnAirdropTime && !airdropDropped)
-				{
-					SpawnAirdrop();
-				}
+				await Utilities.Wait(3);
 
-				if (SurviveTime <= 0)
-				{
-					enemySpawner.SpawnBoss(currentLevel);
-				}
+				levelSystem.AddExperience(100);
+
+				await Utilities.Wait(prepareTime);
+
+				EnableSpawners();
 
 				break;
 			case GameState.BossFight:
@@ -89,10 +109,13 @@ public class GameManager : MonoBehaviour
 
 				break;
 
-				case GameState.GamePaused:
+			case GameState.GamePaused:
 
 				break;
 		}
+
+		this.GameState = gameState;
+		OnGameStateChanged?.Invoke(gameState);
 	}
 
 	/// <summary>
@@ -100,8 +123,6 @@ public class GameManager : MonoBehaviour
 	/// </summary>
 	private void Player_OnPlayerInitialized()
 	{
-		enemySpawner.Player = player;
-		EnableSpawners();
 		ChangeGameState(GameState.PlayingLevel);
 	}
 
@@ -123,9 +144,8 @@ public class GameManager : MonoBehaviour
 
 	private void EnableSpawners()
 	{
+		enemySpawner.Player = player;
 		StartCoroutine(enemySpawner.SpawnEnemies());
-
-
 		StartCoroutine(SpawnNewExpandAreaAtRandomPosition());
 	}
 
@@ -133,12 +153,6 @@ public class GameManager : MonoBehaviour
 	{
 		StopCoroutine(enemySpawner.SpawnEnemies());
 		StopCoroutine(SpawnNewExpandAreaAtRandomPosition());
-	}
-
-	public void ChangeGameState(GameState gameState)
-	{
-		this.GameState = gameState;
-		OnGameStateChanged?.Invoke(gameState);
 	}
 
 	private void SpawnAirdrop()
@@ -155,25 +169,20 @@ public class GameManager : MonoBehaviour
 		StaticEvents.CallAirdropSpawnedEvent(airdrop.transform.position);
 	}
 
-	public float GetElapsedTime()
-	{
-		return timeElapsed;
-	}
-
 	private IEnumerator SpawnNewExpandAreaAtRandomPosition()
 	{
-		WaitForSeconds spawnDelay = new WaitForSeconds(EXPAND_AREA_DELAY);
+		WaitForSeconds spawnDelay = new WaitForSeconds(expandAreaDelay);
 
 		while (SurviveTime > 0)
 		{
+			yield return spawnDelay;
+
 			Vector3 spawnPos = GetRandomSpawnPositionGround(SPAWN_MARGIN);
 
 			GameObject circle = Instantiate(GameResources.Instance.MultiplicationCircle);
 			circle.transform.position = spawnPos;
 
 			StaticEvents.CallCircleSpawnedEvent(spawnPos);
-
-			yield return spawnDelay;
 		}
 	}
 	/// <summary>

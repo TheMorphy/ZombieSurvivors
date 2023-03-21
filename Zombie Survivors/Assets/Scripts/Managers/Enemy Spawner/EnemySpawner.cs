@@ -2,29 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
 
 [DisallowMultipleComponent]
 public class EnemySpawner : MonoBehaviour
 {
-	public List<EnemyDetailsSO> Enemies = new List<EnemyDetailsSO>();
+	public List<EnemyDetailsSO> BossDetails = new List<EnemyDetailsSO>();
+	[Space]
+	public List<EnemyDetailsSO> EnemiesDetails = new List<EnemyDetailsSO>();
 	public ScalingConfigurationSO ScalingConfiguration;
 
+	[Space(10)]
 	[SerializeField] private int enemyCount = 15;
 	[SerializeField] private float spawnDelay = 1.5f;
 	[SerializeField] private float maxSpawnDistance = 10;
 
-	[Space]
-	[Header("Bosses")]
-	[Tooltip("List position represents level number")]
-	public List<EnemyDetailsSO> Bosses = new List<EnemyDetailsSO>();
-
-	NavMeshTriangulation navTriangulation;
+	private NavMeshTriangulation navTriangulation;
 	public static List<Transform> ActiveEnemies;
 
-	[Space]
-	[Header("Read At Runtime (Readonly)")]
-	[Space]
 	private int Level = 0;
 	private List<EnemyDetailsSO> scaledEnemies = new List<EnemyDetailsSO>();
 
@@ -46,9 +40,9 @@ public class EnemySpawner : MonoBehaviour
 	{
 		ActiveEnemies = new List<Transform>();
 
-		for (int i = 0; i < Enemies.Count; i++)
+		for (int i = 0; i < EnemiesDetails.Count; i++)
 		{
-			scaledEnemies.Add(Enemies[i].ScaleUpEnemies(ScalingConfiguration, 0));
+			scaledEnemies.Add(EnemiesDetails[i].ScaleUpEnemies(ScalingConfiguration, 0));
 		}
 	}
 
@@ -61,9 +55,9 @@ public class EnemySpawner : MonoBehaviour
 		enemiesAlive = 0;
 		enemiesSpawned = 0;
 
-		for (int i = 0; i < Enemies.Count; i++)
+		for (int i = 0; i < EnemiesDetails.Count; i++)
 		{
-			scaledEnemies.Add(Enemies[i].ScaleUpEnemies(ScalingConfiguration, Level));
+			scaledEnemies.Add(EnemiesDetails[i].ScaleUpEnemies(ScalingConfiguration, Level));
 		}
 
 		WaitForSeconds Wait = new WaitForSeconds(spawnDelay);
@@ -117,12 +111,6 @@ public class EnemySpawner : MonoBehaviour
 		Vector3 randomDirection = Random.insideUnitSphere * range;
 		Vector3 randomPos = origin + randomDirection;
 		NavMesh.SamplePosition(randomPos, out hit, range, 1);
-		int randomTriangleIndex = Random.Range(0, navTriangulation.indices.Length / 3);
-		Vector3[] triangle = new Vector3[3];
-		for (int i = 0; i < 3; i++)
-		{
-			triangle[i] = navTriangulation.vertices[navTriangulation.indices[randomTriangleIndex * 3 + i]];
-		}
 		randomPos = hit.position;
 		return randomPos;
 	}
@@ -152,8 +140,8 @@ public class EnemySpawner : MonoBehaviour
 
 		Vector3 bossSpawnPosition = GameManager.Instance.GetRandomSpawnPositionGround();
 
-		Enemy boss = Instantiate(Bosses[levelIndex].enemyPrefab, bossSpawnPosition, Quaternion.identity).GetComponent<Enemy>();
-		boss.InitializeEnemy(Bosses[levelIndex]);
+		Enemy boss = Instantiate(BossDetails[levelIndex].enemyPrefab, bossSpawnPosition, Quaternion.identity).GetComponent<Enemy>();
+		boss.InitializeEnemy(BossDetails[levelIndex]);
 		
 		boss.InitializeBossHealthbar(CanvasManager.GetTab<GameplayTab>().GetBossHealth());
 
