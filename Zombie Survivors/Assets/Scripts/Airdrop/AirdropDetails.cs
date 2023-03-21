@@ -32,6 +32,7 @@ public class AirdropDetails : ScriptableObject
 	[SerializeField] private int maxGoldAmmount;
 	public int MaxGoldAmmount { get { return maxGoldAmmount; } }
 
+	[Tooltip("Time to wait until the chest can be opened. Time in seconds. Value of 3600 = 1h")]
 	[SerializeField] private int unlockDuration;
 	public int UnlockDuration { get { return unlockDuration; } }
 
@@ -41,7 +42,7 @@ public class AirdropDetails : ScriptableObject
 	[SerializeField] private int unlockCost;
 	public int UnlockCost { get { return unlockCost; } }
 
-	[Tooltip("Time in seconds. Value of 3600 = 1h")]
+	[Tooltip("Used in SkipWaitingTab, to determine how many seconds to decrease, after player watched the ad. Time in seconds. Value of 3600 = 1h")]
 	[SerializeField] private int removeTime = 1800;
 	public int RemoveTime { get { return removeTime; } }
 

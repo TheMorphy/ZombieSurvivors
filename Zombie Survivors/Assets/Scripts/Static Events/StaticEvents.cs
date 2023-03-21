@@ -17,13 +17,6 @@ public static class StaticEvents
 		OnCollected?.Invoke(new CollectedEventArgs() { collectedPosition = collectedPosition });
 	}
 
-	// Player Initialized
-	public static event Action<ComradeBoardedEventArgs> OnPlayerInitialized;
-	public static void CallPlayerInitializedEvent(Transform playerTransform)
-	{
-		OnPlayerInitialized?.Invoke(new ComradeBoardedEventArgs() { playerTransform = playerTransform });
-	}
-
 	// Comrade boarded to helicopter
 	public static event Action OnComradeBoarded;
 	public static void CallComradeBoardedEvent()

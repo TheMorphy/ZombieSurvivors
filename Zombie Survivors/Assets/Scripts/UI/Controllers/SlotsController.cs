@@ -6,7 +6,7 @@ public class SlotsController<T> : MonoBehaviour
 {
 	[SerializeField] private Slot<T>[] slots;
 
-	public virtual void InitializeSlot(T slotDetails, CardSlot cardSlots)
+	public virtual void InitializeSlot(T itemDetails, Slot cardSlots)
 	{
 		int slotIndex = GetEmptySlotIndex();
 
@@ -16,18 +16,15 @@ public class SlotsController<T> : MonoBehaviour
 		}
 		else
 		{
-			slots[slotIndex].Initialize(slotDetails, slotIndex, cardSlots);
+			slots[slotIndex].Initialize(itemDetails, slotIndex, cardSlots);
 		}
 	}
 
-	public virtual void InitializeSlots(List<T> itemDetails, CardSlot cardSlot)
+	public virtual void InitializeSlots(List<T> itemDetails, Slot cardSlot)
 	{
 		for (int i = 0; i < slots.Length; i++)
 		{
-			if (slots[i].IsEmpty)
-			{
-				slots[i].SlotID = i;
-			}
+			slots[i].SetEmpty(i);
 		}
 
 		foreach (var item in itemDetails)
@@ -43,18 +40,7 @@ public class SlotsController<T> : MonoBehaviour
 				slots[slotIndex].Initialize(item, slotIndex, cardSlot);
 			}
 		}
-
-		if (itemDetails.Count < GetSlots().Count)
-		{
-			GetSlots().ForEach(x => {
-				if (x.IsEmpty)
-				{
-					x.SetEmpty(x.SlotID);
-				}
-			});
-		}
 	}
-
 
 	private int GetEmptySlotIndex()
 	{

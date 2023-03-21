@@ -50,7 +50,8 @@ public class CardOptions : MonoBehaviour
 
 		this.CardReference = CardReference;
 		RefreshOptionsMenu();
-		Hide();
+
+		gameObject.SetActive(false);
 	}
 
 	public void ClearReference()
@@ -67,7 +68,7 @@ public class CardOptions : MonoBehaviour
 		cardLevel.text = CardReference.Details.CurrentCardLevel.ToString();
 
 		// If is in Active deck and is ready to upgrade
-		if (CardReference.IsReadyToUpgrade == true && CardReference.CardSlot == CardSlot.Active)
+		if (CardReference.IsReadyToUpgrade == true && CardReference.CardSlot == Slot.Active)
 		{
 			topOption = Options.Upgrade;
 			botOption = Options.Remove;
@@ -76,7 +77,7 @@ public class CardOptions : MonoBehaviour
 			//bottomActionButton.image.sprite = removeSprite;
 		}
 		// If is in Active deck and is not ready to upgrade
-		else if (CardReference.IsReadyToUpgrade == false && CardReference.CardSlot == CardSlot.Active)
+		else if (CardReference.IsReadyToUpgrade == false && CardReference.CardSlot == Slot.Active)
 		{
 			topOption = Options.Info;
 			botOption = Options.Remove;
@@ -85,7 +86,7 @@ public class CardOptions : MonoBehaviour
 			bottomActionButton.image.sprite = buttons.Find(x => x.buttonOption.Equals(botOption)).buttonSprite;
 		}
 		// If is in Inventory deck and is ready to upgrade
-		else if (CardReference.IsReadyToUpgrade == true && CardReference.CardSlot == CardSlot.Inventory)
+		else if (CardReference.IsReadyToUpgrade == true && CardReference.CardSlot == Slot.Inventory)
 		{
 			topOption = Options.Use;
 			botOption = Options.Upgrade;
@@ -94,10 +95,10 @@ public class CardOptions : MonoBehaviour
 			//bottomActionButton.image.sprite = upgradeSprite;
 		}
 		// If is in Inventory deck and is not ready to upgrade
-		else if (CardReference.IsReadyToUpgrade == false && CardReference.CardSlot == CardSlot.Inventory)
+		else if (CardReference.IsReadyToUpgrade == false && CardReference.CardSlot == Slot.Inventory)
 		{
-			topOption = Options.Info;
-			botOption = Options.Use;
+			topOption = Options.Use;
+			botOption = Options.Info;
 
 			//topActionButton.image.sprite = infoSprite;
 			//bottomActionButton.image.sprite = useSprite;

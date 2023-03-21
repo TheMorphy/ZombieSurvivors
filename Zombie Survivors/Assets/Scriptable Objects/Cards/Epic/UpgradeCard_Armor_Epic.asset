@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0fd154d715f82245b7728774a525db5, type: 3}
   m_Name: UpgradeCard_Armor_Epic
   m_EditorClassIdentifier: 
-  cardType: 5
+  cardType: 4
   cardRarity: 2
   cardName: Sniper
   cardSprite: {fileID: 21300000, guid: a90eee59f9aee7647b6650044d3852d2, type: 3}

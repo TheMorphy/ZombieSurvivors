@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0fd154d715f82245b7728774a525db5, type: 3}
   m_Name: UpgradeCard_Boots_Common
   m_EditorClassIdentifier: 
-  cardType: 6
+  cardType: 5
   cardRarity: 0
   cardName: Climbs
   cardSprite: {fileID: 21300000, guid: a52c1eb40cdef4948b33959b3e7c9e9d, type: 3}

@@ -3,9 +3,8 @@ using UnityEngine;
 
 public enum CardType
 {
-	Shotgun,
-	Rifle,
-	Pistol,
+	Any,
+	Weapon,
 	Gloves,
 	Helmet,
 	Armor,
@@ -83,7 +82,7 @@ public class CardDTO
 	public PlayerStats PlayerStat;
 	public AmmoStats AmmoStat;
 	public UpgradeAction UpgradeAction;
-	public CardSlot CardSlot;
+	public Slot CardSlot;
 	public string Code;
 
 	public override bool Equals(object obj)

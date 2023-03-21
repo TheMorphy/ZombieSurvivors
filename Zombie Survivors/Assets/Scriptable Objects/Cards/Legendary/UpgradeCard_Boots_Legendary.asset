@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0fd154d715f82245b7728774a525db5, type: 3}
   m_Name: UpgradeCard_Boots_Legendary
   m_EditorClassIdentifier: 
-  cardType: 6
+  cardType: 5
   cardRarity: 3
   cardName: Rockz
   cardSprite: {fileID: 21300000, guid: a1a366e8d4c9396458012dfac412642c, type: 3}

@@ -43,7 +43,7 @@ public class SkipWaitingTab : Tab, IPointerClickHandler
 	public void ReduceWaitingTime()
 	{
 		CanvasManager.GetTab<PlayTab>().Show();
-		TimeTracker.Instance.DecreaseTime(airdropSlot.SlotID, airdropDetails.RemoveTime);
+		TimeTracker.Instance.DecreaseTime(airdropSlot.SlotIndex, airdropDetails.RemoveTime);
 		Hide();
 	}
 

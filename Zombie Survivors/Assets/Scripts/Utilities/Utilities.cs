@@ -97,4 +97,23 @@ public static class Utilities
 
 		return n;
 	}
+
+	public static Bounds GetBoundsOfViewFrustum(Camera cam)
+	{
+		Plane[] planes = GeometryUtility.CalculateFrustumPlanes(cam);
+		Bounds bounds = new Bounds(cam.transform.position, Vector3.zero);
+		for (int i = 0; i < planes.Length; i++)
+		{
+			Vector3 planeNormal = planes[i].normal;
+			float planeDistance = -planes[i].distance;
+			Vector3 planeCenter = planeNormal * planeDistance;
+			float xExtent = Mathf.Abs(Vector3.Dot(cam.transform.right, planeNormal));
+			float yExtent = Mathf.Abs(Vector3.Dot(cam.transform.up, planeNormal));
+			bounds.Encapsulate(planeCenter + xExtent * cam.transform.right + yExtent * cam.transform.up);
+			bounds.Encapsulate(planeCenter - xExtent * cam.transform.right - yExtent * cam.transform.up);
+			bounds.Encapsulate(planeCenter + xExtent * cam.transform.right - yExtent * cam.transform.up);
+			bounds.Encapsulate(planeCenter - xExtent * cam.transform.right + yExtent * cam.transform.up);
+		}
+		return bounds;
+	}
 }

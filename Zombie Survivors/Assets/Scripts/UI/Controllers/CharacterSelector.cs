@@ -8,8 +8,7 @@ public class CharacterSelector : MonoBehaviour
 	[SerializeField] private Image characterPortrait;
 	[SerializeField] private RectTransform characterPanel;
 
-	public Sprite[] characterSprites;
-
+	private Sprite[] characterSprites;
 	private int currentCharacterIndex = 0;
 
 	private List<PlayerDetailsSO> availablePlayerDetails;

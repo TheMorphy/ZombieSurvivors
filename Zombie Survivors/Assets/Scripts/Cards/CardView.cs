@@ -23,7 +23,7 @@ public class CardView : MonoBehaviour
 	public void InitializeEmptyView()
 	{
 		cardOptions.ClearReference();
-		_selectedCardView = null;
+		ResetSelectedCard();
 		CardReference = null;
 		cardSlotImage.sprite = emptySlotSprite;
 		cardLevel.text = "";
@@ -51,6 +51,7 @@ public class CardView : MonoBehaviour
 	public void InitializeCardView()
 	{
 		cardOptions.InitializeOptions(CardReference);
+		ResetSelectedCard();
 		cardButton.enabled = true;
 		cardLevelBar.transform.parent.gameObject.SetActive(true);
 		cardLevel.text = CardReference.Details.CurrentCardLevel.ToString();
@@ -71,7 +72,7 @@ public class CardView : MonoBehaviour
 		else
 		{
 			// Display options for the clicked card and hide options for all others
-			foreach (CardView cardView in EquipmentTab.Cards.Select(card => card.CardView))
+			foreach (CardView cardView in EquipmentTab.InitializedCards.Where(card => !card.IsEmpty).Select(card => card.CardView))
 			{
 				if (cardView == clickedCardView)
 				{

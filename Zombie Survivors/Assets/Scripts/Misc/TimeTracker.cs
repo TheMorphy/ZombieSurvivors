@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+// This approach uses UTCNow time, to hopefully store the universal time,
+// that can't be altered by modifying system time
+
+// P.S using local databse like SQLite would also be an option. But im too lazy to rewrite it
 #region Trackable Object
 [Serializable]
 public class Trackable
@@ -55,7 +59,7 @@ public class Trackable
 			if (seconds > 0) { TimerText += seconds + "s "; }
 
 			RemainingSeconds -= 1;
-			SaveDate = DateTime.Now.ToString();
+			SaveDate = DateTime.UtcNow.ToString();
 			SaveManager.SaveToJSON(this, Settings.TRACKABLES);
 			yield return wait;
 		}
@@ -63,12 +67,12 @@ public class Trackable
 }
 #endregion
 
+
 public class TimeTracker : MonoBehaviour
 {
 	public static TimeTracker Instance;
 
-	[Header("READONLY")]
-	public List<Trackable> Trackables = new List<Trackable>();
+	public List<Trackable> Trackables { get; private set; } = new List<Trackable>();
 
 	private void Awake()
 	{
@@ -116,6 +120,9 @@ public class TimeTracker : MonoBehaviour
 		SaveManager.SaveToJSON(trackable, Settings.TRACKABLES);
 	}
 
+	/// <summary>
+	/// Resets Trackabale object
+	/// </summary>
 	public void ClearTime(int ID)
 	{
 		Trackable trackableToReset = GetTrackable(ID);
@@ -128,7 +135,7 @@ public class TimeTracker : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Save time on application pause or close
+	/// Saves current local time to json file on application pause or close.
 	/// </summary>
 	private void SaveTime()
 	{
@@ -138,10 +145,13 @@ public class TimeTracker : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// This is most definetly not be a good approach, bcause if timezone changes it can produce incorrect results.
+	/// </summary>
 	public int GetSavedRemainingSeconds(int ID)
 	{
 		Trackable trackable = GetTrackable(ID);
-		TimeSpan timeSpan = DateTime.Now - DateTime.Parse(trackable.SaveDate);
+		TimeSpan timeSpan = DateTime.UtcNow - DateTime.Parse(trackable.SaveDate);
 		int difference = trackable.RemainingSeconds - (int)timeSpan.TotalSeconds;
 
 		return difference;

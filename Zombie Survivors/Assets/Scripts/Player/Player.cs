@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class Player : MonoBehaviour
 
 	[HideInInspector] public Equipment PlayerEquipment;
 
+	public event Action OnPlayerInitialized;
+
 	private void Awake()
 	{
 		PlayerController = GetComponent<PlayerController>();
@@ -25,8 +28,6 @@ public class Player : MonoBehaviour
 
 	private void OnEnable()
 	{
-		StaticEvents.CallPlayerInitializedEvent(transform);
-
 		UpgradesManager.OnWeaponUpgrade += UpgradesManager_OnWeaponUpgrade;
 
 		UpgradesManager.OnPlayerStatUpgrade += UpgradesManager_OnPlayerStatUpgrade;
@@ -128,7 +129,7 @@ public class Player : MonoBehaviour
 
 		PlayerEquipment.OnUpgraded += PlayerEquipment_OnUpgraded;
 
-		activeUpgrades = SaveManager.ReadFromJSON<CardDTO>(Settings.CARDS).Where(x => x.CardSlot == CardSlot.Active).ToList();
+		activeUpgrades = SaveManager.ReadFromJSON<CardDTO>(Settings.CARDS).Where(x => x.CardSlot == Slot.Active).ToList();
 
 		if (activeUpgrades.Count > 0)
 			PlayerEquipment.SetUpgrades(activeUpgrades);
@@ -145,5 +146,7 @@ public class Player : MonoBehaviour
 		SquadControl.CreateFirstComrade();
 
 		CameraController.Instance.SetInitialTarget(transform);
+
+		OnPlayerInitialized?.Invoke();
 	}
 }

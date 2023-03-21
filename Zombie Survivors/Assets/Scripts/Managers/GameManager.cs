@@ -8,27 +8,30 @@ public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
 
-	[Header("Controllers")]
+	[Header("CONTROLLERS")]
 	[SerializeField] private EnemySpawner enemySpawner;
 
 	[Space]
-	[Header("Base Info")]
+	[Header("GAMEPLAY")]
 	[SerializeField] private int currentLevel = 0;
+	[Tooltip("For how many minutes should the game be played")]
 	public float SurviveTime = 10;
 	private float timeElapsed = 0;
+	[Tooltip("After how many seconds should the airdrop be spawned")]
 	[SerializeField] private float spawnAirdropTime = 0;
 	
 	private LevelSystem levelSystem;
 	private PlayerDetailsSO playerDetails;
 	private Player player;
 
-	// To make sure that circle doesn't spawn on the edge
-	private float spawnMargin = 5;
+	private const float SPAWN_MARGIN = 5f; // Distance in units from the navmesh edge. To make sure that circle doesn't spawn too close to edge
+	private const float EXPAND_AREA_DELAY = 15f; // Every how many seconds should the EXPAND AREA be spawned
+	
 	private bool airdropDropped = false;
 
 	public static event Action<GameState> OnGameStateChanged;
 	[HideInInspector] public GameState GameState { get; private set; }
-
+	
 	private void Awake()
 	{
 		if (Instance == null)
@@ -53,7 +56,6 @@ public class GameManager : MonoBehaviour
 		{
 			case GameState.GameStarted:
 
-				EnableSpawners();
 				InstantiatePlayer();
 
 				break;
@@ -93,21 +95,13 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	private void OnEnable()
-	{
-		StaticEvents.OnPlayerInitialized += StaticEvents_OnPlayerInitialized;
-	}
-
-	private void OnDisable()
-	{
-		StaticEvents.OnPlayerInitialized -= StaticEvents_OnPlayerInitialized;
-	}
-
 	/// <summary>
 	/// When player gets fully initialized, start the level
 	/// </summary>
-	private void StaticEvents_OnPlayerInitialized(ComradeBoardedEventArgs playerInitializedEventArgs)
+	private void Player_OnPlayerInitialized()
 	{
+		enemySpawner.Player = player;
+		EnableSpawners();
 		ChangeGameState(GameState.PlayingLevel);
 	}
 
@@ -122,12 +116,16 @@ public class GameManager : MonoBehaviour
 		// Initialize Player
 		player = playerGameObject.GetComponent<Player>();
 
+		player.OnPlayerInitialized += Player_OnPlayerInitialized;
+
 		player.Initialize(playerDetails);
 	}
 
 	private void EnableSpawners()
 	{
 		StartCoroutine(enemySpawner.SpawnEnemies());
+
+
 		StartCoroutine(SpawnNewExpandAreaAtRandomPosition());
 	}
 
@@ -164,12 +162,11 @@ public class GameManager : MonoBehaviour
 
 	private IEnumerator SpawnNewExpandAreaAtRandomPosition()
 	{
-		float delay = 15;
-		WaitForSeconds spawnDelay = new WaitForSeconds(delay);
+		WaitForSeconds spawnDelay = new WaitForSeconds(EXPAND_AREA_DELAY);
 
 		while (SurviveTime > 0)
 		{
-			Vector3 spawnPos = GetRandomSpawnPositionGround(spawnMargin);
+			Vector3 spawnPos = GetRandomSpawnPositionGround(SPAWN_MARGIN);
 
 			GameObject circle = Instantiate(GameResources.Instance.MultiplicationCircle);
 			circle.transform.position = spawnPos;

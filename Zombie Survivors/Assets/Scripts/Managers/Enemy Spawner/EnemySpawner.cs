@@ -10,9 +10,9 @@ public class EnemySpawner : MonoBehaviour
 	public List<EnemyDetailsSO> Enemies = new List<EnemyDetailsSO>();
 	public ScalingConfigurationSO ScalingConfiguration;
 
-	[SerializeField] private int StartEnemyCount = 15;
+	[SerializeField] private int enemyCount = 15;
 	[SerializeField] private float spawnDelay = 1.5f;
-	//[SerializeField] private bool spawnEndlessly = false;
+	[SerializeField] private float maxSpawnDistance = 10;
 
 	[Space]
 	[Header("Bosses")]
@@ -33,10 +33,12 @@ public class EnemySpawner : MonoBehaviour
 	private int initialEnemiesToSpawn = 0;
 	private float InitialSpawnDelay = 0;
 
+	[HideInInspector] public Player Player;
+
 	private void Awake()
 	{
 		navTriangulation = NavMesh.CalculateTriangulation();
-		initialEnemiesToSpawn = StartEnemyCount;
+		initialEnemiesToSpawn = enemyCount;
 		InitialSpawnDelay = spawnDelay;
 	}
 
@@ -65,7 +67,7 @@ public class EnemySpawner : MonoBehaviour
 		}
 
 		WaitForSeconds Wait = new WaitForSeconds(spawnDelay);
-		while (enemiesSpawned < StartEnemyCount)
+		while (enemiesSpawned < enemyCount)
 		{
 			Spawn();
 
@@ -75,30 +77,38 @@ public class EnemySpawner : MonoBehaviour
 
 	private void Spawn()
 	{
-		Vector3 randomPos;
-		Vector3 screenPos;
-
-		do
+		for (int i = 0; i < enemyCount; i++)
 		{
-			// Find a random point on the navmesh within 50 units
-			float spawnRadius = 50f;
-			randomPos = RandomNavmeshLocation(Camera.main.transform.position, spawnRadius);
-			// Check if the enemy is within the camera's view
-			screenPos = Camera.main.WorldToScreenPoint(randomPos);
+			Vector3 randomPos;
+			Vector3 screenPos;
+			float spawnRadius;
+
+			do
+			{
+				// Calculate the spawn radius based on the distance between the player and the camera
+				float playerToCameraDistance = Vector3.Distance(Camera.main.transform.position, Player.transform.position);
+				float halfCameraViewAngle = Mathf.Atan2(Camera.main.pixelHeight, Camera.main.pixelWidth) * Mathf.Rad2Deg / 2;
+				float halfCameraViewSize = Mathf.Tan(halfCameraViewAngle * Mathf.Deg2Rad) * playerToCameraDistance;
+				spawnRadius = Mathf.Min(halfCameraViewSize * 1.5f, maxSpawnDistance); // Use the smaller value between halfCameraViewSize * 1.5f and maxSpawnDistance
+
+				// Find a random point on the navmesh outside of the camera's view
+				randomPos = RandomNavmeshLocation(Player.transform.position, spawnRadius);
+				screenPos = Camera.main.WorldToViewportPoint(randomPos);
+			}
+			while (screenPos.x >= 0f && screenPos.x <= 1f && screenPos.y >= 0f && screenPos.y <= 1f);
+
+			GameObject enemyObj = Instantiate(scaledEnemies[0].enemyPrefab, randomPos, Quaternion.identity);
+
+			Enemy enemy = enemyObj.GetComponent<Enemy>();
+			enemy.enemyController.GetAgent().enabled = false;
+
+			enemy.InitializeEnemy(scaledEnemies[0]);
+
+			enemy.destroyedEvent.OnDestroyed += DestroyedEvent_OnEnemyDestroyed;
+
+			enemiesSpawned++;
+			enemiesAlive++;
 		}
-		while (screenPos.x >= 0 && screenPos.x <= Screen.width && screenPos.y >= 0 && screenPos.y <= Screen.height);
-
-		GameObject enemyObj = Instantiate(scaledEnemies[0].enemyPrefab, randomPos, Quaternion.identity);
-
-		Enemy enemy = enemyObj.GetComponent<Enemy>();
-		enemy.enemyController.GetAgent().enabled = false;
-
-		enemy.InitializeEnemy(scaledEnemies[0]);
-
-		enemy.destroyedEvent.OnDestroyed += DestroyedEvent_OnEnemyDestroyed;
-
-		enemiesSpawned++;
-		enemiesAlive++;
 	}
 
 	Vector3 RandomNavmeshLocation(Vector3 origin, float range)
@@ -123,7 +133,7 @@ public class EnemySpawner : MonoBehaviour
 		{
 			enemiesAlive--;
 
-			if (enemiesAlive == 0 && enemiesSpawned == StartEnemyCount)
+			if (enemiesAlive == 0 && enemiesSpawned == enemyCount)
 			{
 				if(GameManager.Instance.GameState == GameState.PlayingLevel)
 				{
@@ -168,13 +178,13 @@ public class EnemySpawner : MonoBehaviour
 
 	public void ScaleUpSpawns()
 	{
-		StartEnemyCount = Mathf.FloorToInt(initialEnemiesToSpawn * ScalingConfiguration.SpawnCountCurve.Evaluate(Level + 1));
+		enemyCount = Mathf.FloorToInt(initialEnemiesToSpawn * ScalingConfiguration.SpawnCountCurve.Evaluate(Level + 1));
 		spawnDelay = InitialSpawnDelay * ScalingConfiguration.SpawnRateCurve.Evaluate(Level + 1);
 	}
 
 	public void ScaleUpSpawns(float time)
 	{
-		StartEnemyCount = Mathf.FloorToInt(initialEnemiesToSpawn * ScalingConfiguration.SpawnCountCurve.Evaluate(time));
+		enemyCount = Mathf.FloorToInt(initialEnemiesToSpawn * ScalingConfiguration.SpawnCountCurve.Evaluate(time));
 		spawnDelay = InitialSpawnDelay * ScalingConfiguration.SpawnRateCurve.Evaluate(time);
 	}
 

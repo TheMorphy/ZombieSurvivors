@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0fd154d715f82245b7728774a525db5, type: 3}
   m_Name: UpgradeCard_Shotgun_Legendary
   m_EditorClassIdentifier: 
-  cardType: 0
+  cardType: 1
   cardRarity: 3
   cardName: Shotgun
   cardSprite: {fileID: 21300000, guid: 8c660568bb7f8af43a7f4ed527425377, type: 3}

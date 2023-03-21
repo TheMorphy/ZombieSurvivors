@@ -22,7 +22,7 @@ public class PlayTab : Tab
 	{
 		List<AirdropDTO> collectedAirdrops = SaveManager.ReadFromJSON<AirdropDTO>(Settings.AIRDROPS);
 
-		airdropsSlotsController.InitializeSlots(collectedAirdrops, CardSlot.None);
+		airdropsSlotsController.InitializeSlots(collectedAirdrops, Slot.None);
 	}
 
 	private void CreateSlotsTimeTrackers()
@@ -30,7 +30,7 @@ public class PlayTab : Tab
 		if (TimeTracker.Instance.Trackables.Count != CollectedAirdropsController.MAX_SLOT_COUNT)
 		{
 			airdropsSlotsController.GetSlots().ForEach(slot => {
-				TimeTracker.Instance.InitializeTrackable(slot.SlotID);
+				TimeTracker.Instance.InitializeTrackable(slot.SlotIndex);
 			});
 
 		}

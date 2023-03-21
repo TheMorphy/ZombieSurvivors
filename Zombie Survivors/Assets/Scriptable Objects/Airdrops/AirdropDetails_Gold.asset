@@ -19,6 +19,7 @@ MonoBehaviour:
   minGemsAmmount: 15
   minGoldAmmount: 500
   maxGoldAmmount: 600
-  unlockDuration: 48000
+  unlockDuration: 12
   cardAmmount: 38
   unlockCost: 18
+  removeTime: 1800

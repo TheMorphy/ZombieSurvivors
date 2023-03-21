@@ -8,28 +8,34 @@ public class EquipmentTab : Tab
 	[SerializeField] private InventoryController inventoryController;
 	[SerializeField] private CharacterSelector characterSelector;
 
-	[HideInInspector] public static List<Card> Cards;
+	public static List<Card> InitializedCards;
 
 	public override void Initialize(object[] args)
 	{
-		Cards = new List<Card>();
+		InitializedCards = new List<Card>();
 
 		var allCards = SaveManager.ReadFromJSON<CardDTO>(Settings.CARDS);
 
-		var activeCards = allCards.Where(x => x.CardSlot == CardSlot.Active).ToList();
-		var inventoryCards = allCards.Where(x => x.CardSlot == CardSlot.Inventory).ToList();
+		var activeCards = allCards.Where(x => x.CardSlot == Slot.Active).ToList();
+		var inventoryCards = allCards.Where(x => x.CardSlot == Slot.Inventory).ToList();
 
-		activeCardsController.InitializeSlots(activeCards, CardSlot.Active);
-		inventoryController.InitializeSlots(inventoryCards, CardSlot.Inventory);
+		activeCardsController.InitializeSlots(activeCards, Slot.Active);
+		inventoryController.InitializeSlots(inventoryCards, Slot.Inventory);
 
 		characterSelector.InitializeChatacter();
 	}
 
-	public static void Add(Card card)
+	public static void AddInitializedCard(Card card)
 	{
-		if (!Cards.Contains(card))
+		var toCheck = InitializedCards.FirstOrDefault(x => x.Details?.Code == card.Details.Code);
+		if (toCheck == null)
 		{
-			Cards.Add(card);
+			InitializedCards.Add(card);
+		}
+		else
+		{
+			InitializedCards.Remove(toCheck);
+			InitializedCards.Add(card);
 		}
 	}
 
@@ -39,11 +45,11 @@ public class EquipmentTab : Tab
 
 		foreach (var card in allCards)
 		{
-			var cardInList = Cards.FirstOrDefault(x => x.Details.Code.Equals(card.Code));
+			var cardInList = InitializedCards.Where(x => x.Details != null).FirstOrDefault(x => x.Details.Code.Equals(card.Code));
 
 			if (cardInList == null)
 			{
-				inventoryController.InitializeSlot(card, CardSlot.Inventory);
+				inventoryController.InitializeSlot(card, Slot.Inventory);
 			}
 			else
 			{
