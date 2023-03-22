@@ -1,4 +1,3 @@
-using DG.Tweening;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,22 +6,17 @@ public class ComradeMovement : MonoBehaviour
 {
     [SerializeField] private Transform bodyPivot;
 
-	private FireWeapon fireWeapon;
+	private Comrade comrade;
 	private float turnSpeed = 720;
 
 	private void Awake()
 	{
-		fireWeapon = GetComponent<FireWeapon>();
+		comrade = GetComponent<Comrade>();
 	}
 
 	private void Update()
 	{
-		if (GameManager.Instance.GameState == GameState.Evacuating)
-			return;
-
 		HandleRotations();
-
-		fireWeapon.FireWeapn();
 	}
 
 	private void HandleRotations()
@@ -33,6 +27,16 @@ public class ComradeMovement : MonoBehaviour
 		{
 			Quaternion rotation = Quaternion.LookRotation(target.position - transform.position);
 			bodyPivot.rotation = Quaternion.RotateTowards(bodyPivot.rotation, rotation, turnSpeed * Time.deltaTime);
+		}
+		else
+		{
+			
+			Vector3 moveDirection = comrade.Player.PlayerController.GetMoveDirection();
+			if (moveDirection.magnitude > 0)
+			{
+				Quaternion targetRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+				bodyPivot.rotation = Quaternion.RotateTowards(bodyPivot.rotation, targetRotation, turnSpeed * Time.deltaTime);
+			}
 		}
 	}
 

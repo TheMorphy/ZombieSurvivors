@@ -6,6 +6,7 @@ public class Weapon
 	public int weaponClipRemainingAmmo;
 	public int weaponRemainingAmmo;
 	public bool isWeaponReloading;
+	public bool WeaponDisabled = true;
 
 	public void UpgradeWeapon(WeaponStats weaponStat, float value, bool boolValue, UpgradeAction upgradeAction)
 	{

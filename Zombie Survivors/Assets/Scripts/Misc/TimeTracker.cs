@@ -123,6 +123,9 @@ public class TimeTracker : MonoBehaviour
 		float minutes = Mathf.FloorToInt(GameTime / 60);
 		float seconds = Mathf.FloorToInt(GameTime % 60);
 
+		if(minutes < 0 ) minutes = 0;
+		if (seconds < 0) seconds = 0;
+
 		return string.Format("{0:00} : {1:00}", minutes, seconds);
 	}
 

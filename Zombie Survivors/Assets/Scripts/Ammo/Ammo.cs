@@ -111,11 +111,6 @@ public class Ammo : MonoBehaviour
 				}
 			}
 		}
-		//if (collision.TryGetComponent(out Health playerHealth))
-		//{
-		//	print("Deal Damage To Collider");
-		//	playerHealth.TakeDamage(ammoDetails.ammoDamage);
-		//}
 	}
 	private void OnDisable()
 	{

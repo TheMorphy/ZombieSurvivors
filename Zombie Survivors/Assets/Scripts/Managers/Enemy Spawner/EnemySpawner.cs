@@ -150,13 +150,8 @@ public class EnemySpawner : MonoBehaviour
 
 	private void DestroyedEvent_OnBossDestroyed(DestroyedEvent destroyedEvent, DestroyedEventArgs destroyedEventArgs)
 	{
-		GameManager.Instance.DisableSpawners();
-
 		ClearEnemies();
-
 		GameManager.Instance.ChangeGameState(GameState.Evacuating);
-
-		GameManager.Instance.SpawnEvacuationArea();
 	}
 
 	private void ClearEnemies()

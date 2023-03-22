@@ -36,7 +36,7 @@ public class ExpDrop : Collectable
 	{
 		if (other.transform.CompareTag("Player"))
 		{
-			if (SquadControl.ComradesTransforms.Count > 0)
+			if (SquadControl.Comrades.Count > 0)
 			{
 				StartCoroutine(Collect(other.transform, absorbTime));
 			}

@@ -17,7 +17,7 @@ public class EnemyController : MonoBehaviour
 	private Vector3 startPos;
 	private Transform target;
 	[HideInInspector] public bool ExpDropped = false;
-	public bool IsAttacking = false;
+	[HideInInspector] public bool IsAttacking = false;
 
 	[HideInInspector] public List<Collider> HitColliders;
 	[HideInInspector] public List<DealContactDamage> DamageDealers;
@@ -46,9 +46,9 @@ public class EnemyController : MonoBehaviour
 	{
 		if(agent.enabled)
 		{
-			if (SquadControl.ComradesTransforms.Count > 0)
+			if (SquadControl.Comrades.Count > 0)
 			{
-				target = GetClosestComrade(SquadControl.ComradesTransforms);
+				target = GetClosestComrade(SquadControl.Comrades);
 
 				if (IsAttacking == false)
 				{
@@ -104,7 +104,7 @@ public class EnemyController : MonoBehaviour
 		enabled = false;
 	}
 
-	Transform GetClosestComrade(List<Transform> comrades)
+	Transform GetClosestComrade(List<Comrade> comrades)
 	{
 		Transform bestTarget = null;
 		float closestDistanceSqr = Mathf.Infinity;
@@ -116,12 +116,12 @@ public class EnemyController : MonoBehaviour
 		
 		for (int i = index; i < comrades.Count; i++)
 		{
-			Vector3 directionToTarget = comrades[i].position - currentPosition;
+			Vector3 directionToTarget = comrades[i].transform.position - currentPosition;
 			float dSqrToTarget = directionToTarget.sqrMagnitude;
 			if (dSqrToTarget < closestDistanceSqr)
 			{
 				closestDistanceSqr = dSqrToTarget;
-				bestTarget = comrades[i];
+				bestTarget = comrades[i].transform;
 			}
 		}
 

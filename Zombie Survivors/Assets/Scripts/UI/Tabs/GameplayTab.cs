@@ -23,12 +23,14 @@ public class GameplayTab : Tab
 	[SerializeField] private TextMeshProUGUI timer;
 	[SerializeField] private TextMeshProUGUI airdropIncomming;
 
+	private TimeTracker timeTracker;
+
 	public override void Initialize(object[] args)
 	{
 		bossHealthbar.transform.parent.gameObject.SetActive(false);
 		backToMainMenu.gameObject.SetActive(false);
 		airdropIncomming.gameObject.SetActive(false);
-
+		timeTracker = TimeTracker.Instance;
 		backToMainMenu.onClick.AddListener(() => {
 			ReturnToMainMenu();
 		});
@@ -36,7 +38,8 @@ public class GameplayTab : Tab
 
 	private void Update()
 	{
-		timer.text = TimeTracker.Instance.GetFormattedGameTime();
+		if(timeTracker != null)
+			timer.text = timeTracker.GetFormattedGameTime();
 	}
 
 	private void OnEnable()

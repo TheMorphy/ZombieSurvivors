@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
 	[Tooltip("Every how many seconds should the EXPAND AREA be spawned")]
 	[SerializeField] private float expandAreaDelay = 15f;
 
+	private TimeTracker timeTracker;
 	private LevelSystem levelSystem;
 	private PlayerDetailsSO playerDetails;
 	private Player player;
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
 	private bool airdropDropped = false;
 	private bool bossSpawned = false;
 
+	public event Action OnPreparationCompleted;
 	public static event Action<GameState> OnGameStateChanged;
 	[HideInInspector] public GameState GameState { get; private set; }
 	
@@ -50,27 +52,22 @@ public class GameManager : MonoBehaviour
 	{
 		SurviveTime *= 60;
 		spawnAirdropTime *= 60;
+		timeTracker = TimeTracker.Instance;
 
 		ChangeGameState(GameState.GameStarted);
 	}
 
 	private void Update()
 	{
-		if(Mathf.CeilToInt(SurviveTime - TimeTracker.Instance.GameTime) == spawnAirdropTime && !airdropDropped)
+		if(Mathf.CeilToInt(SurviveTime - timeTracker.GameTime) == spawnAirdropTime && !airdropDropped)
 		{
 			SpawnAirdrop();
 		}
 
-		if(TimeTracker.Instance.GameTime <= 0 && !bossSpawned)
+		if(timeTracker.GameTime <= 0 && !bossSpawned)
 		{
 			SpawnBoss();
 		}
-	}
-
-	private void SpawnBoss()
-	{
-		enemySpawner.SpawnBoss(currentLevel);
-		bossSpawned = true;
 	}
 
 	public async void ChangeGameState(GameState gameState)
@@ -84,13 +81,15 @@ public class GameManager : MonoBehaviour
 				break;
 			case GameState.PlayingLevel:
 
-				TimeTracker.Instance.TrackGameTime(SurviveTime);
+				timeTracker.TrackGameTime(SurviveTime);
 
 				await Utilities.Wait(3);
 
 				levelSystem.AddExperience(100);
 
 				await Utilities.Wait(prepareTime);
+
+				OnPreparationCompleted?.Invoke();
 
 				EnableSpawners();
 
@@ -99,13 +98,20 @@ public class GameManager : MonoBehaviour
 
 				break;
 
+			case GameState.Evacuating:
+
+				DisableSpawners();
+				SpawnEvacuationArea();
+
+				break;
+
 			case GameState.GameWon:
 
 				break;
 
 			case GameState.GameLost:
+
 				DisableSpawners();
-				GameState = GameState.GamePaused;
 
 				break;
 
@@ -155,6 +161,12 @@ public class GameManager : MonoBehaviour
 		StopCoroutine(SpawnNewExpandAreaAtRandomPosition());
 	}
 
+	private void SpawnBoss()
+	{
+		enemySpawner.SpawnBoss(currentLevel);
+		bossSpawned = true;
+	}
+
 	private void SpawnAirdrop()
 	{
 		airdropDropped = true;
@@ -202,7 +214,7 @@ public class GameManager : MonoBehaviour
 				UnityEngine.Random.Range(triangulation.vertices[0].x + spawnMargin, triangulation.vertices[2].x - spawnMargin),
 				0,
 				UnityEngine.Random.Range(triangulation.vertices[0].z + spawnMargin, triangulation.vertices[2].z - spawnMargin));
-		} while (!NavMesh.SamplePosition(randomPoint, out hit, 1f, NavMesh.AllAreas));
+		} while (!NavMesh.SamplePosition(randomPoint, out hit, 1f, 1));
 		return hit.position;
 	}
 

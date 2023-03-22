@@ -8,7 +8,6 @@ public class FireWeapon : MonoBehaviour
 	private Comrade comrade;
 
 	private float timeSinceFired = 0;
-
 	private float burstTimer;
 	private int burstCounter;
 
@@ -17,10 +16,7 @@ public class FireWeapon : MonoBehaviour
 		comrade = GetComponent<Comrade>();
 	}
 
-	/// <summary>
-	/// Handle fire weapon event.
-	/// </summary>
-	public void FireWeapn()
+	public void Update()
 	{
 		timeSinceFired += Time.deltaTime;
 
@@ -35,6 +31,9 @@ public class FireWeapon : MonoBehaviour
 	/// </summary>
 	private bool IsWeaponReadyToFire()
 	{
+		if (comrade.ActiveWeapon.GetCurrentWeapon().WeaponDisabled)
+			return false;
+
 		if(comrade.ActiveWeapon.GetCurrentWeapon().weaponDetails.fireRate - timeSinceFired > 0)
 			return false;
 
@@ -48,7 +47,7 @@ public class FireWeapon : MonoBehaviour
 		// if there is no ammo int he clip and weapon doesn't have infinite ammo then return false.
 		if (comrade.ActiveWeapon.GetCurrentWeapon().weaponClipRemainingAmmo < comrade.ActiveWeapon.GetCurrentAmmo().ammoPerShot && !comrade.ActiveWeapon.GetCurrentWeapon().weaponDetails.hasInfiniteClipCapacity)
 		{
-			comrade.ReloadWeaponEvent.CallReloadWeaponEvent(comrade.ActiveWeapon.GetCurrentWeapon(), 0);
+			comrade.ReloadWeaponEvent.CallReloadWeaponEvent(comrade.ActiveWeapon.GetCurrentWeapon());
 			return false;
 		}
 

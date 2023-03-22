@@ -28,6 +28,8 @@ public class Player : MonoBehaviour
 
 	private void OnEnable()
 	{
+		GameManager.Instance.OnPreparationCompleted += Instance_OnPreparationCompleted;
+
 		UpgradesManager.OnWeaponUpgrade += UpgradesManager_OnWeaponUpgrade;
 
 		UpgradesManager.OnPlayerStatUpgrade += UpgradesManager_OnPlayerStatUpgrade;
@@ -39,6 +41,8 @@ public class Player : MonoBehaviour
 
 	private void OnDisable()
 	{
+		GameManager.Instance.OnPreparationCompleted -= Instance_OnPreparationCompleted;
+
 		UpgradesManager.OnWeaponUpgrade -= UpgradesManager_OnWeaponUpgrade;
 
 		UpgradesManager.OnPlayerStatUpgrade -= UpgradesManager_OnPlayerStatUpgrade;
@@ -59,7 +63,7 @@ public class Player : MonoBehaviour
 	{
 		if(playerStatUpgradeEventArgs.playerStats == PlayerStats.Health)
 		{
-			SquadControl.ComradesTransforms
+			SquadControl.Comrades
 				.ForEach(x => x.GetComponent<Health>()
 				.UpgradPlayerHealth(playerStatUpgradeEventArgs.floatValue, playerStatUpgradeEventArgs.upgradeAction));
 		}
@@ -89,6 +93,11 @@ public class Player : MonoBehaviour
 		squadControl.FormatSquad();
 	}
 
+	private void Instance_OnPreparationCompleted()
+	{
+		PlayerWeapon.WeaponDisabled = false;
+	}
+
 	/// <summary>
 	/// Initialize the player
 	/// </summary>
@@ -114,7 +123,8 @@ public class Player : MonoBehaviour
 			weaponReloadTimer = 0f, 
 			weaponClipRemainingAmmo = weaponWeaponDetails.weaponClipAmmoCapacity, 
 			weaponRemainingAmmo = weaponWeaponDetails.weaponAmmoCapacity, 
-			isWeaponReloading = false 
+			isWeaponReloading = false,
+			WeaponDisabled = true
 		};
 
 		PlayerWeapon.weaponDetails.AmmoDetails = Instantiate(weaponWeaponDetails.AmmoDetails);
@@ -132,9 +142,13 @@ public class Player : MonoBehaviour
 		activeUpgrades = SaveManager.ReadFromJSON<CardDTO>(Settings.CARDS).Where(x => x.CardSlot == Slot.Active).ToList();
 
 		if (activeUpgrades.Count > 0)
+		{
 			PlayerEquipment.SetUpgrades(activeUpgrades);
+		}
 		else
+		{
 			PlayerEquipment_OnUpgraded();
+		}
 	}
 
 	/// <summary>
@@ -143,6 +157,7 @@ public class Player : MonoBehaviour
 	private void PlayerEquipment_OnUpgraded()
 	{
 		PlayerController.enabled = true;
+
 		SquadControl.CreateFirstComrade();
 
 		CameraController.Instance.SetInitialTarget(transform);

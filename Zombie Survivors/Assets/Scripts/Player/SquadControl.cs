@@ -16,14 +16,14 @@ public class SquadControl : MonoBehaviour
 
 	public event Action<SquadControl, SquadControlEventArgs> OnSquadAmmountChanged;
 
-	public static List<Transform> ComradesTransforms = null;
+	public static List<Comrade> Comrades = null;
 
 	private BoxCollider collider;
 	private float timer;
 
 	private void Awake()
 	{
-		ComradesTransforms = new List<Transform>();
+		Comrades = new List<Comrade>();
 		collider = GetComponent<BoxCollider>();
 	}
 
@@ -42,7 +42,7 @@ public class SquadControl : MonoBehaviour
 		Comrade comrade = Instantiate(comradePrefab, transform.position, Quaternion.identity, transform).GetComponent<Comrade>();
 		comrade.InitializeComrade();
 
-		squadAmmount = ComradesTransforms.Count;
+		squadAmmount = Comrades.Count;
 		CallSquadChangedEvent(squadAmmount);
 
 		comrade.WeaponFiredEvent.OnWeaponFired += WeaponFiredEvent_OnWeaponFired;
@@ -85,8 +85,8 @@ public class SquadControl : MonoBehaviour
 
 	public Vector3 FurthestMemberPosition()
 	{
-		if (ComradesTransforms.Count > 0)
-			return ComradesTransforms.OrderByDescending(t => Vector3.Distance(transform.position, t.position)).FirstOrDefault().position;
+		if (Comrades.Count > 0)
+			return Comrades.OrderByDescending(t => Vector3.Distance(transform.position, t.transform.position)).FirstOrDefault().transform.position;
 		return transform.position;
 	}
 
@@ -133,7 +133,7 @@ public class SquadControl : MonoBehaviour
 			comrade.name = $"Comrade_{i}";
 		}
 
-		squadAmmount = ComradesTransforms.Count;
+		squadAmmount = Comrades.Count;
 
 		FormatSquad();
 
@@ -146,16 +146,16 @@ public class SquadControl : MonoBehaviour
 
 		position = Vector3.zero;
 
-		var arangedComrades = ComradesTransforms.OrderBy(x => Vector3.Distance(x.transform.position, position)).ToList();
+		var arangedComrades = Comrades.OrderBy(x => Vector3.Distance(x.transform.position, position)).ToList();
 
 		foreach (var comrade in arangedComrades)
 		{
-			var moveTween = comrade.DOMove(position, 0.7f);
-			Vector3 startScale = comrade.localScale;
+			var moveTween = comrade.transform.DOMove(position, 0.7f);
+			Vector3 startScale = comrade.transform.localScale;
 			bool eventCalled = false;
 			moveTween.OnUpdate(() =>
 			{
-				comrade.localScale = Vector3.Lerp(startScale, startScale / 2, moveTween.Elapsed());
+				comrade.transform.localScale = Vector3.Lerp(startScale, startScale / 2, moveTween.Elapsed());
 
 				if (Vector3.Distance(comrade.transform.position, position) < 0.2f && !eventCalled)
 				{
@@ -183,13 +183,13 @@ public class SquadControl : MonoBehaviour
 		return squadAmmount;
 	}
 
-	public void RemoveFromSquad(Transform comradeTransform)
+	public void RemoveFromSquad(Comrade comrade)
 	{
-		comradeTransform.parent = null;
+		comrade.transform.parent = null;
 
 		squadAmmount--;
 		
-		ComradesTransforms.Remove(comradeTransform);
+		Comrades.Remove(comrade);
 		CallSquadChangedEvent(squadAmmount);
 	}
 

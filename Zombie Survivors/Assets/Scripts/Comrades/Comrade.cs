@@ -47,7 +47,7 @@ public class Comrade : MonoBehaviour
 
 	public void InitializeComrade()
 	{
-		SquadControl.ComradesTransforms.Add(transform);
+		SquadControl.Comrades.Add(this);
 
 		SetActiveWeaponEvent.CallSetActiveWeaponEvent(Player.PlayerWeapon);
 
@@ -71,7 +71,7 @@ public class Comrade : MonoBehaviour
 
 		if (healthEventArgs.healthAmount <= 0f)
 		{
-			Player.SquadControl.RemoveFromSquad(transform);
+			Player.SquadControl.RemoveFromSquad(this);
 
 			AnimatePlayer.TurnOnRagdoll();		
 		}
