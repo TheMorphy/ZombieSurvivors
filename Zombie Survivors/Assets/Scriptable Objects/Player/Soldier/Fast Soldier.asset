@@ -15,7 +15,7 @@ MonoBehaviour:
   playerClass: 2
   playerName: Bary
   playerPicture: {fileID: 21300000, guid: 08c91a7677e66844281a99aaf6ea36f1, type: 3}
-  playerPrefab: {fileID: 3737252268984434869, guid: 411e1c08243d31e43bd7872a1335696d, type: 3}
+  comradePrefab: {fileID: 321057240856242775, guid: a95997ee04a7f79479bd81384bee7814, type: 3}
   playerWeaponDetails: {fileID: 11400000, guid: dc0a170a879472b4ba356155fd9ab732, type: 2}
   Health: 1
   MoveSpeed: 3

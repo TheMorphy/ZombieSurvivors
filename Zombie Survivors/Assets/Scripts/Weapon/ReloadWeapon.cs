@@ -75,23 +75,23 @@ public class ReloadWeapon : MonoBehaviour
 		weapon.isWeaponReloading = true;
 
 		// Update reload progress timer
-		while (weapon.weaponReloadTimer < weapon.weaponDetails.weaponReloadTime)
+		while (weapon.weaponReloadTimer < weapon.weaponDetails.ReloadTime)
 		{
 			weapon.weaponReloadTimer += Time.deltaTime;
 			yield return null;
 		}
 
 		// If weapon has infinite ammo then just refil the clip
-		if (weapon.weaponDetails.hasInfiniteAmmo)
+		if (weapon.weaponDetails.InfiniteAmmo)
 		{
-			weapon.weaponClipRemainingAmmo = weapon.weaponDetails.weaponClipAmmoCapacity;
+			weapon.weaponClipRemainingAmmo = weapon.weaponDetails.MagazineSize;
 		}
 
 		// else if not infinite ammo then if remaining ammo is greater than the amount required to
 		// refill the clip, then fully refill the clip
-		else if (weapon.weaponRemainingAmmo >= weapon.weaponDetails.weaponClipAmmoCapacity)
+		else if (weapon.weaponRemainingAmmo >= weapon.weaponDetails.MagazineSize)
 		{
-			weapon.weaponClipRemainingAmmo = weapon.weaponDetails.weaponClipAmmoCapacity;
+			weapon.weaponClipRemainingAmmo = weapon.weaponDetails.MagazineSize;
 		}
 		// else set the clip to the remaining ammo
 		else

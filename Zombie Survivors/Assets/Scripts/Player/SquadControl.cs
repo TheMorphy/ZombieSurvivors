@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class SquadControl : MonoBehaviour
 {
-	[SerializeField] private GameObject comradePrefab;
+	private GameObject comradePrefab;
 
 	[Range(0f, 1f)]
 	[SerializeField] private float DistanceFactor, Radius;
@@ -181,6 +181,11 @@ public class SquadControl : MonoBehaviour
 	public int GetSquadAmmount()
 	{
 		return squadAmmount;
+	}
+
+	public void SetComrade(GameObject comradePrefab)
+	{
+		this.comradePrefab = comradePrefab;
 	}
 
 	public void RemoveFromSquad(Comrade comrade)

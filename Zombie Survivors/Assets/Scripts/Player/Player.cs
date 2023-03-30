@@ -99,12 +99,16 @@ public class Player : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Initialize the player
+	/// Initializes the player
 	/// </summary>
 	public void Initialize(PlayerDetailsSO playerDetails)
 	{
-		this.PlayerDetails = Instantiate(playerDetails);
+		CameraController.Instance.SetInitialTarget(transform);
+		PlayerDetails = Instantiate(playerDetails);
 
+		SquadControl.SetComrade(playerDetails.ComradePrefab);
+
+		// Temporarily disable controller, to prevent user from moving the player, while its being initialized
 		PlayerController.enabled = false;
 
 		AddWeaponToPlayer(PlayerDetails.PlayerWeaponDetails);
@@ -121,8 +125,8 @@ public class Player : MonoBehaviour
 		{
 			weaponDetails = Instantiate(weaponWeaponDetails),
 			weaponReloadTimer = 0f, 
-			weaponClipRemainingAmmo = weaponWeaponDetails.weaponClipAmmoCapacity, 
-			weaponRemainingAmmo = weaponWeaponDetails.weaponAmmoCapacity, 
+			weaponClipRemainingAmmo = weaponWeaponDetails.MagazineSize, 
+			weaponRemainingAmmo = weaponWeaponDetails.AmmoCapacity, 
 			isWeaponReloading = false,
 			WeaponDisabled = true
 		};
@@ -159,8 +163,6 @@ public class Player : MonoBehaviour
 		PlayerController.enabled = true;
 
 		SquadControl.CreateFirstComrade();
-
-		CameraController.Instance.SetInitialTarget(transform);
 
 		OnPlayerInitialized?.Invoke();
 	}

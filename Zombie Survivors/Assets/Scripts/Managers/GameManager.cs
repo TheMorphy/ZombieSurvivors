@@ -135,10 +135,12 @@ public class GameManager : MonoBehaviour
 	private void InstantiatePlayer()
 	{
 		// Set player details - saved in current player scriptable object from the main menu
-		playerDetails = GameResources.Instance.CurrentPlayer.playerDetails;
+		var currentPlayer = GameResources.Instance.CurrentPlayer;
+
+		playerDetails = currentPlayer.playerDetails;
 
 		// Instantiate player
-		GameObject playerGameObject = Instantiate(playerDetails.PlayerPrefab);
+		GameObject playerGameObject = Instantiate(currentPlayer.playerPrefab);
 
 		// Initialize Player
 		player = playerGameObject.GetComponent<Player>();

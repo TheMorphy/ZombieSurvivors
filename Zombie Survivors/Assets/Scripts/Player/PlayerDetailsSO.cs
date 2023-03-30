@@ -26,8 +26,8 @@ public class PlayerDetailsSO : ScriptableObject
 	public Sprite PlayerPicture { get { return playerPicture; } }
 
 	[SerializeField]
-	private GameObject playerPrefab;
-	public GameObject PlayerPrefab { get { return playerPrefab; } }
+	private GameObject comradePrefab;
+	public GameObject ComradePrefab { get { return comradePrefab; } }
 
 	[SerializeField]
 	private WeaponDetailsSO playerWeaponDetails;

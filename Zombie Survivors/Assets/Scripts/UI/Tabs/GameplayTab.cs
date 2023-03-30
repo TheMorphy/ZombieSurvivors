@@ -31,6 +31,7 @@ public class GameplayTab : Tab
 		backToMainMenu.gameObject.SetActive(false);
 		airdropIncomming.gameObject.SetActive(false);
 		timeTracker = TimeTracker.Instance;
+
 		backToMainMenu.onClick.AddListener(() => {
 			ReturnToMainMenu();
 		});

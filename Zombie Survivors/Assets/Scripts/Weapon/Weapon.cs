@@ -14,63 +14,63 @@ public class Weapon
 		{
 			case WeaponStats.weaponAmmoCapacity:
 				if (upgradeAction == UpgradeAction.Multiply)
-					weaponDetails.weaponAmmoCapacity *= (int)value;
+					weaponDetails.AmmoCapacity *= (int)value;
 				else if (upgradeAction == UpgradeAction.Add)
-					weaponDetails.weaponAmmoCapacity += (int)value;
+					weaponDetails.AmmoCapacity += (int)value;
 				else if (upgradeAction == UpgradeAction.Increase_Percentage)
-					weaponDetails.weaponAmmoCapacity = (int)Utilities.ApplyPercentage(value, weaponDetails.weaponAmmoCapacity);
+					weaponDetails.AmmoCapacity = (int)Utilities.ApplyPercentage(value, weaponDetails.AmmoCapacity);
 				break;
 
 			case WeaponStats.weaponClipAmmoCapacity:
 				if (upgradeAction == UpgradeAction.Multiply)
-					weaponDetails.weaponClipAmmoCapacity *= (int)value;
+					weaponDetails.MagazineSize *= (int)value;
 				else if (upgradeAction == UpgradeAction.Add)
-					weaponDetails.weaponClipAmmoCapacity += (int)value;
+					weaponDetails.MagazineSize += (int)value;
 				else if (upgradeAction == UpgradeAction.Increase_Percentage)
-					weaponDetails.weaponClipAmmoCapacity = (int)Utilities.ApplyPercentage(value, weaponDetails.weaponClipAmmoCapacity);
+					weaponDetails.MagazineSize = (int)Utilities.ApplyPercentage(value, weaponDetails.MagazineSize);
 				break;
 
 			case WeaponStats.weaponReloadTime:
 				if (upgradeAction == UpgradeAction.Multiply)
-					weaponDetails.weaponReloadTime *= value;
+					weaponDetails.ReloadTime *= value;
 				else if (upgradeAction == UpgradeAction.Add)
-					weaponDetails.weaponReloadTime += value;
+					weaponDetails.ReloadTime += value;
 				else if (upgradeAction == UpgradeAction.Increase_Percentage)
-					weaponDetails.weaponReloadTime = (int)Utilities.ApplyPercentage(value, weaponDetails.weaponReloadTime);
+					weaponDetails.ReloadTime = (int)Utilities.ApplyPercentage(value, weaponDetails.ReloadTime);
 				break;
 
 			case WeaponStats.burstInterval:
 				if (upgradeAction == UpgradeAction.Multiply)
-					weaponDetails.burstInterval *= value;
+					weaponDetails.BurstInterval *= value;
 				else if (upgradeAction == UpgradeAction.Add)
-					weaponDetails.burstInterval += value;
+					weaponDetails.BurstInterval += value;
 				else if (upgradeAction == UpgradeAction.Increase_Percentage)
-					weaponDetails.burstInterval = (int)Utilities.ApplyPercentage(value, weaponDetails.burstInterval);
+					weaponDetails.BurstInterval = (int)Utilities.ApplyPercentage(value, weaponDetails.BurstInterval);
 				break;
 
 			case WeaponStats.fireRate:
 				if (upgradeAction == UpgradeAction.Multiply)
-					weaponDetails.fireRate *= value;
+					weaponDetails.FireRate *= value;
 				else if (upgradeAction == UpgradeAction.Add)
-					weaponDetails.fireRate += value;
+					weaponDetails.FireRate += value;
 				else if (upgradeAction == UpgradeAction.Increase_Percentage)
-					weaponDetails.fireRate = (int)Utilities.ApplyPercentage(value, weaponDetails.fireRate);
+					weaponDetails.FireRate = (int)Utilities.ApplyPercentage(value, weaponDetails.FireRate);
 				break;
 
 			case WeaponStats.spreadShot:
-				weaponDetails.spreadShot = boolValue;
+				weaponDetails.SpreadShot = boolValue;
 				break;
 
 			case WeaponStats.hasInfiniteAmmo:
-				weaponDetails.hasInfiniteAmmo = boolValue;
+				weaponDetails.InfiniteAmmo = boolValue;
 				break;
 
 			case WeaponStats.hasInfiniteClipCapacity:
-				weaponDetails.hasInfiniteClipCapacity = boolValue;
+				weaponDetails.InfiniteMagazineCapacity = boolValue;
 				break;
 
 			case WeaponStats.burstFire:
-				weaponDetails.burstFire = boolValue;
+				weaponDetails.BurstFire = boolValue;
 				break;
 
 		}

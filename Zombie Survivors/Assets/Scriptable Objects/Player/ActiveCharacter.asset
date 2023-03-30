@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1aa7a980108b9449adfaac376f29a02, type: 3}
   m_Name: ActiveCharacter
   m_EditorClassIdentifier: 
-  playerName: Tony
-  playerDetails: {fileID: 11400000, guid: a28a35380f884424a9c1e2a93552097b, type: 2}
+  playerPrefab: {fileID: 4671845748811816023, guid: a0025366462d3ea42825d23edb32a677, type: 3}
+  playerDetails: {fileID: 11400000, guid: 7934ca44781819c4c9c5e67b8a1732fc, type: 2}

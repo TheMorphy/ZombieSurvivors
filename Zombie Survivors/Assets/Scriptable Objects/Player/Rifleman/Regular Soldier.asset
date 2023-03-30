@@ -15,8 +15,8 @@ MonoBehaviour:
   playerClass: 0
   playerName: Jerry
   playerPicture: {fileID: 21300000, guid: 56e456ab0f7f79a4dbabcc9079c49a94, type: 3}
-  playerPrefab: {fileID: 4671845748811816023, guid: a0025366462d3ea42825d23edb32a677, type: 3}
-  playerWeaponDetails: {fileID: 11400000, guid: 1b31a7be997a7f54192c7801bede86ef, type: 2}
+  comradePrefab: {fileID: 6458076772525050590, guid: 9bc0360dfc042444ebe14c4c5d5fed78, type: 3}
+  playerWeaponDetails: {fileID: 11400000, guid: dc0a170a879472b4ba356155fd9ab732, type: 2}
   Health: 1
   MoveSpeed: 2.5
   playerStatsUpgrades:

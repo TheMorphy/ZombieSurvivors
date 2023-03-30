@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum GapDirection
+{
+	None,
+	North,
+	South,
+	East,
+	West
+}
+
 [DisallowMultipleComponent]
 public class EnemySpawner : MonoBehaviour
 {
@@ -15,6 +24,11 @@ public class EnemySpawner : MonoBehaviour
 	[SerializeField] private int enemyCount = 15;
 	[SerializeField] private float spawnDelay = 1.5f;
 	[SerializeField] private float maxSpawnDistance = 10;
+	[SerializeField] private float gapSizeDegrees = 45f; // gap size in degrees
+	//[SerializeField] private float offsetGapAngle = 45f; // gap size in degrees
+	private float gapSizeRadians; // gap size in radians (calculated from gapSizeDegrees)
+
+
 
 	private NavMeshTriangulation navTriangulation;
 	public static List<Transform> ActiveEnemies;
@@ -26,6 +40,8 @@ public class EnemySpawner : MonoBehaviour
 	private int enemiesSpawned = 0;
 	private int initialEnemiesToSpawn = 0;
 	private float InitialSpawnDelay = 0;
+	[SerializeField] private GapDirection gapDirection;
+
 
 	[HideInInspector] public Player Player;
 
@@ -71,27 +87,89 @@ public class EnemySpawner : MonoBehaviour
 
 	private void Spawn()
 	{
+		float playerToCameraDistance = Vector3.Distance(Camera.main.transform.position, Player.transform.position);
+		float halfCameraViewAngle = Mathf.Atan2(Camera.main.pixelHeight, Camera.main.pixelWidth) * Mathf.Rad2Deg / 2;
+		float halfCameraViewSize = Mathf.Tan(halfCameraViewAngle * Mathf.Deg2Rad) * playerToCameraDistance;
+		float spawnRadius = Mathf.Min(halfCameraViewSize * 1.5f, maxSpawnDistance);
+
+		float gapAngle = 0f;
+		switch (gapDirection)
+		{
+			case GapDirection.North:
+				gapAngle = Mathf.PI / 2f;
+				break;
+			case GapDirection.West:
+				gapAngle = Mathf.PI;
+				break;
+			case GapDirection.East:
+				gapAngle = 0f;
+				break;
+			case GapDirection.South:
+				gapAngle = Mathf.PI * 3f / 2f;
+				break;
+		}
+		gapAngle -= (gapSizeDegrees / 2) * Mathf.Deg2Rad;
+
+		gapAngle = (gapAngle + 2 * Mathf.PI) % (2 * Mathf.PI);
+
+		gapSizeRadians = gapSizeDegrees * Mathf.Deg2Rad;
+		float gapSize = gapDirection == GapDirection.None ? 0f : gapSizeRadians;
+
+		float angleStep = (Mathf.PI * 2) / enemyCount; // Calculate the angle between each enemy spawn point
+
+		// Spawn enemies in a circle around the player with a gap in the specified direction
 		for (int i = 0; i < enemyCount; i++)
 		{
-			Vector3 randomPos;
-			Vector3 screenPos;
-			float spawnRadius;
+			float angle = angleStep * i;
+			angle = (angle + 2 * Mathf.PI) % (2 * Mathf.PI); // Ensure angle is between 0 and 2*pi radians
 
-			do
+			if (angle >= gapAngle && angle <= gapAngle + gapSize) // Check if angle is within gap
 			{
-				// Calculate the spawn radius based on the distance between the player and the camera
-				float playerToCameraDistance = Vector3.Distance(Camera.main.transform.position, Player.transform.position);
-				float halfCameraViewAngle = Mathf.Atan2(Camera.main.pixelHeight, Camera.main.pixelWidth) * Mathf.Rad2Deg / 2;
-				float halfCameraViewSize = Mathf.Tan(halfCameraViewAngle * Mathf.Deg2Rad) * playerToCameraDistance;
-				spawnRadius = Mathf.Min(halfCameraViewSize * 1.5f, maxSpawnDistance); // Use the smaller value between halfCameraViewSize * 1.5f and maxSpawnDistance
-
-				// Find a random point on the navmesh outside of the camera's view
-				randomPos = RandomNavmeshLocation(Player.transform.position, spawnRadius);
-				screenPos = Camera.main.WorldToViewportPoint(randomPos);
+				angle += gapSize; // Skip the gap area by shifting the angle by the gap size
 			}
-			while (screenPos.x >= 0f && screenPos.x <= 1f && screenPos.y >= 0f && screenPos.y <= 1f);
 
-			GameObject enemyObj = Instantiate(scaledEnemies[0].enemyPrefab, randomPos, Quaternion.identity);
+			Vector3 spawnPos = Player.transform.position + new Vector3(Mathf.Cos(angle) * spawnRadius, 0f, Mathf.Sin(angle) * spawnRadius);
+			Vector3 screenPos = Camera.main.WorldToViewportPoint(spawnPos);
+
+			// If the spawn point is inside the camera viewport, move it behind another enemy
+			if (screenPos.x >= 0f && screenPos.x <= 1f && screenPos.y >= 0f && screenPos.y <= 1f)
+			{
+				Collider[] colliders = Physics.OverlapSphere(spawnPos, 5f);
+				if (colliders.Length > 0)
+				{
+					// Find the closest enemy and move the spawn point behind it
+					float minDist = Mathf.Infinity;
+					Vector3 behindPos = Vector3.zero;
+					foreach (Collider collider in colliders)
+					{
+						if (collider.CompareTag("Enemy"))
+						{
+							float dist = Vector3.Distance(spawnPos, collider.transform.position);
+							if (dist < minDist)
+							{
+								minDist = dist;
+								behindPos = collider.transform.position - (spawnPos - collider.transform.position).normalized * 2f;
+							}
+						}
+					}
+
+					spawnPos = behindPos;
+				}
+				else
+				{
+					// No other enemies in the area, use the original spawn point
+					spawnPos = Player.transform.position + new Vector3(Mathf.Cos(angle) * (spawnRadius + 2f), 0f, Mathf.Sin(angle) * (spawnRadius + 2f));
+				}
+			}
+			else
+			{
+				// Spawn point is outside camera viewport, use the original spawn point
+				spawnPos = Player.transform.position + new Vector3(Mathf.Cos(angle) * spawnRadius, 0f, Mathf.Sin(angle) * spawnRadius);
+			}
+			GameObject enemyObj = Instantiate(scaledEnemies[0].enemyPrefab, spawnPos, Quaternion.identity);
+			// Set the position and rotation of the spawned enemy
+			enemyObj.transform.position = spawnPos;
+			enemyObj.transform.rotation = Quaternion.identity;
 
 			Enemy enemy = enemyObj.GetComponent<Enemy>();
 			enemy.enemyController.GetAgent().enabled = false;
@@ -103,16 +181,6 @@ public class EnemySpawner : MonoBehaviour
 			enemiesSpawned++;
 			enemiesAlive++;
 		}
-	}
-
-	Vector3 RandomNavmeshLocation(Vector3 origin, float range)
-	{
-		NavMeshHit hit;
-		Vector3 randomDirection = Random.insideUnitSphere * range;
-		Vector3 randomPos = origin + randomDirection;
-		NavMesh.SamplePosition(randomPos, out hit, range, 1);
-		randomPos = hit.position;
-		return randomPos;
 	}
 
 	private void DestroyedEvent_OnEnemyDestroyed(DestroyedEvent destroyedEvent, DestroyedEventArgs destroyedEventArgs)

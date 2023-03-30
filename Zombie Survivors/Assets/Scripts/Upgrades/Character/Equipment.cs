@@ -51,19 +51,19 @@ public class Equipment
 		switch(card.WeaponStat)
 		{
 			case WeaponStats.fireRate:
-				card.Upgrade(ref playerWeapon.weaponDetails.fireRate, card.UpgradeAction);
+				card.Upgrade(ref playerWeapon.weaponDetails.FireRate, card.UpgradeAction);
 				break;
 			case WeaponStats.burstInterval:
-				card.Upgrade(ref playerWeapon.weaponDetails.burstInterval, card.UpgradeAction);
+				card.Upgrade(ref playerWeapon.weaponDetails.BurstInterval, card.UpgradeAction);
 				break;
 			case WeaponStats.weaponReloadTime:
-				card.Upgrade(ref playerWeapon.weaponDetails.weaponReloadTime, card.UpgradeAction);
+				card.Upgrade(ref playerWeapon.weaponDetails.ReloadTime, card.UpgradeAction);
 				break;
 			case WeaponStats.weaponAmmoCapacity:
-				card.Upgrade(ref playerWeapon.weaponDetails.weaponAmmoCapacity, card.UpgradeAction);
+				card.Upgrade(ref playerWeapon.weaponDetails.AmmoCapacity, card.UpgradeAction);
 				break;
 			case WeaponStats.weaponClipAmmoCapacity:
-				card.Upgrade(ref playerWeapon.weaponDetails.weaponClipAmmoCapacity, card.UpgradeAction);
+				card.Upgrade(ref playerWeapon.weaponDetails.MagazineSize, card.UpgradeAction);
 				break;
 		}
 	}

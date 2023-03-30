@@ -15,15 +15,15 @@ MonoBehaviour:
   type: 0
   weaponPicture: {fileID: 21300000, guid: 0a4da12ff51bd83498216f698c7f20fa, type: 3}
   AmmoDetails: {fileID: 11400000, guid: dfe25199ac408f742888f091e130ebba, type: 2}
-  hasInfiniteAmmo: 1
-  hasInfiniteClipCapacity: 1
-  burstFire: 0
-  spreadShot: 0
-  weaponReloadTime: 2
-  weaponAmmoCapacity: 50
-  weaponClipAmmoCapacity: 8
-  fireRate: 0.09
-  burstInterval: 0.5
+  InfiniteAmmo: 1
+  InfiniteMagazineCapacity: 1
+  BurstFire: 0
+  SpreadShot: 0
+  ReloadTime: 0.5
+  AmmoCapacity: 50
+  MagazineSize: 50
+  FireRate: 0.01
+  BurstInterval: 0.5
   weaponUpgrades:
   - {fileID: 11400000, guid: 692010924cad95a4ab24870c58f5f3c7, type: 2}
   - {fileID: 11400000, guid: 42f3626068e91234aae755abbb3723b1, type: 2}

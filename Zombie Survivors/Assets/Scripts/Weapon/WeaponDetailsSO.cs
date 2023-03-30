@@ -40,32 +40,32 @@ public class WeaponDetailsSO : ScriptableObject
 	public AmmoDetailsSO AmmoDetails;
 
 	[Tooltip("Has unlimited ammo")]
-	public bool hasInfiniteAmmo = true;
+	public bool InfiniteAmmo = true;
 	
 	[Tooltip("Can shoot endlessly")]
-	public bool hasInfiniteClipCapacity = true;
+	public bool InfiniteMagazineCapacity = true;
 
 	[Tooltip("Fires several bullets in quick sequence. If set TRUE, specify the burst bullet ammount")]
-	public bool burstFire = false;
+	public bool BurstFire = false;
 
 	[Tooltip("Fires several bullets in single shot. If set TRUE, specify the spread shot bullet ammount")]
-	public bool spreadShot = false;
+	public bool SpreadShot = false;
 
 	[Tooltip("Reload time in seconds")]
-	public float weaponReloadTime = 0.5f;
+	public float ReloadTime = 0.5f;
 
 	[Tooltip("Total ammo capacity")]
-	public int weaponAmmoCapacity = 50;
+	public int AmmoCapacity = 50;
 
-	[Tooltip("Ammo capacity in the clip")]
-	public int weaponClipAmmoCapacity = 50;
+	[Tooltip("Ammo capacity in the magazine")]
+	public int MagazineSize = 50;
 
 	[Min(0.01f)]
 	[Tooltip("The fire rate of the weapon, in shots per second")]
-	public float fireRate = 5.0f;
+	public float FireRate = 5.0f;
 
 	[Tooltip("The time between bursts")]
-	public float burstInterval = 0.5f;
+	public float BurstInterval = 0.5f;
 
 	#region Header UPGRADES
 	[Space(5)]

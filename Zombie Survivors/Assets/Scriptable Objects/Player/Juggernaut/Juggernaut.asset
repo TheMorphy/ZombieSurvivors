@@ -15,8 +15,8 @@ MonoBehaviour:
   playerClass: 1
   playerName: Tony
   playerPicture: {fileID: 21300000, guid: e92527f6d0fe45342ab542b47346d45f, type: 3}
-  playerPrefab: {fileID: 3737252268984434869, guid: 1c26d3f6f2bb8ff4aa63c74a6ccaec3c, type: 3}
-  playerWeaponDetails: {fileID: 11400000, guid: dc0a170a879472b4ba356155fd9ab732, type: 2}
+  comradePrefab: {fileID: 932270768880737191, guid: 40a736f7a31e5cf42ba8a33504a088f7, type: 3}
+  playerWeaponDetails: {fileID: 11400000, guid: ad6f46bf3caf16b41b8e58023bab0892, type: 2}
   Health: 150
   MoveSpeed: 2.2
   playerStatsUpgrades:
