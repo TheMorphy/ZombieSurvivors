@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,6 @@ using UnityEngine.AI;
 
 public enum GapDirection
 {
-	None,
 	North,
 	South,
 	East,
@@ -26,9 +26,6 @@ public class EnemySpawner : MonoBehaviour
 	[SerializeField] private float maxSpawnDistance = 10;
 	[SerializeField] private float gapSizeDegrees = 45f; // gap size in degrees
 	//[SerializeField] private float offsetGapAngle = 45f; // gap size in degrees
-	private float gapSizeRadians; // gap size in radians (calculated from gapSizeDegrees)
-
-
 
 	private NavMeshTriangulation navTriangulation;
 	public static List<Transform> ActiveEnemies;
@@ -70,6 +67,7 @@ public class EnemySpawner : MonoBehaviour
 		Level++;
 		enemiesAlive = 0;
 		enemiesSpawned = 0;
+		gapDirection = Utilities.GetRandomEnumValue<GapDirection>();
 
 		for (int i = 0; i < EnemiesDetails.Count; i++)
 		{
@@ -108,12 +106,11 @@ public class EnemySpawner : MonoBehaviour
 				gapAngle = Mathf.PI * 3f / 2f;
 				break;
 		}
-		gapAngle -= (gapSizeDegrees / 2) * Mathf.Deg2Rad;
+		gapAngle -= (gapSizeDegrees * Mathf.Deg2Rad) / 2;
 
 		gapAngle = (gapAngle + 2 * Mathf.PI) % (2 * Mathf.PI);
 
-		gapSizeRadians = gapSizeDegrees * Mathf.Deg2Rad;
-		float gapSize = gapDirection == GapDirection.None ? 0f : gapSizeRadians;
+		float gapSize = gapSizeDegrees * Mathf.Deg2Rad;
 
 		float angleStep = (Mathf.PI * 2) / enemyCount; // Calculate the angle between each enemy spawn point
 
