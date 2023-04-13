@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9abcf25bd377c8a4588a0e3ceeec4bc0, type: 3}
-  m_Name: WeaponUpgrade_ReloadTime
+  m_Script: {fileID: 11500000, guid: df0b809d44f664d439a699f0a7f773f4, type: 3}
+  m_Name: AmmoUpgrade_AmmoSpeed +2
   m_EditorClassIdentifier: 
-  UpgradeType: 2
-  WeaponStats: 3
-  FloatValue: 0.01
+  UpgradeType: 1
+  AmmoStats: 3
+  FloatValue: 2
+  Toggle: 0
   IntValue: 0
-  Toggle: 1
-  UpgradeAction: 3
+  UpgradeAction: 0

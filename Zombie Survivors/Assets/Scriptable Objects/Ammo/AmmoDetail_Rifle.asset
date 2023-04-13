@@ -24,4 +24,6 @@ MonoBehaviour:
   ammoTrailStartWidth: 0.1
   ammoTrailEndWidth: 0
   ammoUpgrades:
-  - {fileID: 11400000, guid: 0d7ef15f83725734db6041d117fdc3af, type: 2}
+  - {fileID: 11400000, guid: e14458b4ae498fa439cecd79f61770b5, type: 2}
+  - {fileID: 11400000, guid: 9c3fa2f1f7603f04d831ba54e50b86cd, type: 2}
+  - {fileID: 11400000, guid: 8d8271a3e8af0d8419e08c5c119027d5, type: 2}

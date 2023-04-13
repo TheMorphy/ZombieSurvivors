@@ -14,20 +14,20 @@ public class Airdrop : Collectable
 	private void Awake()
 	{
 		collider = GetComponent<Collider>();
-		collider.enabled = false;
 	}
 	private void Start()
 	{
+		collider.enabled = false;
+		collectTime = absorbTime;
 		startPos = transform.position;
 	}
-	private void OnTriggerEnter(Collider other)
+
+	public override void Collect(Transform target)
 	{
-		if (other.transform.CompareTag("Player"))
-		{
-			SaveAirdrop();
-			DisableCrashmark();
-			StartCoroutine(Collect(other.transform, absorbTime));
-		}
+		SaveAirdrop();
+		DisableCrashmark();
+
+		base.Collect(target);
 	}
 
 	protected override void OnCollected()

@@ -13,9 +13,9 @@ public class PlayerController : MonoBehaviour
 	Vector3 moveDirection;
 	private bool IsPlayerDead = false;
 	
-	private void Awake()
+	public void Initialize()
 	{
-		joystick = GameObject.FindGameObjectWithTag("Joystick").GetComponent<FloatingJoystick>(); // I no like dis, but it works for now
+		joystick = FindObjectOfType<FloatingJoystick>(); // I no like dis, but it works for now
 
 		rb = GetComponentInParent<Rigidbody>();
 		player = GetComponent<Player>();
@@ -27,6 +27,18 @@ public class PlayerController : MonoBehaviour
 			return;
 
 		HandleMovement();
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.TryGetComponent(out Exp exp) && !isPlayerMovementDisabled)
+		{
+			exp.Collect(transform);
+		}
+		else if (other.TryGetComponent(out Airdrop airdrop))
+		{
+			airdrop.Collect(transform);
+		}
 	}
 
 	private void HandleMovement()

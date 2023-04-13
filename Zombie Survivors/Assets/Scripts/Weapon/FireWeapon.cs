@@ -33,7 +33,7 @@ public class FireWeapon : MonoBehaviour
 		if (comrade.ActiveWeapon.GetCurrentWeapon().WeaponDisabled)
 			return false;
 
-		if(comrade.ActiveWeapon.GetCurrentWeapon().weaponDetails.FireRate - timeSinceFired > 0)
+		if (comrade.ActiveWeapon.GetCurrentWeapon().weaponDetails.FireRate - timeSinceFired > 0)
 			return false;
 
 		// if the weapon is reloading then return false.

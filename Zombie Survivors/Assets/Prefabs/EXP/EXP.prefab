@@ -222,7 +222,7 @@ GameObject:
   - component: {fileID: 8908623256187235439}
   - component: {fileID: 4941446210116444788}
   - component: {fileID: 5686397214602598043}
-  - component: {fileID: 1905138512761144660}
+  - component: {fileID: 9001044151516983844}
   m_Layer: 9
   m_Name: EXP
   m_TagString: Untagged
@@ -278,7 +278,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1905138512761144660
+--- !u!114 &9001044151516983844
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f88286a38da41f458025abf5871cd36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  absorbTime: 1
+  absorbTime: 1.5
 --- !u!1 &8908623256209618884
 GameObject:
   m_ObjectHideFlags: 0

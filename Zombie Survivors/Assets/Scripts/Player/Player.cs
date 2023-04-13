@@ -108,9 +108,6 @@ public class Player : MonoBehaviour
 
 		SquadControl.SetComrade(playerDetails.ComradePrefab);
 
-		// Temporarily disable controller, to prevent user from moving the player, while its being initialized
-		PlayerController.enabled = false;
-
 		AddWeaponToPlayer(PlayerDetails.PlayerWeaponDetails);
 
 		ApplyUpgrades();
@@ -145,14 +142,7 @@ public class Player : MonoBehaviour
 
 		activeUpgrades = SaveManager.ReadFromJSON<CardDTO>(Settings.CARDS).Where(x => x.CardSlot == Slot.Active).ToList();
 
-		if (activeUpgrades.Count > 0)
-		{
-			PlayerEquipment.SetUpgrades(activeUpgrades);
-		}
-		else
-		{
-			PlayerEquipment_OnUpgraded();
-		}
+		PlayerEquipment.SetUpgrades(activeUpgrades);
 	}
 
 	/// <summary>
@@ -160,7 +150,7 @@ public class Player : MonoBehaviour
 	/// </summary>
 	private void PlayerEquipment_OnUpgraded()
 	{
-		PlayerController.enabled = true;
+		PlayerController.Initialize();
 
 		SquadControl.CreateFirstComrade();
 

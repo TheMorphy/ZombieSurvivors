@@ -67,7 +67,7 @@ public class EnemySpawner : MonoBehaviour
 		Level++;
 		enemiesAlive = 0;
 		enemiesSpawned = 0;
-		gapDirection = Utilities.GetRandomEnumValue<GapDirection>();
+		//gapDirection = Utilities.GetRandomEnumValue<GapDirection>();
 
 		for (int i = 0; i < EnemiesDetails.Count; i++)
 		{

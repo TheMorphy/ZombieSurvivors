@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e01b4c492d6041d47874659724fdf62a, type: 3}
-  m_Name: PlayerStatsUpgrade_Health
+  m_Script: {fileID: 11500000, guid: 9abcf25bd377c8a4588a0e3ceeec4bc0, type: 3}
+  m_Name: WeaponUpgrade_BurstFire
   m_EditorClassIdentifier: 
   UpgradeType: 2
-  PlayerStats: 1
-  FloatValue: 15
-  Toggle: 0
+  WeaponStats: 2
+  FloatValue: 10
   IntValue: 0
-  UpgradeAction: 2
+  Toggle: 1
+  UpgradeAction: 3

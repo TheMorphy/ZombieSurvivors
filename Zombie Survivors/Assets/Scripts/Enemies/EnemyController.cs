@@ -92,7 +92,7 @@ public class EnemyController : MonoBehaviour
 			return;
 
 		GameObject exp = Instantiate(GameResources.Instance.ExpDrop, transform.position, Quaternion.identity);
-		exp.GetComponent<ExpDrop>().SetExpValue(enemy.enemyDetails.EXP_Increase);
+		exp.GetComponent<Exp>().SetExpValue(enemy.enemyDetails.EXP_Increase);
 		ExpDropped = true;
 		enemy.destroyedEvent.CallDestroyedEvent(false, enemy.enemyDetails.EXP_Increase);
 	}

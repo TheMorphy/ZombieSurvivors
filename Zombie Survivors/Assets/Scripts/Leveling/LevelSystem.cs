@@ -9,27 +9,33 @@ public class LevelSystem
     public event EventHandler OnExperienceChanged;
 	public event EventHandler OnLevelUp;
 
+	public bool LeveledUp = false;
+
     public LevelSystem()
     {
-        level= 0;
-        experience= 0;
-        experienceToNextLevel= 100;
+        level = 0;
+        experience = 0;
+        experienceToNextLevel = 100;
 	}
 
     public void AddExperience(int expIncreasePercentage)
     {
+        if (LeveledUp) return;
+
         experience += expIncreasePercentage;
 
         // Enough to level up
-        while (experience >= experienceToNextLevel)
+        if (experience >= experienceToNextLevel)
         {
+            LeveledUp = true;
+
             level++;
             experience -= experienceToNextLevel;
 
 			OnLevelUp?.Invoke(this, EventArgs.Empty);
 		}
 
-        OnExperienceChanged?.Invoke(this, EventArgs.Empty);
+		OnExperienceChanged?.Invoke(this, EventArgs.Empty);
 	}
 
     public int GetPlayerLevel()

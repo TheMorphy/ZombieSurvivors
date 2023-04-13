@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
 [DisallowMultipleComponent]
-public class ExpDrop : Collectable
+public class Exp : Collectable
 {
 	[SerializeField] private float absorbTime = 1.5f;
 
@@ -17,6 +17,8 @@ public class ExpDrop : Collectable
 	}
 	private void Start()
 	{
+		collectTime = absorbTime;
+
 		// Moves a bit up, instead of just being on the ground
 		transform.position += Vector3.up * 2f;
 
@@ -29,17 +31,6 @@ public class ExpDrop : Collectable
 		if(GameManager.Instance.GameState == GameState.Evacuating)
 		{
 			Destroy(gameObject);
-		}
-	}
-
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.transform.CompareTag("Player"))
-		{
-			if (SquadControl.Comrades.Count > 0)
-			{
-				StartCoroutine(Collect(other.transform, absorbTime));
-			}
 		}
 	}
 

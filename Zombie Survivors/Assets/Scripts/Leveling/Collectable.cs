@@ -3,9 +3,11 @@ using UnityEngine;
 
 public abstract class Collectable : MonoBehaviour
 {
+	private protected float collectTime = 0.2f;
+
 	protected abstract void OnCollected();
 
-	protected IEnumerator Collect(Transform playerTransform, float collectTime)
+	protected IEnumerator CollectRoutine(Transform playerTransform)
 	{
 		float elapsedTime = 0;
 
@@ -22,5 +24,10 @@ public abstract class Collectable : MonoBehaviour
 
 			yield return null;
 		}
+	}
+
+	public virtual void Collect(Transform target) 
+	{ 
+		StartCoroutine(CollectRoutine(target));
 	}
 }
